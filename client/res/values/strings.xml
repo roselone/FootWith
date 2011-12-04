@@ -9,5 +9,8 @@
     <string name="login_button">登 陆</string>
     <string name="register_button">注 册</string>
     <string name="logo_text">Footwith You</string>
+    <string name="tab1_text">首页</string>
+    <string name="tab2_text">叮叮</string>
+    <string name="tab3_text">我</string>
 
 </resources>

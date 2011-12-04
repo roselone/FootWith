@@ -12,7 +12,7 @@
         android:layout_margin="5dp"
         >
         
-        <include layout="@layout/logo"/>   
+    	<include layout="@layout/logo"/>
              
     </RelativeLayout>
 
@@ -64,19 +64,21 @@
             android:id="@+id/button_login"
             android:layout_width="80dp"
             android:layout_height="35dp"
-            style="@style/graySmallText"
+            style="@style/whiteSmallText"
             android:layout_alignRight="@id/password_edit"
             android:layout_below="@id/password_edit"
-            android:text="@string/login_button" />
+            android:text="@string/login_button"
+            />
         
         <Button 
             android:id="@+id/button_register"
             android:layout_width="80dp"
             android:layout_height="35dp"
-            style="@style/graySmallText"
+            style="@style/whiteSmallText"
             android:layout_below="@id/password_edit"
             android:layout_toLeftOf="@id/button_login"
-            android:text="@string/register_button"/>        
+            android:text="@string/register_button"
+            />        
     </RelativeLayout>
 
 </LinearLayout>
