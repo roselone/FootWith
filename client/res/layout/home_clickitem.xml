@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:background="@drawable/background_tab"
+    android:id="@+id/home_clickitem" >
+
+	<TextView
+	    android:id="@+id/homeClickItemText"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_marginTop="20dp"
+	    android:layout_marginBottom="20dp"
+	    android:layout_marginRight="10dp"
+	    android:layout_marginLeft="10dp"
+	    style="@style/graySmallText"
+	    android:text="test"
+	    />    
+    <EditText
+        android:id="@+id/homeClickItemEdit"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        style="@style/graySmallText"
+        android:hint="你想说..."
+        android:inputType="textMultiLine" />
+
+</LinearLayout>

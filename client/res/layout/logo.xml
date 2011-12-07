@@ -10,6 +10,16 @@
         android:text="@string/logo_text"
         style="@style/logoText"
         />
+    
+    <TextView
+        android:id="@+id/logo_subtext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/logo_text"
+        android:text="[a]旅伴"
+        android:paddingLeft="4dp"
+        android:paddingTop="4dp"
+        style="@style/logoSubText" />
 	
     <View 
         android:layout_width="fill_parent"

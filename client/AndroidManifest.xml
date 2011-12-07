@@ -18,6 +18,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".FootWithActivity"></activity>
+        <activity android:name=".home"></activity>
+        <activity android:name=".Register"></activity>
+        <activity android:name=".Messages"></activity>
     </application>
 
 </manifest>
