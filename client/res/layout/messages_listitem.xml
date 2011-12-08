@@ -8,48 +8,61 @@
     android:descendantFocusability="blocksDescendants" >
     
     <ImageView 
-        android:id="@+id/itemImage"
+        android:id="@+id/messages_itemImage"
         android:layout_width="20dp"
         android:layout_height="20dp"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="4dp"
         android:focusable="false"
         />
+    
+    <TextView 
+        android:id="@+id/messages_itemPreName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/messages_itemImage"
+        android:layout_above="@+id/messages_itemContent"
+        style="@style/homeItemSubName"
+        android:paddingLeft="12dp"
+        android:paddingBottom="2dp"
+        android:text="叮叮"
+        android:focusable="false"
+        />
 
     <TextView 
-        android:id="@+id/itemName"
+        android:id="@+id/messages_itemName"
         android:layout_width="wrap_content" 
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/itemImage"
+        android:layout_toRightOf="@id/messages_itemPreName"
         style="@style/homeItemName"
-        android:paddingLeft="12dp"
+        android:paddingLeft="4dp"
         android:text="name"
         android:focusable="false"
         />
     
     <TextView 
-        android:id="@+id/itemContent"
+        android:id="@+id/messages_itemContent"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:paddingLeft="12dp"
         android:lineSpacingMultiplier="1.1"
         android:text="content is what fuck you !"
-        android:layout_below="@id/itemName"
-        android:layout_toRightOf="@id/itemImage"
+        android:layout_below="@id/messages_itemName"
+        android:layout_toRightOf="@id/messages_itemImage"
         style="@style/homeItemContent"
         android:focusable="false"
         />
     
     <TextView 
-        android:id="@+id/itemSubName"
+        android:id="@+id/messages_itemSubName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/itemName"
-        android:layout_above="@id/itemContent"
+        android:layout_toRightOf="@id/messages_itemName"
+        android:layout_above="@id/messages_itemContent"
         style="@style/homeItemSubName"
         android:paddingLeft="4dp"
         android:paddingBottom="2dp"
-        android:text="求勾搭^^"
+        android:text="想勾搭你哟～"
         android:focusable="false"
         />
     

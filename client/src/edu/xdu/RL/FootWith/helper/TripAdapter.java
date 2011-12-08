@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import edu.xdu.RL.FootWith.R;
+import edu.xdu.RL.FootWith.R.layout;
 
 import android.R.integer;
 import android.content.ContentValues;
@@ -51,13 +52,15 @@ public class TripAdapter extends BaseAdapter{
 		View view=null;
 		HashMap<String, Object> map=tripArrayList.get(position);
 
-		String sex=(String)map.get("sex");
+		String type=(String)map.get("itemType");
+		
 		String name=(String)map.get("itemName");
-		String subname=(String)map.get("itemSubName");
-		String content=(String)map.get("itemContent");
 		
-		if (!sex.equals("none")){
-		
+		if (type.equals("trip")){
+			String sex=(String)map.get("sex");
+			String subname=(String)map.get("itemSubName");
+			String content=(String)map.get("itemContent");
+			
 			view=mInflater.inflate(R.layout.home_listitem, null);
 			
 			ImageView image=(ImageView)view.findViewById(R.id.itemImage);
@@ -79,16 +82,25 @@ public class TripAdapter extends BaseAdapter{
 				nameTextView.setTextColor(0xFFFF69B4);
 			}
 		}
-		if (sex.equals("none")){
+		if (type.equals("footWith")){
 			view=mInflater.inflate(R.layout.home_listitem2, null);
-			
+			String content=(String)map.get("itemContent");
 			TextView titleTextView=(TextView)view.findViewById(R.id.homeItemBeginTripTitle);
 			titleTextView.setText(name+"开始旅行...");
+			TextView conTextView=(TextView)view.findViewById(R.id.homeItemBeginTripCon);
 			if (content!=null){
-				titleTextView.setPadding(0, 0, 0, 4);
-				TextView contentTextView=(TextView)view.findViewById(R.id.homeItemBeginTripContent);
-				contentTextView.setText(content);
+				conTextView.setText(content);
+			}else{
+				conTextView.setHeight(0);
 			}
+			
+		}
+		if (type.equals("systemInfo")){
+			view=mInflater.inflate(R.layout.home_listitem2, null);
+			TextView titleTextView=(TextView)view.findViewById(R.id.homeItemBeginTripTitle);
+			titleTextView.setText(name);
+			TextView conTextView=(TextView)view.findViewById(R.id.homeItemBeginTripCon);
+			conTextView.setHeight(0);
 		}
 
 		

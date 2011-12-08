@@ -3,14 +3,15 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical" 
-    android:id="@+id/linearLayout_Home" >
+    android:id="@+id/linearLayout_AboutMe" >
 
     <ListView 
-        android:id="@+id/listView_Home"
+        android:id="@+id/listView_AboutMe"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content" 
         android:cacheColorHint="#00000000" >
         
     </ListView>
-    
+        
+
 </LinearLayout>

@@ -6,6 +6,11 @@
         <item name="android:textSize">14sp</item>
     </style>
     
+    <style name="redSmallText" parent="@android:style/TextAppearance">
+        <item name="android:textColor">#FF0000</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+    
     <style name="graySmallText" parent="@android:style/TextAppearance">
         <item name="android:textColor">#333</item>
         <item name="android:textSize">14sp</item>
@@ -29,21 +34,31 @@
     
     <style name="homeItemSubName" parent="@android:style/TextAppearance">
         <item name="android:textColor">#555</item>
-        <item name="android:textSize">12sp</item>
+        <item name="android:textSize">14sp</item>
     </style> 
     
     <style name="homeItemBeginTrip" parent="@android:style/TextAppearance">
         <item name="android:textColor">#555</item>
-        <item name="android:textSize">12sp</item>
+        <item name="android:textSize">14sp</item>
+    </style> 
+    
+    <style name="aboutmeItemSystem" parent="@android:style/TextAppearance">
+        <item name="android:textColor">#555</item>
+        <item name="android:textSize">16sp</item>
     </style> 
     
     <style name="homeItemContent" parent="@android:style/TextAppearance">
         <item name="android:textColor">#888</item>
-        <item name="android:textSize">10sp</item>
+        <item name="android:textSize">12sp</item>
     </style>     
     
     <style name="homeItemBeginTripCon" parent="@android:style/TextAppearance">
         <item name="android:textColor">#888</item>
-        <item name="android:textSize">10sp</item>
-    </style>   
+        <item name="android:textSize">12sp</item>
+    </style> 
+    
+    <style name="aboutMeTitle" parent="@android:style/TextAppearance">
+        <item name="android:textColor">#555</item>
+        <item name="android:textSize">16sp</item>
+    </style> 
 </resources>

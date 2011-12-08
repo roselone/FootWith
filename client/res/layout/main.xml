@@ -20,34 +20,31 @@
 	<TabHost
 	    android:id="@+id/tabhost"
 	    android:layout_width="fill_parent"
-	    android:layout_height="wrap_content">
-	    <LinearLayout
-	        android:layout_width="fill_parent"
-	        android:layout_height="fill_parent"
-	        android:orientation="vertical"
-	        >
+	    android:layout_height="fill_parent" >
+    		
+    	<RelativeLayout  
+            android:layout_width="fill_parent"  
+       	    android:layout_height="fill_parent"
+       	    >  
 
     		<FrameLayout 
     		    android:id="@android:id/tabcontent"
     		    android:layout_width="fill_parent"
-    		    android:layout_height="500dp"
+    		    android:layout_height="fill_parent"
+    		    android:layout_above="@android:id/tabs"
     		    android:background="@drawable/background_tab"
     		    >
     		</FrameLayout>
     
-    		<RelativeLayout  
-        	    android:layout_width="fill_parent"  
-        	    android:layout_height="wrap_content"
-        	    >  
-         	   <TabWidget  
-            	    android:id="@android:id/tabs"  
-            	    android:layout_alignParentBottom="true"  
-            	    android:layout_width="fill_parent"  
-            	    android:layout_height="55dp" 
-            	    />  
-                
-        	</RelativeLayout>
-        </LinearLayout>
+
+         	<TabWidget  
+           	    android:id="@android:id/tabs"  
+           	    android:layout_alignParentBottom="true"  
+           	    android:layout_width="fill_parent"
+           	    android:layout_height="60dp" 
+           	    />  
+               
+       	</RelativeLayout>
  	</TabHost>
  	
  </LinearLayout>

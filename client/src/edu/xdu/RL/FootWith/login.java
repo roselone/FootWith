@@ -1,6 +1,5 @@
 package edu.xdu.RL.FootWith;
 
-import edu.xdu.RL.FootWith.helper.intentHelper;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,6 +13,7 @@ public class login extends Activity{
 	
 	private Button loginButton;
 	private Button registerButton;
+	static public String userID="我";
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
