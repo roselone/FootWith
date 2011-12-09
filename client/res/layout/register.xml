@@ -100,12 +100,13 @@
         
         <Button 
             android:id="@+id/register_button_register"
-            android:layout_width="80dp"
-            android:layout_height="35dp"
+            android:layout_width="70dp"
+            android:layout_height="30dp"
             style="@style/whiteSmallText"
             android:layout_below="@id/register_sex"
             android:layout_alignRight="@id/register_repassword_edit"
             android:text="@string/register_button"
+            android:background="@drawable/button"
             />        
     </RelativeLayout>
 

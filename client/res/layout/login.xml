@@ -62,22 +62,27 @@
         
         <Button
             android:id="@+id/button_login"
-            android:layout_width="80dp"
-            android:layout_height="35dp"
+            android:layout_width="70dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="6dp"
             style="@style/whiteSmallText"
             android:layout_alignRight="@id/password_edit"
             android:layout_below="@id/password_edit"
             android:text="@string/login_button"
+            android:background="@drawable/button"
             />
         
         <Button 
             android:id="@+id/button_register"
-            android:layout_width="80dp"
-            android:layout_height="35dp"
+            android:layout_width="70dp"
+            android:layout_height="30dp"
             style="@style/whiteSmallText"
             android:layout_below="@id/password_edit"
             android:layout_toLeftOf="@id/button_login"
+            android:layout_marginTop="6dp"
+            android:layout_marginRight="10dp"
             android:text="@string/register_button"
+            android:background="@drawable/button"
             />        
     </RelativeLayout>
 
