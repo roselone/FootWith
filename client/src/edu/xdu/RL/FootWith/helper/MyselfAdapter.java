@@ -5,12 +5,13 @@ import java.util.HashMap;
 
 import edu.xdu.RL.FootWith.R;
 
-import android.R.integer;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -48,10 +49,11 @@ public class MyselfAdapter extends BaseAdapter{
 	public View getView(int position, View convertView, ViewGroup parent) {
 		// TODO Auto-generated method stub
 		View view=null;
-		HashMap<String, Object> map=selfList.get(position);
+		final HashMap<String, Object> map=selfList.get(position);
 
 		String type=(String)map.get("itemType");
-		String name=(String)map.get("itemName");
+		final String name=(String)map.get("itemName");
+		final int pos=position;
 		
 		if (type.equals("newTrip")){
 			view=mInflater.inflate(R.layout.aboutme_listitem2, null);
@@ -60,6 +62,19 @@ public class MyselfAdapter extends BaseAdapter{
 		}
 		if (type.equals("trip")){
 			view=mInflater.inflate(R.layout.aboutme_listitem, null);
+			
+			Button stateButton=(Button)view.findViewById(R.id.aboutme_buttonState);
+			stateButton.setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					map.put("itemState", "旅途中");
+					selfList.set(pos, map);
+					notifyDataSetChanged();
+				}
+			});
+			
 			String itemPlace=(String)map.get("itemPlace");
 			String itemTimeFrom=(String)map.get("itemTimeFrom");
 			String itemTimeTo=(String)map.get("itemTimeTo");

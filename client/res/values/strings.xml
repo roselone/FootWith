@@ -4,11 +4,11 @@
     <string name="hello">Hello World, FootWithActivity!</string>
     <string name="app_name">FootWith</string>
     <string name="login_label_username">帐号</string>
-    <string name="register_label_username">邮箱</string>
+    <string name="register_label_username">用户名</string>
     <string name="register_label_repassword">重复密码</string>
     <string name="register_label_password">密码</string>
     <string name="login_label_password">密码</string>
-    <string name="login_username_hint">Email</string>
+    <string name="login_username_hint">E-mail</string>
     <string name="login_button">登 陆</string>
     <string name="register_button">注 册</string>
     <string name="logo_text">Footwith You</string>

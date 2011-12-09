@@ -70,6 +70,8 @@
     	    android:layout_toRightOf="@id/aboutme_clicktext1"
     	    android:layout_below="@id/aboutme_clickPlaceCon" 
     	    android:paddingTop="4dp"
+    	    android:layout_marginBottom="6dp"
+    	    android:numeric="integer"
 			android:singleLine="true"
     	    style="@style/graySmallText"
     	    />    
