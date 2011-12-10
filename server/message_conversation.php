@@ -87,7 +87,7 @@ else
 	mysql_query('SET NAMES UTF8');
 	mysql_query($query_content,$link)
 		or die("Can't UPDATE conversation!").mysql_errno().mysql_error();
-	//更新AB的Last_Pointer
+	//更新AB BA的Last_Pointer
 	$query_content = "UPDATE customer SET  Last_Pointer = $Pointer WHERE
 					  Customer_Id = $One_Customer_Id OR Customer_Id = $Other_Customer_Id ";
 	mysql_query('SET NAMES UTF8');
