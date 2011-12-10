@@ -11,13 +11,26 @@ mysql_select_db('banlv',$link)
 //修正编码
 mysql_query('SET NAMES UTF8');	
 //进行查询
-$query_content = "SELECT * FROM trip WHERE ID = $ID";
+$query_content = "SELECT * FROM trip WHERE ID = '".$ID."'";
 $result = mysql_query($query_content,$link);
 //记录字段数
 $cnt = mysql_num_fields($result);
+$status = 0;
+echo "[";
 while($row = mysql_fetch_array($result,MYSQL_BOTH))
 {
+	if($status != 0)echo ',';
+	echo '{';
+	$status2 = 0;
 	for($i = 0; $i< $cnt ;$i++)
-	echo $row[$i].' ';
+	{		
+		if($status2 != 0)echo ',';
+		echo mysql_field_name($result, $i).':'.$row[$i];
+		$status2 = 1;
+	}
+	
+	echo '}';
+	$status = 1;
 }
+echo "]";
 ?>
