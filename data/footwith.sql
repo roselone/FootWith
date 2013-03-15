@@ -8,13 +8,21 @@
 -- PHP Version: 5.3.13
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
-SET time_zone = "+00:00";
+SET time_zone = "+08:00";
 
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8 */;
+
+-- CREATE USER footwith IDENTIFIED BY PASSWORD '123';
+
+CREATE DATABASE IF NOT EXISTS `footwith` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+
+GRANT ALL ON footwith.* TO footwith IDENTIFIED BY '123';
+
+USE footwith;
 
 --
 -- Database: `footwith`
@@ -27,12 +35,13 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE IF NOT EXISTS `journal` (
-  `journalID` int(11) NOT NULL,
+  `journalID` int(11) NOT NULL AUTO_INCREMENT,
   `userID` int(11) NOT NULL,
-  `title` varchar(20) NOT NULL,
+  `title` varchar(80) NOT NULL,
   `body` text NOT NULL,
-  `comments` int(11) NOT NULL,
-  `time` date NOT NULL
+  `comments` int(11),
+  `time` date NOT NULL,
+  PRIMARY KEY (`journalID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -42,12 +51,13 @@ CREATE TABLE IF NOT EXISTS `journal` (
 --
 
 CREATE TABLE IF NOT EXISTS `picture` (
-  `pictureID` int(11) NOT NULL,
+  `pictureID` int(11) NOT NULL AUTO_INCREMENT,
   `userID` int(11) NOT NULL,
-  `title` varchar(20) NOT NULL,
-  `picture` int(11) NOT NULL,
-  `comments` int(11) NOT NULL,
-  `time` date NOT NULL
+  `title` varchar(80) NOT NULL,
+  `picture` varchar(80) NOT NULL,
+  `comments` int(11),
+  `time` date NOT NULL,
+  PRIMARY KEY (`pictureID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -57,16 +67,16 @@ CREATE TABLE IF NOT EXISTS `picture` (
 --
 
 CREATE TABLE IF NOT EXISTS `plan` (
-  `planID` int(11) NOT NULL,
-  `siteIDs` varchar(80) NOT NULL,
+  `planID` int(11) NOT NULL AUTO_INCREMENT,
+  `siteIDs` varchar(100) NOT NULL,
   `startTime` date NOT NULL,
   `endTime` date NOT NULL,
   `organizer` int(11) NOT NULL,
-  `participants` varchar(80) NOT NULL,
-  `budget` int(11) NOT NULL,
+  `participants` varchar(100),
+  `budget` int(11),
   `groupNum` int(11) NOT NULL,
   `groupNumMax` int(11) NOT NULL,
-  `talkStreamID` int(11) NOT NULL,
+  `talkStreamID` int(11),
   PRIMARY KEY (`planID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -77,15 +87,15 @@ CREATE TABLE IF NOT EXISTS `plan` (
 --
 
 CREATE TABLE IF NOT EXISTS `record` (
-  `recordID` int(11) NOT NULL,
-  `siteIDs` varchar(80) NOT NULL,
+  `recordID` int(11) NOT NULL AUTO_INCREMENT,
+  `siteIDs` varchar(100) NOT NULL,
   `startTime` date NOT NULL,
-  `endTime` date NOT NULL,
-  `userIDs` varchar(80) NOT NULL,
+  `endTime` date,
+  `userIDs` varchar(100) NOT NULL,
   `groupNum` int(11) NOT NULL,
-  `journals` varchar(80) NOT NULL,
-  `pictures` varchar(80) NOT NULL,
-  `talkStreamID` int(11) NOT NULL,
+  `journals` varchar(100),
+  `pictures` varchar(100),
+  `talkStreamID` int(11),
   PRIMARY KEY (`recordID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -96,7 +106,7 @@ CREATE TABLE IF NOT EXISTS `record` (
 --
 
 CREATE TABLE IF NOT EXISTS `site` (
-  `siteID` int(11) NOT NULL,
+  `siteID` int(11) NOT NULL AUTO_INCREMENT,
   `siteName` varchar(20) NOT NULL,
   `rate` int(11) NOT NULL,
   `location` varchar(32) NOT NULL,
@@ -113,13 +123,15 @@ CREATE TABLE IF NOT EXISTS `site` (
 --
 
 CREATE TABLE IF NOT EXISTS `user` (
-  `userID` varchar(32) NOT NULL,
-  `nickName` varchar(32) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `userID` int(11) NOT NULL AUTO_INCREMENT,
+  `userName` varchar(32) NOT NULL,
+  `nickName` varchar(32) NOT NULL,
   `passwd` varchar(32) NOT NULL,
   `otherInfo` int(11) NOT NULL,
   `plans` varchar(80) NOT NULL,
   `records` varchar(80) NOT NULL,
-  PRIMARY KEY (`userID`)
+  PRIMARY KEY (`userID`),
+  UNIQUE KEY `userName` (`userName`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -146,7 +158,7 @@ CREATE TABLE IF NOT EXISTS `userrecord` (
   `userID` int(11) NOT NULL,
   `siteID` int(11) NOT NULL,
   `startTime` int(11) NOT NULL,
-  `endTime` int(11) NOT NULL,
+  `endTime` int(11),
   `recordID` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
