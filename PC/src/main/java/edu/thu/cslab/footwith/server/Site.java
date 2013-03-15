@@ -8,11 +8,11 @@ package edu.thu.cslab.footwith.server;
  * To change this template use File | Settings | File Templates.
  */
 public class Site {
-    public Site(int siteID) {
-        this.siteID = siteID;
-        this.siteName = null;
-        this.rate = -1;
-        this.location = null;
+    public Site(String siteName,String location, int rate ) {
+        this.siteName = siteName;
+        this.rate = rate;
+        this.location = location;
+        this.siteID = -1;
         this.brief = null;
         this.picture = -1;
     }
@@ -51,6 +51,9 @@ public class Site {
         return picture;
     }
 
+    public void setSiteID(int ID){
+        this.siteID=ID;
+    }
     public void setSiteName(String siteName) throws TextFormatException{
         if(siteName == null || siteName.length()==0 || siteName.length()>20)
             throw new TextFormatException();
