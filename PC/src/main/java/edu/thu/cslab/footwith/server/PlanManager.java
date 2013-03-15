@@ -33,6 +33,7 @@ public class PlanManager {
                 " values ( '"+  plan.getSiteIDs()+ "' , '"+ plan.getStartTime()+ "' , '" + plan.getEndTime()+ "' , " + plan.getOrganizer()+ " , '" + plan.getParticipants() + "' , " + plan.getBudget() + " , " + plan.getGroupNum()+ " , " + plan.getGroupNumMax() + " , " + plan.getTalkStreamID() +" ) ";
         rs = du.executeQuery(SQLCommand);
         int planID = rs.getInt("planID"); // maybe wrong
+        /*
         Vector<Integer> siteIDVector = JSONHelper.convertToArray(siteIDs);
         Vector<Integer> userIDVector = JSONHelper.convertToArray(participants);
         for(int i=0;i<userIDVector.size(); i++){
@@ -44,16 +45,40 @@ public class PlanManager {
                 du.executeUpdate(SQLCommand);
             }
         }
+        */
     }
-
-    public void deletePlan(int planID) throws TextFormatException, SQLException {
+    public Plan selectPlan(int planID) throws TextFormatException, SQLException {
         DBUtil du = DBUtil.getDBUtil();
         String SQLCommand = null;
         ResultSet rs;
         if(planID < 0)
             throw new TextFormatException("userID is null");
-        SQLCommand  = " delete from " + tableName + "where userID is " + planID;
-        du.executeUpdate(SQLCommand);
+        SQLCommand  = " select * from " + tableName + "where planID = " + planID;
+        rs=du.executeQuery(SQLCommand);
+        return new Plan(rs.getInt("planID"), rs.getString("siteIDs"), rs.getDate("startTime"), rs.getDate("endTime"), rs.getInt("organizer"),
+                rs.getString("participants"), rs.getInt("budget"), rs.getInt("groupNum"), rs.getInt("groupNumMax"), rs.getInt("talkStreamID"));
+
+    }
+    public void deletePlan(int planID) throws TextFormatException, SQLException {
+        DBUtil du = DBUtil.getDBUtil();
+        String SQLCommand = null;
+        ResultSet rs;
+        if(planID < 0)
+            throw new TextFormatException("planID is null");
+        SQLCommand  = " delete from " + tableName + "where planID is " + planID;
+        rs = du.executeQuery(SQLCommand);
+        SQLCommand  = " delete from " + relationTableName + "where planID is " + planID;
+        rs = du.executeQuery(SQLCommand);
+    }
+
+    public void editPlan(int planID, Plan new_plan) throws TextFormatException {
+        DBUtil du = DBUtil.getDBUtil();
+        String SQLCommand = null, subSQLcommand=null;
+        boolean isComma = false;
+        if(planID < 0)
+            throw new TextFormatException("userID is null");
+        SQLCommand  = " update " + tableName + " set ";
+
 
     }
 

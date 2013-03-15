@@ -30,7 +30,7 @@ public class UserManager {
         ResultSet rs;
         if(userName == null)
             throw new TextFormatException("userName is null");
-        SQLCommand  = " select * from " + tableName + "where userName is " + userName;
+        SQLCommand  = " select * from " + tableName + "where userName = '" + userName+"'";
         rs=du.executeQuery(SQLCommand);
         // while(rs.next()){
             user = new User(rs.getInt("userID"));
@@ -49,13 +49,11 @@ public class UserManager {
         DBUtil du = DBUtil.getDBUtil();
         String SQLCommand = null;
         ResultSet rs;
-        ResultSetMetaData rsmd;
         if(userID < 0)
             throw new TextFormatException("userID is null");
-        SQLCommand  = " select * from " + tableName + "where userID is " + userID;
+        SQLCommand  = " select * from " + tableName + "where userID = " + userID;
         rs=du.executeQuery(SQLCommand);
         while(rs.next()){
-            rsmd = rs.getMetaData();
             user.setUserName(rs.getString("userName"));
             user.setNickName(rs.getString("nickName"));
             user.setPasswd(rs.getString("passwd"));
@@ -71,7 +69,7 @@ public class UserManager {
         String SQLCommand = null;
         if(userName == null)
             throw new TextFormatException("userName is null");
-        SQLCommand  = " delete from " + tableName + "where userName is " + userName;
+        SQLCommand  = " delete from " + tableName + "where userName = '" + userName + "'";
         du.executeUpdate(SQLCommand);
 
     }
@@ -80,7 +78,7 @@ public class UserManager {
         String SQLCommand = null;
         if(userID < 0)
             throw new TextFormatException("userID is null");
-        SQLCommand  = " delete from " + tableName + "where userID is " + userID;
+        SQLCommand  = " delete from " + tableName + "where userID = " + userID;
         du.executeUpdate(SQLCommand);
 
     }
@@ -92,13 +90,13 @@ public class UserManager {
             throw new TextFormatException("userName is null");
         SQLCommand  = " update " + tableName + " set ";
         if(new_user.getNickName() != null){
-            SQLCommand += " nickName = " + new_user.getNickName();
+            SQLCommand += " nickName = '" + new_user.getNickName() + "'";
             isComma = true;
         }
         if(new_user.getPasswd() != null){
             if(isComma)
                 SQLCommand += " , ";
-            SQLCommand += " passwd = " + new_user.getPasswd();
+            SQLCommand += " passwd = '" + new_user.getPasswd() + "'";
             isComma = true;
 
         }
@@ -111,16 +109,16 @@ public class UserManager {
         if(new_user.getPlans() != null){
             if(isComma)
                 SQLCommand += " , ";
-            SQLCommand += " plans = " + new_user.getPlans();
+            SQLCommand += " plans = '" + new_user.getPlans() + "'";
             isComma = true;
         }
         if(new_user.getRecords() != null){
             if(isComma)
                 SQLCommand += " , ";
-            SQLCommand += " records = " + new_user.getRecords();
+            SQLCommand += " records = '" + new_user.getRecords() + "'";
             isComma = true;
         }
-        SQLCommand += " where userName = " + userName;
+        SQLCommand += " where userName = '" + userName + "'";
         du.executeUpdate(SQLCommand);
 
     }
@@ -132,13 +130,13 @@ public class UserManager {
             throw new TextFormatException("userID is null");
         SQLCommand  = " update " + tableName + " set ";
         if(new_user.getNickName() != null){
-            SQLCommand += " nickName = " + new_user.getNickName();
+            SQLCommand += " nickName = '" + new_user.getNickName() + "'";
             isComma = true;
         }
         if(new_user.getPasswd() != null){
             if(isComma)
                 SQLCommand += " , ";
-            SQLCommand += " passwd = " + new_user.getPasswd();
+            SQLCommand += " passwd = '" + new_user.getPasswd() + "'";
             isComma = true;
 
         }
@@ -151,13 +149,13 @@ public class UserManager {
         if(new_user.getPlans() != null){
             if(isComma)
                 SQLCommand += " , ";
-            SQLCommand += " plans = " + new_user.getPlans();
+            SQLCommand += " plans = '" + new_user.getPlans() + "'";
             isComma = true;
         }
         if(new_user.getRecords() != null){
             if(isComma)
                 SQLCommand += " , ";
-            SQLCommand += " records = " + new_user.getRecords();
+            SQLCommand += " records = '" + new_user.getRecords() + "'";
             isComma = true;
         }
         SQLCommand += " where userID = " + userID;
