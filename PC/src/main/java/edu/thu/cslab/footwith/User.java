@@ -1,4 +1,4 @@
-/**
+package edu.thu.cslab.footwith; /**
  * Created with IntelliJ IDEA.
  * User: cscg
  * Date: 13-3-12

@@ -1,3 +1,5 @@
+package edu.thu.cslab.footwith;
+
 import java.sql.*;
 
 /**
