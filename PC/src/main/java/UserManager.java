@@ -13,39 +13,158 @@ public class UserManager {
     public void addUser(User user) throws Exception {
         String SQLCommand = null;
         DBUtil du = DBUtil.getDBUtil();
-        SQLCommand = " insert into " + tableName + " ( userID, nickName, passwd, otherInfo,  plans, records ) " +
-                " values ( "+ user.getUserID()+" , "+ user.getNickName()+ " , "+ user.getPasswd()+ " , " + user.getOtherInfo()+ " , " + user.getPlans()+ " , " + user.getRecords() + " ) ";
+        SQLCommand = " insert into " + tableName + " ( userName, nickName, passwd, otherInfo, plans, records ) " +
+                " values ( "+ user.getUserName()+" , "+ user.getNickName()+ " , "+ user.getPasswd()+ " , " + user.getOtherInfo()+ " , " + user.getPlans()+ " , " + user.getRecords() + " ) ";
         du.executeUpdate(SQLCommand);
     }
 
-    public User selectUser(String userID) throws Exception{
+    public User selectUser(String userName) throws Exception{
         User user=new User();
         DBUtil du = DBUtil.getDBUtil();
         String SQLCommand = null;
         ResultSet rs;
         ResultSetMetaData rsmd;
-        if(userID == null)
+        if(userName == null)
             throw new Exception("userName is null");
-        SQLCommand  = " select * from " + tableName + "where userID is " + userID;
+        SQLCommand  = " select * from " + tableName + "where userName is " + userName;
         rs=du.executeQuery(SQLCommand);
         while(rs.next()){
             rsmd = rs.getMetaData();
-            for(int i=1;i<=rsmd.getColumnCount(); i++) {
-                if(rsmd.getColumnName(i).equals("userID"))
-                   user.setUserID(rs.getString(i));
-                else if(rsmd.getColumnName(i).equals("nickName"))
-                    user.setNickName(rs.getString(i));
-                else if(rsmd.getColumnName(i).equals("passwd"))
-                    user.setPasswd(rs.getString(i));
-                else if(rsmd.getColumnName(i).equals("otherInfo"))
-                    user.setOtherInfo(rs.getInt(i));
-            }
-
+            user.setUserName(rs.getString("userName"));
+            user.setNickName(rs.getString("nickName"));
+            user.setPasswd(rs.getString("passwd"));
+            user.setOtherInfo(rs.getInt("otherInfo"));
+            user.setPlans(rs.getString("plans"));
+            user.setRecords(rs.getString("records"));
         }
 
         return user;
     }
-    private final String tableName ="User";
+    public User selectUser(int userID) throws Exception{
+        User user=new User(userID);
+        DBUtil du = DBUtil.getDBUtil();
+        String SQLCommand = null;
+        ResultSet rs;
+        ResultSetMetaData rsmd;
+        if(userID == -1)
+            throw new Exception("userID is null");
+        SQLCommand  = " select * from " + tableName + "where userID is " + userID;
+        rs=du.executeQuery(SQLCommand);
+        while(rs.next()){
+            rsmd = rs.getMetaData();
+            user.setUserName(rs.getString("userName"));
+            user.setNickName(rs.getString("nickName"));
+            user.setPasswd(rs.getString("passwd"));
+            user.setOtherInfo(rs.getInt("otherInfo"));
+            user.setPlans(rs.getString("plans"));
+            user.setRecords(rs.getString("records"));
+        }
+
+        return user;
+    }
+    public void deleteUser(String userName) throws Exception{
+        User user=new User();
+        DBUtil du = DBUtil.getDBUtil();
+        String SQLCommand = null;
+        if(userName == null)
+            throw new Exception("userName is null");
+        SQLCommand  = " delete from " + tableName + "where userName is " + userName;
+        du.executeUpdate(SQLCommand);
+
+    }
+    public void deleteUser(int userID) throws Exception{
+        User user=new User();
+        DBUtil du = DBUtil.getDBUtil();
+        String SQLCommand = null;
+        if(userID == -1)
+            throw new Exception("userID is null");
+        SQLCommand  = " delete from " + tableName + "where userID is " + userID;
+        du.executeUpdate(SQLCommand);
+
+    }
+    public void editUser(String userName, User new_user) throws Exception{
+        User user=new User();
+        DBUtil du = DBUtil.getDBUtil();
+        String SQLCommand = null;
+        boolean isComma = false;
+        if(userName == null)
+            throw new Exception("userName is null");
+        SQLCommand  = " update " + tableName + " set ";
+        if(new_user.getNickName() != null){
+            SQLCommand += " nickName = " + new_user.getNickName();
+            isComma = true;
+        }
+        if(new_user.getPasswd() != null){
+            if(isComma)
+                SQLCommand += " , ";
+            SQLCommand += " passwd = " + new_user.getPasswd();
+            isComma = true;
+
+        }
+        if(new_user.getOtherInfo()!=-1){
+            if(isComma)
+                SQLCommand += " , ";
+            SQLCommand += " otherInfo = " + new_user.getOtherInfo();
+            isComma = true;
+        }
+        if(new_user.getPlans() != null){
+            if(isComma)
+                SQLCommand += " , ";
+            SQLCommand += " plans = " + new_user.getPlans();
+            isComma = true;
+        }
+        if(new_user.getRecords() != null){
+            if(isComma)
+                SQLCommand += " , ";
+            SQLCommand += " records = " + new_user.getRecords();
+            isComma = true;
+        }
+        SQLCommand += " where userName = " + userName;
+        du.executeUpdate(SQLCommand);
+
+    }
+    public void editUser(int userID, User new_user) throws Exception{
+        User user=new User();
+        DBUtil du = DBUtil.getDBUtil();
+        String SQLCommand = null;
+        boolean isComma = false;
+        if(userID == -1)
+            throw new Exception("userID is null");
+        SQLCommand  = " update " + tableName + " set ";
+        if(new_user.getNickName() != null){
+            SQLCommand += " nickName = " + new_user.getNickName();
+            isComma = true;
+        }
+        if(new_user.getPasswd() != null){
+            if(isComma)
+                SQLCommand += " , ";
+            SQLCommand += " passwd = " + new_user.getPasswd();
+            isComma = true;
+
+        }
+        if(new_user.getOtherInfo()!=-1){
+            if(isComma)
+                SQLCommand += " , ";
+            SQLCommand += " otherInfo = " + new_user.getOtherInfo();
+            isComma = true;
+        }
+        if(new_user.getPlans() != null){
+            if(isComma)
+                SQLCommand += " , ";
+            SQLCommand += " plans = " + new_user.getPlans();
+            isComma = true;
+        }
+        if(new_user.getRecords() != null){
+            if(isComma)
+                SQLCommand += " , ";
+            SQLCommand += " records = " + new_user.getRecords();
+            isComma = true;
+        }
+        SQLCommand += " where userID = " + userID;
+        du.executeUpdate(SQLCommand);
+
+    }
+    private final String tableName ="user";
 
 
 }

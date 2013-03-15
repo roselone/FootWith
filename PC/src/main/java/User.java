@@ -12,72 +12,84 @@ import java.security.NoSuchAlgorithmException;
 
 public class User {
     public User(){
-        userID = null;
+        this.userID = -1;
         nickName = null;
         passwd = null;
-        otherInfo = 0;
+        otherInfo = -1;
+        plans = null;
+        records = null;
+
+    }
+    public User(int userID){
+        this.userID = userID;
+        nickName = null;
+        passwd = null;
+        otherInfo = -1;
         plans = null;
         records = null;
 
     }
 
-    public int getState() throws Exception {
+    public int getState(){
         return state;
     }
     public String getPasswd() {
         return passwd;
     }
-    public String getUserID() throws Exception {
-
+    public int getUserID(){
         return userID;
     }
 
-    public String getNickName() throws Exception {
+    public String getUserName() {
+        return userName;
+    }
+
+    public String getNickName(){
         return nickName;
     }
 
-    public int getOtherInfo() throws Exception {
+    public int getOtherInfo(){
         return otherInfo;
     }
 
-    public String getPlans() throws Exception {
+    public String getPlans(){
         return plans;
     }
 
-    public String getRecords() throws Exception {
+    public String getRecords(){
         return records;
     }
-    public void setState(int state) throws Exception {
+    public void setState(int state) throws TextFormatException {
 
         this.state = state;
     }
 
-    public void setUserID(String userID) throws Exception {
-        if(userID  == null || userID.length() == 0)
-            throw new Exception("UserID");
-        this.userID = userID;
+    public void setUserName(String userName) throws TextFormatException{
+        if(userName  == null || userName.length() == 0 || userName.length()>32)
+            throw new TextFormatException("UserName");
+        this.userName = userName;
     }
 
-    public void setNickName(String nickName) throws Exception {
-        if(nickName  == null || nickName.length() == 0)
-            throw new Exception("NickName");
+    public void setNickName(String nickName) throws TextFormatException {
+        if(nickName  == null || nickName.length() == 0 || nickName.length()>32)
+            throw new TextFormatException("NickName");
         this.nickName = nickName;
     }
 
-    public void setOtherInfo(int otherInfo) throws Exception {
+    public void setOtherInfo(int otherInfo) throws TextFormatException {
 
         this.otherInfo = otherInfo;
     }
 
-    public void setPlans(String plans) throws Exception {
-        if(plans  == null )
-            throw new Exception("Plans");
+    public void setPlans(String plans) throws TextFormatException {
+        if(plans  == null || plans.length()>80)
+            throw new TextFormatException("Plans");
         this.plans = plans;
     }
 
-    public void setRecords(String records) throws Exception {
-        if(records  == null )
-            throw new Exception("Records");
+    public void setRecords(String records) throws TextFormatException {
+        if(records  == null || plans.length()>80)
+            throw new TextFormatException("Records");
         this.records = records;
     }
 
@@ -107,10 +119,10 @@ public class User {
 
 
 
-    public boolean  setPasswd(String new_passwd) throws Exception {
+    public boolean  setPasswd(String new_passwd) throws TextFormatException {
         MessageDigest messageDigest=null;
-        if(new_passwd.length() <= 8){
-            throw new Exception("Passwd");
+        if(new_passwd.length() < 8 || new_passwd.length() > 30){
+            throw new TextFormatException("Passwd");
         }
         try{
             messageDigest = MessageDigest.getInstance("MD5");
@@ -128,7 +140,8 @@ public class User {
         return true;
 
     }
-    private String userID;
+    private int userID;
+    private String userName;
     private String nickName;
     private String passwd;
     private int otherInfo;
