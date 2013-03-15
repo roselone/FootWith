@@ -36,8 +36,8 @@ public class Plan {
         this.talkStreamID = -1;
     }
 
-    public Plan(int planID, String siteIDs, Date startTime, Date endTime, int organizer, int groupNum, int groupNumMax) {
-        this.planID = planID;
+    public Plan( String siteIDs, Date startTime, Date endTime, int organizer, int groupNum, int groupNumMax) {
+        this.planID = -1;
         this.siteIDs = siteIDs;
         this.startTime = startTime;
         this.endTime = endTime;
@@ -47,6 +47,19 @@ public class Plan {
         this.participants = null;
         this.budget = -1;
         this.talkStreamID = -1;
+    }
+
+    public Plan(int planID, String siteIDs, Date startTime, Date endTime, int organizer, String participants, int budget, int groupNum, int groupNumMax, int talkStreamID) {
+        this.planID = planID;
+        this.siteIDs = siteIDs;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.organizer = organizer;
+        this.participants = participants;
+        this.budget = budget;
+        this.groupNum = groupNum;
+        this.groupNumMax = groupNumMax;
+        this.talkStreamID = talkStreamID;
     }
 
     public int getPlanID() {
