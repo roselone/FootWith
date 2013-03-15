@@ -52,22 +52,32 @@ public class Site {
     }
 
     public void setSiteName(String siteName) throws TextFormatException{
+        if(siteName == null || siteName.length()==0 || siteName.length()>20)
+            throw new TextFormatException();
         this.siteName = siteName;
     }
 
-    public void setRate(int rate) {
+    public void setRate(int rate) throws TextFormatException{
+        if(rate<0)
+            throw new TextFormatException();
         this.rate = rate;
     }
 
-    public void setLocation(String location) {
+    public void setLocation(String location) throws TextFormatException{
+        if(location == null || location.length()==0 || location.length()>32)
+            throw new TextFormatException();
         this.location = location;
     }
 
-    public void setBrief(String brief) {
+    public void setBrief(String brief) throws TextFormatException{
+        if(brief == null || brief.length()==0 )
+            throw new TextFormatException();
         this.brief = brief;
     }
 
-    public void setPicture(int picture) {
+    public void setPicture(int picture) throws TextFormatException{
+        if(picture<0)
+            throw new TextFormatException();
         this.picture = picture;
     }
 
