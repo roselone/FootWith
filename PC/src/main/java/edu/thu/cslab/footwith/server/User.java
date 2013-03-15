@@ -78,6 +78,8 @@ public class User {
     }
 
     public void setOtherInfo(int otherInfo) throws TextFormatException {
+        if(otherInfo<0)
+            throw new TextFormatException("OtherInfo");
 
         this.otherInfo = otherInfo;
     }
