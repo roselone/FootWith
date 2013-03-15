@@ -1,4 +1,5 @@
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 
 /**
  * Created with IntelliJ IDEA.
@@ -17,15 +18,30 @@ public class UserManager {
         du.executeUpdate(SQLCommand);
     }
 
-    public User selectUser(String userName) throws Exception{
+    public User selectUser(String userID) throws Exception{
         User user=new User();
         DBUtil du = DBUtil.getDBUtil();
         String SQLCommand = null;
         ResultSet rs;
-        if(userName == null)
+        ResultSetMetaData rsmd;
+        if(userID == null)
             throw new Exception("userName is null");
-        SQLCommand  = " select * from " + tableName + "where userName like %" + userName + "%";
+        SQLCommand  = " select * from " + tableName + "where userID is " + userID;
         rs=du.executeQuery(SQLCommand);
+        while(rs.next()){
+            rsmd = rs.getMetaData();
+            for(int i=1;i<=rsmd.getColumnCount(); i++) {
+                if(rsmd.getColumnName(i).equals("userID"))
+                   user.setUserID(rs.getString(i));
+                else if(rsmd.getColumnName(i).equals("nickName"))
+                    user.setNickName(rs.getString(i));
+                else if(rsmd.getColumnName(i).equals("passwd"))
+                    user.setPasswd(rs.getString(i));
+                else if(rsmd.getColumnName(i).equals("otherInfo"))
+                    user.setOtherInfo(rs.getInt(i));
+            }
+
+        }
 
         return user;
     }
