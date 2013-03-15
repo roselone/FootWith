@@ -11,24 +11,79 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 public class User {
-    public User(){}
+    public User(){
+        userID = null;
+        nickName = null;
+        passwd = null;
+        otherInfo = 0;
+        plans = null;
+        records = null;
 
-    public int getState() {
-        return state;
     }
 
-    public void setState(int state) {
+    public int getState() throws Exception {
+        return state;
+    }
+    public String getPasswd() {
+        return passwd;
+    }
+    public String getUserID() throws Exception {
+
+        return userID;
+    }
+
+    public String getNickName() throws Exception {
+        return nickName;
+    }
+
+    public int getOtherInfo() throws Exception {
+        return otherInfo;
+    }
+
+    public String getPlans() throws Exception {
+        return plans;
+    }
+
+    public String getRecords() throws Exception {
+        return records;
+    }
+    public void setState(int state) throws Exception {
 
         this.state = state;
     }
 
-    public String getName(){
-        return name;
+    public void setUserID(String userID) throws Exception {
+        if(userID  == null || userID.length() == 0)
+            throw new Exception("UserID");
+        this.userID = userID;
     }
-    public void setName(String new_name){
-        name = new_name;
+
+    public void setNickName(String nickName) throws Exception {
+        if(nickName  == null || nickName.length() == 0)
+            throw new Exception("NickName");
+        this.nickName = nickName;
     }
-    public boolean checkPasswd(String in_passwd){
+
+    public void setOtherInfo(int otherInfo) throws Exception {
+
+        this.otherInfo = otherInfo;
+    }
+
+    public void setPlans(String plans) throws Exception {
+        if(plans  == null )
+            throw new Exception("Plans");
+        this.plans = plans;
+    }
+
+    public void setRecords(String records) throws Exception {
+        if(records  == null )
+            throw new Exception("Records");
+        this.records = records;
+    }
+
+
+
+    public boolean checkPasswd(String in_passwd) {
         MessageDigest messageDigest=null;
         String in_passwd_md5;
         try{
@@ -50,12 +105,13 @@ public class User {
             return false;
     }
 
-    public String getPasswd() {
-        return passwd;
-    }
 
-    public boolean  setPasswd(String new_passwd){
+
+    public boolean  setPasswd(String new_passwd) throws Exception {
         MessageDigest messageDigest=null;
+        if(new_passwd.length() <= 8){
+            throw new Exception("Passwd");
+        }
         try{
             messageDigest = MessageDigest.getInstance("MD5");
             messageDigest.reset();
@@ -72,8 +128,13 @@ public class User {
         return true;
 
     }
-    private String name = new String();
-    private String passwd = new String();
+    private String userID;
+    private String nickName;
+    private String passwd;
+    private int otherInfo;
+    private String plans;
+    private String records;
+
     private int state;
 
     public enum StateType{PLAN, MOVE, DONE};
