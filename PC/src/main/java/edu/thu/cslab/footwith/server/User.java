@@ -1,4 +1,5 @@
-package edu.thu.cslab.footwith; /**
+package edu.thu.cslab.footwith.server;
+/**
  * Created with IntelliJ IDEA.
  * User: cscg
  * Date: 13-3-12
@@ -77,6 +78,8 @@ public class User {
     }
 
     public void setOtherInfo(int otherInfo) throws TextFormatException {
+        if(otherInfo<0)
+            throw new TextFormatException("OtherInfo");
 
         this.otherInfo = otherInfo;
     }

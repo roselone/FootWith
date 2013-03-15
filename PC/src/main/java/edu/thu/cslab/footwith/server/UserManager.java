@@ -1,7 +1,8 @@
-package edu.thu.cslab.footwith;
+package edu.thu.cslab.footwith.server;
 
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
 
 /**
  * Created with IntelliJ IDEA.
@@ -12,7 +13,7 @@ import java.sql.ResultSetMetaData;
  */
 public class UserManager {
     public UserManager() { }
-    public void addUser(User user) throws Exception {
+    public void addUser(User user) throws TextFormatException, SQLException {
         String SQLCommand = null;
         DBUtil du = DBUtil.getDBUtil();
         SQLCommand = " insert into " + tableName + " ( userName, nickName, passwd, otherInfo, plans, records ) " +
@@ -20,36 +21,35 @@ public class UserManager {
         du.executeUpdate(SQLCommand);
     }
 
-    public User selectUser(String userName) throws Exception{
-        User user=new User();
+    public User selectUser(String userName) throws TextFormatException, SQLException {
+        User user;
         DBUtil du = DBUtil.getDBUtil();
         String SQLCommand = null;
         ResultSet rs;
-        ResultSetMetaData rsmd;
         if(userName == null)
-            throw new Exception("userName is null");
+            throw new TextFormatException("userName is null");
         SQLCommand  = " select * from " + tableName + "where userName is " + userName;
         rs=du.executeQuery(SQLCommand);
-        while(rs.next()){
-            rsmd = rs.getMetaData();
+        // while(rs.next()){
+            user = new User(rs.getInt("userID"));
             user.setUserName(rs.getString("userName"));
             user.setNickName(rs.getString("nickName"));
             user.setPasswd(rs.getString("passwd"));
             user.setOtherInfo(rs.getInt("otherInfo"));
             user.setPlans(rs.getString("plans"));
             user.setRecords(rs.getString("records"));
-        }
+        // }
 
         return user;
     }
-    public User selectUser(int userID) throws Exception{
+    public User selectUser(int userID) throws TextFormatException, SQLException {
         User user=new User(userID);
         DBUtil du = DBUtil.getDBUtil();
         String SQLCommand = null;
         ResultSet rs;
         ResultSetMetaData rsmd;
-        if(userID == -1)
-            throw new Exception("userID is null");
+        if(userID < 0)
+            throw new TextFormatException("userID is null");
         SQLCommand  = " select * from " + tableName + "where userID is " + userID;
         rs=du.executeQuery(SQLCommand);
         while(rs.next()){
@@ -64,33 +64,32 @@ public class UserManager {
 
         return user;
     }
-    public void deleteUser(String userName) throws Exception{
+    public void deleteUser(String userName) throws TextFormatException, SQLException {
         User user=new User();
         DBUtil du = DBUtil.getDBUtil();
         String SQLCommand = null;
         if(userName == null)
-            throw new Exception("userName is null");
+            throw new TextFormatException("userName is null");
         SQLCommand  = " delete from " + tableName + "where userName is " + userName;
         du.executeUpdate(SQLCommand);
 
     }
-    public void deleteUser(int userID) throws Exception{
+    public void deleteUser(int userID) throws TextFormatException, SQLException {
         User user=new User();
         DBUtil du = DBUtil.getDBUtil();
         String SQLCommand = null;
-        if(userID == -1)
-            throw new Exception("userID is null");
+        if(userID < 0)
+            throw new TextFormatException("userID is null");
         SQLCommand  = " delete from " + tableName + "where userID is " + userID;
         du.executeUpdate(SQLCommand);
 
     }
-    public void editUser(String userName, User new_user) throws Exception{
-        User user=new User();
+    public void editUser(String userName, User new_user) throws TextFormatException, SQLException {
         DBUtil du = DBUtil.getDBUtil();
         String SQLCommand = null;
         boolean isComma = false;
         if(userName == null)
-            throw new Exception("userName is null");
+            throw new TextFormatException("userName is null");
         SQLCommand  = " update " + tableName + " set ";
         if(new_user.getNickName() != null){
             SQLCommand += " nickName = " + new_user.getNickName();
@@ -125,13 +124,12 @@ public class UserManager {
         du.executeUpdate(SQLCommand);
 
     }
-    public void editUser(int userID, User new_user) throws Exception{
-        User user=new User();
+    public void editUser(int userID, User new_user) throws TextFormatException, SQLException {
         DBUtil du = DBUtil.getDBUtil();
         String SQLCommand = null;
         boolean isComma = false;
-        if(userID == -1)
-            throw new Exception("userID is null");
+        if(userID < 0)
+            throw new TextFormatException("userID is null");
         SQLCommand  = " update " + tableName + " set ";
         if(new_user.getNickName() != null){
             SQLCommand += " nickName = " + new_user.getNickName();
