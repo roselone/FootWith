@@ -31,6 +31,17 @@ public class User {
 
     }
 
+    public User(String userName, String nickName, String passwd, int otherInfo, String plans, String records, int state) {
+        this.userID = -1;
+        this.userName = userName;
+        this.nickName = nickName;
+        this.passwd = passwd;
+        this.otherInfo = otherInfo;
+        this.plans = plans;
+        this.records = records;
+        this.state = state;
+    }
+
     public User(int userID, String userName, String nickName, String passwd, int otherInfo, String plans, String records, int state) {
         this.userID = userID;
         this.userName = userName;

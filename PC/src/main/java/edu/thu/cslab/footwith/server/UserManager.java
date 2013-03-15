@@ -16,8 +16,10 @@ public class UserManager {
     public void addUser(User user) throws TextFormatException, SQLException {
         String SQLCommand = null;
         DBUtil du = DBUtil.getDBUtil();
+        if(user == null)
+            throw new TextFormatException();
         SQLCommand = " insert into " + tableName + " ( userName, nickName, passwd, otherInfo, plans, records ) " +
-                " values ( "+ user.getUserName()+" , "+ user.getNickName()+ " , "+ user.getPasswd()+ " , " + user.getOtherInfo()+ " , " + user.getPlans()+ " , " + user.getRecords() + " ) ";
+                " values ( '"+ user.getUserName()+"' , '"+ user.getNickName()+ "' , '"+ user.getPasswd()+ "' , " + user.getOtherInfo()+ " , '" + user.getPlans()+ "' , '" + user.getRecords() + "' ) ";
         du.executeUpdate(SQLCommand);
     }
 
@@ -65,7 +67,6 @@ public class UserManager {
         return user;
     }
     public void deleteUser(String userName) throws TextFormatException, SQLException {
-        User user=new User();
         DBUtil du = DBUtil.getDBUtil();
         String SQLCommand = null;
         if(userName == null)
@@ -75,7 +76,6 @@ public class UserManager {
 
     }
     public void deleteUser(int userID) throws TextFormatException, SQLException {
-        User user=new User();
         DBUtil du = DBUtil.getDBUtil();
         String SQLCommand = null;
         if(userID < 0)
