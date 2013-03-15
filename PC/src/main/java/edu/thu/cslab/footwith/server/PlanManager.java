@@ -1,5 +1,7 @@
 package edu.thu.cslab.footwith.server;
 
+import org.json.JSONException;
+
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -15,7 +17,7 @@ import java.util.Vector;
 public class PlanManager {
     public PlanManager() {
     }
-    public void addPlan(Plan plan) throws SQLException, TextFormatException {
+    public void addPlan(Plan plan) throws SQLException, TextFormatException, JSONException {
         String SQLCommand = null;
         DBUtil du = DBUtil.getDBUtil();
         ResultSet rs;
@@ -33,9 +35,9 @@ public class PlanManager {
                 " values ( '"+  plan.getSiteIDs()+ "' , '"+ plan.getStartTime()+ "' , '" + plan.getEndTime()+ "' , " + plan.getOrganizer()+ " , '" + plan.getParticipants() + "' , " + plan.getBudget() + " , " + plan.getGroupNum()+ " , " + plan.getGroupNumMax() + " , " + plan.getTalkStreamID() +" ) ";
         rs = du.executeQuery(SQLCommand);
         int planID = rs.getInt("planID"); // maybe wrong
-        /*
-        Vector<Integer> siteIDVector = JSONHelper.convertToArray(siteIDs);
-        Vector<Integer> userIDVector = JSONHelper.convertToArray(participants);
+
+        Vector<Integer> siteIDVector =new JSONHelper().convertToArray(siteIDs);
+        Vector<Integer> userIDVector =new JSONHelper().convertToArray(participants);
         for(int i=0;i<userIDVector.size(); i++){
             for(int j=0;j<siteIDVector.size();j++){
                 int userID = userIDVector.get(i);
@@ -45,7 +47,7 @@ public class PlanManager {
                 du.executeUpdate(SQLCommand);
             }
         }
-        */
+
     }
     public Plan selectPlan(int planID) throws TextFormatException, SQLException {
         DBUtil du = DBUtil.getDBUtil();
