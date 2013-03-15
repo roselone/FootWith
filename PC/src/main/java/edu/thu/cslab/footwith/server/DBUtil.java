@@ -54,9 +54,9 @@ public class DBUtil {
         return result;
     }
     private final String driver="com.mysql.jdbc.Driver";  //jdbc Driver
-    private final String url = "jdbc:mysql://127.0.0.1:3306/FootWith";    //FootWith is the DataBase Name
-    private final String user = "root";   //DataBase user to connect to DataBase
-    private final String passwd = "FootWith"; //DataBase user password
+    private final String url = "jdbc:mysql://127.0.0.1:3306/footwith";    //FootWith is the DataBase Name
+    private final String user = "footwith";   //DataBase user to connect to DataBase
+    private final String passwd = "123"; //DataBase user password
     private Connection conn=null;
     private static final DBUtil DBUtilInstance = new DBUtil();
 }

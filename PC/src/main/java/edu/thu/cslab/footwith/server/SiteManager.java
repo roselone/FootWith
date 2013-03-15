@@ -18,7 +18,7 @@ public class SiteManager {
         String SQLCommand = null;
         DBUtil du = DBUtil.getDBUtil();
         SQLCommand = " insert into " + tableName + " ( siteName, rate, location, brief, picture) " +
-                " values ( "+ site.getSiteName()+" , "+ site.getRate()+ " , "+ site.getLocation()+ " , " + site.getBrief()+ " , " + site.getPicture() + " ) ";
+                " values ( '"+ site.getSiteName()+"' , "+ site.getRate()+ " ,' "+ site.getLocation()+ "' , " + site.getBrief()+ " , " + site.getPicture() + " ) ";
         du.executeUpdate(SQLCommand);
     }
     public Site seleteSite(String siteName) throws TextFormatException, SQLException {
@@ -31,7 +31,8 @@ public class SiteManager {
         SQLCommand  = " select * from " + tableName + "where siteName is " + siteName;
         rs=du.executeQuery(SQLCommand);
         //while(rs.next()){
-            site = new Site(rs.getInt("siteID"));
+            site = new Site();
+            site.setSiteID(rs.getInt("siteID"));
             site.setSiteName(rs.getString("siteName"));
             site.setRate(rs.getInt("rate"));
             site.setLocation(rs.getString("location"));
@@ -50,7 +51,8 @@ public class SiteManager {
         SQLCommand  = " select * from " + tableName + "where siteID is " + siteID;
         rs=du.executeQuery(SQLCommand);
         //while(rs.next()){
-        site = new Site(rs.getInt("siteID"));
+        site =new Site();
+        site.setSiteID(rs.getInt("siteID"));
         site.setSiteName(rs.getString("siteName"));
         site.setRate(rs.getInt("rate"));
         site.setLocation(rs.getString("location"));

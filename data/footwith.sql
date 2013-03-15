@@ -107,11 +107,11 @@ CREATE TABLE IF NOT EXISTS `record` (
 
 CREATE TABLE IF NOT EXISTS `site` (
   `siteID` int(11) NOT NULL AUTO_INCREMENT,
-  `siteName` varchar(20) NOT NULL,
+  `siteName` varchar(80) NOT NULL,
   `rate` int(11) NOT NULL,
-  `location` varchar(32) NOT NULL,
-  `brief` text NOT NULL,
-  `picture` int(11) NOT NULL,
+  `location` varchar(80) NOT NULL,
+  `brief` text,
+  `picture` int(11),
   PRIMARY KEY (`siteID`),
   UNIQUE KEY `siteName` (`siteName`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
