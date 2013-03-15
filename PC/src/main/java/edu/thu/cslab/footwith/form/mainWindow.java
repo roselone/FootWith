@@ -15,6 +15,7 @@ public class MainWindow {
        private Container c = mainFrame.getContentPane();
        private  MemuPanel menuPanel = new MemuPanel();
        private  UserPanel userPanel = new UserPanel();
+       private  ScenePanel scenePanel = new ScenePanel();
 
 //       private JMenu   mainMemu = new JMenu();
 //       private JPanel rightPanel = new JPanel();
@@ -46,7 +47,7 @@ public class MainWindow {
         //upPanel.setOneTouchExpandable(true);
 
         panel_1.setLeftComponent(upPanel);
-        panel_1.setRightComponent(b2);
+        panel_1.setRightComponent(scenePanel);
 
         upPanel.setLeftComponent(userPanel);
         upPanel.setRightComponent(b1);
