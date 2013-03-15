@@ -1,3 +1,5 @@
+package edu.thu.cslab.footwith;
+
 /**
  * Created with IntelliJ IDEA.
  * User: bxl
