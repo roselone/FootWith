@@ -71,7 +71,7 @@ public class loginForm implements  ActionListener{
                 // Validation matchExample = new Validation();
                 // mathExample.valida(uname, pwd);
                 if(true){
-                         new mainWindow();
+                         new MainWindow();
                 } else{
 
                 }
