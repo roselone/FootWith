@@ -21,7 +21,7 @@ public class UserManager {
     }
 
     public User selectUser(String userName) throws Exception{
-        User user=new User();
+        User user;
         DBUtil du = DBUtil.getDBUtil();
         String SQLCommand = null;
         ResultSet rs;
@@ -30,15 +30,16 @@ public class UserManager {
             throw new Exception("userName is null");
         SQLCommand  = " select * from " + tableName + "where userName is " + userName;
         rs=du.executeQuery(SQLCommand);
-        while(rs.next()){
+        // while(rs.next()){
             rsmd = rs.getMetaData();
+            user = new User(rs.getInt("userID"));
             user.setUserName(rs.getString("userName"));
             user.setNickName(rs.getString("nickName"));
             user.setPasswd(rs.getString("passwd"));
             user.setOtherInfo(rs.getInt("otherInfo"));
             user.setPlans(rs.getString("plans"));
             user.setRecords(rs.getString("records"));
-        }
+        // }
 
         return user;
     }
