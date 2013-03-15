@@ -26,23 +26,129 @@ public class SiteManager {
         DBUtil du = DBUtil.getDBUtil();
         String SQLCommand = null;
         ResultSet rs;
-        ResultSetMetaData rsmd;
         if(siteName == null)
             throw new TextFormatException("siteName is null");
         SQLCommand  = " select * from " + tableName + "where siteName is " + siteName;
         rs=du.executeQuery(SQLCommand);
         //while(rs.next()){
-            rsmd = rs.getMetaData();
             site = new Site(rs.getInt("siteID"));
             site.setSiteName(rs.getString("siteName"));
-            //site.setNickName(rs.getString("nickName"));
-            //site.setPasswd(rs.getString("passwd"));
-            //site.setOtherInfo(rs.getInt("otherInfo"));
-            //site.setPlans(rs.getString("plans"));
-            //site.setRecords(rs.getString("records"));
+            site.setRate(rs.getInt("rate"));
+            site.setLocation(rs.getString("location"));
+            site.setBrief(rs.getString("brief"));
+            site.setPicture(rs.getInt("picture"));
         //}
-
         return site;
     }
+    public Site seleteSite(int siteID) throws TextFormatException, SQLException {
+        Site site;
+        DBUtil du = DBUtil.getDBUtil();
+        String SQLCommand = null;
+        ResultSet rs;
+        if(siteID < 0)
+            throw new TextFormatException("siteID is null");
+        SQLCommand  = " select * from " + tableName + "where siteID is " + siteID;
+        rs=du.executeQuery(SQLCommand);
+        //while(rs.next()){
+        site = new Site(rs.getInt("siteID"));
+        site.setSiteName(rs.getString("siteName"));
+        site.setRate(rs.getInt("rate"));
+        site.setLocation(rs.getString("location"));
+        site.setBrief(rs.getString("brief"));
+        site.setPicture(rs.getInt("picture"));
+        //}
+        return site;
+    }
+    public void deleteSite(String siteName) throws TextFormatException, SQLException {
+        Site site=new Site();
+        DBUtil du = DBUtil.getDBUtil();
+        String SQLCommand = null;
+        if(siteName == null)
+            throw new TextFormatException("siteName is null");
+        SQLCommand  = " delete from " + tableName + "where siteName is " + siteName;
+        du.executeUpdate(SQLCommand);
+
+    }
+    public void deleteSite(int siteID) throws TextFormatException, SQLException {
+        Site site=new Site();
+        DBUtil du = DBUtil.getDBUtil();
+        String SQLCommand = null;
+        if(siteID < 0)
+            throw new TextFormatException("siteID is null");
+        SQLCommand  = " delete from " + tableName + "where siteID is " + siteID;
+        du.executeUpdate(SQLCommand);
+    }
+
+    public void editSite(String siteName, Site new_site) throws TextFormatException, SQLException {
+        DBUtil du = DBUtil.getDBUtil();
+        String SQLCommand = null;
+        boolean isComma = false;
+        if(siteName == null)
+            throw new TextFormatException("siteName is null");
+        SQLCommand  = " update " + tableName + " set ";
+        if(new_site.getLocation() != null){
+            SQLCommand += " location = " + new_site.getLocation();
+            isComma = true;
+        }
+        if(new_site.getBrief() != null){
+            if(isComma)
+                SQLCommand += " , ";
+            SQLCommand += " brief = " + new_site.getBrief();
+            isComma = true;
+
+        }
+        if(new_site.getRate()!=-1){
+            if(isComma)
+                SQLCommand += " , ";
+            SQLCommand += " rate = " + new_site.getRate();
+            isComma = true;
+        }
+        if(new_site.getPicture() != -1){
+            if(isComma)
+                SQLCommand += " , ";
+            SQLCommand += " picture = " + new_site.getPicture();
+            isComma = true;
+        }
+
+        SQLCommand += " where siteName = " + siteName;
+        du.executeUpdate(SQLCommand);
+
+    }
+    public void editSite(int siteID, Site new_site) throws TextFormatException, SQLException {
+        DBUtil du = DBUtil.getDBUtil();
+        String SQLCommand = null;
+        boolean isComma = false;
+        if(siteID < 0)
+            throw new TextFormatException("siteName is null");
+        SQLCommand  = " update " + tableName + " set ";
+        if(new_site.getLocation() != null){
+            SQLCommand += " location = " + new_site.getLocation();
+            isComma = true;
+        }
+        if(new_site.getBrief() != null){
+            if(isComma)
+                SQLCommand += " , ";
+            SQLCommand += " brief = " + new_site.getBrief();
+            isComma = true;
+
+        }
+        if(new_site.getRate()!=-1){
+            if(isComma)
+                SQLCommand += " , ";
+            SQLCommand += " rate = " + new_site.getRate();
+            isComma = true;
+        }
+        if(new_site.getPicture() != -1){
+            if(isComma)
+                SQLCommand += " , ";
+            SQLCommand += " picture = " + new_site.getPicture();
+            isComma = true;
+        }
+
+        SQLCommand += " where siteID = " + siteID;
+        du.executeUpdate(SQLCommand);
+
+    }
+
     private final String tableName ="site";
 }
