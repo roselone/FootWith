@@ -11,11 +11,7 @@
     <orderEntry type="jdk" jdkName="1.6" jdkType="JavaSDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" scope="TEST" name="Maven: junit:junit:4.8.1" level="project" />
-<<<<<<< HEAD
-    <orderEntry type="library" scope="TEST" name="Maven: junit:junit:4.8.1" level="project" />
-=======
     <orderEntry type="library" name="Maven: mysql:mysql-connector-java:5.1.6" level="project" />
->>>>>>> 377c79ff86309927e414256e55a164d614d74646
   </component>
 </module>
 
