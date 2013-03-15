@@ -1,4 +1,4 @@
-import edu.thu.cslab.footwith.DBUtil;
+import edu.thu.cslab.footwith.server.DBUtil;
 import org.junit.Test;
 
 /**

@@ -1,3 +1,4 @@
+package edu.thu.cslab.footwith.form;
 /**
  * Created with IntelliJ IDEA.
  * User: wangjiayu
