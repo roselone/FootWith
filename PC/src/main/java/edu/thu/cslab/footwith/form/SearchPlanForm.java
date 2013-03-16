@@ -9,18 +9,22 @@ import java.awt.event.ActionListener;
  * Created with IntelliJ IDEA.
  * User: wangjiayu
  * Date: 13-3-16
- * Time: 下午6:58
+ * Time: 下午10:12
  * To change this template use File | Settings | File Templates.
  */
-public class SearchSiteForm extends JFrame {
-     private  JTextField siteName = new JTextField(10);
-     //private  SitePanel  sitePanel = new SitePanel();
-     public SearchSiteForm(){
-         this.setBounds(200,250,500,500);
-         this.setTitle("查询景点信息");
-         init();
-         this.setVisible(true);
-     }
+public class SearchPlanForm extends JFrame {
+
+    private JTextField siteName = new JTextField(10);
+    private JTextField  userId = new JTextField(10);
+   // private JTextField
+    //private  SitePanel  sitePanel = new SitePanel();
+    public SearchPlanForm(){
+
+        this.setBounds(200,250,500,500);
+        this.setTitle("查询计划");
+        init();
+        this.setVisible(true);
+    }
 
     private void init() {
 
@@ -29,15 +33,16 @@ public class SearchSiteForm extends JFrame {
         jsp.setDividerSize(5);
 
         JPanel searchPanel = new JPanel();
-        JLabel siteNameLb = new JLabel("请输入景点名字");
+        JLabel userIdLb = new JLabel("请输入用户ID");
+
         JButton btnSearch = new JButton("查询");
         searchPanel.setLayout(new FlowLayout());
-        searchPanel.add(siteNameLb);
-        searchPanel.add(siteName);
+        searchPanel.add(userIdLb);
+        searchPanel.add(userId);
         searchPanel.add(btnSearch);
 
         jsp.setLeftComponent(searchPanel);
-       // jsp.setRightComponent(sitePanel);
+        // jsp.setRightComponent(sitePanel);
 
         this.add(jsp);
 
@@ -45,12 +50,12 @@ public class SearchSiteForm extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                if(siteName.getText() == null || siteName.getText().length() ==0 )
-                    jsp.setRightComponent(new SitePanel("select * from site"));
+                if(userId.getText() == null || userId.getText().length() ==0 )
+                    jsp.setRightComponent(new SitePanel("select * from plan"));
                 else {
-                       jsp.setRightComponent(new SitePanel("select * from site where siteName ="+"'"+siteName.getText()+"'"));
+                    jsp.setRightComponent(new SitePanel("select * from plan where organizer ="+"'"+userId.getText()+"'"));
                 }
-                   //    System.out.println("where siteName ="+"'"+siteName.getText()+"'");
+                //    System.out.println("where siteName ="+"'"+siteName.getText()+"'");
             }
         });
 
@@ -60,4 +65,5 @@ public class SearchSiteForm extends JFrame {
 
 
     }
+
 }

@@ -4,6 +4,7 @@ import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.AbstractTableModel;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -18,99 +19,64 @@ import java.util.Vector;
  */
 public class SitePanel extends Panel {
 
-    MyTableModel tbModel=new MyTableModel();
-    Object[][] tableContent=
-            {
-                    {"wang",100,20,3,true},
-                    {"li",29,33,true},
-                    {"zhang",222,33,false},
-            };
-    String[] Names = {"name","location","level","introduction"};
+    private  ViewTable  viewTable = new ViewTable();
+    private  JTable table = new JTable();
+    private DefaultTableModel  dt;
 
-    JTextField txtRow=new JTextField(10);
+    public  SitePanel(String sql){
 
-    JTextField txtCol=new JTextField(10);
-
-    JTextField txtContent=new JTextField(10);
-
-    JPanel pnlSouth=new JPanel(new GridLayout(1,6));
-
-    public SitePanel() {
-//       JTable sceneTable = new JTable(playerInfo,Names);
-//       sceneTable.setPreferredScrollableViewportSize(new Dimension(550,300));
-//       JScrollPane scrollPane = new JScrollPane(sceneTable);
-//       this.add(sceneTable);
-//       this.setVisible(true);
-//       SelectionListener listener = new SelectionListener(sceneTable);
-//       sceneTable.getSelectionModel().addListSelectionListener(listener);
         this.setLayout(new BorderLayout());
-        tbModel.data=new Vector(1,1);
-        for(int i=0;i<3;i++)
-            for(int j=0;j<4;j++)
-            {
-                tbModel.data.add(tableContent[i][j]);
-            }
-
-        tbModel.titles=new Vector(1,1);
-
-        for(int i=0;i<4;i++)
-        {
-            tbModel.titles.add(Names[i]);
-        } //使用表模型对象生成表
-
-        JTable myTable=new JTable(tbModel);
-
-//窗体组件布局
-
-        myTable.setAutoResizeMode(4);
-        JScrollPane jspCenter=new JScrollPane(myTable);
+        JLabel titleLb = new JLabel("风景表");
+        this.add(titleLb,"North");
+        dt =  viewTable.makeTable(sql);
+        table = new JTable(dt);
+        table.setPreferredScrollableViewportSize(new Dimension(250,50));
+        //table.set
+        JScrollPane jspCenter = new JScrollPane(table);
+        table.setAutoResizeMode(4);
         this.add(jspCenter, BorderLayout.CENTER);
-        pnlSouth.add(new JLabel("Row:"),BorderLayout.SOUTH);
-        pnlSouth.add(txtRow,BorderLayout.SOUTH);
-        pnlSouth.add(new JLabel("Col:"),BorderLayout.SOUTH);
-        pnlSouth.add(txtCol,BorderLayout.SOUTH);
-        pnlSouth.add(new JLabel("Content:"),BorderLayout.SOUTH);
-        pnlSouth.add(txtContent,BorderLayout.SOUTH);
-        this.add(pnlSouth, BorderLayout.SOUTH);
+        this.setVisible(true);
 
-//        SelectionListener listener = new SelectionListener(myTable);
-//        myTable.getSelectionModel().addListSelectionListener(listener);
+    }
+    public SitePanel() {
+
+        this.setLayout(new BorderLayout());
+        JLabel titleLb = new JLabel("风景表");
+        this.add(titleLb,"North");
+        dt =  viewTable.makeTable("select * from site");
+        table = new JTable(dt);
+        table.setPreferredScrollableViewportSize(new Dimension(250,50));
+        //table.set
+        JScrollPane jspCenter = new JScrollPane(table);
+        table.setAutoResizeMode(4);
+        this.add(jspCenter, BorderLayout.CENTER);
+        this.setVisible(true);
 
 
 //为表格添加监听器
-        myTable.addMouseListener(new MouseAdapter() {
+        table.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 if (e.getClickCount() == 2) {
                     //实现双击
                     SiteManage siteManage = new SiteManage();
-
-                    System.out.println("ddddddddddddddd");
                     int row = ((JTable) e.getSource()).rowAtPoint(e.getPoint());  //获得行位置
                     int col = ((JTable) e.getSource()).columnAtPoint(e.getPoint()); //获得列位置
-                    String cellVal = (tbModel.getValueAt(row, col)).toString(); //获得点击单元格数据
-                    txtRow.setText((row+1)+"");                // jdk 1.6  integer convert to string using the function toString() instead of strong convertion
-                    txtCol.setText((col+1)+"");
-                    txtContent.setText(cellVal);
                     Vector<String> rowVector = new Vector<String>();
                     for(int i=0;i<4;i++){
-                        rowVector.add( (tbModel.getValueAt(row, i)).toString());
-                    }
+                      rowVector.add( (dt.getValueAt(row, i)).toString());
+                   }
                     siteManage.setValue(rowVector);
                     siteManage.setVisible(true);
-                     // comment show the scene info        response the first cell
                 } else {
                     return;
                 }
             }
         });
 
-
     this.setVisible(true);
 
 }
-
-
 }
 
 class SelectionListener implements ListSelectionListener {
@@ -132,28 +98,3 @@ class SelectionListener implements ListSelectionListener {
         }
     }
 }
-class MyTableModel extends AbstractTableModel {
-
-    public Vector data;
-
-    public Vector titles;
-
-    public int getRowCount() {
-
-        return data.size()/getColumnCount();
-
-    }
-
-    public int getColumnCount() {
-
-        return titles.size();
-
-    }
-
-    public Object getValueAt(int rowIndex, int columnIndex) {
-
-        return data.get((rowIndex*getColumnCount())+columnIndex);
-
-    }
-}
-
