@@ -32,9 +32,9 @@ public class RecordManager {
         }
         SQLCommand = " insert into " + tableName + " (  siteIDs, startTime, endTime, userIDs, groupNum, journals, pictures, talkStreamID ) " +
                 " values ( '"+  record.getSiteIDs()+ "' , '"+ record.getStartTime()+ "' , '" + record.getEndTime() + "' , '" + record.getUserIDs() + "' , " + record.getGroupNum()+ " , '" + record.getJournals() + "' , '" + record.getPictures() + "' , " + record.getTalkStreamID() +" ) ";
-        rs = du.executeQuery(SQLCommand);
+        rs = du.executeUpdate(SQLCommand);
         rs.next();
-        int recordID = rs.getInt("recordID"); // maybe wrong
+        int recordID = rs.getInt(1); // maybe wrong
 
         Vector<Integer> siteIDVector =new JSONHelper().convertToArray(siteIDs);
         Vector<Integer> userIDVector =new JSONHelper().convertToArray(userIDs);
@@ -65,7 +65,7 @@ public class RecordManager {
         ResultSet rs;
         if(recordID < 0)
             throw new TextFormatException();
-        SQLCommand  = " select * from " + tableName + "where recordID = " + recordID;
+        SQLCommand  = " select * from " + tableName + " where recordID = " + recordID;
         rs=du.executeQuery(SQLCommand);
         rs.next();
         return new Record(rs.getInt("recordID"), rs.getString("siteIDs"), rs.getDate("startTime"), rs.getDate("endTime"),
@@ -77,13 +77,35 @@ public class RecordManager {
         String SQLCommand = null;
         if(recordID < 0)
             throw new TextFormatException("recordID is null");
-        SQLCommand  = " delete from " + tableName + "where recordID is " + recordID;
+        SQLCommand  = " delete from " + tableName + " where recordID is " + recordID;
         du.executeUpdate(SQLCommand);
-        SQLCommand  = " delete from " + relationTableName + "where recordID is " + recordID;
+        SQLCommand  = " delete from " + relationTableName + " where recordID is " + recordID;
         du.executeUpdate(SQLCommand);
     }
 
-    public void editRecord(int recordID, Record new_record) throws TextFormatException, SQLException, JSONException {
+    public void addJournal(int recordID, Journal journal) throws SQLException, TextFormatException, JSONException {
+        JournalManager jm=new JournalManager();
+        int journalID=jm.addJournal(journal);
+        Record record=selectRecord(recordID);
+        String journals=JSONHelper.getJSONHelperInstance().addToArray(record.getJournals(),journalID);
+        String SQLCommand = "update " + tableName + " set journals=" + journals + " where recordID=" + recordID +";";
+        DBUtil.getDBUtil().executeUpdate(SQLCommand);
+    }
+
+    public void addPicture(int recordID, Picture picture) throws SQLException, TextFormatException, JSONException {
+        PictureManager pm=new PictureManager();
+        int pictureID=pm.addPicture(picture);
+        Record record=selectRecord(recordID);
+        String pictures=JSONHelper.getJSONHelperInstance().addToArray(record.getPictures(),pictureID);
+        String SQLCommand = "update " + tableName + " set pictures=" + pictures + " where recordID=" + recordID +";";
+        DBUtil.getDBUtil().executeUpdate(SQLCommand);
+    }
+
+    public void endRecord(int recordID,Date date){
+        String SQLCommand="update " + tableName + " set date=" + date.toString() +" where recordID=" + recordID +";";
+    }
+
+   /* public void editRecord(int recordID, Record new_record) throws TextFormatException, SQLException, JSONException {
         DBUtil du = DBUtil.getDBUtil();
         String SQLCommand = null, subSQLcommand=null;
         boolean isComma = false;
@@ -215,7 +237,7 @@ public class RecordManager {
         }
         SQLCommand += " where recordID = " + recordID;
         du.executeUpdate(SQLCommand);
-    }
+    }*/
 
     private final String tableName ="record";
     private final String relationTableName = "userrecord";

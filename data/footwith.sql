@@ -54,7 +54,7 @@ CREATE TABLE IF NOT EXISTS `picture` (
   `pictureID` int(11) NOT NULL AUTO_INCREMENT,
   `userID` int(11) NOT NULL,
   `title` varchar(80) NOT NULL,
-  `picture` varchar(80) NOT NULL,
+  `picturePath` varchar(80) NOT NULL,
   `comments` int(11),
   `time` date NOT NULL,
   PRIMARY KEY (`pictureID`)
@@ -77,6 +77,7 @@ CREATE TABLE IF NOT EXISTS `plan` (
   `groupNum` int(11) NOT NULL,
   `groupNumMax` int(11) NOT NULL,
   `talkStreamID` int(11),
+  `isDone` bit NOT NULL DEFAULT 0,
   PRIMARY KEY (`planID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -96,6 +97,7 @@ CREATE TABLE IF NOT EXISTS `record` (
   `journals` varchar(100),
   `pictures` varchar(100),
   `talkStreamID` int(11),
+  `isDone` bit NOT NULL DEFAULT 0,
   PRIMARY KEY (`recordID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

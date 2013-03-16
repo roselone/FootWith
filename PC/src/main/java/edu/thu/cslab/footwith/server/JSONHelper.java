@@ -37,12 +37,18 @@ public class JSONHelper {
     }
 
     public String addToArray(String s, int one) throws JSONException {
-        Vector<Integer> tmp=convertToArray(s);
+        Vector<Integer> tmp;
+        if (s.isEmpty()) {
+            tmp=new Vector<Integer>();
+        }else{
+            tmp=convertToArray(s);
+        }
         tmp.add(one);
         return convertToString(tmp);
     }
 
     public String deleteFromArray(String s, int one) throws JSONException {
+        if (s.isEmpty()) return null;
         Vector<Integer> tmp=convertToArray(s);
         tmp.remove(tmp.indexOf(one));
         return convertToString(tmp);
