@@ -79,8 +79,8 @@ public class loginForm implements  ActionListener{
                 try {
                     if(fromFormToManager.idValid(uname, pwd)){
 
-                        UserPanel.user.setPasswd(pwd);
-                        UserPanel.user.setUserName(uname);
+                         //UserPanel.user.setPasswd(pwd);
+                         //UserPanel.user.setUserName(uname);
                          new MainWindow();
 
                     } else{
