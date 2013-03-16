@@ -15,7 +15,10 @@ public class JSONHelperTest {
     private JSONHelper jsonHelper=new JSONHelper();
     @Test
     public void convertToStringTest(){
-        int[] tmp={123,2143,213};
+        Vector<Integer> tmp=new Vector<Integer>();
+        tmp.add(123);
+        tmp.add(2143);
+        tmp.add(213);
         System.out.println(jsonHelper.convertToString(tmp));
     }
     @Test
@@ -24,5 +27,11 @@ public class JSONHelperTest {
         Vector<Integer> result=jsonHelper.convertToArray(tmp);
         for (int i=0;i<result.size();i++)
             System.out.println(result.get(i));
+    }
+    @Test
+    public void addTest() throws JSONException {
+        String tmp= "[123,2143,213]";
+        int one=222;
+        System.out.println(jsonHelper.addToArray(tmp,one));
     }
 }
