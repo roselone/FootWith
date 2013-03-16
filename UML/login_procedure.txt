@@ -1,0 +1,10 @@
+title login procedure
+participant 用户
+participant GUI
+participant UserManager
+participant User
+participant DataBase 
+用户->+GUI:login action
+GUI->+UserManager:selectUser()
+UserManager->DataBase:SQL select
+GUI->User:checkPasswd()
