@@ -27,7 +27,8 @@ public class SiteManager {
         ResultSet rs;
         if(siteName == null)
             throw new TextFormatException("siteName is null");
-        SQLCommand  = " select * from " + tableName + " where siteName is " + siteName;
+        SQLCommand  = " select * from " + tableName + " where siteName = '" + siteName + "';";
+        System.out.println(SQLCommand);
         rs=du.executeQuery(SQLCommand);
         //while(rs.next()){
         rs.next();
@@ -48,7 +49,7 @@ public class SiteManager {
         ResultSet rs;
         if(siteID < 0)
             throw new TextFormatException("siteID is null");
-        SQLCommand  = " select * from " + tableName + " where siteID is " + siteID;
+        SQLCommand  = " select * from " + tableName + " where siteID = " + siteID;
         rs=du.executeQuery(SQLCommand);
         //while(rs.next()){
         rs.next();
