@@ -12,7 +12,7 @@ import java.util.Vector;
  * To change this template use File | Settings | File Templates.
  */
 public class JSONHelperTest {
-    private JSONHelper jsonHelper=new JSONHelper();
+    private JSONHelper jsonHelper=JSONHelper.getJSONHelperInstance();
     @Test
     public void convertToStringTest(){
         Vector<Integer> tmp=new Vector<Integer>();
@@ -33,5 +33,11 @@ public class JSONHelperTest {
         String tmp= "[123,2143,213]";
         int one=222;
         System.out.println(jsonHelper.addToArray(tmp,one));
+    }
+    @Test
+    public void deleteTest() throws JSONException {
+        String tmp ="[123,2143,213,222]";
+        int one=123;
+        System.out.println(jsonHelper.deleteFromArray(tmp,one));
     }
 }

@@ -42,4 +42,10 @@ public class JSONHelper {
         return convertToString(tmp);
     }
 
+    public String deleteFromArray(String s, int one) throws JSONException {
+        Vector<Integer> tmp=convertToArray(s);
+        tmp.remove(tmp.indexOf(one));
+        return convertToString(tmp);
+    }
+
 }
