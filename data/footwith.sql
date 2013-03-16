@@ -129,9 +129,9 @@ CREATE TABLE IF NOT EXISTS `user` (
   `userName` varchar(32) NOT NULL,
   `nickName` varchar(32) NOT NULL,
   `passwd` varchar(32) NOT NULL,
-  `otherInfo` int(11) NOT NULL,
-  `plans` varchar(80) NOT NULL,
-  `records` varchar(80) NOT NULL,
+  `otherInfo` int(11),
+  `plans` varchar(80),
+  `records` varchar(80),
   PRIMARY KEY (`userID`),
   UNIQUE KEY `userName` (`userName`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
