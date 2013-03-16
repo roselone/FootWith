@@ -1,8 +1,5 @@
 package edu.thu.cslab.footwith.form;
 import javax.swing.*;
-import javax.swing.event.MenuEvent;
-import javax.swing.event.MenuListener;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -29,19 +26,21 @@ public class MemuPanel extends JRootPane {
         JMenu menu1 = new JMenu("用户管理");
         JMenu menu2 = new JMenu("景点管理");
         JMenu menu3 = new JMenu("行程管理");
-        JMenuItem jmi1 = new JMenuItem("用户信息");
+      //  JMenuItem jmi1 = new JMenuItem("用户信息");
         JMenuItem jmi2 = new JMenuItem("用户管理");
-        JMenuItem jmi3 = new JMenuItem("景点信息");
-        JMenuItem jmi4 = new JMenuItem("景点管理");
-        JMenuItem jmi5 = new JMenuItem("行程信息");
-        JMenuItem jmi6 = new JMenuItem("行程管理");
+        JMenuItem jmi3 = new JMenuItem("增加景点");
+        JMenuItem jmi4 = new JMenuItem("景点查询");
+        JMenuItem jmi5 = new JMenuItem("定制计划");
+        JMenuItem jmi6 = new JMenuItem("计划查询");
+        JMenuItem jmi7  = new JMenuItem("行程查询");
 
-        menu1.add(jmi1);
+       // menu1.add(jmi1);
         menu1.add(jmi2);
         menu2.add(jmi3) ;
         menu2.add(jmi4);
         menu3.add(jmi5);
         menu3.add(jmi6);
+        menu3.add(jmi7);
 
         jmb.add(menu1);
         jmb.add(menu2);
@@ -50,12 +49,13 @@ public class MemuPanel extends JRootPane {
         jmb.setSize(300,50);
       //  jmb.setVisible(true);
 
-        jmi1.addActionListener(myMenuListener);
+        //jmi1.addActionListener(myMenuListener);
         jmi2.addActionListener(myMenuListener);
         jmi3.addActionListener(myMenuListener);
         jmi4.addActionListener(myMenuListener);
         jmi5.addActionListener(myMenuListener);
         jmi6.addActionListener(myMenuListener);
+        jmi7.addActionListener(myMenuListener);
 
         this.setJMenuBar(jmb);
         this.setVisible(true);
@@ -79,13 +79,17 @@ public class MemuPanel extends JRootPane {
                     e1.printStackTrace();
                 }
                 System.exit(0);
-            }if(cmd.equals("用户信息")){
+            }if(cmd.equals("用户管理")){
                 new UserInfo("wjy");
             } if(cmd.equals("景点管理")){
 
-                new SceneManage();
-            }  if(cmd.equals("行程管理")){
-                new PlanManage();
+                new SiteManage();
+
+            }  if(cmd.equals("定制计划")){
+               // new PlanManage();
+                new InsertPlanForm();
+            }  if(cmd.equals("增加景点")){
+                new InsertSiteForm();
             }
 
         }
