@@ -21,12 +21,12 @@ public class importDataTest {
 //        importData im=new importData();
 //        im.importSite(new constant().PROJECT_PATH + "data/" + fileName);
 //    }
-    @Test
-    public void import5A()throws IOException, SQLException {
-        String fileName="5A.txt";
-        importData im=new importData();
-        im.importSite2(new constant().PROJECT_PATH + "data/" + fileName);
-    }
+//    @Test
+//    public void import5A()throws IOException, SQLException {
+//        String fileName="5A.txt";
+//        importData im=new importData();
+//        im.importSite2(new constant().PROJECT_PATH + "data/" + fileName);
+//    }
     @Test
     public void readSite() throws SQLException {
         String SQLselect="Select * from site;";
