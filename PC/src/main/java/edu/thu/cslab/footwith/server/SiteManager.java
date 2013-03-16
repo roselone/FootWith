@@ -1,7 +1,6 @@
 package edu.thu.cslab.footwith.server;
 
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 
 /**
@@ -28,16 +27,17 @@ public class SiteManager {
         ResultSet rs;
         if(siteName == null)
             throw new TextFormatException("siteName is null");
-        SQLCommand  = " select * from " + tableName + "where siteName is " + siteName;
+        SQLCommand  = " select * from " + tableName + " where siteName is " + siteName;
         rs=du.executeQuery(SQLCommand);
         //while(rs.next()){
-            site = new Site();
-            site.setSiteID(rs.getInt("siteID"));
-            site.setSiteName(rs.getString("siteName"));
-            site.setRate(rs.getInt("rate"));
-            site.setLocation(rs.getString("location"));
-            site.setBrief(rs.getString("brief"));
-            site.setPicture(rs.getInt("picture"));
+        rs.next();
+        site = new Site();
+        site.setSiteID(rs.getInt("siteID"));
+        site.setSiteName(rs.getString("siteName"));
+        site.setRate(rs.getInt("rate"));
+        site.setLocation(rs.getString("location"));
+        site.setBrief(rs.getString("brief"));
+        site.setPicture(rs.getInt("picture"));
         //}
         return site;
     }
@@ -48,9 +48,10 @@ public class SiteManager {
         ResultSet rs;
         if(siteID < 0)
             throw new TextFormatException("siteID is null");
-        SQLCommand  = " select * from " + tableName + "where siteID is " + siteID;
+        SQLCommand  = " select * from " + tableName + " where siteID is " + siteID;
         rs=du.executeQuery(SQLCommand);
         //while(rs.next()){
+        rs.next();
         site =new Site();
         site.setSiteID(rs.getInt("siteID"));
         site.setSiteName(rs.getString("siteName"));
@@ -67,7 +68,7 @@ public class SiteManager {
         String SQLCommand = null;
         if(siteName == null)
             throw new TextFormatException("siteName is null");
-        SQLCommand  = " delete from " + tableName + "where siteName is " + siteName;
+        SQLCommand  = " delete from " + tableName + " where siteName is " + siteName;
         du.executeUpdate(SQLCommand);
 
     }
@@ -77,7 +78,7 @@ public class SiteManager {
         String SQLCommand = null;
         if(siteID < 0)
             throw new TextFormatException("siteID is null");
-        SQLCommand  = " delete from " + tableName + "where siteID is " + siteID;
+        SQLCommand  = " delete from " + tableName + " where siteID is " + siteID;
         du.executeUpdate(SQLCommand);
     }
 
