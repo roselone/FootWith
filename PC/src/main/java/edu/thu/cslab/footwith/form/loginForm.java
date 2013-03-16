@@ -78,7 +78,11 @@ public class loginForm implements  ActionListener{
                 // mathExample.valida(uname, pwd);
                 try {
                     if(fromFormToManager.idValid(uname, pwd)){
+
+                        UserPanel.user.setPasswd(pwd);
+                        UserPanel.user.setUserName(uname);
                          new MainWindow();
+
                     } else{
 
                     }
