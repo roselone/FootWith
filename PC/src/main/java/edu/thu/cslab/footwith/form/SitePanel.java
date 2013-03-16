@@ -59,6 +59,7 @@ public class SitePanel extends Panel {
             public void mouseClicked(MouseEvent e) {
                 if (e.getClickCount() == 2) {
                     //实现双击
+
                     SiteManage siteManage = new SiteManage();
                     int row = ((JTable) e.getSource()).rowAtPoint(e.getPoint());  //获得行位置
                     int col = ((JTable) e.getSource()).columnAtPoint(e.getPoint()); //获得列位置
