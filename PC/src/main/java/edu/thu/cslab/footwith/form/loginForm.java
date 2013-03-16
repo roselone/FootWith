@@ -3,6 +3,12 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
+import java.sql.SQLException;
+
+import edu.thu.cslab.footwith.server.TextFormatException;
+import edu.thu.cslab.footwith.server.fromFormToManager;
 
 /**
  * Created with IntelliJ IDEA.
@@ -70,10 +76,20 @@ public class loginForm implements  ActionListener{
                 String pwd =new String(password.getPassword());
                 // Validation matchExample = new Validation();
                 // mathExample.valida(uname, pwd);
-                if(true){
+                try {
+                    if(fromFormToManager.idValid(uname, pwd)){
                          new MainWindow();
-                } else{
+                    } else{
 
+                    }
+                } catch (TextFormatException e1) {
+                    e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                } catch (SQLException e1) {
+                    e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                } catch (NoSuchAlgorithmException e1) {
+                    e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                } catch (UnsupportedEncodingException e1) {
+                    e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                 }
             } if(e.getSource() == cancel){
 

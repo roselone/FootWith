@@ -22,7 +22,7 @@ public class UserManager {
         du.executeUpdate(SQLCommand);
     }
 
-    public User selectUser(String userName) throws TextFormatException, SQLException {
+    public static User selectUser(String userName) throws TextFormatException, SQLException {
         User user;
         DBUtil du = DBUtil.getDBUtil();
         String SQLCommand = null;
@@ -163,7 +163,7 @@ public class UserManager {
         du.executeUpdate(SQLCommand);
 
     }
-    private final String tableName ="user";
+    private static final String tableName ="user";
 
 
 }
