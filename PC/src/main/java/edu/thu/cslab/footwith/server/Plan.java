@@ -12,11 +12,11 @@ import java.sql.Date;
 public class Plan {
     public Plan() {
         this.planID = -1;
-        this.siteIDs = null;
+        this.siteIDs = "";
         this.startTime = null;
         this.endTime = null;
         this.organizer = -1;
-        this.participants = null;
+        this.participants = "";
         this.budget = -1;
         this.groupNum = -1;
         this.groupNumMax = -1;
@@ -25,11 +25,11 @@ public class Plan {
 
     public Plan(int planID) {
         this.planID = planID;
-        this.siteIDs = null;
+        this.siteIDs = "";
         this.startTime = null;
         this.endTime = null;
         this.organizer = -1;
-        this.participants = null;
+        this.participants = "";
         this.budget = -1;
         this.groupNum = -1;
         this.groupNumMax = -1;
@@ -44,7 +44,7 @@ public class Plan {
         this.organizer = organizer;
         this.groupNum = groupNum;
         this.groupNumMax = groupNumMax;
-        this.participants = null;
+        this.participants = "";
         this.budget = -1;
         this.talkStreamID = -1;
     }

@@ -12,7 +12,9 @@ public class IntTest {
     public void intTest(){
         int i;
         i=10;
-        System.out.println("hello "+ i);
+        String s;
+        s=null;
+        System.out.println(s.length());
 
     }
 }

@@ -20,6 +20,7 @@ public class fromFormToManager {
         UserManager um = new UserManager();
         SiteManager sm = new SiteManager();
         PlanManager pm = new PlanManager();
+        System.out.println(siteName);
         Site site = sm.seleteSite(siteName);
         Vector<Integer> vector =  new Vector<Integer>();
         vector.add(site.getSiteID());

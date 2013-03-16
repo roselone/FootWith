@@ -35,7 +35,7 @@ public class PlanManager {
                 " values ( '"+  plan.getSiteIDs()+ "' , '"+ plan.getStartTime()+ "' , '" + plan.getEndTime()+ "' , " + plan.getOrganizer()+ " , '" + plan.getParticipants() + "' , " + plan.getBudget() + " , " + plan.getGroupNum()+ " , " + plan.getGroupNumMax() + " , " + plan.getTalkStreamID() +" ) ";
         rs = du.executeUpdate(SQLCommand);
         rs.next();
-        int planID = rs.getInt("planID"); // maybe wrong
+        int planID = rs.getInt(1); // maybe wrong
 
         User user = new UserManager().selectUser(organizer);
         String orig_plans = user.getPlans();
