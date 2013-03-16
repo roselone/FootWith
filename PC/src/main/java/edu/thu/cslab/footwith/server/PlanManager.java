@@ -28,12 +28,12 @@ public class PlanManager {
         String participants = plan.getParticipants();
         Date startTime =  plan.getStartTime();
         Date endTime = plan.getEndTime();
-        if(siteIDs == null || organizer<0 || participants==null || startTime==null || endTime==null){
+        if(siteIDs == null || organizer<0 || startTime==null || endTime==null){
             throw new TextFormatException();
         }
         SQLCommand = " insert into " + tableName + " (  siteIDs, startTime, endTime, organizer, participants, budget, groupNum, groupNumMax, talkStreamID ) " +
                 " values ( '"+  plan.getSiteIDs()+ "' , '"+ plan.getStartTime()+ "' , '" + plan.getEndTime()+ "' , " + plan.getOrganizer()+ " , '" + plan.getParticipants() + "' , " + plan.getBudget() + " , " + plan.getGroupNum()+ " , " + plan.getGroupNumMax() + " , " + plan.getTalkStreamID() +" ) ";
-        rs = du.executeQuery(SQLCommand);
+        rs = du.executeUpdate(SQLCommand);
         rs.next();
         int planID = rs.getInt("planID"); // maybe wrong
 
@@ -68,10 +68,11 @@ public class PlanManager {
                 rs.getString("participants"), rs.getInt("budget"), rs.getInt("groupNum"), rs.getInt("groupNumMax"), rs.getInt("talkStreamID"));
 
     }
-    public Vector<Plan> selectPlan(Plan plan) throws TextFormatException {
+    public Vector<Plan> selectPlan(Plan plan) throws TextFormatException, SQLException {
         DBUtil du = DBUtil.getDBUtil();
         String SQLCommand = null;
         ResultSet rs;
+        Plan result_plan;
         boolean isAnd = false;
         if(plan==null)
             throw new TextFormatException();
@@ -125,9 +126,16 @@ public class PlanManager {
             SQLCommand += " endTime <= '" +endTime + "'";
             isAnd = true;
         }
+        rs = du.executeQuery(SQLCommand);
+        Vector<Plan> vector = new Vector<Plan>();
+        while(rs.next()){
+            result_plan = new Plan(rs.getInt("planID"), rs.getString("siteIDs"), rs.getDate("startTime"), rs.getDate("endTime"), rs.getInt("organizer"),
+                    rs.getString("participants"), rs.getInt("budget"), rs.getInt("groupNum"), rs.getInt("groupNumMax"), rs.getInt("talkStreamID"));
+            vector.add(result_plan);
+        }
 
 
-        return null ;
+        return vector;
     }
     public void deletePlan(int planID) throws TextFormatException, SQLException {
         DBUtil du = DBUtil.getDBUtil();
