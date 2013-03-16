@@ -140,7 +140,7 @@ public class UserManager {
             isComma = true;
 
         }
-        if(new_user.getOtherInfo()!=-1){
+        if(new_user.getOtherInfo() >= 0){
             if(isComma)
                 SQLCommand += " , ";
             SQLCommand += " otherInfo = " + new_user.getOtherInfo();
