@@ -85,7 +85,8 @@ public class MemuPanel extends JRootPane {
 
                 new SceneManage();
             }  if(cmd.equals("行程管理")){
-                new PlanManage();
+               // new PlanManage();
+                new InsertPlanForm();
             }
 
         }
