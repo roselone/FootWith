@@ -49,21 +49,21 @@ public class PlanPanel extends JPanel {
             int b=1;
             while(b<=numberOfColumns) {
                 dt.addColumn(rsmd.getColumnName(b));
-                System.out.print(rsmd.getColumnName(b));
+             //   System.out.print(rsmd.getColumnName(b));
                 b++;
             }
 //以下是在表格中显示数据中的内容
             while(rs.next()) {
                 Vector newRow=new Vector();
-                System.out.println(newRow.toString());
+               // System.out.println(newRow.toString());
                 int c=1;
                 while(c<=numberOfColumns) {
-                    System.out.print(rs.getString(c));
+                   // System.out.print(rs.getString(c));
                     newRow.addElement(rs.getString(c));
                     c++;
                 }
                 dt.addRow(newRow);
-                System.out.print(newRow.toString());
+               // System.out.print(newRow.toString());
             }
         }catch(Exception ex){
 

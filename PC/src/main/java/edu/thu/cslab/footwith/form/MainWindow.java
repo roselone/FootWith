@@ -20,7 +20,7 @@ public class MainWindow {
        private  JPanel centerPanel = new JPanel();
        private  JPanel rightPanel = new JPanel();
 
-       private  ScenePanel scenePanel = new ScenePanel();
+       private SitePanel sitePanel = new SitePanel();
        private  PlanPanel  PlanPanel = new PlanPanel(); // test whether it get the data
 
 //       private JMenu   mainMemu = new JMenu();
@@ -56,7 +56,7 @@ public class MainWindow {
         JSplitPane centerJsp = new JSplitPane(JSplitPane.VERTICAL_SPLIT);           //vertical     centerJsp
         centerJsp.setDividerLocation(400);
         centerJsp.setDividerSize(5);
-        centerJsp.setLeftComponent(scenePanel);
+        centerJsp.setLeftComponent(sitePanel);
         centerJsp.setRightComponent(b1);
 
         JSplitPane rightJsp = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);            //horizontal
