@@ -13,14 +13,20 @@ import java.awt.*;
 public class MainWindow {
        private JFrame mainFrame = new JFrame("旅游行程管理系统");
        private Container c = mainFrame.getContentPane();
+
        private  MemuPanel menuPanel = new MemuPanel();
        private  UserPanel userPanel = new UserPanel();
+
+       private  JPanel centerPanel = new JPanel();
+       private  JPanel rightPanel = new JPanel();
+
        private  ScenePanel scenePanel = new ScenePanel();
+       private  PlanPanel  PlanPanel = new PlanPanel(); // test whether it get the data
 
 //       private JMenu   mainMemu = new JMenu();
 //       private JPanel rightPanel = new JPanel();
-//       private  JPanel leftPanel = new JPanel();
-//       private  JPanel upPanel = new JPanel();
+//       private  JPanel leftJsp = new JPanel();
+//       private  JPanel leftJsp = new JPanel();
 //       private  ButtonListener ourListener = new ButtonListener();
 
     public MainWindow(){
@@ -37,20 +43,37 @@ public class MainWindow {
         JButton b1 = new JButton("确定");
         JButton b2 = new JButton("取消");
 
-        JSplitPane panel_1 = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
+
+        JSplitPane panel_1 = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);     // horizontal
         panel_1.setDividerLocation(250);
         panel_1.setDividerSize(5);
 
-        JSplitPane upPanel = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
-        upPanel.setDividerLocation(250);
-        upPanel.setDividerSize(5);
-        //upPanel.setOneTouchExpandable(true);
+        JSplitPane leftJsp = new JSplitPane(JSplitPane.VERTICAL_SPLIT);          //vertical
+        leftJsp.setDividerLocation(200);
+        leftJsp.setDividerSize(5);
+        //leftJsp.setOneTouchExpandable(true);
 
-        panel_1.setLeftComponent(upPanel);
-        panel_1.setRightComponent(scenePanel);
+        JSplitPane centerJsp = new JSplitPane(JSplitPane.VERTICAL_SPLIT);           //vertical     centerJsp
+        centerJsp.setDividerLocation(400);
+        centerJsp.setDividerSize(5);
+        centerJsp.setLeftComponent(scenePanel);
+        centerJsp.setRightComponent(b1);
 
-        upPanel.setLeftComponent(userPanel);
-        upPanel.setRightComponent(b1);
+        JSplitPane rightJsp = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);            //horizontal
+        centerJsp.setDividerLocation(400);
+        centerJsp.setDividerSize(5);
+        
+
+        panel_1.setLeftComponent(leftJsp);
+        panel_1.setRightComponent(rightJsp);
+
+        rightJsp.setLeftComponent(centerJsp);
+        rightJsp.setRightComponent(b2);
+        rightJsp.setDividerLocation(400);
+        rightJsp.setDividerSize(5);
+
+        leftJsp.setLeftComponent(userPanel);
+        leftJsp.setRightComponent(PlanPanel); // test
 
         mainFrame.add(panel_1,"Center");
 
@@ -62,23 +85,5 @@ public class MainWindow {
     public static void main(String[] args){
         new MainWindow();
     }
-
-//    private class ButtonListener implements ActionListener{
-//
-//        @Override
-//        public void actionPerformed(ActionEvent e) {
-//                // 利用getActionCommand获得按钮名称
-//                // 也可以利用getSource()来实现
-//                // if (e.getSource() ==button1)
-//                String buttonName = e.getActionCommand();
-//                if (buttonName.equals("按钮1")) {
-//                    JOptionPane.showMessageDialog(mainFrame, "按钮1 被点击");
-//                }else if (buttonName.equals("按钮2"))  {
-//                    JOptionPane.showMessageDialog(mainFrame, "按钮2 被点击");
-//                }else {
-//                    JOptionPane.showMessageDialog(mainFrame,"Unknown event" );
-//                }
-//        }
-//    }
 
 }

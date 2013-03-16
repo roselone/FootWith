@@ -68,10 +68,10 @@ public class MemuPanel extends JRootPane {
         public void actionPerformed(ActionEvent e) {
             //To change body of implemented methods use File | Settings | File Templates.
             String cmd=e.getActionCommand();
-            TextArea ta=new TextArea(6,40);//这个文本框6行 40列
-            ta.append("单击"+cmd+"菜单"+"\n");
+//            TextArea ta=new TextArea(6,40);//这个文本框6行 40列
+//            ta.append("单击"+cmd+"菜单"+"\n");
             if(cmd.equals("退出")){
-                ta.append("正在退出\n");
+//                ta.append("正在退出\n");
                 try {
                     Thread.sleep(5000);
                 } catch (InterruptedException e1) {
@@ -81,6 +81,11 @@ public class MemuPanel extends JRootPane {
                 System.exit(0);
             }if(cmd.equals("用户信息")){
                 new UserInfo("wjy");
+            } if(cmd.equals("景点管理")){
+
+                new SceneManage();
+            }  if(cmd.equals("行程管理")){
+                new PlanManage();
             }
 
         }
