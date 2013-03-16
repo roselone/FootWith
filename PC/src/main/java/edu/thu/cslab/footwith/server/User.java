@@ -100,20 +100,17 @@ public class User {
     }
 
     public void setOtherInfo(int otherInfo) throws TextFormatException {
-        if(otherInfo<0)
-            throw new TextFormatException("OtherInfo");
-
         this.otherInfo = otherInfo;
     }
 
     public void setPlans(String plans) throws TextFormatException {
-        if(plans  == null || plans.length()>80)
+        if( plans.length()>80)
             throw new TextFormatException("Plans");
         this.plans = plans;
     }
 
     public void setRecords(String records) throws TextFormatException {
-        if(records  == null || plans.length()>80)
+        if( records.length()>80)
             throw new TextFormatException("Records");
         this.records = records;
     }

@@ -73,15 +73,11 @@ public class Site {
     }
 
     public void setBrief(String brief) throws TextFormatException{
-        if(brief == null || brief.length()==0 )
-            throw new TextFormatException();
-        this.brief = brief;
+               this.brief = brief;
     }
 
     public void setPicture(int picture) throws TextFormatException{
-        if(picture<0)
-            throw new TextFormatException();
-        this.picture = picture;
+                this.picture = picture;
     }
 
     private int siteID;
