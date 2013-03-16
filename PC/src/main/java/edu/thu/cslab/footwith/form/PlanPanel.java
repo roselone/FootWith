@@ -5,6 +5,8 @@ import edu.thu.cslab.footwith.server.DBUtil;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.util.Vector;
@@ -17,64 +19,41 @@ import java.util.Vector;
 * To change this template use File | Settings | File Templates.
 */
 public class PlanPanel extends JPanel {
-    myDefaultTableModel dt=new myDefaultTableModel();//先定义一个Model
-    DBUtil du = DBUtil.getDBUtil();
-    String SQLCommand = null;
-    ResultSet rs = null;
-    ResultSetMetaData rsmd = null;
-    JTable table = null;
+
+   private ViewTable viewTable = new ViewTable();
+        private  JTable table = new JTable();
     public  PlanPanel() {
 
         this.setLayout(new BorderLayout());
-        setTable();
-
-        table = new JTable(dt);
+        JLabel titleLb = new JLabel("计划表");
+        this.add(titleLb,"North");
+        table = new JTable(viewTable.makeTable("select * from plan"));
         table.setPreferredScrollableViewportSize(new Dimension(250,50));
         //table.set
         JScrollPane jspCenter = new JScrollPane(table);
         table.setAutoResizeMode(4);
         this.add(jspCenter, BorderLayout.CENTER);
         this.setVisible(true);
-
-    }
-    void setTable(){
-        try{
-            rs=du.executeQuery("select * from site");//里面写要显示的SQL语句
-            rsmd = rs.getMetaData();
-            int numberOfColumns=rsmd.getColumnCount();
-            //System.out.print("test wjy numberOfColumns");
-           // System.out.print(numberOfColumns);
-//以下是显示数据库中的列名的代码
-           //
-            int b=1;
-            while(b<=numberOfColumns) {
-                dt.addColumn(rsmd.getColumnName(b));
-             //   System.out.print(rsmd.getColumnName(b));
-                b++;
-            }
-//以下是在表格中显示数据中的内容
-            while(rs.next()) {
-                Vector newRow=new Vector();
-               // System.out.println(newRow.toString());
-                int c=1;
-                while(c<=numberOfColumns) {
-                   // System.out.print(rs.getString(c));
-                    newRow.addElement(rs.getString(c));
-                    c++;
+        table.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (e.getClickCount() == 2) {
+                    //实现双击
+                    SiteManage siteManage = new SiteManage();
+                    int row = ((JTable) e.getSource()).rowAtPoint(e.getPoint());  //获得行位置
+                    int col = ((JTable) e.getSource()).columnAtPoint(e.getPoint()); //获得列位置
+                    Vector<String> rowVector = new Vector<String>();
+                    for(int i=0;i<4;i++){
+                        rowVector.add( (viewTable.makeTable("select * from plan").getValueAt(row, i)).toString());
+                    }
+                    siteManage.setValue(rowVector);
+                    siteManage.setVisible(true);
+                } else {
+                    return;
                 }
-                dt.addRow(newRow);
-               // System.out.print(newRow.toString());
             }
-        }catch(Exception ex){
-
-        }
-
-    }
+        });
 
 
-}
-class myDefaultTableModel extends DefaultTableModel {
-    public boolean isCellEditable(int row, int column) {
-        return false;
     }
 }

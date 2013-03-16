@@ -83,7 +83,10 @@ public class MainWindow {
 
     }
     public static void main(String[] args){
-        new MainWindow();
+       try {
+           new MainWindow();
+    } catch (Exception e) {
+           e.printStackTrace();
+       }
     }
-
 }

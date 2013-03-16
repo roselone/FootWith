@@ -90,6 +90,12 @@ public class MemuPanel extends JRootPane {
                 new InsertPlanForm();
             }  if(cmd.equals("增加景点")){
                 new InsertSiteForm();
+            }  if(cmd.equals("景点查询")){
+                new SearchSiteForm();
+            }   if(cmd.equals("计划查询")){
+                new SearchPlanForm();
+            }   if(cmd.equals("行程查询")){
+                new SearchRecordForm();
             }
 
         }
