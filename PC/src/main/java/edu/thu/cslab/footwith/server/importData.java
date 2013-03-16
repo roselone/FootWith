@@ -30,7 +30,7 @@ public class importData {
         SiteManager siteManager=new SiteManager();
         while ((tmp = bufferedReader.readLine()) != null){
             String[] siteInfo = tmp.split(" ");
-            site=new Site(siteInfo[0],siteInfo[1],Integer.valueOf(siteInfo[2].charAt(0)-'0'));
+            site=new Site(siteInfo[0],siteInfo[1],4);
             siteManager.addSite(site);
         }
     }

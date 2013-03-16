@@ -42,15 +42,15 @@ public class DBUtil {
         return rs;
 
     }
-    public int executeUpdate(String SQLCommand) throws SQLException {
-        int result = 0;
+    public ResultSet executeUpdate(String SQLCommand) throws SQLException {
+        ResultSet result ;
         if(conn == null){    //Failed at connection step (DBUtil Construction)
             System.out.println("Ever failed at connection step");
             throw new SQLException();
         }
         Statement statement = conn.createStatement();
-        result = statement.executeUpdate(SQLCommand);
-
+        statement.executeUpdate(SQLCommand);
+        result = statement.getGeneratedKeys();
         return result;
     }
     private final String driver="com.mysql.jdbc.Driver";  //jdbc Driver
