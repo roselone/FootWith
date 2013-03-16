@@ -1,7 +1,6 @@
 package edu.thu.cslab.footwith.server;
 
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 
 /**
@@ -33,13 +32,14 @@ public class UserManager {
         SQLCommand  = " select * from " + tableName + "where userName = '" + userName+"'";
         rs=du.executeQuery(SQLCommand);
         // while(rs.next()){
-            user = new User(rs.getInt("userID"));
-            user.setUserName(rs.getString("userName"));
-            user.setNickName(rs.getString("nickName"));
-            user.setPasswd(rs.getString("passwd"));
-            user.setOtherInfo(rs.getInt("otherInfo"));
-            user.setPlans(rs.getString("plans"));
-            user.setRecords(rs.getString("records"));
+        rs.next();
+        user = new User(rs.getInt("userID"));
+        user.setUserName(rs.getString("userName"));
+        user.setNickName(rs.getString("nickName"));
+        user.setPasswd(rs.getString("passwd"));
+        user.setOtherInfo(rs.getInt("otherInfo"));
+        user.setPlans(rs.getString("plans"));
+        user.setRecords(rs.getString("records"));
         // }
 
         return user;
@@ -53,14 +53,15 @@ public class UserManager {
             throw new TextFormatException("userID is null");
         SQLCommand  = " select * from " + tableName + "where userID = " + userID;
         rs=du.executeQuery(SQLCommand);
-        while(rs.next()){
-            user.setUserName(rs.getString("userName"));
-            user.setNickName(rs.getString("nickName"));
-            user.setPasswd(rs.getString("passwd"));
-            user.setOtherInfo(rs.getInt("otherInfo"));
-            user.setPlans(rs.getString("plans"));
-            user.setRecords(rs.getString("records"));
-        }
+        //while(rs.next()){
+        rs.next();
+        user.setUserName(rs.getString("userName"));
+        user.setNickName(rs.getString("nickName"));
+        user.setPasswd(rs.getString("passwd"));
+        user.setOtherInfo(rs.getInt("otherInfo"));
+        user.setPlans(rs.getString("plans"));
+        user.setRecords(rs.getString("records"));
+        //}
 
         return user;
     }
