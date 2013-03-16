@@ -29,7 +29,7 @@ public class UserManager {
         ResultSet rs;
         if(userName == null)
             throw new TextFormatException("userName is null");
-        SQLCommand  = " select * from " + tableName + "where userName = '" + userName+"'";
+        SQLCommand  = " select * from " + tableName + " where userName = '" + userName+"'";
         rs=du.executeQuery(SQLCommand);
         // while(rs.next()){
         rs.next();
@@ -51,7 +51,7 @@ public class UserManager {
         ResultSet rs;
         if(userID < 0)
             throw new TextFormatException("userID is null");
-        SQLCommand  = " select * from " + tableName + "where userID = " + userID;
+        SQLCommand  = " select * from " + tableName + " where userID = " + userID;
         rs=du.executeQuery(SQLCommand);
         //while(rs.next()){
         rs.next();
@@ -70,7 +70,7 @@ public class UserManager {
         String SQLCommand = null;
         if(userName == null)
             throw new TextFormatException("userName is null");
-        SQLCommand  = " delete from " + tableName + "where userName = '" + userName + "'";
+        SQLCommand  = " delete from " + tableName + " where userName = '" + userName + "'";
         du.executeUpdate(SQLCommand);
 
     }
@@ -79,7 +79,7 @@ public class UserManager {
         String SQLCommand = null;
         if(userID < 0)
             throw new TextFormatException("userID is null");
-        SQLCommand  = " delete from " + tableName + "where userID = " + userID;
+        SQLCommand  = " delete from " + tableName + " where userID = " + userID;
         du.executeUpdate(SQLCommand);
 
     }
