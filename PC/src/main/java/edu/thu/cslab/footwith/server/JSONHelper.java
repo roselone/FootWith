@@ -13,11 +13,18 @@ import java.util.Vector;
  * To change this template use File | Settings | File Templates.
  */
 public class JSONHelper {
-    public String convertToString(int[] parts){
+
+    public static final JSONHelper JSONHelperInstance=new JSONHelper();
+
+    public static JSONHelper getJSONHelperInstance(){
+        return JSONHelperInstance;
+    }
+
+    public String convertToString(Vector<Integer> parts){
         String result=null;
         JSONArray array=new JSONArray();
-        for (int i=0;i<parts.length;i++){
-            array.put(parts[i]);
+        for (int i=0;i<parts.size();i++){
+            array.put(parts.get(i));
         }
         return array.toString();
     }
@@ -27,6 +34,18 @@ public class JSONHelper {
         Vector<Integer> result=new Vector<Integer>();
         for (int i=0;i<array.length();i++) result.add(array.getInt(i));
         return result;
+    }
+
+    public String addToArray(String s, int one) throws JSONException {
+        Vector<Integer> tmp=convertToArray(s);
+        tmp.add(one);
+        return convertToString(tmp);
+    }
+
+    public String deleteFromArray(String s, int one) throws JSONException {
+        Vector<Integer> tmp=convertToArray(s);
+        tmp.remove(tmp.indexOf(one));
+        return convertToString(tmp);
     }
 
 }
