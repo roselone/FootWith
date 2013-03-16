@@ -2,6 +2,8 @@ package edu.thu.cslab.footwith.server;
 
 import org.json.JSONException;
 
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.util.Vector;
@@ -22,10 +24,10 @@ public class fromFormToManager {
         Vector<Integer> vector =  new Vector<Integer>();
         vector.add(site.getSiteID());
         String siteIDs = new JSONHelper().convertToString(vector);
-        um.selectUser(organizer);
+        User user=um.selectUser(organizer);
         Date date_startTime = Date.valueOf(startTime);
         Date date_endTime = Date.valueOf(endTime);
-        int int_organizer = Integer.parseInt(organizer);
+        int int_organizer = user.getUserID();
         Plan plan = new Plan(siteIDs, date_startTime,date_endTime,int_organizer,0,0 );
         pm.addPlan(plan);
     }
@@ -34,5 +36,14 @@ public class fromFormToManager {
         int int_rate = Integer.parseInt(rate);
         Site site = new Site(siteName, location ,int_rate);
         sm.addSite(site);
+    }
+    public static boolean idValid(String username,String passwd) throws TextFormatException, SQLException, NoSuchAlgorithmException, UnsupportedEncodingException {
+        User user=UserManager.selectUser(username);
+        if (user==null) return false;
+        System.out.println(user.getUserID());
+        if (user.checkPasswd(passwd))
+            return true;
+        else
+            return false;
     }
 }

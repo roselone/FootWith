@@ -7,6 +7,8 @@ package edu.thu.cslab.footwith.server;
  * To change this template use File | Settings | File Templates.
  */
 
+import sun.misc.BASE64Encoder;
+
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -31,22 +33,22 @@ public class User {
 
     }
 
-    public User(String userName, String nickName, String passwd, int otherInfo, String plans, String records, int state) {
+    public User(String userName, String nickName, String passwd, int otherInfo, String plans, String records, int state) throws NoSuchAlgorithmException, UnsupportedEncodingException {
         this.userID = -1;
         this.userName = userName;
         this.nickName = nickName;
-        this.passwd = passwd;
+        this.passwd = convertToMD5(passwd);
         this.otherInfo = otherInfo;
         this.plans = plans;
         this.records = records;
         this.state = state;
     }
 
-    public User(int userID, String userName, String nickName, String passwd, int otherInfo, String plans, String records, int state) {
+    public User(int userID, String userName, String nickName, String passwd, int otherInfo, String plans, String records, int state) throws NoSuchAlgorithmException, UnsupportedEncodingException {
         this.userID = userID;
         this.userName = userName;
         this.nickName = nickName;
-        this.passwd = passwd;
+        this.passwd = convertToMD5(passwd);
         this.otherInfo = otherInfo;
         this.plans = plans;
         this.records = records;
@@ -117,48 +119,26 @@ public class User {
 
 
 
-    public boolean checkPasswd(String in_passwd) {
-        MessageDigest messageDigest=null;
-        String in_passwd_md5;
-        try{
-            messageDigest = MessageDigest.getInstance("MD5");
-            messageDigest.reset();
-            messageDigest.update(passwd.getBytes("UTF-8"));
-        } catch (NoSuchAlgorithmException e){
-            System.out.println("No Such Algorithm Exception caught!");
-            return false;
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-            return false;
-        }
-        byte [] byteArray = messageDigest.digest();
-        in_passwd_md5 = byteArray.toString();
-        if(passwd.equals(in_passwd_md5))
+    public boolean checkPasswd(String in_passwd) throws NoSuchAlgorithmException, UnsupportedEncodingException {
+        String in_passwd_md5 = convertToMD5(in_passwd);
+        if(this.passwd.equals(in_passwd_md5))
             return true;
         else
             return false;
     }
 
+    public String convertToMD5(String s) throws UnsupportedEncodingException, NoSuchAlgorithmException {
+        MessageDigest messageDigest=MessageDigest.getInstance("MD5");
+        BASE64Encoder base64en = new BASE64Encoder();
+        String rs=base64en.encode(messageDigest.digest(s.getBytes("UTF-8")));
+        return rs;
+    }
 
-
-    public boolean  setPasswd(String new_passwd) throws TextFormatException {
-        MessageDigest messageDigest=null;
-        if(new_passwd.length() < 8 || new_passwd.length() > 30){
+    public boolean  setPasswd(String passwd) throws TextFormatException {
+        if(passwd.length() < 8 || passwd.length() > 30){
             throw new TextFormatException("Passwd");
         }
-        try{
-            messageDigest = MessageDigest.getInstance("MD5");
-            messageDigest.reset();
-            messageDigest.update(passwd.getBytes("UTF-8"));
-        } catch (NoSuchAlgorithmException e){
-            System.out.println("No Such Algorithm Exception caught!");
-            return false;
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-            return false;
-        }
-        byte [] byteArray = messageDigest.digest();
-        passwd = byteArray.toString();
+        this.passwd = passwd;
         return true;
 
     }
