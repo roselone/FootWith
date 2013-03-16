@@ -28,17 +28,18 @@ public class PlanManager {
         String participants = plan.getParticipants();
         Date startTime =  plan.getStartTime();
         Date endTime = plan.getEndTime();
-        if(siteIDs == null || organizer<0 || participants==null){
+        if(siteIDs == null || organizer<0 || participants==null || startTime==null || endTime==null){
             throw new TextFormatException();
         }
         SQLCommand = " insert into " + tableName + " (  siteIDs, startTime, endTime, organizer, participants, budget, groupNum, groupNumMax, talkStreamID ) " +
                 " values ( '"+  plan.getSiteIDs()+ "' , '"+ plan.getStartTime()+ "' , '" + plan.getEndTime()+ "' , " + plan.getOrganizer()+ " , '" + plan.getParticipants() + "' , " + plan.getBudget() + " , " + plan.getGroupNum()+ " , " + plan.getGroupNumMax() + " , " + plan.getTalkStreamID() +" ) ";
         rs = du.executeQuery(SQLCommand);
+        rs.next();
         int planID = rs.getInt("planID"); // maybe wrong
 
         User user = new UserManager().selectUser(organizer);
         String orig_plans = user.getPlans();
-        orig_plans = new JSONHelper().addToArray(orig_plans, planID);
+        user.setPlans(new JSONHelper().addToArray(orig_plans, planID));
         new UserManager().editUser(organizer, user);
 
         Vector<Integer> siteIDVector =new JSONHelper().convertToArray(siteIDs);
@@ -60,22 +61,83 @@ public class PlanManager {
         ResultSet rs;
         if(planID < 0)
             throw new TextFormatException("userID is null");
-        SQLCommand  = " select * from " + tableName + "where planID = " + planID;
+        SQLCommand  = " select * from " + tableName + " where planID = " + planID;
         rs=du.executeQuery(SQLCommand);
+        rs.next();
         return new Plan(rs.getInt("planID"), rs.getString("siteIDs"), rs.getDate("startTime"), rs.getDate("endTime"), rs.getInt("organizer"),
                 rs.getString("participants"), rs.getInt("budget"), rs.getInt("groupNum"), rs.getInt("groupNumMax"), rs.getInt("talkStreamID"));
 
     }
-    public void deletePlan(int planID) throws TextFormatException, SQLException {
+    public Vector<Plan> selectPlan(Plan plan) throws TextFormatException {
         DBUtil du = DBUtil.getDBUtil();
         String SQLCommand = null;
         ResultSet rs;
+        boolean isAnd = false;
+        if(plan==null)
+            throw new TextFormatException();
+        String siteIDs = plan.getSiteIDs();
+        Date startTime = plan.getStartTime();
+        Date endTime = plan.getEndTime();
+        int organizer = plan.getOrganizer();
+        String participants = plan.getParticipants();
+        int budget = plan.getBudget();
+        int groupNum = plan.getGroupNum();
+        int groupNumMax = plan.getGroupNumMax();
+        int talkStreamID = plan.getTalkStreamID();
+        SQLCommand  = " select * from " + tableName + " where ";
+        if(budget >= 0){
+            SQLCommand += " budget = '" +budget + "'";
+            isAnd = true;
+        }
+        if(groupNum >=0 ){
+            if(isAnd)
+                SQLCommand += " and ";
+            SQLCommand += " groupNum = " +groupNum ;
+            isAnd = true;
+        }
+        if(groupNumMax >=0 ){
+            if(isAnd)
+                SQLCommand += " and ";
+            SQLCommand += " groupNumMax = " +groupNumMax;
+            isAnd = true;
+        }
+        if(talkStreamID >=0 ){
+            if(isAnd)
+                SQLCommand += " and ";
+            SQLCommand += " talkStreamID = " +talkStreamID ;
+            isAnd = true;
+        }
+        if(organizer >=0 ){
+            if(isAnd)
+                SQLCommand += " and ";
+            SQLCommand += " organizer = " +organizer;
+            isAnd = true;
+        }
+        if(startTime != null){
+            if(isAnd)
+                SQLCommand += " and ";
+            SQLCommand += " startTime >= '" + startTime + "'";
+            isAnd = true;
+        }
+        if(endTime != null){
+            if(isAnd)
+                SQLCommand += " and ";
+            SQLCommand += " endTime <= '" +endTime + "'";
+            isAnd = true;
+        }
+
+
+        return null ;
+    }
+    public void deletePlan(int planID) throws TextFormatException, SQLException {
+        DBUtil du = DBUtil.getDBUtil();
+        String SQLCommand = null;
         if(planID < 0)
             throw new TextFormatException("planID is null");
-        SQLCommand  = " delete from " + tableName + "where planID is " + planID;
-        rs = du.executeQuery(SQLCommand);
-        SQLCommand  = " delete from " + relationTableName + "where planID is " + planID;
-        rs = du.executeQuery(SQLCommand);
+        SQLCommand  = " delete from " + tableName + " where planID is " + planID;
+        du.executeUpdate(SQLCommand);
+        SQLCommand  = " delete from " + relationTableName + " where planID is " + planID;
+        du.executeUpdate(SQLCommand);
     }
 
     public void editPlan(int planID, Plan new_plan) throws TextFormatException, SQLException, JSONException {
@@ -109,14 +171,14 @@ public class PlanManager {
         if(orig_siteIDs!=null)
             orig_siteIDVector = new JSONHelper().convertToArray(orig_siteIDs);
         if(orig_participants!=null)
-            new_userIDVector = new JSONHelper().convertToArray(orig_participants);
+            orig_userIDVector = new JSONHelper().convertToArray(orig_participants);
 
 
         if(budget >= 0){
-            SQLCommand += " endTime = '" +endTime + "'";
+            SQLCommand += " budget = '" +budget + "'";
             isComma = true;
         }
-        if(groupNumMax >=0 ){
+        if(groupNum >=0 ){
             if(isComma)
                 SQLCommand += " , ";
             SQLCommand += " groupNum = '" +groupNum + "'";

@@ -1,7 +1,6 @@
 package edu.thu.cslab.footwith.server;
 
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 
 /**
@@ -30,16 +29,17 @@ public class UserManager {
         ResultSet rs;
         if(userName == null)
             throw new TextFormatException("userName is null");
-        SQLCommand  = " select * from " + tableName + "where userName = '" + userName+"'";
+        SQLCommand  = " select * from " + tableName + " where userName = '" + userName+"'";
         rs=du.executeQuery(SQLCommand);
         // while(rs.next()){
-            user = new User(rs.getInt("userID"));
-            user.setUserName(rs.getString("userName"));
-            user.setNickName(rs.getString("nickName"));
-            user.setPasswd(rs.getString("passwd"));
-            user.setOtherInfo(rs.getInt("otherInfo"));
-            user.setPlans(rs.getString("plans"));
-            user.setRecords(rs.getString("records"));
+        rs.next();
+        user = new User(rs.getInt("userID"));
+        user.setUserName(rs.getString("userName"));
+        user.setNickName(rs.getString("nickName"));
+        user.setPasswd(rs.getString("passwd"));
+        user.setOtherInfo(rs.getInt("otherInfo"));
+        user.setPlans(rs.getString("plans"));
+        user.setRecords(rs.getString("records"));
         // }
 
         return user;
@@ -51,16 +51,17 @@ public class UserManager {
         ResultSet rs;
         if(userID < 0)
             throw new TextFormatException("userID is null");
-        SQLCommand  = " select * from " + tableName + "where userID = " + userID;
+        SQLCommand  = " select * from " + tableName + " where userID = " + userID;
         rs=du.executeQuery(SQLCommand);
-        while(rs.next()){
-            user.setUserName(rs.getString("userName"));
-            user.setNickName(rs.getString("nickName"));
-            user.setPasswd(rs.getString("passwd"));
-            user.setOtherInfo(rs.getInt("otherInfo"));
-            user.setPlans(rs.getString("plans"));
-            user.setRecords(rs.getString("records"));
-        }
+        //while(rs.next()){
+        rs.next();
+        user.setUserName(rs.getString("userName"));
+        user.setNickName(rs.getString("nickName"));
+        user.setPasswd(rs.getString("passwd"));
+        user.setOtherInfo(rs.getInt("otherInfo"));
+        user.setPlans(rs.getString("plans"));
+        user.setRecords(rs.getString("records"));
+        //}
 
         return user;
     }
@@ -69,7 +70,7 @@ public class UserManager {
         String SQLCommand = null;
         if(userName == null)
             throw new TextFormatException("userName is null");
-        SQLCommand  = " delete from " + tableName + "where userName = '" + userName + "'";
+        SQLCommand  = " delete from " + tableName + " where userName = '" + userName + "'";
         du.executeUpdate(SQLCommand);
 
     }
@@ -78,7 +79,7 @@ public class UserManager {
         String SQLCommand = null;
         if(userID < 0)
             throw new TextFormatException("userID is null");
-        SQLCommand  = " delete from " + tableName + "where userID = " + userID;
+        SQLCommand  = " delete from " + tableName + " where userID = " + userID;
         du.executeUpdate(SQLCommand);
 
     }
