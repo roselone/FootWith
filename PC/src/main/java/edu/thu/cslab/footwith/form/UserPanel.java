@@ -1,7 +1,13 @@
 package edu.thu.cslab.footwith.form;
 
+import edu.thu.cslab.footwith.server.TextFormatException;
+import edu.thu.cslab.footwith.server.User;
+
 import javax.swing.*;
+import javax.xml.crypto.Data;
 import java.awt.*;
+import java.text.DateFormat;
+import java.util.Date;
 
 /**
  * Created with IntelliJ IDEA.
@@ -12,6 +18,7 @@ import java.awt.*;
  */
 public class UserPanel extends JPanel {
 
+    public static   User user = new User();
     private JLabel userInfo = new JLabel();
     private JLabel userLoginTime = new JLabel();
 
@@ -19,9 +26,12 @@ public class UserPanel extends JPanel {
 
         initUserPanel();
         this.setSize(100,100);
-        this.setVisible(true);
+      //  this.setVisible(true);
     }
-
+//    void setUserInfo(String userName,String pwd) throws TextFormatException {
+//        user.setPasswd(userName);
+//        user.setUserName(pwd);
+//    }
     private void initUserPanel() {
 
         this.setLayout(new BorderLayout());
@@ -45,8 +55,9 @@ public class UserPanel extends JPanel {
 
     }
         public void  setUserInfo(String userInfo_1,String loginTime_1) {
-            userInfo.setText(userInfo_1);
-            userLoginTime.setText(loginTime_1);
-        }
+        userInfo.setText(user.getUserName());
+        userLoginTime.setText(new Date().toString());
+
+    }
 
 }

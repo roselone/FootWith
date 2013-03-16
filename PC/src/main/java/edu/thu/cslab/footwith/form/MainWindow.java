@@ -22,6 +22,7 @@ public class MainWindow {
 
        private SitePanel sitePanel = new SitePanel();
        private  PlanPanel  PlanPanel = new PlanPanel(); // test whether it get the data
+       private  RecordPanel recordPanle = new RecordPanel();
 
 //       private JMenu   mainMemu = new JMenu();
 //       private JPanel rightPanel = new JPanel();
@@ -49,7 +50,7 @@ public class MainWindow {
         panel_1.setDividerSize(5);
 
         JSplitPane leftJsp = new JSplitPane(JSplitPane.VERTICAL_SPLIT);          //vertical
-        leftJsp.setDividerLocation(200);
+        leftJsp.setDividerLocation(100);
         leftJsp.setDividerSize(5);
         //leftJsp.setOneTouchExpandable(true);
 
@@ -57,20 +58,20 @@ public class MainWindow {
         centerJsp.setDividerLocation(400);
         centerJsp.setDividerSize(5);
         centerJsp.setLeftComponent(sitePanel);
-        centerJsp.setRightComponent(b1);
+        centerJsp.setRightComponent(recordPanle);
 
-        JSplitPane rightJsp = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);            //horizontal
-        centerJsp.setDividerLocation(400);
-        centerJsp.setDividerSize(5);
+      //  JSplitPane rightJsp = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);            //horizontal
+      //  centerJsp.setDividerLocation(400);
+       // centerJsp.setDividerSize(5);
         
 
         panel_1.setLeftComponent(leftJsp);
-        panel_1.setRightComponent(rightJsp);
+        panel_1.setRightComponent(centerJsp);
 
-        rightJsp.setLeftComponent(centerJsp);
-        rightJsp.setRightComponent(b2);
-        rightJsp.setDividerLocation(400);
-        rightJsp.setDividerSize(5);
+     //   rightJsp.setLeftComponent(centerJsp);
+     //   rightJsp.setRightComponent(new JPanel());
+      //  rightJsp.setDividerLocation(400);
+      //  rightJsp.setDividerSize(5);
 
         leftJsp.setLeftComponent(userPanel);
         leftJsp.setRightComponent(PlanPanel); // test
@@ -83,7 +84,10 @@ public class MainWindow {
 
     }
     public static void main(String[] args){
-        new MainWindow();
+       try {
+           new MainWindow();
+    } catch (Exception e) {
+           e.printStackTrace();
+       }
     }
-
 }
