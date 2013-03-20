@@ -20,8 +20,8 @@ import java.util.Vector;
 */
 public class PlanPanel extends JPanel {
 
-   private ViewTable viewTable = new ViewTable();
-        private  JTable table = new JTable();
+    private ViewTable viewTable = new ViewTable();
+    private  JTable table = new JTable();
     public  PlanPanel() {
 
         this.setLayout(new BorderLayout());

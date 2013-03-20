@@ -1,7 +1,8 @@
 package edu.thu.cslab.footwith.form;
 
+import edu.thu.cslab.footwith.server.Mediator;
 import edu.thu.cslab.footwith.server.TextFormatException;
-import edu.thu.cslab.footwith.server.fromFormToManager;
+
 import org.json.JSONException;
 
 import javax.swing.*;
@@ -69,7 +70,7 @@ public class InsertSiteForm extends JFrame {
                  isRate.setText("");
                 int response = JOptionPane.showConfirmDialog(null,"确定？","are you sure?",JOptionPane.YES_NO_CANCEL_OPTION);
                  if(response == JOptionPane.YES_OPTION){
-                     fromFormToManager pm=new fromFormToManager();
+                     Mediator pm=new Mediator();
                      try{
                          pm.addSiteFromForm(siteName.getText(), siteRate.getText(),siteLocation.getText());
                      } catch (SQLException e1) {
