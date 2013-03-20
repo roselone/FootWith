@@ -2,6 +2,7 @@ package edu.thu.cslab.footwith.server;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Vector;
 
 /**
  * Created with IntelliJ IDEA.
@@ -62,6 +63,40 @@ public class SiteManager {
         site.setPicture(rs.getInt("picture"));
         //}
         return site;
+    }
+    public Vector<Site> selectSite(Site site) throws TextFormatException, SQLException {
+        DBUtil du = DBUtil.getDBUtil();
+        String SQLCommand = null;
+        ResultSet rs;
+        Vector <Site> sites=new Vector<Site>();
+        boolean isAnd = false;
+        if(site==null)
+            throw new TextFormatException();
+        SQLCommand  = " select * from " + tableName + " where ";
+        if(site.getLocation() != null){
+            if(isAnd)
+                SQLCommand += " and ";
+            SQLCommand += " location = '" + site.getLocation() + "'";
+            isAnd = true;
+        }
+        if(site.getBrief() != null){
+            if(isAnd)
+                SQLCommand += " and ";
+            SQLCommand += " brief = '" + site.getBrief() + "'";
+            isAnd = true;
+
+        }
+        if(site.getRate()!=-1){
+            if(isAnd)
+                SQLCommand += " and ";
+            SQLCommand += " rate = " + site.getRate();
+            isAnd = true;
+        }
+        rs=du.executeQuery(SQLCommand);
+        while (rs.next()){
+             sites.add(new Site(rs.getInt("siteID"), rs.getString("siteName"), rs.getInt("rate"),rs.getString("location"), rs.getString("brief"), rs.getInt("picture")));
+        }
+        return sites;
     }
     public void deleteSite(String siteName) throws TextFormatException, SQLException {
         Site site=new Site();
