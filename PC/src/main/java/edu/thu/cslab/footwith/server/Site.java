@@ -27,6 +27,15 @@ public class Site {
 
     }
 
+    public Site(int siteID, String siteName, int rate, String location, String brief, int picture) {
+        this.siteID = siteID;
+        this.siteName = siteName;
+        this.rate = rate;
+        this.location = location;
+        this.brief = brief;
+        this.picture = picture;
+    }
+
     public int getSiteID() {
         return siteID;
     }
