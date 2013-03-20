@@ -89,14 +89,15 @@ public class SiteSearch  extends JFrame {
                   }
               }
           });
-
+           System.out.println(cityChooser);
          Vector<String> siteListData = dataSource.selectSiteNameWithLocation(cityChooser);
+         System.out.println("dddddd"+siteListData.size());
     //    final ListModel  modeList = new DataMode(city);          // it will be better when data is show by city
         modeList = new DataMode(siteListData);
         cityList = new JList(modeList);
         JScrollPane cityShowPane = new JScrollPane(cityList);
         this.add(cityShowPane, BorderLayout.CENTER);
-        cityList.setBorder(BorderFactory.createTitledBorder("城市"));
+        cityList.setBorder(BorderFactory.createTitledBorder("城市"));cityList.setBorder(BorderFactory.createTitledBorder("城市"));
 
         this.add(choicePane,BorderLayout.SOUTH);
         choicePane.setLayout(new GridLayout(2,2));
