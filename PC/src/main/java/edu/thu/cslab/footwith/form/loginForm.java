@@ -7,8 +7,9 @@ import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 
+import edu.thu.cslab.footwith.server.Mediator;
 import edu.thu.cslab.footwith.server.TextFormatException;
-import edu.thu.cslab.footwith.server.fromFormToManager;
+
 
 /**
  * Created with IntelliJ IDEA.
@@ -77,7 +78,7 @@ public class loginForm implements  ActionListener{
                 // Validation matchExample = new Validation();
                 // mathExample.valida(uname, pwd);
                 try {
-                    if(fromFormToManager.idValid(uname, pwd)){
+                    if(Mediator.idValid(uname, pwd)){
 
                          //UserPanel.user.setPasswd(pwd);
                          //UserPanel.user.setUserName(uname);
