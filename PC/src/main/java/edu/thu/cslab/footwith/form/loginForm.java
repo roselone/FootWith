@@ -78,7 +78,7 @@ public class loginForm implements  ActionListener{
                 // Validation matchExample = new Validation();
                 // mathExample.valida(uname, pwd);
                 try {
-                    if(Mediator.idValid(uname, pwd)){
+                    if(Mediator.isValid(uname, pwd)){
 
                          //UserPanel.user.setPasswd(pwd);
                          //UserPanel.user.setUserName(uname);

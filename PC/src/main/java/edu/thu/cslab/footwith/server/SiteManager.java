@@ -18,7 +18,7 @@ public class SiteManager {
         String SQLCommand = null;
         DBUtil du = DBUtil.getDBUtil();
         SQLCommand = " insert into " + tableName + " ( siteName, rate, location, brief, picture) " +
-                " values ( '"+ site.getSiteName()+"' , "+ site.getRate()+ " ,' "+ site.getLocation()+ "' , " + site.getBrief()+ " , " + site.getPicture() + " ) ";
+                " values ( '"+ site.getSiteName()+"' , "+ site.getRate()+ " ,'"+ site.getLocation()+ "' , " + site.getBrief()+ " , " + site.getPicture() + " ) ";
         du.executeUpdate(SQLCommand);
     }
     public Site seleteSite(String siteName) throws TextFormatException, SQLException {
@@ -92,6 +92,7 @@ public class SiteManager {
             SQLCommand += " rate = " + site.getRate();
             isAnd = true;
         }
+        System.out.println(SQLCommand);
         rs=du.executeQuery(SQLCommand);
         while (rs.next()){
              sites.add(new Site(rs.getInt("siteID"), rs.getString("siteName"), rs.getInt("rate"),rs.getString("location"), rs.getString("brief"), rs.getInt("picture")));
