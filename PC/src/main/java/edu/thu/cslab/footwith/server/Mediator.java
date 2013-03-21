@@ -42,7 +42,7 @@ public class Mediator {
         Site site = new Site(siteName, location ,int_rate);
         sm.addSite(site);
     }
-    public static boolean idValid(String username,String passwd) throws TextFormatException, SQLException, NoSuchAlgorithmException, UnsupportedEncodingException {
+    public static boolean isValid(String username, String passwd) throws TextFormatException, SQLException, NoSuchAlgorithmException, UnsupportedEncodingException {
         User user=UserManager.selectUser(username);
         if (user==null) return false;
         System.out.println(user.getUserID());
@@ -93,7 +93,7 @@ public class Mediator {
         Site site = new Site();
         SiteManager sm = new SiteManager();
         site.setLocation(location);
-        Vector <String> siteNames = new Vector<String>();
+        Vector<String> siteNames = new Vector<String>();
         Vector<Site> sites = sm.selectSite(site);
         for(int i=0;i<sites.size();i++){
             siteNames.add(sites.get(i).getSiteName());
