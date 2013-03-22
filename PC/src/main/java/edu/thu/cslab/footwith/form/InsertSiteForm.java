@@ -73,6 +73,7 @@ public class InsertSiteForm extends JFrame {
                      Mediator pm=new Mediator();
                      try{
                          pm.addSiteFromForm(siteName.getText(), siteRate.getText(),siteLocation.getText());
+                         JOptionPane.showMessageDialog(null,"添加成功");
                      } catch (SQLException e1) {
 
                          isName.setText("信息有误");

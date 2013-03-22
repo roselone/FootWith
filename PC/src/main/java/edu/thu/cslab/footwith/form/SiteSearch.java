@@ -21,7 +21,7 @@ import java.util.Vector;
 public class SiteSearch  extends JFrame {
   // public static String cityInfo = "111" ;
     JList cityList = null;
-    JScrollPane cityShowPane = null;
+    JScrollPane cityShowPane = new JScrollPane();
     JPanel titlePane = new JPanel();
     JTextField choice = new JTextField();
     JPanel choicePane = new JPanel();
@@ -30,6 +30,7 @@ public class SiteSearch  extends JFrame {
     String cityChooser = "";
     ListModel modeList;
     Vector<String> city;
+   // JScrollPane cityShowPane = new JScrollPane();
     public JTextField getChoice() {
         return choice;
     }
@@ -78,6 +79,8 @@ public class SiteSearch  extends JFrame {
            cityCombBox.setBorder(BorderFactory.createTitledBorder("想去的省市"));
        //    this.add(titleLabel,BorderLayout.NORTH);
          this.add(cityCombBox,BorderLayout.NORTH);
+             //cityShowPane.();
+         this.add(cityShowPane, BorderLayout.CENTER);
           cityCombBox.addItemListener(new ItemListener() {
               @Override
               public void itemStateChanged(ItemEvent e) {
@@ -85,20 +88,72 @@ public class SiteSearch  extends JFrame {
                     //  choice.setText(choice.getText()+ e.getItem().toString());
                   //    Global.cityInfo = e.getItem().toString();
                       cityChooser = e.getItem().toString();
-                   //   System.out.println(cityInfo);
+                    System.out.println(cityChooser);
+                      Vector<String> siteListData = null;
+                      try {
+                          siteListData = dataSource.selectSiteNameWithLocation(cityChooser);
+                      } catch (TextFormatException e1) {
+                          e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                      } catch (SQLException e1) {
+                          e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                      }
+                 //     System.out.println("dddddd"+siteListData.size());
+                      //    final ListModel  modeList = new DataMode(city);          // it will be better when data is show by city
+                      modeList = new DataMode(siteListData);
+                      cityList = new JList(modeList);
+                      cityShowPane.add(cityList);
+//                      JScrollPane cityShowPane = new JScrollPane(cityList);
+//                      this.add(cityShowPane, BorderLayout.CENTER);
+                      cityList.setBorder(BorderFactory.createTitledBorder("城市"));cityList.setBorder(BorderFactory.createTitledBorder("城市"));
+
+
+
+                      // event   handing
+                      //  myListSelectionListener   myListSelectionList = new myListSelectionListener();
+
+                      //  ButtonLister siteSearch_btnSubmit = new ButtonLister();
+                      cityList.addListSelectionListener(new ListSelectionListener() {
+                          @Override
+                          public void valueChanged(ListSelectionEvent e) {
+                              int tmp = 0;
+                              String choiceStr = new String();
+                              int[] index = cityList.getSelectedIndices();
+                              if(index.length == 0)  {
+                                  return;
+                              }
+                              for(int i = 0; i< index.length;i++){
+                                  tmp = index[i];
+                                  if(i != index.length -1) {
+                                      choiceStr = choiceStr + city.get(tmp) + "," ;
+                                  }else{
+                                      choiceStr = choiceStr + city.get(tmp);
+                                  }
+                                  Global.cityInfo = choiceStr;
+                              }
+
+                              //   setChoice(new JTextField(choice));
+
+                              choice.setText(choiceStr);
+
+                          }
+                      });
+                      cityList.addMouseListener(new MouseAdapter() {
+                          @Override
+                          public void mouseClicked(MouseEvent e) {
+                              int index;
+                              if(e.getSource()==cityList){
+                                  if(e.getClickCount() == 2){
+                                      index = cityList.locationToIndex(e.getPoint());
+                                      String tmp =(String)modeList.getElementAt(index);
+                                      new SearchPlanForm();
+                                  }
+                              }
+                          }
+                      });
                   }
               }
           });
-           System.out.println(cityChooser);
-         Vector<String> siteListData = dataSource.selectSiteNameWithLocation(cityChooser);
-         System.out.println("dddddd"+siteListData.size());
-    //    final ListModel  modeList = new DataMode(city);          // it will be better when data is show by city
-        modeList = new DataMode(siteListData);
-        cityList = new JList(modeList);
-        JScrollPane cityShowPane = new JScrollPane(cityList);
-        this.add(cityShowPane, BorderLayout.CENTER);
-        cityList.setBorder(BorderFactory.createTitledBorder("城市"));cityList.setBorder(BorderFactory.createTitledBorder("城市"));
-
+         //System.out.println(cityChooser);
         this.add(choicePane,BorderLayout.SOUTH);
         choicePane.setLayout(new GridLayout(2,2));
         choicePane.add(new JLabel("你的选择是:"));
@@ -107,49 +162,6 @@ public class SiteSearch  extends JFrame {
         final JButton btnCancel = new JButton("取消");
         choicePane.add(btnSubmit);
         choicePane.add(btnCancel);
-
-        // event   handing
-     //  myListSelectionListener   myListSelectionList = new myListSelectionListener();
-
-      //  ButtonLister siteSearch_btnSubmit = new ButtonLister();
-        cityList.addListSelectionListener(new ListSelectionListener() {
-            @Override
-            public void valueChanged(ListSelectionEvent e) {
-                int tmp = 0;
-                String choiceStr = new String();
-                int[] index = cityList.getSelectedIndices();
-                if(index.length == 0)  {
-                    return;
-                }
-                for(int i = 0; i< index.length;i++){
-                       tmp = index[i];
-                      if(i != index.length -1) {
-                          choiceStr = choiceStr + city.get(tmp) + "," ;
-                      }else{
-                          choiceStr = choiceStr + city.get(tmp);
-            }
-                    Global.cityInfo = choiceStr;
-        }
-
-             //   setChoice(new JTextField(choice));
-
-                       choice.setText(choiceStr);
-
-        }
-        });
-        cityList.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                int index;
-                if(e.getSource()==cityList){
-                      if(e.getClickCount() == 2){
-                          index = cityList.locationToIndex(e.getPoint());
-                          String tmp =(String)modeList.getElementAt(index);
-                          new SearchPlanForm();
-                      }
-                }
-            }
-        });
         btnSubmit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -212,9 +224,9 @@ public class SiteSearch  extends JFrame {
      }
  }
 class DataMode extends AbstractListModel {
-     private  Vector dataV = null;
+     private  Vector<String> dataV = null;
 
-    DataMode(Vector dataV) {
+    DataMode(Vector<String> dataV) {
         this.dataV = dataV;
     }
 
