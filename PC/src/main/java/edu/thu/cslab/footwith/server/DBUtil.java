@@ -1,6 +1,7 @@
 package edu.thu.cslab.footwith.server;
 
 import java.sql.*;
+import java.util.Properties;
 
 /**
  * Created with IntelliJ IDEA.
@@ -13,7 +14,8 @@ public class DBUtil {
     private DBUtil() {
         try{
             Class.forName(driver);
-            conn = DriverManager.getConnection(url, user, passwd);
+
+            conn = DriverManager.getConnection(url, user,passwd);
             if(!conn.isClosed()){
                 System.out.println("Succeeded connecting to the DataBase!");
             }else{
@@ -54,7 +56,7 @@ public class DBUtil {
         return result;
     }
     private final String driver="com.mysql.jdbc.Driver";  //jdbc Driver
-    private final String url = "jdbc:mysql://127.0.0.1:3306/footwith";    //FootWith is the DataBase Name
+    private final String url = "jdbc:mysql://127.0.0.1:3306/footwith?useUnicode=true&characterEncoding=UTF-8";    //FootWith is the DataBase Name
     private final String user = "footwith";   //DataBase user to connect to DataBase
     private final String passwd = "123"; //DataBase user password
     private Connection conn=null;

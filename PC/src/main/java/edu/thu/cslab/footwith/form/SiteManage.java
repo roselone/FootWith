@@ -1,6 +1,7 @@
 package edu.thu.cslab.footwith.form;
 
-import edu.thu.cslab.footwith.server.fromFormToManager;
+import edu.thu.cslab.footwith.server.Mediator;
+
 
 import javax.swing.*;
 import java.awt.*;
@@ -69,7 +70,7 @@ public class SiteManage extends JFrame  {
 
                         int response = JOptionPane.showConfirmDialog(null,"确定？","are you sure?",JOptionPane.YES_NO_CANCEL_OPTION);
                         if(response == JOptionPane.YES_OPTION){
-                            fromFormToManager pm=new fromFormToManager();
+                            Mediator pm=new Mediator();
                             try{
                                 pm.addSiteFromForm(siteName.getText(), siteRate.getText(),siteLocation.getText());
                             } catch (SQLException e1) {
@@ -90,7 +91,7 @@ public class SiteManage extends JFrame  {
                 public void actionPerformed(ActionEvent e) {
                     int response = JOptionPane.showConfirmDialog(null,"确定？","are you sure?",JOptionPane.YES_NO_CANCEL_OPTION);
                     if(response == JOptionPane.YES_OPTION){
-                        fromFormToManager pm=new fromFormToManager();
+                        Mediator pm=new Mediator();
                         try{
                             pm.addSiteFromForm(siteName.getText(), siteRate.getText(),siteLocation.getText());
                         } catch (SQLException e1) {

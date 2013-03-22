@@ -28,7 +28,7 @@ public class UserTest {
 
     @Test
     public void validTest() throws TextFormatException, NoSuchAlgorithmException, SQLException, UnsupportedEncodingException {
-        Boolean rs= Mediator.idValid("xiao", "1234");
+        Boolean rs= Mediator.isValid("xiao", "1234");
         System.out.println(rs);
     }
 
