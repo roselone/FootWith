@@ -89,7 +89,7 @@ public class Mediator {
         allLocations.add("台湾省");
         return allLocations;
     }
-    public  Vector<String>selectSiteNameWithLocation(String location) throws TextFormatException, SQLException {
+    public  Vector<String> selectSiteNameWithLocation(String location) throws TextFormatException, SQLException {
         Site site = new Site();
         SiteManager sm = new SiteManager();
         site.setLocation(location);
