@@ -68,6 +68,7 @@ public class loginForm implements  ActionListener{
     }
 
     public static void main(String[] args){
+        Global.username = "";
         new loginForm();
     }
 
@@ -79,7 +80,7 @@ public class loginForm implements  ActionListener{
                 // mathExample.valida(uname, pwd);
                 try {
                     if(Mediator.isValid(uname, pwd)){
-
+                         Global.username = uname;
                          //UserPanel.user.setPasswd(pwd);
                          //UserPanel.user.setUserName(uname);
                          new MainWindow();

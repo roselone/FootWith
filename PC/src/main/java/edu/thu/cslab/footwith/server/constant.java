@@ -8,5 +8,5 @@ package edu.thu.cslab.footwith.server;
  * To change this template use File | Settings | File Templates.
  */
 public class constant {
-    public final String PROJECT_PATH = "/Users/roselone/git/FootWith/";
+    public final String PROJECT_PATH = "C:\\Users\\wangjiayu\\Documents\\GitHub\\FootWith\\";
 }

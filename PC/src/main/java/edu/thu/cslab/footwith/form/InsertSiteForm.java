@@ -6,6 +6,7 @@ import edu.thu.cslab.footwith.server.TextFormatException;
 import org.json.JSONException;
 
 import javax.swing.*;
+import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -19,71 +20,96 @@ import java.sql.SQLException;
  * To change this template use File | Settings | File Templates.
  */
 public class InsertSiteForm extends JFrame {
-    private  JTextField siteName = new JTextField();
-    private  JTextField siteRate = new JTextField();
-    private  JTextField siteLocation =new JTextField();
-    
+    JTextField siteName;
+    Mediator pm=new Mediator();
     public InsertSiteForm(){
 
         this.setTitle("增加景点");
         init();
-        this.setBounds(200,200,250,200);
+        setBounds(100,100,400,200);
         this.setVisible(true);
     }
 
     private void init() {
 
-        JLabel siteNameLb = new JLabel("景点名称");
-        final JLabel isName = new JLabel();
-        JLabel siteRateLb = new JLabel("景点级别");
-        final JLabel isRate = new JLabel();
-        JLabel siteLocationLb = new JLabel("景点位置");
-        JLabel isLocation = new JLabel();
+        BorderLayout borderLayout = new BorderLayout();
+        getContentPane().setLayout(borderLayout);
+         borderLayout.setVgap(5);
 
-        this.setLayout(new GridLayout(5,3));
-        this.add(siteNameLb);
-        this.add(siteName);
-        this.add(isName);
+        JPanel  topPanel = new JPanel();
+        this.add(topPanel,"North");
 
-        this.add(siteRateLb);
-        this.add(siteRate);
-        this.add(isRate);
-
-        this.add(siteLocationLb);
-        this.add(siteLocation);
-        this.add(isLocation);
+         JPanel mainPanel = new JPanel();
+         GridLayout gridLayout = new GridLayout(3,4);
+         gridLayout.setHgap(5);
+        gridLayout.setVgap(5);
+        mainPanel.setBorder(new LineBorder(SystemColor.activeCaptionBorder,4,false));
+        mainPanel.setLayout(gridLayout);
 
 
-        this.add(new JLabel());
-        this.add(new JLabel());
-        this.add(new JLabel());
+        final JLabel siteNameLabel = new JLabel("景点名称");
+        siteName = new JTextField();
+        mainPanel.add(siteNameLabel);
+        mainPanel.add(siteName);
 
-        JButton btnAdd = new JButton("增加");
+        final  JLabel siteRateLabel = new JLabel("景点级别");
+        final  JTextField siteRate = new JTextField();
+        mainPanel.add(siteRateLabel);
+        mainPanel.add(siteRate);
+
+        final  JLabel siteLocationLable = new JLabel("景点位置");
+        final JTextField siteLocation =new JTextField();
+        mainPanel.add(siteLocationLable);
+        mainPanel.add(siteLocation);
+
+        final JLabel siteBriefLabel = new JLabel("介绍");
+        mainPanel.add(siteBriefLabel);
+        final JTextField siteBrief = new JTextField();
+        mainPanel.add(siteBrief);
+
+        final JLabel sitePictureLabel = new JLabel("景点图片");
+        mainPanel.add(sitePictureLabel);
+        //  final Image siteImage = new Im
+        final  JTextField sitePicture = new JTextField();
+        mainPanel.add(sitePicture);
+
+        getContentPane().add(mainPanel,"Center");
+
+
+
+        final  JPanel bottomPanel = new JPanel();
+        bottomPanel.setBorder(new LineBorder(SystemColor.activeCaptionBorder,1,false));
+        getContentPane().add(bottomPanel,"South") ;
+        final  FlowLayout flowLayout = new FlowLayout();
+        flowLayout.setVgap(2);
+        flowLayout.setHgap(30);
+        flowLayout.setAlignment(FlowLayout.RIGHT);
+        bottomPanel.setLayout(flowLayout);
+        final JButton btnAdd = new JButton("增加");
         final JButton btnReset = new JButton("重置");
-        this.add(btnAdd);
-        this.add(btnReset);
+        bottomPanel.add(btnAdd);
+        bottomPanel.add(btnReset);
+
 
          btnAdd.addActionListener(new ActionListener() {
+
              @Override
              public void actionPerformed(ActionEvent e) {
-                 isName.setText("");
-                 isRate.setText("");
-                int response = JOptionPane.showConfirmDialog(null,"确定？","are you sure?",JOptionPane.YES_NO_CANCEL_OPTION);
-                 if(response == JOptionPane.YES_OPTION){
-                     Mediator pm=new Mediator();
-                     try{
-                         pm.addSiteFromForm(siteName.getText(), siteRate.getText(),siteLocation.getText());
-                         JOptionPane.showMessageDialog(null,"添加成功");
-                     } catch (SQLException e1) {
-
-                         isName.setText("信息有误");
-                         isRate.setText("请重新输入");
-
-                     }
-
-                 }else {
-                     return;
-                 }
+                               if(siteName.getText() == null || siteName.getText().length() == 0) {
+                                   JOptionPane.showMessageDialog(null,"景点名称不能为空");
+                               }else if(siteRate.getText() == null || siteRate.getText().length() == 0) {
+                                   JOptionPane.showMessageDialog(null,"景点级别不能为空");
+                               }else if(siteLocation.getText() == null || siteLocation.getText().length() == 0) {
+                                   JOptionPane.showMessageDialog(null,"景点位置不能为空");
+                               }else {
+                                   try {
+                                    //   pm.addSiteFromForm(siteName.getText(), siteRate.getText(),siteLocation.getText(),siteBrief.getText(),sitePicture.getText());
+                                       pm.addSiteFromForm(siteName.getText(), siteRate.getText(),siteLocation.getText());
+                                   } catch (SQLException e1) {
+                                       e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                                   }
+                                   JOptionPane.showMessageDialog(null,"添加成功");
+             }
              }
          });
         btnReset.addActionListener(new ActionListener() {
@@ -95,32 +121,8 @@ public class InsertSiteForm extends JFrame {
             }
         });
 
-
     }
 
-    public JTextField getSiteName() {
-        return siteName;
-    }
-
-    public void setSiteName(JTextField siteName) {
-        this.siteName = siteName;
-    }
-
-    public JTextField getSiteRate() {
-        return siteRate;
-    }
-
-    public void setSiteRate(JTextField siteRate) {
-        this.siteRate = siteRate;
-    }
-
-    public JTextField getSiteLocation() {
-        return siteLocation;
-    }
-
-    public void setSiteLocation(JTextField siteLocation) {
-        this.siteLocation = siteLocation;
-    }
 
    
 }
