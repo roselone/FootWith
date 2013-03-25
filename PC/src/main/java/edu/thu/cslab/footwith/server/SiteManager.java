@@ -21,6 +21,22 @@ public class SiteManager {
                 " values ( '"+ site.getSiteName()+"' , "+ site.getRate()+ " ,'"+ site.getLocation()+ "' , " + site.getBrief()+ " , " + site.getPicture() + " ) ";
         du.executeUpdate(SQLCommand);
     }
+
+    /**
+     * get all site information
+     * @param
+     * @return site information vector
+     * @throws SQLException
+     */
+    public Vector<Site> getAllSite() throws SQLException {
+        Vector<Site> sites=new Vector<Site>();
+        String SQLCommand="select * from "+tableName+";";
+        ResultSet rs=DBUtil.getDBUtil().executeQuery(SQLCommand);
+        while(rs.next()){
+            sites.add(new Site(rs.getInt("siteID"), rs.getString("siteName"), rs.getInt("rate"),rs.getString("location"), rs.getString("brief"), rs.getInt("picture")));
+        }
+        return sites;
+    }
     public Site seleteSite(String siteName) throws TextFormatException, SQLException {
         Site site;
         DBUtil du = DBUtil.getDBUtil();
