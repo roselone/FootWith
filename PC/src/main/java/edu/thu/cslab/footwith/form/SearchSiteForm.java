@@ -28,15 +28,15 @@ public class SearchSiteForm extends JFrame {
         jsp.setDividerLocation(150);
         jsp.setDividerSize(5);
 
-        JPanel searchPanel = new JPanel();
+        JPanel mainPanel = new JPanel();
         JLabel siteNameLb = new JLabel("请输入景点名字");
         JButton btnSearch = new JButton("查询");
-        searchPanel.setLayout(new FlowLayout());
-        searchPanel.add(siteNameLb);
-        searchPanel.add(siteName);
-        searchPanel.add(btnSearch);
+        mainPanel.setLayout(new FlowLayout());
+        mainPanel.add(siteNameLb);
+        mainPanel.add(siteName);
+        mainPanel.add(btnSearch);
 
-        jsp.setLeftComponent(searchPanel);
+        jsp.setLeftComponent(mainPanel);
        // jsp.setRightComponent(sitePanel);
 
         this.add(jsp);
