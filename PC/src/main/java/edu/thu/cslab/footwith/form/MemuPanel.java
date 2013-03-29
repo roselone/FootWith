@@ -1,7 +1,10 @@
 package edu.thu.cslab.footwith.form;
+import edu.thu.cslab.footwith.server.TextFormatException;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
 /**
  * Created with IntelliJ IDEA.
@@ -29,18 +32,23 @@ public class MemuPanel extends JRootPane {
       //  JMenuItem jmi1 = new JMenuItem("用户信息");
         JMenuItem jmi2 = new JMenuItem("用户管理");
         JMenuItem jmi3 = new JMenuItem("增加景点");
+        JMenuItem jmi31 = new JMenuItem("景点修改");
         JMenuItem jmi4 = new JMenuItem("景点查询");
+
         JMenuItem jmi5 = new JMenuItem("定制计划");
         JMenuItem jmi6 = new JMenuItem("计划查询");
         JMenuItem jmi7  = new JMenuItem("行程查询");
+        JMenuItem jmi8 = new JMenuItem("我的计划");
 
        // menu1.add(jmi1);
         menu1.add(jmi2);
         menu2.add(jmi3) ;
+        menu2.add(jmi31);
         menu2.add(jmi4);
         menu3.add(jmi5);
         menu3.add(jmi6);
         menu3.add(jmi7);
+        menu3.add(jmi8);
 
         jmb.add(menu1);
         jmb.add(menu2);
@@ -52,10 +60,12 @@ public class MemuPanel extends JRootPane {
         //jmi1.addActionListener(myMenuListener);
         jmi2.addActionListener(myMenuListener);
         jmi3.addActionListener(myMenuListener);
+        jmi31.addActionListener((myMenuListener));
         jmi4.addActionListener(myMenuListener);
         jmi5.addActionListener(myMenuListener);
         jmi6.addActionListener(myMenuListener);
         jmi7.addActionListener(myMenuListener);
+        jmi8.addActionListener(myMenuListener);
 
         this.setJMenuBar(jmb);
         this.setVisible(true);
@@ -80,7 +90,13 @@ public class MemuPanel extends JRootPane {
                 }
                 System.exit(0);
             }if(cmd.equals("用户管理")){
-                new UserInfo("wjy");
+                try {
+                    new UserInfoFrame();
+                } catch (TextFormatException e1) {
+                    e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                } catch (SQLException e1) {
+                    e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                }
             } if(cmd.equals("景点管理")){
 
                 new SiteManage();
@@ -92,11 +108,15 @@ public class MemuPanel extends JRootPane {
                 new InsertSiteForm();
             }  if(cmd.equals("景点查询")){
                 new SearchSiteForm();
-            }   if(cmd.equals("计划查询")){
+            } if(cmd.equals("景点修改")) {
+                new SiteModiAndDelFrame();
+            }
+            if(cmd.equals("计划查询")){
                 new SearchPlanForm();
             }   if(cmd.equals("行程查询")){
-               // new SearchRecordForm();
-                new SiteSearch();
+              new SearchRecordForm();
+            }  if(cmd.equals("我的计划")){
+                new PlanDelandUpdateFrame();
             }
 
         }

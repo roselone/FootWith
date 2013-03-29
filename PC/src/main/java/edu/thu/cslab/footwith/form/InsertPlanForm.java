@@ -6,10 +6,18 @@ import edu.thu.cslab.footwith.server.TextFormatException;
 import org.json.JSONException;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Vector;
+import java.util.logging.SimpleFormatter;
 
 /**
  * Created with IntelliJ IDEA.
@@ -26,143 +34,132 @@ public class InsertPlanForm extends JFrame {
     private  JTextField organizer = new JTextField();
     private  JTextField numbers = new JTextField();
 
-    public JTextField getSiteName() {
-        return siteName;
-    }
-
-    public void setSiteName(JTextField siteName) {
-        this.siteName = siteName;
-    }
-
-    public JTextField getStartTime() {
-        return startTime;
-    }
-
-    public void setStartTime(JTextField startTime) {
-        this.startTime = startTime;
-    }
-
-    public JTextField getEndTime() {
-        return endTime;
-    }
-
-    public void setEndTime(JTextField endTime) {
-        this.endTime = endTime;
-    }
-
-    public JTextField getOrganizer() {
-        return organizer;
-    }
-
-    public void setOrganizer(JTextField organizer) {
-        this.organizer = organizer;
-    }
-
-    public JTextField getNumbers() {
-        return numbers;
-    }
-
-    public void setNumbers(JTextField numbers) {
-        this.numbers = numbers;
-    }
-
     public  InsertPlanForm() {
         this.setBounds(200,200,300,200);
         init();
+        this.setTitle("订制行程");
         this.setVisible(true);
     }
 
     private void init() {
-       this.setTitle("定制计划");
-       JPanel title = new JPanel();
-       final JPanel data = new JPanel();
-       this.setLayout(new BorderLayout());
-       this.add(title,"North");
-       this.add(data,"Center");
 
-       data.setLayout(new GridLayout(7, 3));
-       JLabel sceneNameLb = new JLabel("景点名");
-       final JLabel isSceneOk = new JLabel();
-       JLabel startTimeLb = new JLabel("开始时间");
-       final JLabel isStartOk = new JLabel();
-       JLabel endTimeLb = new JLabel("结束时间");
-       JLabel isEndOk = new JLabel();
-       JLabel organizerLb = new JLabel("组织者");
-       JLabel isOrgOk = new JLabel();
-      // JLabel numberLb = new JLabel("参与人数");
-      // JLabel isNumOk = new JLabel();
+        final  BorderLayout borderLayout = new BorderLayout();
+        borderLayout.setVgap(5);
 
-        data.add(sceneNameLb);
-        data.add(siteName);
-        data.add(isSceneOk);
-        data.add(startTimeLb);
-        data.add(startTime);
-        data.add(isStartOk);
-        data.add(endTimeLb);
-        data.add(endTime);
-        data.add(isEndOk);
-        data.add(organizerLb);
-        data.add(organizer);
-        data.add(isOrgOk);
-       // data.add(numberLb);
-      //  data.add(numbers);
-      //  data.add(isNumOk);
+        getContentPane().setLayout(borderLayout);
 
-        data.add(new JLabel());
-        data.add(new JLabel());
-        data.add(new JLabel());
-        JButton btnAdd = new JButton("增加");
+
+        JPanel mainPanel = new JPanel();
+        mainPanel.setBorder(new EmptyBorder(5,10,5,10)); // need to understand
+        final  GridLayout gridLayout = new GridLayout(4,4);
+        gridLayout.setVgap(5);
+        gridLayout.setHgap(5);
+        mainPanel.setLayout(gridLayout);
+        getContentPane().add(mainPanel,"North");
+
+        JLabel organizerLabel = new JLabel("组织者");
+        mainPanel.add(organizerLabel);
+        final JTextField organizer = new JTextField();
+        mainPanel.add(organizer);
+
+        JLabel groupNumMaxLabel = new JLabel("人数");
+        mainPanel.add(groupNumMaxLabel);
+        final JTextField groupNumMax = new JTextField();
+        mainPanel.add(groupNumMax);
+
+        JLabel siteIdLb1 = new JLabel(("具体景点信息"));
+        mainPanel.add(siteIdLb1);
+        final  JTextField siteName1 = new JTextField();
+        mainPanel.add(siteName1);
+
+        JLabel siteIdLb2 = new JLabel("景点2");
+        final  JTextField siteName2 = new JTextField();
+        mainPanel.add(siteIdLb2);
+        mainPanel.add(siteName2);
+
+        JLabel siteIdLb3 = new JLabel("景点3");
+        final  JTextField siteName3 = new JTextField();
+        mainPanel.add(siteIdLb3);
+        mainPanel.add(siteName3);
+
+
+        JLabel siteIdOther = new JLabel("其它景点");
+        final  JTextField siteNameText = new JTextField();
+        siteNameText.setText("请以，间隔");
+        siteNameText.setEnabled(false);
+
+        mainPanel.add(siteIdOther);
+        mainPanel.add(siteNameText);
+
+        JLabel startTimeLb = new JLabel("开始时间");
+        SimpleDateFormat myfmt = new SimpleDateFormat("yyyy-MM-dd");
+        final JFormattedTextField startTime  = new JFormattedTextField(myfmt);
+        startTime.setValue(new java.util.Date());
+        mainPanel.add(startTimeLb);
+        mainPanel.add(startTime);
+
+        JLabel endTimeLb = new JLabel("结束时间");
+        final JFormattedTextField endTime = new JFormattedTextField(myfmt);
+        endTime.setValue(new Date());
+        mainPanel.add(endTimeLb);
+        mainPanel.add(endTime);
+
+
+        final  JPanel bottomPanel = new JPanel();
+        bottomPanel.setBorder(new LineBorder(SystemColor.activeCaptionBorder,1,false));
+        getContentPane().add(bottomPanel,"South") ;
+        final  FlowLayout flowLayout = new FlowLayout();
+        flowLayout.setVgap(2);
+        flowLayout.setHgap(30);
+        flowLayout.setAlignment(FlowLayout.RIGHT);
+        bottomPanel.setLayout(flowLayout);
+        final JButton btnAdd = new JButton("增加");
         final JButton btnReset = new JButton("重置");
-       
-        data.add(btnAdd);
-        data.add(btnReset);
+        bottomPanel.add(btnAdd);
+        bottomPanel.add(btnReset);
 
- //       MyActionActionLister myBtnAddActionLister = new MyActionActionLister();
+        //       MyActionActionLister myBtnAddActionLister = new MyActionActionLister();
 
         btnAdd.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                isSceneOk.setText("");
-                isStartOk.setText("");
-               int response =  JOptionPane.showConfirmDialog(null,"确定提交","are you sure",JOptionPane.YES_NO_OPTION);
-               if(response == JOptionPane.YES_OPTION){
-                   Mediator pm=new Mediator();
-                  try{
-                      pm.addPlanFromForm(siteName.getText(), startTime.getText(),endTime.getText(),organizer.getText());
-                  }catch (TextFormatException e1) {
-                      isSceneOk.setText("信息有误");
-                      isStartOk.setText("请重新输入");
-                      e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-                  } catch (SQLException e1) {
-                      isSceneOk.setText("信息有误");
-                      isStartOk.setText("请重新输入");
-                      e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-                  } catch (JSONException e1) {
-                      isSceneOk.setText("信息有误");
-                      isStartOk.setText("请重新输入");
-                      e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-                  }
+              String  siteNames = siteName.getText() + ","+ siteName1.getText()+ ","+siteName2.getText()+ ","+siteName3.getText();
+                //               if(new Date(startTime.getText()).getTime() > new Date(endTime.getText()).getTime() ) {
+//                   JOptionPane.showMessageDialog(null,"时间不对");
+//               }   // time comparision  funciton
+               if(siteNames.length() == 0 || organizer.getText().length() ==0 || groupNumMax.getText().length() == 0)
+               {
+                   JOptionPane.showMessageDialog(null,"信息不全");
+               } else{
+                   int response =  JOptionPane.showConfirmDialog(null,"确定提交","are you sure",JOptionPane.YES_NO_OPTION);
+                   if(response == JOptionPane.YES_OPTION){
+                       Mediator pm=new Mediator();
+                       try{
+                           pm.addPlanFromForm(siteName.getText(), startTime.getText(),endTime.getText(),organizer.getText());
+                       }catch (TextFormatException e1) {
+
+                           e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                       } catch (SQLException e1) {
 
 
-               }  else{
-                  return;
-               }
+                           e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                       } catch (JSONException e1) {
 
-
-
-
+                           e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                       }
+                   }
+                }
             }
         });
         btnReset.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                     siteName.setText("");
-                    startTime.setText("");
-                    endTime.setText("");
+                   // startTime.setText("");
+                   // endTime.setText("");
                     organizer.setText("");
-                    isSceneOk.setText("");
-                    isStartOk.setText("");
+                    groupNumMax.setText("");
 
             }
         });

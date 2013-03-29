@@ -16,6 +16,10 @@ import java.util.Vector;
  * To change this template use File | Settings | File Templates.
  */
 public class Mediator {
+
+      public  Mediator(){
+
+      }
     public void addPlanFromForm(String siteName, String startTime, String endTime, String organizer) throws TextFormatException, SQLException, JSONException {
         UserManager um = new UserManager();
         SiteManager sm = new SiteManager();
@@ -85,7 +89,7 @@ public class Mediator {
         allLocations.add("台湾省");
         return allLocations;
     }
-    public  Vector<String>selectSiteNameWithLocation(String location) throws TextFormatException, SQLException {
+    public  Vector<String> selectSiteNameWithLocation(String location) throws TextFormatException, SQLException {
         Site site = new Site();
         SiteManager sm = new SiteManager();
         site.setLocation(location);

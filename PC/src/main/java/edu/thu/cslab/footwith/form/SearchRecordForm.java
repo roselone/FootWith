@@ -35,16 +35,16 @@ public class SearchRecordForm extends  JFrame {
         jsp.setDividerLocation(150);
         jsp.setDividerSize(5);
 
-        JPanel searchPanel = new JPanel();
+        JPanel mainPanel = new JPanel();
         JLabel userIdLb = new JLabel("请输入用户ID");
 
         JButton btnSearch = new JButton("查询");
-        searchPanel.setLayout(new FlowLayout());
-        searchPanel.add(userIdLb);
-        searchPanel.add(userId);
-        searchPanel.add(btnSearch);
+        mainPanel.setLayout(new FlowLayout());
+        mainPanel.add(userIdLb);
+        mainPanel.add(userId);
+        mainPanel.add(btnSearch);
 
-        jsp.setLeftComponent(searchPanel);
+        jsp.setLeftComponent(mainPanel);
         // jsp.setRightComponent(sitePanel);
 
         this.add(jsp);
