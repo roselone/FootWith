@@ -14,7 +14,8 @@ public class MainWindow {
        private JFrame mainFrame = new JFrame("旅游行程管理系统");
        private Container c = mainFrame.getContentPane();
 
-       private  MemuPanel menuPanel = new MemuPanel();
+       private MenuPanel menuPanel = new MenuPanel();
+       private toolBarPanel toolBar = new toolBarPanel();
        private  UserPanel userPanel = new UserPanel();
 
        private  JPanel centerPanel = new JPanel();
@@ -31,19 +32,25 @@ public class MainWindow {
 //       private  ButtonListener ourListener = new ButtonListener();
 
     public MainWindow(){
-        mainFrame.setBounds(100,5,800,700);
+        mainFrame.setBounds(100,50,800,700);
         initMainFrame();
         mainFrame.setVisible(true);
     }
 
     private void initMainFrame() {
         //To change body of created methods use File | Settings | File Templates.
-        c.setLayout(new BorderLayout());
-      //  mainFrame.setContentPane(menuPanel);
-        mainFrame.add(menuPanel,"North");
-        JButton b1 = new JButton("确定");
-        JButton b2 = new JButton("取消");
 
+      //  mainFrame.setContentPane(menuPanel);
+     //   mainFrame.add(menuPanel,"North");
+
+        BorderLayout borderLayout =new BorderLayout();
+        borderLayout.setVgap(5);
+
+        mainFrame.getContentPane().setLayout(borderLayout);
+
+        mainFrame.add(menuPanel,"North");
+
+       // topPanel.add(toolBar,"South");
 
         JSplitPane panel_1 = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);     // horizontal
         panel_1.setDividerLocation(250);
