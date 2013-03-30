@@ -20,6 +20,7 @@ public class PlanManager {
     public void addPlan(Plan plan) throws SQLException, TextFormatException, JSONException {
         if(plan.getStartTime()!=null && plan.getEndTime()!=null)
             assert plan.getEndTime().before(plan.getStartTime());
+        assert plan.getTitle().length()>60;
 
         String SQLCommand = null;
         DBUtil du = DBUtil.getDBUtil();
@@ -73,6 +74,7 @@ public class PlanManager {
 
 
     public Vector<Plan> selectPlan(Plan plan) throws TextFormatException, SQLException {
+        assert plan.getTitle().length()>60;
         DBUtil du = DBUtil.getDBUtil();
         String SQLCommand = null;
         ResultSet rs;
