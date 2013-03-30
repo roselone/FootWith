@@ -7,7 +7,6 @@ import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 
-import edu.thu.cslab.footwith.mainform.TravelForm;
 import edu.thu.cslab.footwith.server.Mediator;
 import edu.thu.cslab.footwith.server.TextFormatException;
 
@@ -19,7 +18,7 @@ import edu.thu.cslab.footwith.server.TextFormatException;
  * Time: 下午11:09
  * To change this template use File | Settings | File Templates.
  */
-public class loginForm implements  ActionListener{
+public class LoginForm implements  ActionListener{
 
     private JFrame frame = new JFrame("登录");
     private Container c = frame.getContentPane();
@@ -27,7 +26,7 @@ public class loginForm implements  ActionListener{
     private JPasswordField password = new JPasswordField();
     private JButton ok = new JButton("确定");
     private JButton cancel = new JButton("取消");
-    public loginForm(){
+    public LoginForm(){
      //   frame.setSize(300,200);
         frame.setBounds(300,200,300,200);
         c.setLayout(new BorderLayout());
@@ -70,7 +69,7 @@ public class loginForm implements  ActionListener{
 
     public static void main(String[] args){
         Global.username = "";
-        new loginForm();
+        new LoginForm();
     }
 
     public  void actionPerformed(ActionEvent e){
@@ -82,9 +81,7 @@ public class loginForm implements  ActionListener{
                 try {
                    // new TravelForm().setVisible(true);  //test
                     if(Mediator.isValid(uname, pwd)){
-                         Global.username = uname;
-                         //UserPanel.user.setPasswd(pwd);
-                         //UserPanel.user.setUserName(uname);
+                       Global.username = uname;
                        new MainWindow();
 
 
