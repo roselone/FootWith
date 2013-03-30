@@ -21,9 +21,9 @@
         </Console>
     </appenders>
     <loggers>
-        <looger name="edu.thu.cslab.footwith.AOPSupport.SiteLog" level="info" additivity="false">
+        <logger name="edu.thu.cslab.footwith.AOPSupport.SiteLog" level="info" additivity="false">
             <appender-ref ref="siteLog"/>
-        </looger>
+        </logger>
         <logger name="edu.thu.cslab.footwith.AOPSupport.PlanLog" level="info" additivity="false">
             <appender-ref ref="planLog"/>
         </logger>
