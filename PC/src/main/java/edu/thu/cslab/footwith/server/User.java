@@ -19,8 +19,8 @@ public class User {
         nickName = null;
         passwd = null;
         otherInfo = -1;
-        plans = null;
-        records = null;
+        plans = "";
+        records = "";
 
     }
     public User(int userID){

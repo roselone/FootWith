@@ -18,6 +18,9 @@ public class PlanManager {
     public PlanManager() {
     }
     public void addPlan(Plan plan) throws SQLException, TextFormatException, JSONException {
+        if(plan.getStartTime()!=null && plan.getEndTime()!=null)
+            assert plan.getEndTime().before(plan.getStartTime());
+
         String SQLCommand = null;
         DBUtil du = DBUtil.getDBUtil();
         ResultSet rs;
@@ -142,9 +145,9 @@ public class PlanManager {
         String SQLCommand = null;
         if(planID < 0)
             throw new TextFormatException("planID is null");
-        SQLCommand  = " delete from " + tableName + " where planID is " + planID;
+        SQLCommand  = " delete from " + tableName + " where planID = " + planID;
         du.executeUpdate(SQLCommand);
-        SQLCommand  = " delete from " + relationTableName + " where planID is " + planID;
+        SQLCommand  = " delete from " + relationTableName + " where planID = " + planID;
         du.executeUpdate(SQLCommand);
     }
 
