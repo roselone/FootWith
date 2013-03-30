@@ -35,7 +35,7 @@ public class PlanManager {
                 " values ( '"+  plan.getSiteIDs()+ "' , '"+ plan.getStartTime()+ "' , '" + plan.getEndTime()+ "' , " + plan.getOrganizer()+ " , '" + plan.getParticipants() + "' , " + plan.getBudget() + " , " + plan.getGroupNum()+ " , " + plan.getGroupNumMax() + " , " + plan.getTalkStreamID() +" ) ";
         rs = du.executeUpdate(SQLCommand);
         rs.next();
-        int planID = rs.getInt(1); // maybe wrong
+        int planID = rs.getInt(1); // TODO
 
         User user = new UserManager().selectUser(organizer);
         String orig_plans = user.getPlans();
@@ -43,16 +43,13 @@ public class PlanManager {
         new UserManager().editUser(organizer, user);
 
         Vector<Integer> siteIDVector =new JSONHelper().convertToArray(siteIDs);
-        Vector<Integer> userIDVector =new JSONHelper().convertToArray(participants);
-        for(int i=0;i<userIDVector.size(); i++){
-            for(int j=0;j<siteIDVector.size();j++){
-                int userID = userIDVector.get(i);
-                int siteID = siteIDVector.get(i);
-                SQLCommand = " insert into " + relationTableName +"( userID, siteID, startTime, endTime, planID )" +
-                        " values ( " + userID + " , " + siteID + " , '" + startTime + "' , '" + endTime + "' , " + planID + ")";
-                du.executeUpdate(SQLCommand);
-            }
+        for(int j=0;j<siteIDVector.size();j++){
+            int siteID = siteIDVector.get(j);
+            SQLCommand = " insert into " + relationTableName +"( userID, siteID, startTime, endTime, planID )" +
+                        " values ( " + organizer + " , " + siteID + " , '" + startTime + "' , '" + endTime + "' , " + planID + ")";
+            du.executeUpdate(SQLCommand);
         }
+
 
     }
     public Plan selectPlan(int planID) throws TextFormatException, SQLException {
@@ -65,9 +62,12 @@ public class PlanManager {
         rs=du.executeQuery(SQLCommand);
         rs.next();
         return new Plan(rs.getInt("planID"), rs.getString("siteIDs"), rs.getDate("startTime"), rs.getDate("endTime"), rs.getInt("organizer"),
-                rs.getString("participants"), rs.getInt("budget"), rs.getInt("groupNum"), rs.getInt("groupNumMax"), rs.getInt("talkStreamID"));
+                rs.getString("participants"), rs.getInt("budget"), rs.getInt("groupNum"), rs.getInt("groupNumMax"), rs.getInt("talkStreamID"),rs.getBoolean("isDone"));
 
     }
+
+
+
     public Vector<Plan> selectPlan(Plan plan) throws TextFormatException, SQLException {
         DBUtil du = DBUtil.getDBUtil();
         String SQLCommand = null;
@@ -130,7 +130,7 @@ public class PlanManager {
         Vector<Plan> vector = new Vector<Plan>();
         while(rs.next()){
             result_plan = new Plan(rs.getInt("planID"), rs.getString("siteIDs"), rs.getDate("startTime"), rs.getDate("endTime"), rs.getInt("organizer"),
-                    rs.getString("participants"), rs.getInt("budget"), rs.getInt("groupNum"), rs.getInt("groupNumMax"), rs.getInt("talkStreamID"));
+                    rs.getString("participants"), rs.getInt("budget"), rs.getInt("groupNum"), rs.getInt("groupNumMax"), rs.getInt("talkStreamID"),rs.getBoolean("isDOne"));
             vector.add(result_plan);
         }
 

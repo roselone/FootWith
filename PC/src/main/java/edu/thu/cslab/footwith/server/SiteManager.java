@@ -37,6 +37,14 @@ public class SiteManager {
         }
         return sites;
     }
+
+    /**
+     *
+     * @param siteName
+     * @return
+     * @throws TextFormatException
+     * @throws SQLException
+     */
     public Site seleteSite(String siteName) throws TextFormatException, SQLException {
         Site site;
         DBUtil du = DBUtil.getDBUtil();

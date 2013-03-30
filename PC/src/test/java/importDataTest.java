@@ -1,12 +1,7 @@
 import edu.thu.cslab.footwith.server.SiteManager;
-import edu.thu.cslab.footwith.server.DBUtil;
 import edu.thu.cslab.footwith.server.Site;
 import org.junit.Test;
-import edu.thu.cslab.footwith.server.importData;
-import edu.thu.cslab.footwith.server.constant;
 
-import java.io.IOException;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Vector;
 
@@ -17,7 +12,7 @@ import java.util.Vector;
  * Time: 10:43 PM
  * To change this template use File | Settings | File Templates.
  */
-public class importDataTest {
+public class ImportDataTest {
 //    @Test
 //    public void import4A() throws IOException, SQLException {
 //        String fileName="4A.txt";
