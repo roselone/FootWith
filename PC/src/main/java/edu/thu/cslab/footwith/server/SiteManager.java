@@ -15,6 +15,9 @@ public class SiteManager {
     public SiteManager() {
     }
     public void addSite(Site site) throws SQLException {
+        assert site.getSiteName().length()>40;
+        assert !Mediator.getAllLocations().contains(site.getLocation());
+
         String SQLCommand = null;
         DBUtil du = DBUtil.getDBUtil();
         SQLCommand = " insert into " + tableName + " ( siteName, rate, location, brief, picture) " +
@@ -38,6 +41,7 @@ public class SiteManager {
         return sites;
     }
     public Site seleteSite(String siteName) throws TextFormatException, SQLException {
+        assert siteName.length()>40;
         Site site;
         DBUtil du = DBUtil.getDBUtil();
         String SQLCommand = null;
@@ -143,13 +147,13 @@ public class SiteManager {
             throw new TextFormatException("siteName is null");
         SQLCommand  = " update " + tableName + " set ";
         if(new_site.getLocation() != null){
-            SQLCommand += " location = " + new_site.getLocation();
+            SQLCommand += " location = '" + new_site.getLocation()+"'";
             isComma = true;
         }
         if(new_site.getBrief() != null){
             if(isComma)
                 SQLCommand += " , ";
-            SQLCommand += " brief = " + new_site.getBrief();
+            SQLCommand += " brief = '" + new_site.getBrief() + "'";
             isComma = true;
 
         }
@@ -162,11 +166,11 @@ public class SiteManager {
         if(new_site.getPicture() != -1){
             if(isComma)
                 SQLCommand += " , ";
-            SQLCommand += " picture = " + new_site.getPicture();
+            SQLCommand += " picture = '" + new_site.getPicture() +"'";
             isComma = true;
         }
 
-        SQLCommand += " where siteName = " + siteName;
+        SQLCommand += " where siteName = '" + siteName +"'";
         du.executeUpdate(SQLCommand);
 
     }
@@ -178,13 +182,13 @@ public class SiteManager {
             throw new TextFormatException("siteName is null");
         SQLCommand  = " update " + tableName + " set ";
         if(new_site.getLocation() != null){
-            SQLCommand += " location = " + new_site.getLocation();
+            SQLCommand += " location = '" + new_site.getLocation() + "'";
             isComma = true;
         }
         if(new_site.getBrief() != null){
             if(isComma)
                 SQLCommand += " , ";
-            SQLCommand += " brief = " + new_site.getBrief();
+            SQLCommand += " brief = '" + new_site.getBrief() + "'";
             isComma = true;
 
         }
@@ -197,7 +201,7 @@ public class SiteManager {
         if(new_site.getPicture() != -1){
             if(isComma)
                 SQLCommand += " , ";
-            SQLCommand += " picture = " + new_site.getPicture();
+            SQLCommand += " picture = '" + new_site.getPicture() + "'";
             isComma = true;
         }
 

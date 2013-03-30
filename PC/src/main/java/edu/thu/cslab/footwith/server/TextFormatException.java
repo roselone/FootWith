@@ -26,4 +26,15 @@ public class TextFormatException extends Exception {
     public String toString() {
         return super.toString();    //To change body of overridden methods use File | Settings | File Templates.
     }
+
+    @Override
+    public void printStackTrace() {
+        super.printStackTrace();    //To change body of overridden methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public StackTraceElement[] getStackTrace() {
+        return super.getStackTrace();    //To change body of overridden methods use File | Settings | File Templates.
+    }
+
 }
