@@ -68,7 +68,7 @@ public class RecordManager {
         SQLCommand  = " select * from " + tableName + " where recordID = " + recordID;
         rs=du.executeQuery(SQLCommand);
         rs.next();
-        return new Record(rs.getInt("recordID"), rs.getString("siteIDs"), rs.getDate("startTime"), rs.getDate("endTime"),
+        return new Record(rs.getInt("recordID"),rs.getString("title"), rs.getString("siteIDs"), rs.getDate("startTime"), rs.getDate("endTime"),
                 rs.getString("userIDs"), rs.getInt("groupNum"), rs.getString("journals"), rs.getString("pictures"), rs.getInt("talkStreamID"));
 
     }

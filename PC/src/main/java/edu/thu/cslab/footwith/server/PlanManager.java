@@ -26,6 +26,7 @@ public class PlanManager {
         ResultSet rs;
         if(plan==null)
             throw new TextFormatException();
+        String title = plan.getTitle();
         String siteIDs = plan.getSiteIDs();
         int organizer = plan.getOrganizer();
         String participants = plan.getParticipants();
@@ -34,8 +35,8 @@ public class PlanManager {
         if(siteIDs == null || organizer<0 || startTime==null || endTime==null){
             throw new TextFormatException();
         }
-        SQLCommand = " insert into " + tableName + " (  siteIDs, startTime, endTime, organizer, participants, budget, groupNum, groupNumMax, talkStreamID ) " +
-                " values ( '"+  plan.getSiteIDs()+ "' , '"+ plan.getStartTime()+ "' , '" + plan.getEndTime()+ "' , " + plan.getOrganizer()+ " , '" + plan.getParticipants() + "' , " + plan.getBudget() + " , " + plan.getGroupNum()+ " , " + plan.getGroupNumMax() + " , " + plan.getTalkStreamID() +" ) ";
+        SQLCommand = " insert into " + tableName + " ( title, siteIDs, startTime, endTime, organizer, participants, budget, groupNum, groupNumMax, talkStreamID ) " +
+                " values ( '"+plan.getTitle()+"' , '"+  plan.getSiteIDs()+ "' , '"+ plan.getStartTime()+ "' , '" + plan.getEndTime()+ "' , " + plan.getOrganizer()+ " , '" + plan.getParticipants() + "' , " + plan.getBudget() + " , " + plan.getGroupNum()+ " , " + plan.getGroupNumMax() + " , " + plan.getTalkStreamID() +" ) ";
         rs = du.executeUpdate(SQLCommand);
         rs.next();
         int planID = rs.getInt(1); // TODO
@@ -64,7 +65,7 @@ public class PlanManager {
         SQLCommand  = " select * from " + tableName + " where planID = " + planID;
         rs=du.executeQuery(SQLCommand);
         rs.next();
-        return new Plan(rs.getInt("planID"), rs.getString("siteIDs"), rs.getDate("startTime"), rs.getDate("endTime"), rs.getInt("organizer"),
+        return new Plan(rs.getInt("planID"),rs.getString("title"), rs.getString("siteIDs"), rs.getDate("startTime"), rs.getDate("endTime"), rs.getInt("organizer"),
                 rs.getString("participants"), rs.getInt("budget"), rs.getInt("groupNum"), rs.getInt("groupNumMax"), rs.getInt("talkStreamID"),rs.getBoolean("isDone"));
 
     }
@@ -132,7 +133,7 @@ public class PlanManager {
         rs = du.executeQuery(SQLCommand);
         Vector<Plan> vector = new Vector<Plan>();
         while(rs.next()){
-            result_plan = new Plan(rs.getInt("planID"), rs.getString("siteIDs"), rs.getDate("startTime"), rs.getDate("endTime"), rs.getInt("organizer"),
+            result_plan = new Plan(rs.getInt("planID"), rs.getString("title"),rs.getString("siteIDs"), rs.getDate("startTime"), rs.getDate("endTime"), rs.getInt("organizer"),
                     rs.getString("participants"), rs.getInt("budget"), rs.getInt("groupNum"), rs.getInt("groupNumMax"), rs.getInt("talkStreamID"),rs.getBoolean("isDOne"));
             vector.add(result_plan);
         }
@@ -160,6 +161,7 @@ public class PlanManager {
         SQLCommand  = " update " + tableName + " set ";
 
         String siteIDs = new_plan.getSiteIDs();
+        String title = new_plan.getTitle();
         Date startTime = new_plan.getStartTime();
         Date endTime = new_plan.getEndTime();
         int organizer = new_plan.getOrganizer();
@@ -205,6 +207,12 @@ public class PlanManager {
             if(isComma)
                 SQLCommand += " , ";
             SQLCommand += " talkStreamID = '" +talkStreamID + "'";
+            isComma = true;
+        }
+        if (title != null){
+            if (isComma)
+                SQLCommand += " , ";
+            SQLCommand += "title = '"+title+"'";
             isComma = true;
         }
         if(siteIDs != null){
