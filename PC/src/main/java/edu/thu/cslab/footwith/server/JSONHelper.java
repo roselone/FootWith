@@ -3,6 +3,7 @@ package edu.thu.cslab.footwith.server;
 import org.json.JSONArray;
 import org.json.JSONException;
 
+import java.awt.datatransfer.StringSelection;
 import java.util.Vector;
 
 /**
@@ -53,6 +54,12 @@ public class JSONHelper {
         Vector<Integer> tmp=convertToArray(s);
         tmp.remove(tmp.indexOf(one));
         return convertToString(tmp);
+    }
+
+    public boolean isContained(String s,int one) throws JSONException {
+        if (s == null || s.length()==0 || s.equals("null")) return false;
+        Vector<Integer> tmp=convertToArray(s);
+        return tmp.contains(one);
     }
 
 }
