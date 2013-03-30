@@ -15,7 +15,7 @@ public class MainWindow {
        private Container c = mainFrame.getContentPane();
 
        private MenuPanel menuPanel = new MenuPanel();
-       private toolBarPanel toolBar = new toolBarPanel();
+//       private toolBarPanel toolBar = new toolBarPanel();
        private  UserPanel userPanel = new UserPanel();
 
        private  JPanel centerPanel = new JPanel();
