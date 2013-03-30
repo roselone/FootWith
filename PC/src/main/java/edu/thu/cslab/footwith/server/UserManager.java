@@ -12,14 +12,16 @@ import java.sql.SQLException;
  */
 public class UserManager {
     public UserManager() { }
-    public void addUser(User user) throws TextFormatException, SQLException {
+    public int addUser(User user) throws TextFormatException, SQLException {
         String SQLCommand = null;
         DBUtil du = DBUtil.getDBUtil();
         if(user == null)
             throw new TextFormatException();
         SQLCommand = " insert into " + tableName + " ( userName, nickName, passwd, otherInfo, plans, records ) " +
                 " values ( '"+ user.getUserName()+"' , '"+ user.getNickName()+ "' , '"+ user.getPasswd()+ "' , " + user.getOtherInfo()+ " , '" + user.getPlans()+ "' , '" + user.getRecords() + "' ) ";
-        du.executeUpdate(SQLCommand);
+        ResultSet rs=du.executeUpdate(SQLCommand);
+        rs.next();
+        return rs.getInt(1);
     }
 
     public static User selectUser(String userName) throws TextFormatException, SQLException {
