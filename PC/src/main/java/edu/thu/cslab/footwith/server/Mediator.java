@@ -20,20 +20,20 @@ public class Mediator {
       public  Mediator(){
 
       }
-    public void addPlanFromForm(String siteName, String startTime, String endTime, String organizer) throws TextFormatException, SQLException, JSONException {
+    public void addPlanFromForm(String title,int organizer, int groupNumMax, String siteName1,String siteName2, String startTime, String endTime) throws TextFormatException, SQLException, JSONException {
         UserManager um = new UserManager();
         SiteManager sm = new SiteManager();
         PlanManager pm = new PlanManager();
-        System.out.println(siteName);
-        Site site = sm.seleteSite(siteName);
+        //System.out.println(siteName);
+        Site site1 = sm.seleteSite(siteName1);
         Vector<Integer> vector =  new Vector<Integer>();
-        vector.add(site.getSiteID());
+        vector.add(site1.getSiteID());
         String siteIDs = new JSONHelper().convertToString(vector);
         User user=um.selectUser(organizer);
         Date date_startTime = Date.valueOf(startTime);
         Date date_endTime = Date.valueOf(endTime);
         int int_organizer = user.getUserID();
-        Plan plan = new Plan(siteIDs, date_startTime,date_endTime,int_organizer,0,0 );
+        Plan plan = new Plan(title,siteIDs, date_startTime,date_endTime,int_organizer,0,0 );
         pm.addPlan(plan);
     }
     public void addSiteFromForm(String siteName, String rate, String location) throws SQLException {

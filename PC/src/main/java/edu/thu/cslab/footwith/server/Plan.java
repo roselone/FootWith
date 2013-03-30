@@ -1,5 +1,7 @@
 package edu.thu.cslab.footwith.server;
 
+import org.json.JSONException;
+
 import java.sql.Date;
 
 /**
@@ -13,6 +15,7 @@ public class Plan {
     public Plan() {
         this.planID = -1;
         this.siteIDs = "";
+        this.title="";
         this.startTime = null;
         this.endTime = null;
         this.organizer = -1;
@@ -21,6 +24,7 @@ public class Plan {
         this.groupNum = -1;
         this.groupNumMax = -1;
         this.talkStreamID = -1;
+        this.isDone=false ;
     }
 
     public Plan(int planID) {
@@ -34,10 +38,12 @@ public class Plan {
         this.groupNum = -1;
         this.groupNumMax = -1;
         this.talkStreamID = -1;
+        this.isDone=false;
     }
 
-    public Plan( String siteIDs, Date startTime, Date endTime, int organizer, int groupNum, int groupNumMax) {
+    public Plan(String title, String siteIDs, Date startTime, Date endTime, int organizer, int groupNum, int groupNumMax) {
         this.planID = -1;
+        this.title = title;
         this.siteIDs = siteIDs;
         this.startTime = startTime;
         this.endTime = endTime;
@@ -49,8 +55,9 @@ public class Plan {
         this.talkStreamID = -1;
     }
 
-    public Plan(int planID, String siteIDs, Date startTime, Date endTime, int organizer, String participants, int budget, int groupNum, int groupNumMax, int talkStreamID) {
+    public Plan(int planID,String title, String siteIDs, Date startTime, Date endTime, int organizer, String participants, int budget, int groupNum, int groupNumMax, int talkStreamID,boolean isDone) {
         this.planID = planID;
+        this.title = title;
         this.siteIDs = siteIDs;
         this.startTime = startTime;
         this.endTime = endTime;
@@ -60,10 +67,15 @@ public class Plan {
         this.groupNum = groupNum;
         this.groupNumMax = groupNumMax;
         this.talkStreamID = talkStreamID;
+        this.isDone=isDone;
     }
 
     public int getPlanID() {
         return planID;
+    }
+
+    public String getTitle(){
+        return title;
     }
 
     public String getSiteIDs() {
@@ -102,10 +114,20 @@ public class Plan {
         return talkStreamID;
     }
 
+    public boolean getIsDone(){
+        return isDone;
+    }
+
     public void setSiteIDs(String siteIDs) throws TextFormatException{
         if(siteIDs == null || siteIDs.length()==0||siteIDs.length()>100)
             throw new TextFormatException();
         this.siteIDs = siteIDs;
+    }
+
+    public void setTitle(String title) throws TextFormatException{
+        if (title==null || title.length()==0 || title.length()>80)
+            throw new TextFormatException();
+        this.title=title;
     }
 
     public void setStartTime(Date startTime) throws TextFormatException{
@@ -131,6 +153,10 @@ public class Plan {
         this.participants = participants;
     }
 
+    public void addParticipant(int userID) throws JSONException, TextFormatException {
+        setParticipants(JSONHelper.getJSONHelperInstance().addToArray(this.getParticipants(), userID));
+    }
+
     public void setBudget(int budget) {
 
         this.budget = budget;
@@ -154,7 +180,13 @@ public class Plan {
         this.talkStreamID = talkStreamID;
     }
 
+    public void setIsDone(boolean status){
+        this.isDone=status;
+    }
+
+
     private int planID;
+    private String title;
     private String siteIDs;
     private Date startTime;
     private Date endTime;
@@ -164,5 +196,6 @@ public class Plan {
     private int groupNum;
     private int groupNumMax;
     private int talkStreamID;
+    private boolean isDone;
 
 }

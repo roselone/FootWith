@@ -12,6 +12,7 @@ import java.sql.Date;
 public class Record {
     public Record() {
         recordID = -1;
+        title = null;
         siteIDs = null;
         startTime = null;
         endTime = null;
@@ -23,6 +24,7 @@ public class Record {
     }
     public Record(int recordID) {
         this.recordID = recordID;
+        title = null;
         siteIDs = null;
         startTime = null;
         endTime = null;
@@ -33,12 +35,13 @@ public class Record {
         talkStreamID = -1;
     }
 
-    public Record(String siteIDs, Date startTime, String userIDs, int groupNum) {
+    public Record(String title,String siteIDs, Date startTime, String userIDs, int groupNum) {
          recordID = -1;
         endTime = null;
         journals = null;
         pictures = null;
         talkStreamID = -1;
+        this.title = title;
         this.siteIDs = siteIDs;
         this.startTime = startTime;
         this.userIDs = userIDs;
@@ -46,8 +49,9 @@ public class Record {
 
     }
 
-    public Record(int recordID, String siteIDs, Date startTime, Date endTime, String userIDs, int groupNum, String journals, String pictures, int talkStreamID) {
+    public Record(int recordID, String title,String siteIDs, Date startTime, Date endTime, String userIDs, int groupNum, String journals, String pictures, int talkStreamID) {
         this.recordID = recordID;
+        this.title=title;
         this.siteIDs = siteIDs;
         this.startTime = startTime;
         this.endTime = endTime;
@@ -60,6 +64,10 @@ public class Record {
 
     public int getRecordID() {
         return recordID;
+    }
+
+    public String getTitle(){
+        return title;
     }
 
     public String getSiteIDs() {
@@ -94,6 +102,9 @@ public class Record {
         return talkStreamID;
     }
 
+    public void setTitle(String title){
+        this.title = title;
+    }
     public void setSiteIDs(String siteIDs) {
         this.siteIDs = siteIDs;
     }
@@ -127,6 +138,7 @@ public class Record {
     }
 
     private int recordID;
+    private String title;
     private String siteIDs;
     private Date startTime;
     private Date endTime;

@@ -14,6 +14,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Vector;
@@ -123,35 +124,38 @@ public class InsertPlanForm extends JFrame {
         btnAdd.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+              SimpleDateFormat smf = new SimpleDateFormat("yyyy-MM-dd");
               String  siteNames = siteName.getText() + ","+ siteName1.getText()+ ","+siteName2.getText()+ ","+siteName3.getText();
-                //               if(new Date(startTime.getText()).getTime() > new Date(endTime.getText()).getTime() ) {
-//                   JOptionPane.showMessageDialog(null,"时间不对");
-//               }   // time comparision  funciton
-               if(siteNames.length() == 0 || organizer.getText().length() ==0 || groupNumMax.getText().length() == 0)
-               {
-                   JOptionPane.showMessageDialog(null,"信息不全");
-               } else{
-                   int response =  JOptionPane.showConfirmDialog(null,"确定提交","are you sure",JOptionPane.YES_NO_OPTION);
-                   if(response == JOptionPane.YES_OPTION){
-                       Mediator pm=new Mediator();
-                       try{
-                           pm.addPlanFromForm(siteName.getText(), startTime.getText(),endTime.getText(),organizer.getText());
-                       }catch (TextFormatException e1) {
+                try {
+                    if( smf.parse(startTime.getValue().toString()).before(smf.parse(endTime.getValue().toString()))) {
+                         JOptionPane.showMessageDialog(null,"时间不对");
+                     }   else if(siteNames.length() == 0 || organizer.getText().length() ==0 || groupNumMax.getText().length() == 0)
+                     {
+                         JOptionPane.showMessageDialog(null,"信息不全");
+                     } else{
+                         int response =  JOptionPane.showConfirmDialog(null,"确定提交","are you sure",JOptionPane.YES_NO_OPTION);
+                         if(response == JOptionPane.YES_OPTION){
+                             Mediator pm=new Mediator();
+                             try{
+                                 pm.addPlanFromForm(siteName.getText(), startTime.getText(),endTime.getText(),organizer.getText());
+                             }catch (TextFormatException e1) {
 
-                           e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-                       } catch (SQLException e1) {
+                                 e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                             } catch (SQLException e1) {
 
 
-                           e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-                       } catch (JSONException e1) {
+                                 e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                             } catch (JSONException e1) {
 
-                           e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-                       }
-                   }
+                                 e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                             }
+                         }
+                      }
+                  } catch (ParseException e2) {
+                    e2.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                 }
             }
-        });
+            });
         btnReset.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

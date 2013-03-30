@@ -7,6 +7,6 @@ package edu.thu.cslab.footwith.server;
  * Time: 10:14 PM
  * To change this template use File | Settings | File Templates.
  */
-public class constant {
-    public final String PROJECT_PATH = "C:\\Users\\wangjiayu\\Documents\\GitHub\\FootWith\\";
+public class Constant {
+    public final String PROJECT_PATH = "/Users/roselone/git/FootWith/";
 }

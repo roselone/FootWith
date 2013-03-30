@@ -13,9 +13,9 @@ import java.sql.SQLException;
  * Time: 10:10 PM
  * To change this template use File | Settings | File Templates.
  */
-public class importData {
+public class ImportData {
     private FileReader f;
-    public importData(){}
+    public ImportData(){}
 
     public void openFile(String fileName) throws FileNotFoundException {
         f=new FileReader(fileName);
