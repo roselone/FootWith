@@ -51,45 +51,45 @@ public class Mediator {
         else
             return false;
     }
-    public Vector<String> getAllLocations(){
+    public static Vector<String> getAllLocations(){
         Vector<String> allLocations = new Vector<String>();
-        allLocations.add("北京市");
-        allLocations.add("浙江省");
-        allLocations.add("天津市");
-        allLocations.add("安徽省");
-        allLocations.add("上海市");
-        allLocations.add("福建省");
-        allLocations.add("重庆市");
-        allLocations.add("江西省");
-        allLocations.add("香港特别行政区");
-        allLocations.add("山东省");
-        allLocations.add("澳门特别行政区");
-        allLocations.add("河南省");
-        allLocations.add("内蒙古自治区");
-        allLocations.add("湖北省");
-        allLocations.add("新疆维吾尔自治区");
-        allLocations.add("湖南省");
-        allLocations.add("宁夏回族自治区");
-        allLocations.add("广东省");
-        allLocations.add("西藏自治区");
-        allLocations.add("海南省");
-        allLocations.add("广西壮族自治区");
-        allLocations.add("四川省");
-        allLocations.add("河北省");
-        allLocations.add("贵州省");
-        allLocations.add("山西省");
-        allLocations.add("云南省");
-        allLocations.add("辽宁省");
-        allLocations.add("陕西省");
-        allLocations.add("吉林省");
-        allLocations.add("甘肃省");
-        allLocations.add("黑龙江省");
-        allLocations.add("青海省");
-        allLocations.add("江苏省");
-        allLocations.add("台湾省");
+        allLocations.add("北京");
+        allLocations.add("浙江");
+        allLocations.add("天津");
+        allLocations.add("安徽");
+        allLocations.add("上海");
+        allLocations.add("福建");
+        allLocations.add("重庆");
+        allLocations.add("江西");
+        allLocations.add("香港");
+        allLocations.add("山东");
+        allLocations.add("澳门");
+        allLocations.add("河南");
+        allLocations.add("内蒙古");
+        allLocations.add("湖北");
+        allLocations.add("新疆");
+        allLocations.add("湖南");
+        allLocations.add("宁夏");
+        allLocations.add("广东");
+        allLocations.add("西藏");
+        allLocations.add("海南");
+        allLocations.add("广西");
+        allLocations.add("四川");
+        allLocations.add("河北");
+        allLocations.add("贵州");
+        allLocations.add("山西");
+        allLocations.add("云南");
+        allLocations.add("辽宁");
+        allLocations.add("陕西");
+        allLocations.add("吉林");
+        allLocations.add("甘肃");
+        allLocations.add("黑龙江");
+        allLocations.add("青海");
+        allLocations.add("江苏");
+        allLocations.add("台湾");
         return allLocations;
     }
-    public  Vector<String>selectSiteNameWithLocation(String location) throws TextFormatException, SQLException {
+    public  Vector<String> selectSiteNameWithLocation(String location) throws TextFormatException, SQLException {
         Site site = new Site();
         SiteManager sm = new SiteManager();
         site.setLocation(location);

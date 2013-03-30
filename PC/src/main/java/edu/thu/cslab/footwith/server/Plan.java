@@ -1,5 +1,7 @@
 package edu.thu.cslab.footwith.server;
 
+import org.json.JSONException;
+
 import java.sql.Date;
 
 /**
@@ -21,6 +23,7 @@ public class Plan {
         this.groupNum = -1;
         this.groupNumMax = -1;
         this.talkStreamID = -1;
+        this.isDone=false ;
     }
 
     public Plan(int planID) {
@@ -34,6 +37,7 @@ public class Plan {
         this.groupNum = -1;
         this.groupNumMax = -1;
         this.talkStreamID = -1;
+        this.isDone=false;
     }
 
     public Plan( String siteIDs, Date startTime, Date endTime, int organizer, int groupNum, int groupNumMax) {
@@ -49,7 +53,7 @@ public class Plan {
         this.talkStreamID = -1;
     }
 
-    public Plan(int planID, String siteIDs, Date startTime, Date endTime, int organizer, String participants, int budget, int groupNum, int groupNumMax, int talkStreamID) {
+    public Plan(int planID, String siteIDs, Date startTime, Date endTime, int organizer, String participants, int budget, int groupNum, int groupNumMax, int talkStreamID,boolean isDone) {
         this.planID = planID;
         this.siteIDs = siteIDs;
         this.startTime = startTime;
@@ -60,6 +64,7 @@ public class Plan {
         this.groupNum = groupNum;
         this.groupNumMax = groupNumMax;
         this.talkStreamID = talkStreamID;
+        this.isDone=isDone;
     }
 
     public int getPlanID() {
@@ -102,6 +107,10 @@ public class Plan {
         return talkStreamID;
     }
 
+    public boolean getIsDone(){
+        return isDone;
+    }
+
     public void setSiteIDs(String siteIDs) throws TextFormatException{
         if(siteIDs == null || siteIDs.length()==0||siteIDs.length()>100)
             throw new TextFormatException();
@@ -131,6 +140,10 @@ public class Plan {
         this.participants = participants;
     }
 
+    public void addParticipant(int userID) throws JSONException, TextFormatException {
+        setParticipants(JSONHelper.getJSONHelperInstance().addToArray(this.getParticipants(), userID));
+    }
+
     public void setBudget(int budget) {
 
         this.budget = budget;
@@ -154,6 +167,11 @@ public class Plan {
         this.talkStreamID = talkStreamID;
     }
 
+    public void setIsDone(boolean status){
+        this.isDone=status;
+    }
+
+
     private int planID;
     private String siteIDs;
     private Date startTime;
@@ -164,5 +182,6 @@ public class Plan {
     private int groupNum;
     private int groupNumMax;
     private int talkStreamID;
+    private boolean isDone;
 
 }
