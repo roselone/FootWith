@@ -40,14 +40,6 @@ public class SiteManager {
         }
         return sites;
     }
-
-    /**
-     *
-     * @param siteName
-     * @return
-     * @throws TextFormatException
-     * @throws SQLException
-     */
     public Site seleteSite(String siteName) throws TextFormatException, SQLException {
         assert siteName.length()>40;
         Site site;
