@@ -15,7 +15,7 @@ import java.util.Vector;
 public class ImportDataTest {
 //    @Test
 //    public void import4A() throws IOException, SQLException {
-//        String fileName="4A.txt";
+//        String fileName   ="4A.txt";
 //        importData im=new importData();
 //        im.importSite(new constant().PROJECT_PATH + "data/" + fileName);
 //    }
