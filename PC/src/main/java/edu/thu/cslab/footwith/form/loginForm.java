@@ -7,6 +7,7 @@ import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 
+import edu.thu.cslab.footwith.mainform.TravelForm;
 import edu.thu.cslab.footwith.server.Mediator;
 import edu.thu.cslab.footwith.server.TextFormatException;
 
@@ -79,11 +80,13 @@ public class loginForm implements  ActionListener{
                 // Validation matchExample = new Validation();
                 // mathExample.valida(uname, pwd);
                 try {
+                   // new TravelForm().setVisible(true);  //test
                     if(Mediator.isValid(uname, pwd)){
                          Global.username = uname;
                          //UserPanel.user.setPasswd(pwd);
                          //UserPanel.user.setUserName(uname);
-                         new MainWindow();
+                       new MainWindow();
+
 
                     } else{
 
