@@ -15,6 +15,7 @@ public class Plan {
     public Plan() {
         this.planID = -1;
         this.siteIDs = "";
+        this.title="";
         this.startTime = null;
         this.endTime = null;
         this.organizer = -1;
@@ -40,8 +41,9 @@ public class Plan {
         this.isDone=false;
     }
 
-    public Plan( String siteIDs, Date startTime, Date endTime, int organizer, int groupNum, int groupNumMax) {
+    public Plan(String title, String siteIDs, Date startTime, Date endTime, int organizer, int groupNum, int groupNumMax) {
         this.planID = -1;
+        this.title = title;
         this.siteIDs = siteIDs;
         this.startTime = startTime;
         this.endTime = endTime;
@@ -53,8 +55,9 @@ public class Plan {
         this.talkStreamID = -1;
     }
 
-    public Plan(int planID, String siteIDs, Date startTime, Date endTime, int organizer, String participants, int budget, int groupNum, int groupNumMax, int talkStreamID,boolean isDone) {
+    public Plan(int planID,String title, String siteIDs, Date startTime, Date endTime, int organizer, String participants, int budget, int groupNum, int groupNumMax, int talkStreamID,boolean isDone) {
         this.planID = planID;
+        this.title = title;
         this.siteIDs = siteIDs;
         this.startTime = startTime;
         this.endTime = endTime;
@@ -69,6 +72,10 @@ public class Plan {
 
     public int getPlanID() {
         return planID;
+    }
+
+    public String getTitle(){
+        return title;
     }
 
     public String getSiteIDs() {
@@ -115,6 +122,12 @@ public class Plan {
         if(siteIDs == null || siteIDs.length()==0||siteIDs.length()>100)
             throw new TextFormatException();
         this.siteIDs = siteIDs;
+    }
+
+    public void setTitle(String title) throws TextFormatException{
+        if (title==null || title.length()==0 || title.length()>80)
+            throw new TextFormatException();
+        this.title=title;
     }
 
     public void setStartTime(Date startTime) throws TextFormatException{
@@ -173,6 +186,7 @@ public class Plan {
 
 
     private int planID;
+    private String title;
     private String siteIDs;
     private Date startTime;
     private Date endTime;
