@@ -1,11 +1,14 @@
 package edu.thu.cslab.footwith.server;
 
+import edu.thu.cslab.footwith.utility.Util;
 import org.json.JSONException;
 
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Vector;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * Created with IntelliJ IDEA.
@@ -15,34 +18,37 @@ import java.util.Vector;
  * To change this template use File | Settings | File Templates.
  */
 public class PlanManager {
+    private Logger logger= LogManager.getLogger(this.getClass().getName());
     public PlanManager() {
     }
-    public void addPlan(Plan plan) throws SQLException, TextFormatException, JSONException {
-        if(plan.getStartTime()!=null && plan.getEndTime()!=null)
-            assert plan.getEndTime().before(plan.getStartTime());
+    public boolean addPlan(Plan plan) throws SQLException, TextFormatException, JSONException {
+
+        if(plan == null) {
+            logger.error("Can't add empty plan");
+            return false;
+        }
 
         String SQLCommand = null;
         DBUtil du = DBUtil.getDBUtil();
         ResultSet rs;
-        if(plan==null)
-            throw new TextFormatException();
+
         String title = plan.getTitle();
         String siteIDs = plan.getSiteIDs();
         int organizer = plan.getOrganizer();
-        String participants = plan.getParticipants();
         Date startTime =  plan.getStartTime();
         Date endTime = plan.getEndTime();
-        if(siteIDs == null || organizer<0 || startTime==null || endTime==null){
-            throw new TextFormatException();
+        if(siteIDs == null || organizer<0 || startTime==null || endTime==null || startTime.after(endTime)){
+            logger.error("illegal plan");
+            return false;
         }
-        SQLCommand = " insert into " + tableName + " ( title, siteIDs, startTime, endTime, organizer, participants, budget, groupNum, groupNumMax, talkStreamID ) " +
-                " values ( '"+plan.getTitle()+"' , '"+  plan.getSiteIDs()+ "' , '"+ plan.getStartTime()+ "' , '" + plan.getEndTime()+ "' , " + plan.getOrganizer()+ " , '" + plan.getParticipants() + "' , " + plan.getBudget() + " , " + plan.getGroupNum()+ " , " + plan.getGroupNumMax() + " , " + plan.getTalkStreamID() +" ) ";
+        SQLCommand = " insert into " + tableName + " ( title, siteIDs, startTime, endTime, organizer, participants, budget, groupNum, groupNumMax, talkStreamID, isDone ) " +
+                " values ( '"+title+"' , '"+ siteIDs + "' , '"+ startTime + "' , '" + endTime+ "' , " + organizer + " , '" + plan.getParticipants() + "' , " + plan.getBudget() + " , " + plan.getGroupNum()+ " , " + plan.getGroupNumMax() + " , " + plan.getTalkStreamID() +" , false ) ";
         rs = du.executeUpdate(SQLCommand);
         rs.next();
-        int planID = rs.getInt(1); // TODO
+        int planID = rs.getInt(1);
 
-        User user = new UserManager().selectUser(organizer);
-        String orig_plans = user.getPlans();
+        User user = new User();
+        String orig_plans =new UserManager().selectUser(organizer).getPlans();
         user.setPlans(new JSONHelper().addToArray(orig_plans, planID));
         new UserManager().editUser(organizer, user);
 
@@ -54,7 +60,7 @@ public class PlanManager {
             du.executeUpdate(SQLCommand);
         }
 
-
+        return true;
     }
     public Plan selectPlan(int planID) throws TextFormatException, SQLException {
         DBUtil du = DBUtil.getDBUtil();
@@ -69,8 +75,6 @@ public class PlanManager {
                 rs.getString("participants"), rs.getInt("budget"), rs.getInt("groupNum"), rs.getInt("groupNumMax"), rs.getInt("talkStreamID"),rs.getBoolean("isDone"));
 
     }
-
-
 
     public Vector<Plan> selectPlan(Plan plan) throws TextFormatException, SQLException {
         DBUtil du = DBUtil.getDBUtil();
@@ -152,6 +156,7 @@ public class PlanManager {
         du.executeUpdate(SQLCommand);
     }
 
+    //TODO : if isDone=true can't modify it
     public void editPlan(int planID, Plan new_plan) throws TextFormatException, SQLException, JSONException {
         DBUtil du = DBUtil.getDBUtil();
         String SQLCommand = null, subSQLcommand=null;
@@ -170,6 +175,7 @@ public class PlanManager {
         int groupNum = new_plan.getGroupNum();
         int groupNumMax = new_plan.getGroupNumMax();
         int talkStreamID = new_plan.getTalkStreamID();
+        boolean isDone = new_plan.getIsDone();
 
         Plan orig_plan = selectPlan(planID);
         String orig_siteIDs = orig_plan.getSiteIDs();
@@ -214,6 +220,11 @@ public class PlanManager {
                 SQLCommand += " , ";
             SQLCommand += "title = '"+title+"'";
             isComma = true;
+        }
+        if (isDone){
+            if (isComma)
+                SQLCommand += " , ";
+            SQLCommand += "isDone = true";
         }
         if(siteIDs != null){
             if(isComma)
@@ -291,6 +302,27 @@ public class PlanManager {
         du.executeUpdate(SQLCommand);
 
 
+    }
+
+    /**
+     * new participant joins the plan
+     * @param userID
+     * @param planID
+     * @return
+     * @throws TextFormatException
+     * @throws SQLException
+     * @throws JSONException
+     */
+    public boolean joinPlan(int userID,int planID) throws TextFormatException, SQLException, JSONException {
+        Plan plan=new PlanManager().selectPlan(planID);
+        if (plan.getGroupNum()==plan.getGroupNumMax()) {
+            logger.warn("Plan is fulled");
+            return false;
+        }
+        plan.setGroupNum(plan.getGroupNum()+1);
+        plan.setParticipants(new JSONHelper().addToArray(plan.getParticipants(),userID));
+        new PlanManager().editPlan(plan.getPlanID(),plan);
+        return true;
     }
 
     private final String tableName ="plan";

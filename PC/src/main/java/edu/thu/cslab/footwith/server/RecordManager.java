@@ -6,6 +6,8 @@ import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Vector;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 /**
  * Created with IntelliJ IDEA.
@@ -15,35 +17,49 @@ import java.util.Vector;
  * To change this template use File | Settings | File Templates.
  */
 public class RecordManager {
+    private Logger logger=LogManager.getLogger(this.getClass().getName());
     public RecordManager() {
     }
-    public void addRecord(Record  record) throws SQLException, TextFormatException, JSONException {
-        String SQLCommand = null;
+    public boolean addRecord(Record  record) throws SQLException, TextFormatException, JSONException {
+        String SQLCommand;
         DBUtil du = DBUtil.getDBUtil();
         ResultSet rs;
-        if(record==null)
-            throw new TextFormatException();
+        if(record==null) {
+            logger.error("Can't add empty record");
+            return false;
+        }
+        String title = record.getTitle();
         String siteIDs = record.getSiteIDs();
         String userIDs = record.getUserIDs();
         Date startTime =  record.getStartTime();
         Date endTime = record.getEndTime();
         if(siteIDs == null || userIDs==null || startTime==null){
-            throw new TextFormatException();
+            logger.error("illegal record");
+            return false;
         }
-        SQLCommand = " insert into " + tableName + " (  siteIDs, startTime, endTime, userIDs, groupNum, journals, pictures, talkStreamID ) " +
-                " values ( '"+  record.getSiteIDs()+ "' , '"+ record.getStartTime()+ "' , '" + record.getEndTime() + "' , '" + record.getUserIDs() + "' , " + record.getGroupNum()+ " , '" + record.getJournals() + "' , '" + record.getPictures() + "' , " + record.getTalkStreamID() +" ) ";
+
+        SQLCommand = " insert into " + tableName + " (title,  siteIDs, startTime, userIDs, groupNum, journals, pictures, talkStreamID, isDone ) " +
+                " values ( '"+ title+"' , '"+ siteIDs+ "' , '"+ startTime + "' , '" + userIDs + "' , " + record.getGroupNum()+ " , '" + record.getJournals() + "' , '" + record.getPictures() + "' , " + record.getTalkStreamID() +", false ) ";
         rs = du.executeUpdate(SQLCommand);
         rs.next();
         int recordID = rs.getInt(1); // maybe wrong
+
+        if (endTime!=null){
+            SQLCommand="update "+tableName+" set endTime = '"+endTime+"' where recordID = " +recordID+";";
+            du.executeUpdate(SQLCommand);
+        }
 
         Vector<Integer> siteIDVector =new JSONHelper().convertToArray(siteIDs);
         Vector<Integer> userIDVector =new JSONHelper().convertToArray(userIDs);
         for(int i=0;i<userIDVector.size(); i++){
             for(int j=0;j<siteIDVector.size();j++){
-                int userID = userIDVector.get(i);
-                int siteID = siteIDVector.get(i);
-                SQLCommand = " insert into " + relationTableName +"( userID, siteID, startTime, endTime, recordID )" +
-                        " values ( " + userID + " , " + siteID + " , '" + startTime + "' , '" + endTime + "' , " + recordID + ")";
+                if (endTime!=null){
+                    SQLCommand = " insert into " + relationTableName +" ( userID, siteID, startTime, endTime, recordID )" +
+                            " values ( " + userIDVector.get(i) + " , " + siteIDVector.get(j) + " , '" + startTime + "' , '" + endTime + "' , " + recordID + ")";
+                }else{
+                    SQLCommand = " insert into " + relationTableName +" ( userID, siteID, startTime, recordID )" +
+                            " values ( " + userIDVector.get(i) + " , " + siteIDVector.get(j) + " , '" + startTime + "' , " + recordID + ")";
+                }
                 du.executeUpdate(SQLCommand);
             }
         }
@@ -57,7 +73,7 @@ public class RecordManager {
             user.setRecords(jh.addToArray(orig_records, recordID));
             um.editUser(userIDVector.get(i), user);
         }
-
+        return true;
     }
     public Record selectRecord(int recordID) throws TextFormatException, SQLException {
         DBUtil du = DBUtil.getDBUtil();
@@ -69,17 +85,50 @@ public class RecordManager {
         rs=du.executeQuery(SQLCommand);
         rs.next();
         return new Record(rs.getInt("recordID"),rs.getString("title"), rs.getString("siteIDs"), rs.getDate("startTime"), rs.getDate("endTime"),
-                rs.getString("userIDs"), rs.getInt("groupNum"), rs.getString("journals"), rs.getString("pictures"), rs.getInt("talkStreamID"));
+                rs.getString("userIDs"), rs.getInt("groupNum"), rs.getString("journals"), rs.getString("pictures"), rs.getInt("talkStreamID"),rs.getBoolean("isDone"));
 
     }
+
+    /**
+     * convert plan to record, update userinfo,set plan.isDone=true
+     * update userrecord table
+     * @param plan start time need to be changed
+     * @return success or not
+     * @throws JSONException
+     */
+    public boolean addRecordFromPlan(Plan plan) throws JSONException {
+        Record record=new Record(plan);
+        try {
+            if(!addRecord(record)){
+                logger.error("add Record failed!");
+                return false;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        } catch (TextFormatException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
+
+        plan.setIsDone(true);
+        try {
+            new PlanManager().editPlan(plan.getPlanID(),plan);
+        } catch (TextFormatException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        } catch (SQLException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
+
+        return true;
+    }
+
     public void deleteRecord(int recordID) throws TextFormatException, SQLException {
         DBUtil du = DBUtil.getDBUtil();
         String SQLCommand = null;
         if(recordID < 0)
             throw new TextFormatException("recordID is null");
-        SQLCommand  = " delete from " + tableName + " where recordID is " + recordID;
+        SQLCommand  = " delete from " + tableName + " where recordID = " + recordID;
         du.executeUpdate(SQLCommand);
-        SQLCommand  = " delete from " + relationTableName + " where recordID is " + recordID;
+        SQLCommand  = " delete from " + relationTableName + " where recordID = " + recordID;
         du.executeUpdate(SQLCommand);
     }
 
@@ -101,6 +150,11 @@ public class RecordManager {
         DBUtil.getDBUtil().executeUpdate(SQLCommand);
     }
 
+    /**
+     * update record's endTime
+     * @param recordID
+     * @param date
+     */
     public void endRecord(int recordID,Date date){
         String SQLCommand="update " + tableName + " set date=" + date.toString() +" where recordID=" + recordID +";";
     }
