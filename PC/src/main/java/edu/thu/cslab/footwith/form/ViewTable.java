@@ -80,49 +80,10 @@ public class ViewTable {
     }
 }
 class myDefaultTableModel extends DefaultTableModel {
-//    private Vector data;
-//
-//    private Vector titles;
-
-//    public Vector getData() {
-//        return data;
-//    }
-//
-//    public void setData(Vector data) {
-//        this.data = data;
-//    }
-//
-//    public Vector getTitles() {
-//        return titles;
-//    }
-//
-//    public void setTitles(Vector titles) {
-//        this.titles = titles;
-//    }
 
     public boolean isCellEditable(int row, int column) {
         return false;
     }
 
 
-//    public int getRowCount() {
-//
-//       if(getColumnCount() == 0) {
-//           return 0;
-//       }  else {
-//           return data.size()/getColumnCount();
-//       }
-//    }
-//
-//    public int getColumnCount() {
-//
-//        return titles.size();
-//
-//    }
-//
-//    public Object getValueAt(int rowIndex, int columnIndex) {
-//
-//        return data.get((rowIndex*getColumnCount())+columnIndex);
-//
-//    }
 }

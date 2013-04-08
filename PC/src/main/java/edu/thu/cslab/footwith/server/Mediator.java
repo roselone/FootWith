@@ -5,6 +5,7 @@ import org.json.JSONException;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Date;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Vector;
 
@@ -20,20 +21,22 @@ public class Mediator {
       public  Mediator(){
 
       }
-    public void addPlanFromForm(String title,int organizer, int groupNumMax, String siteName1,String siteName2, String startTime, String endTime) throws TextFormatException, SQLException, JSONException {
+    public void addPlanFromForm(String title,int organizer, int groupNumMax, String siteName1, String siteName2, String startTime, String endTime) throws TextFormatException, SQLException, JSONException {
         UserManager um = new UserManager();
         SiteManager sm = new SiteManager();
         PlanManager pm = new PlanManager();
         //System.out.println(siteName);
         Site site1 = sm.seleteSite(siteName1);
+        Site site2 = sm.seleteSite(siteName2);
         Vector<Integer> vector =  new Vector<Integer>();
         vector.add(site1.getSiteID());
+        vector.add(site2.getSiteID());
         String siteIDs = new JSONHelper().convertToString(vector);
-        User user=um.selectUser(organizer);
+        //User user=um.selectUser(organizer);
         Date date_startTime = Date.valueOf(startTime);
         Date date_endTime = Date.valueOf(endTime);
-        int int_organizer = user.getUserID();
-        Plan plan = new Plan(title,siteIDs, date_startTime,date_endTime,int_organizer,0,0 );
+        //int int_organizer = user.getUserID();
+        Plan plan = new Plan(title, siteIDs, date_startTime, date_endTime, organizer, 1, groupNumMax );
         pm.addPlan(plan);
     }
     public void addSiteFromForm(String siteName, String rate, String location) throws SQLException {
@@ -99,5 +102,31 @@ public class Mediator {
             siteNames.add(sites.get(i).getSiteName());
         }
         return siteNames;
+    }
+    public Vector<Plan> selectPlanFromForm(String organizer, String siteName, String startTime, String endTime) throws TextFormatException, SQLException, JSONException {
+        Vector<Plan> plans;
+        UserManager um = new UserManager();
+        SiteManager sm = new SiteManager();
+        PlanManager pm = new PlanManager();
+        JSONHelper jh = new JSONHelper();
+        User user;
+        Site site;
+        Plan plan = new Plan();
+        Date d_startTime = Date.valueOf(startTime);
+        Date d_endTime = Date.valueOf(endTime);
+        user = um.selectUser(organizer);
+        site = sm.seleteSite(siteName);
+        plan.setOrganizer(user.getUserID());
+        plan.setStartTime(d_startTime);
+        plan.setEndTime(d_endTime);
+
+        plans = pm.selectPlan(plan);
+        for(int i=0;i<plans.size();i++){
+            if(!jh.isContained(plans.get(i).getSiteIDs(), site.getSiteID())){
+                plans.remove(i);
+            }
+        }
+
+        return plans;
     }
 }

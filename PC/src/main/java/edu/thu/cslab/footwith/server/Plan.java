@@ -41,6 +41,16 @@ public class Plan {
         this.isDone=false;
     }
 
+    /**
+     *
+     * @param title
+     * @param siteIDs
+     * @param startTime
+     * @param endTime
+     * @param organizer
+     * @param groupNum
+     * @param groupNumMax
+     */
     public Plan(String title, String siteIDs, Date startTime, Date endTime, int organizer, int groupNum, int groupNumMax) {
         this.planID = -1;
         this.title = title;
@@ -55,6 +65,21 @@ public class Plan {
         this.talkStreamID = -1;
     }
 
+    /**
+     *
+     * @param planID
+     * @param title
+     * @param siteIDs
+     * @param startTime
+     * @param endTime
+     * @param organizer
+     * @param participants
+     * @param budget
+     * @param groupNum
+     * @param groupNumMax
+     * @param talkStreamID
+     * @param isDone
+     */
     public Plan(int planID,String title, String siteIDs, Date startTime, Date endTime, int organizer, String participants, int budget, int groupNum, int groupNumMax, int talkStreamID,boolean isDone) {
         this.planID = planID;
         this.title = title;
