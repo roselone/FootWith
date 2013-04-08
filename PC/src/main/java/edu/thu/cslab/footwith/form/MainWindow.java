@@ -53,7 +53,7 @@ public class MainWindow {
        // topPanel.add(toolBar,"South");
 
         JSplitPane panel_1 = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);     // horizontal
-        panel_1.setDividerLocation(250);
+        panel_1.setDividerLocation(300);
         panel_1.setDividerSize(5);
 
         JSplitPane leftJsp = new JSplitPane(JSplitPane.VERTICAL_SPLIT);          //vertical
