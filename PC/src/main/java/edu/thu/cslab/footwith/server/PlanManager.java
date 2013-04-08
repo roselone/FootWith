@@ -77,6 +77,7 @@ public class PlanManager {
     }
 
     public Vector<Plan> selectPlan(Plan plan) throws TextFormatException, SQLException {
+        assert plan.getTitle().length()>60;
         DBUtil du = DBUtil.getDBUtil();
         String SQLCommand = null;
         ResultSet rs;

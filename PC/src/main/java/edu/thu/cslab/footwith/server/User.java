@@ -17,8 +17,8 @@ import java.security.NoSuchAlgorithmException;
 public class User {
     public User(){
         this.userID = -1;
-        nickName = null;
-        passwd = null;
+        nickName = "";
+        passwd = "";
         otherInfo = -1;
         plans = null;
         records = null;
@@ -26,11 +26,11 @@ public class User {
     }
     public User(int userID){
         this.userID = userID;
-        nickName = null;
-        passwd = null;
+        nickName = "";
+        passwd = "";
         otherInfo = -1;
-        plans = null;
-        records = null;
+        plans = "";
+        records = "";
 
     }
 
