@@ -1,5 +1,7 @@
 package edu.thu.cslab.footwith.server;
 
+import edu.thu.cslab.footwith.utility.Util;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -96,7 +98,7 @@ public class UserManager {
             SQLCommand += " nickName = '" + new_user.getNickName() + "'";
             isComma = true;
         }
-        if(new_user.getPasswd() != null){
+        if(!Util.isEmpty(new_user.getPasswd())){
             if(isComma)
                 SQLCommand += " , ";
             SQLCommand += " passwd = '" + new_user.getPasswd() + "'";
@@ -136,7 +138,7 @@ public class UserManager {
             SQLCommand += " nickName = '" + new_user.getNickName() + "'";
             isComma = true;
         }
-        if(new_user.getPasswd() != null){
+        if(!Util.isEmpty(new_user.getPasswd())){
             if(isComma)
                 SQLCommand += " , ";
             SQLCommand += " passwd = '" + new_user.getPasswd() + "'";

@@ -7,6 +7,7 @@ package edu.thu.cslab.footwith.server;
  * To change this template use File | Settings | File Templates.
  */
 
+import edu.thu.cslab.footwith.utility.Util;
 import sun.misc.BASE64Encoder;
 
 import java.io.UnsupportedEncodingException;
@@ -19,8 +20,8 @@ public class User {
         nickName = "";
         passwd = "";
         otherInfo = -1;
-        plans = "";
-        records = "";
+        plans = null;
+        records = null;
 
     }
     public User(int userID){
@@ -106,13 +107,13 @@ public class User {
     }
 
     public void setPlans(String plans) throws TextFormatException {
-        if( plans.length()>80)
+        if(!Util.isEmpty(plans) && plans.length()>80)
             throw new TextFormatException("Plans");
         this.plans = plans;
     }
 
     public void setRecords(String records) throws TextFormatException {
-        if( records.length()>80)
+        if(!Util.isEmpty(records) && records.length()>80)
             throw new TextFormatException("Records");
         this.records = records;
     }

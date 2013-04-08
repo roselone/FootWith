@@ -27,7 +27,7 @@
         <logger name="edu.thu.cslab.footwith.AOPSupport.PlanLog" level="info" additivity="false">
             <appender-ref ref="planLog"/>
         </logger>
-        <root level="info">
+        <root level="debug">
             <appender-ref ref="Console"/>
         </root>
     </loggers>

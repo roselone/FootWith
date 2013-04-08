@@ -161,8 +161,8 @@ CREATE TABLE IF NOT EXISTS `userplan` (
 CREATE TABLE IF NOT EXISTS `userrecord` (
   `userID` int(11) NOT NULL,
   `siteID` int(11) NOT NULL,
-  `startTime` int(11) NOT NULL,
-  `endTime` int(11),
+  `startTime` date NOT NULL,
+  `endTime` date,
   `recordID` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

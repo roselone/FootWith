@@ -9,6 +9,6 @@ package edu.thu.cslab.footwith.utility;
  */
 public class Util {
     static public boolean isEmpty(String s){
-        return (s == null || s.length()==0 || s.trim().equals("") || s.trim().equals("null") || s.trim().equals("NULL"));
+        return (s == null || s.length()==0 || s.trim().equals("") || s.trim().toLowerCase().equals("null"));
     }
 }

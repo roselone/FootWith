@@ -196,12 +196,16 @@ public class InsertPlanForm extends JFrame {
                          if(response == JOptionPane.YES_OPTION){
                              Mediator pm=new Mediator();
                              try{
+<<<<<<< HEAD
                                  String city = cityCombBox.getSelectedItem().toString();
                                  String site = siteNameCom1.getSelectedItem().toString()+","+siteNameCom2.getSelectedItem().toString();
                                  pm.addPlanFromForm(planTitle.getText().toString(), new UserManager().selectUser(Global.username).getUserID(),new Integer(groupNumMax.getText().toString()).intValue(),siteNameCom1.getSelectedItem().toString(),siteNameCom2.getSelectedItem().toString(),startTime.getText().toString(), endTime.getText().toString());
                                  JOptionPane.showMessageDialog(null,"添加成功！");
                               //   pm.addPlanFromForm(site, 0,0,startTime.getText(),endTime.getText(),organizer.getText(),null);
                                  // function need to be improved
+=======
+                                 pm.addPlanFromForm(siteName.getText(),0,0, startTime.getText(),endTime.getText(),organizer.getText(),null);
+>>>>>>> roselone
                              }catch (TextFormatException e1) {
                                  JOptionPane.showMessageDialog(null,"格式错误，参与人数为数字");
                                  e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
