@@ -51,7 +51,7 @@ public class SiteManager {
      * @throws SQLException
      */
     public Site seleteSite(String siteName) throws TextFormatException, SQLException {
-        assert siteName.length()>40;
+        assert siteName.length()<40;
         Site site;
         DBUtil du = DBUtil.getDBUtil();
         String SQLCommand = null;
