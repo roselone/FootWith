@@ -14,15 +14,17 @@ import java.util.Vector;
 public class SiteManager {
     public SiteManager() {
     }
-    public void addSite(Site site) throws SQLException {
-        assert site.getSiteName().length()>40;
-        assert !Mediator.getAllLocations().contains(site.getLocation());
+    public int addSite(Site site) throws SQLException {
+//        assert site.getSiteName().length()<40;
+//        assert !Mediator.getAllLocations().contains(site.getLocation());
 
         String SQLCommand = null;
         DBUtil du = DBUtil.getDBUtil();
         SQLCommand = " insert into " + tableName + " ( siteName, rate, location, brief, picture) " +
                 " values ( '"+ site.getSiteName()+"' , "+ site.getRate()+ " ,'"+ site.getLocation()+ "' , " + site.getBrief()+ " , " + site.getPicture() + " ) ";
-        du.executeUpdate(SQLCommand);
+        ResultSet rs=du.executeUpdate(SQLCommand);
+        rs.next();
+        return rs.getInt(1);
     }
 
     /**

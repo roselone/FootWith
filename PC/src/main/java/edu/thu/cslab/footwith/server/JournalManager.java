@@ -17,6 +17,7 @@ public class JournalManager {
                 + " , '" + journal.getTitle() + "' , '" + journal.getDate() + "')" ;
         DBUtil du=DBUtil.getDBUtil();
         ResultSet rs=du.executeUpdate(SQLComment);
+        rs.next();
         return rs.getInt(1);
     }
 

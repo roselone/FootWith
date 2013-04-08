@@ -137,7 +137,7 @@ public class InsertPlanForm extends JFrame {
                          if(response == JOptionPane.YES_OPTION){
                              Mediator pm=new Mediator();
                              try{
-                                 pm.addPlanFromForm(siteName.getText(), startTime.getText(),endTime.getText(),organizer.getText());
+                                 pm.addPlanFromForm(siteName.getText(),0,0, startTime.getText(),endTime.getText(),organizer.getText(),null);
                              }catch (TextFormatException e1) {
 
                                  e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.

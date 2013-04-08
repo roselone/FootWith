@@ -68,6 +68,7 @@ CREATE TABLE IF NOT EXISTS `picture` (
 
 CREATE TABLE IF NOT EXISTS `plan` (
   `planID` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(80) NOT NULL,
   `siteIDs` varchar(100) NOT NULL,
   `startTime` date NOT NULL,
   `endTime` date NOT NULL,
@@ -89,6 +90,7 @@ CREATE TABLE IF NOT EXISTS `plan` (
 
 CREATE TABLE IF NOT EXISTS `record` (
   `recordID` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(80) NOT NULL,
   `siteIDs` varchar(100) NOT NULL,
   `startTime` date NOT NULL,
   `endTime` date,
@@ -159,8 +161,8 @@ CREATE TABLE IF NOT EXISTS `userplan` (
 CREATE TABLE IF NOT EXISTS `userrecord` (
   `userID` int(11) NOT NULL,
   `siteID` int(11) NOT NULL,
-  `startTime` int(11) NOT NULL,
-  `endTime` int(11),
+  `startTime` date NOT NULL,
+  `endTime` date,
   `recordID` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
