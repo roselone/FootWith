@@ -1,5 +1,7 @@
 package edu.thu.cslab.footwith.server;
 
+import org.json.JSONException;
+
 import java.sql.Date;
 
 /**
@@ -21,6 +23,7 @@ public class Record {
         journals = null;
         pictures = null;
         talkStreamID = -1;
+        isDone=false;
     }
     public Record(int recordID) {
         this.recordID = recordID;
@@ -33,6 +36,16 @@ public class Record {
         journals = null;
         pictures = null;
         talkStreamID = -1;
+        isDone=false;
+    }
+
+    public Record(Plan plan) throws JSONException {
+        this.title=plan.getTitle();
+        this.siteIDs=plan.getSiteIDs();
+        this.startTime=plan.getStartTime();
+        this.userIDs=new JSONHelper().addToArray(plan.getParticipants(),plan.getOrganizer());
+        this.groupNum=plan.getGroupNum();
+        this.isDone=false;
     }
 
     public Record(String title,String siteIDs, Date startTime, String userIDs, int groupNum) {
@@ -46,10 +59,11 @@ public class Record {
         this.startTime = startTime;
         this.userIDs = userIDs;
         this.groupNum = groupNum;
+        isDone=false;
 
     }
 
-    public Record(int recordID, String title,String siteIDs, Date startTime, Date endTime, String userIDs, int groupNum, String journals, String pictures, int talkStreamID) {
+    public Record(int recordID, String title,String siteIDs, Date startTime, Date endTime, String userIDs, int groupNum, String journals, String pictures, int talkStreamID,boolean isDone) {
         this.recordID = recordID;
         this.title=title;
         this.siteIDs = siteIDs;
@@ -60,6 +74,7 @@ public class Record {
         this.journals = journals;
         this.pictures = pictures;
         this.talkStreamID = talkStreamID;
+        this.isDone=isDone;
     }
 
     public int getRecordID() {
@@ -147,5 +162,6 @@ public class Record {
     private String journals;
     private String pictures;
     private int talkStreamID;
+    private boolean isDone;
 
 }

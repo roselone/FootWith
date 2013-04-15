@@ -1,5 +1,7 @@
 package edu.thu.cslab.footwith.server;
 
+import edu.thu.cslab.footwith.utility.Util;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -12,14 +14,16 @@ import java.sql.SQLException;
  */
 public class UserManager {
     public UserManager() { }
-    public void addUser(User user) throws TextFormatException, SQLException {
+    public int addUser(User user) throws TextFormatException, SQLException {
         String SQLCommand = null;
         DBUtil du = DBUtil.getDBUtil();
         if(user == null)
             throw new TextFormatException();
         SQLCommand = " insert into " + tableName + " ( userName, nickName, passwd, otherInfo, plans, records ) " +
                 " values ( '"+ user.getUserName()+"' , '"+ user.getNickName()+ "' , '"+ user.getPasswd()+ "' , " + user.getOtherInfo()+ " , '" + user.getPlans()+ "' , '" + user.getRecords() + "' ) ";
-        du.executeUpdate(SQLCommand);
+        ResultSet rs=du.executeUpdate(SQLCommand);
+        rs.next();
+        return rs.getInt(1);
     }
 
     public static User selectUser(String userName) throws TextFormatException, SQLException {
@@ -94,7 +98,7 @@ public class UserManager {
             SQLCommand += " nickName = '" + new_user.getNickName() + "'";
             isComma = true;
         }
-        if(new_user.getPasswd() != null){
+        if(!Util.isEmpty(new_user.getPasswd())){
             if(isComma)
                 SQLCommand += " , ";
             SQLCommand += " passwd = '" + new_user.getPasswd() + "'";
@@ -134,7 +138,7 @@ public class UserManager {
             SQLCommand += " nickName = '" + new_user.getNickName() + "'";
             isComma = true;
         }
-        if(new_user.getPasswd() != null){
+        if(!Util.isEmpty(new_user.getPasswd())){
             if(isComma)
                 SQLCommand += " , ";
             SQLCommand += " passwd = '" + new_user.getPasswd() + "'";

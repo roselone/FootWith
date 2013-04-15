@@ -7,6 +7,7 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.text.TableView;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.Vector;
@@ -45,9 +46,9 @@ public class PlanDelandUpdateFrame extends JFrame {
         String[] columnNames = new String[]{"组织者","开始时间","结束时间","人数","参观景点"};
 
         table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-        table.addMouseListener(new TableListener());
-        scrollPane.setViewportView(table);
 
+        scrollPane.setViewportView(table);
+        setTable();
 
         final JPanel planPanel = new JPanel();
         mainPanel.add(planPanel,"South");
@@ -92,12 +93,19 @@ public class PlanDelandUpdateFrame extends JFrame {
         planPanel.add(statusLabel);
         planPanel.add(statusCombo);
 
+        table.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int selRow = table.getSelectedRow();
+                organizer.setText(table.getValueAt(selRow,4).toString().trim());
+                startTime.setText(table.getValueAt(selRow,2).toString().trim());
+                endTime.setText(table.getValueAt(selRow,3).toString().trim());
+                groupNumMax.setText(table.getValueAt(selRow,7).toString().trim());
+                siteSets.setText(table.getValueAt(selRow,1).toString().trim());
 
+            }
 
-
-
-
-
+        });
 
         final  JPanel bottomPanel = new JPanel();
         bottomPanel.setBorder(new LineBorder(SystemColor.activeCaptionBorder,1,false));
@@ -152,6 +160,11 @@ public class PlanDelandUpdateFrame extends JFrame {
         final JLabel headLogo = new JLabel();
 
 
+    }
+
+    void setTable(){
+        DefaultTableModel model = new ViewTable().makeTable("select * from plan");
+        table.setModel(model);
     }
     //  ImageIcon siteModiandDelIcon = CreatecdIcon
 }

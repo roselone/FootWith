@@ -5,6 +5,7 @@ import org.json.JSONException;
 
 import java.awt.datatransfer.StringSelection;
 import java.util.Vector;
+import edu.thu.cslab.footwith.utility.Util;
 
 /**
  * Created with IntelliJ IDEA.
@@ -22,7 +23,6 @@ public class JSONHelper {
     }
 
     public String convertToString(Vector<Integer> parts){
-        String result=null;
         JSONArray array=new JSONArray();
         for (int i=0;i<parts.size();i++){
             array.put(parts.get(i));
@@ -31,7 +31,7 @@ public class JSONHelper {
     }
 
     public Vector<Integer> convertToArray(String s) throws JSONException {
-        if (s ==null || s.length()==0 || s.equals("null")) return null;
+        if (Util.isEmpty(s)) return null;
         JSONArray array=new JSONArray(s);
         Vector<Integer> result=new Vector<Integer>();
         for (int i=0;i<array.length();i++) result.add(array.getInt(i));
@@ -40,7 +40,7 @@ public class JSONHelper {
 
     public String addToArray(String s, int one) throws JSONException {
         Vector<Integer> tmp;
-        if (s == null || s.length()==0 || s.equals("null")) {
+        if (Util.isEmpty(s)) {
             tmp=new Vector<Integer>();
         }else{
             tmp=convertToArray(s);
@@ -50,14 +50,14 @@ public class JSONHelper {
     }
 
     public String deleteFromArray(String s, int one) throws JSONException {
-        if (s == null || s.length()==0 || s.equals("null")) return null;
+        if (Util.isEmpty(s)) return null;
         Vector<Integer> tmp=convertToArray(s);
         tmp.remove(tmp.indexOf(one));
         return convertToString(tmp);
     }
 
     public boolean isContained(String s,int one) throws JSONException {
-        if (s == null || s.length()==0 || s.equals("null")) return false;
+        if (Util.isEmpty(s)) return false;
         Vector<Integer> tmp=convertToArray(s);
         return tmp.contains(one);
     }
