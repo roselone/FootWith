@@ -15,6 +15,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -198,7 +200,7 @@ public class InsertPlanForm extends JFrame {
                              try{
                                  String city = cityCombBox.getSelectedItem().toString();
                                  String site = siteNameCom1.getSelectedItem().toString()+","+siteNameCom2.getSelectedItem().toString();
-                                 pm.addPlanFromForm(planTitle.getText().toString(), new UserManager().selectUser(Global.username).getUserID(),new Integer(groupNumMax.getText().toString()).intValue(),siteNameCom1.getSelectedItem().toString(),siteNameCom2.getSelectedItem().toString(),startTime.getText().toString(), endTime.getText().toString());
+                                 pm.addPlanFromForm(planTitle.getText().toString(),new UserManager().selectUser(Global.username).getUserID(),new Integer(groupNumMax.getText().toString()).intValue(),siteNameCom1.getSelectedItem().toString(),siteNameCom2.getSelectedItem().toString(),startTime.getText().toString(), endTime.getText().toString());
                                  JOptionPane.showMessageDialog(null,"添加成功！");
                               //   pm.addPlanFromForm(site, 0,0,startTime.getText(),endTime.getText(),organizer.getText(),null);
                                  // function need to be improved
@@ -211,6 +213,10 @@ public class InsertPlanForm extends JFrame {
                                  e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                              } catch (JSONException e1) {
                                  JOptionPane.showMessageDialog(null,"格式错误，参与人数为数字");
+                                 e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                             } catch (NoSuchAlgorithmException e1) {
+                                 e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                             } catch (UnsupportedEncodingException e1) {
                                  e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                              }
 

@@ -2,6 +2,8 @@ package edu.thu.cslab.footwith.server;
 
 import org.json.JSONException;
 
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -20,7 +22,7 @@ public class RecordManager {
     private Logger logger=LogManager.getLogger(this.getClass().getName());
     public RecordManager() {
     }
-    public boolean addRecord(Record  record) throws SQLException, TextFormatException, JSONException {
+    public boolean addRecord(Record  record) throws SQLException, TextFormatException, JSONException, NoSuchAlgorithmException, UnsupportedEncodingException {
         String SQLCommand;
         DBUtil du = DBUtil.getDBUtil();
         ResultSet rs;
@@ -96,7 +98,7 @@ public class RecordManager {
      * @return success or not
      * @throws JSONException
      */
-    public boolean addRecordFromPlan(Plan plan) throws JSONException {
+    public boolean addRecordFromPlan(Plan plan) throws JSONException, NoSuchAlgorithmException, UnsupportedEncodingException {
         Record record=new Record(plan);
         try {
             if(!addRecord(record)){
