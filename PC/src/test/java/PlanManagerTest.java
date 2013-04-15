@@ -5,6 +5,8 @@ import org.junit.Test;
 import edu.thu.cslab.footwith.server.Plan;
 import edu.thu.cslab.footwith.server.PlanManager;
 
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Date;
 import java.sql.SQLException;
 
@@ -17,7 +19,7 @@ import java.sql.SQLException;
  */
 public class PlanManagerTest {
     @Test
-    public void addPlanTest() throws TextFormatException, SQLException, JSONException {
+    public void addPlanTest() throws TextFormatException, SQLException, JSONException, NoSuchAlgorithmException, UnsupportedEncodingException {
         Plan plan=new Plan("I want to blablabla","[213,231]",java.sql.Date.valueOf("1996-05-03"), java.sql.Date.valueOf("1997-05-04"),1,2,3);
         //plan.setParticipants("[321,324]");
         PlanManager pm=new PlanManager();

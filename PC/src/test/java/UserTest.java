@@ -15,14 +15,14 @@ import java.sql.SQLException;
 public class UserTest {
     @Test
     public void addUserTest() throws NoSuchAlgorithmException, UnsupportedEncodingException, TextFormatException, SQLException {
-        User user=new User("xiao3","yuer3","1234",-1,"","",0);
+        User user=new User("xiao3","yuer3","1234",-1,"","");
         UserManager um=new UserManager();
         um.addUser(user);
     }
     @Test
-    public void selectUserTest() throws TextFormatException, SQLException {
+    public void selectUserTest() throws TextFormatException, SQLException, NoSuchAlgorithmException, UnsupportedEncodingException {
         UserManager um=new UserManager();
-        User user=UserManager.selectUser("xiao2");
+        User user= UserManager.selectUser("xiao2");
         System.out.println(user.getNickName());
         System.out.println(user.getOtherInfo());
         System.out.println(user.getPasswd());

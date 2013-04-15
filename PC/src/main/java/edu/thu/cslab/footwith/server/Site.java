@@ -27,6 +27,41 @@ public class Site {
 
     }
 
+    /**
+     *
+     * @param siteName
+     * @param rate
+     * @param location
+     */
+    public Site(String siteName, int rate, String location) {
+        this.siteName = siteName;
+        this.rate = rate;
+        this.location = location;
+    }
+
+    /**
+     *
+     * @param siteID
+     * @param siteName
+     * @param rate
+     * @param location
+     */
+    public Site(int siteID, String siteName, int rate, String location) {
+        this.siteID = siteID;
+        this.siteName = siteName;
+        this.location = location;
+        this.rate = rate;
+    }
+
+    /**
+     *
+     * @param siteID
+     * @param siteName
+     * @param rate
+     * @param location
+     * @param brief
+     * @param picture
+     */
     public Site(int siteID, String siteName, int rate, String location, String brief, int picture) {
         this.siteID = siteID;
         this.siteName = siteName;
