@@ -24,13 +24,28 @@ public class BXLTest {
 
         //Test Sequence: add select edit delete
         //Test User
-        User user = new User("bxl", "bxl", "helloworld", 1, "", "");
-        int userID = UserManager.addUser(user);
+
+        User user;
+        try{
+            user = UserManager.selectUser("bxl");
+        }catch (SQLException e){
+            user= new User("bxl", "bxl", "helloworld", 1, "", "");
+            UserManager.addUser(user);
+        }
 
 
         //Test Site
-        Site site = new Site(0, "tsinghua", 4, "beijing");
-        int siteID = sm.addSite(site);
+        Site site;
+
+        try{
+            site = sm.seleteSite("tsinghua");
+        }catch (SQLException e){
+            site = new Site(0, "tsinghua", 4, "beijing");
+             sm.addSite(site);
+        }
+        int userID = user.getUserID();
+
+        int siteID = site.getSiteID();
 
         //Test Plan
         Vector<Integer> siteIDs_v = new Vector<Integer>();
@@ -40,10 +55,10 @@ public class BXLTest {
 
         Plan plan = new Plan("my1", JSONHelper.getJSONHelperInstance().convertToString(siteIDs_v), Date.valueOf("2000-01-01"), Date.valueOf("2000-02-03"), userID, 10, 10);
         pm.addPlan(plan);
-        pm.selectPlan(plan);
+        Vector<Plan> plans = pm.selectPlan(plan);
         plan.setBudget(10);
-        pm.editPlan(plan.getPlanID(), plan);
-        pm.deletePlan(plan.getPlanID());
+        pm.editPlan(plans.get(0).getPlanID(), plan);
+        pm.deletePlan(plans.get(0).getPlanID());
 
 
     }

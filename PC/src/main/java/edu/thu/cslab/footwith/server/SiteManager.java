@@ -17,7 +17,7 @@ public class SiteManager {
     public SiteManager() {
     }
     public  int addSite(Site site) throws SQLException {
-//        assert site.getSiteName().length()<40;
+        assert site.getSiteName().length()<40;
 //        assert !Mediator.getAllLocations().contains(site.getLocation());
 
         String SQLCommand = null;
@@ -45,7 +45,7 @@ public class SiteManager {
         return sites;
     }
     public  Site seleteSite(String siteName) throws TextFormatException, SQLException {
-        assert siteName.length()>40;
+        assert siteName.length()<=40;
         Site site;
         DBUtil du = DBUtil.getDBUtil();
         String SQLCommand = null;
@@ -150,12 +150,12 @@ public class SiteManager {
             throw new TextFormatException("siteName is null");
         SQLCommand  = " update " + tableName + " set ";
         //if(new_site.getLocation() != null){
-        if(Util.isEmpty(new_site.getLocation())){
+        if(!Util.isEmpty(new_site.getLocation())){
             SQLCommand += " location = '" + new_site.getLocation()+"'";
             isComma = true;
         }
         //if(new_site.getBrief() != null){
-        if(Util.isEmpty(new_site.getBrief())){
+        if(!Util.isEmpty(new_site.getBrief())){
             if(isComma)
                 SQLCommand += " , ";
             SQLCommand += " brief = '" + new_site.getBrief() + "'";
@@ -187,12 +187,12 @@ public class SiteManager {
             throw new TextFormatException("siteName is null");
         SQLCommand  = " update " + tableName + " set ";
         //if(new_site.getLocation() != null){
-        if(Util.isEmpty(new_site.getLocation())){
+        if(!Util.isEmpty(new_site.getLocation())){
             SQLCommand += " location = '" + new_site.getLocation() + "'";
             isComma = true;
         }
         //if(new_site.getBrief() != null){
-        if(Util.isEmpty(new_site.getBrief())){
+        if(!Util.isEmpty(new_site.getBrief())){
             if(isComma)
                 SQLCommand += " , ";
             SQLCommand += " brief = '" + new_site.getBrief() + "'";

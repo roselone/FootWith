@@ -79,7 +79,7 @@ public class PlanManager {
     }
 
     public  Vector<Plan> selectPlan(Plan plan) throws TextFormatException, SQLException {
-        assert plan.getTitle().length()>60;
+        assert plan.getTitle().length()<=60;
         DBUtil du = DBUtil.getDBUtil();
         String SQLCommand = null;
         ResultSet rs;
@@ -165,7 +165,7 @@ public class PlanManager {
         String SQLCommand = null, subSQLcommand=null;
         boolean isComma = false;
         if(planID < 0)
-            throw new TextFormatException("userID is null");
+            throw new TextFormatException("planID is null");
         SQLCommand  = " update " + tableName + " set ";
 
         String siteIDs = new_plan.getSiteIDs();
@@ -223,7 +223,7 @@ public class PlanManager {
             isComma = true;
         }
         //if (title != null){
-        if(Util.isEmpty(title)){
+        if(!Util.isEmpty(title)){
             if (isComma)
                 SQLCommand += " , ";
             SQLCommand += "title = '"+title+"'";
@@ -235,7 +235,7 @@ public class PlanManager {
             SQLCommand += "isDone = true";
         }
         //if(siteIDs != null){
-        if(Util.isEmpty(siteIDs)){
+        if(!Util.isEmpty(siteIDs)){
             if(isComma)
                 SQLCommand += " , ";
             SQLCommand += " siteIDs = '" +siteIDs + "'";
@@ -260,7 +260,7 @@ public class PlanManager {
          }
 
         //if(participants != null){
-        if(Util.isEmpty(participants)){
+        if(!Util.isEmpty(participants)){
             if(isComma)
                 SQLCommand += " , ";
             SQLCommand += " participants = '" +participants + "'";
