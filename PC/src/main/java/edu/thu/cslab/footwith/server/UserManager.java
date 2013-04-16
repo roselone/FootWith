@@ -2,6 +2,8 @@ package edu.thu.cslab.footwith.server;
 
 import edu.thu.cslab.footwith.utility.Util;
 
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import org.apache.logging.log4j.LogManager;
@@ -17,7 +19,7 @@ import org.apache.logging.log4j.Logger;
 public class UserManager {
     Logger logger=LogManager.getLogger(this.getClass().getName());
     public UserManager() { }
-    public int addUser(User user) throws TextFormatException, SQLException {
+    public static int addUser(User user) throws TextFormatException, SQLException {
         String SQLCommand = null;
         DBUtil du = DBUtil.getDBUtil();
         if(user == null)
@@ -29,30 +31,32 @@ public class UserManager {
         return rs.getInt(1);
     }
 
-    public static User selectUser(String userName) throws TextFormatException, SQLException {
+    public static User selectUser(String userName) throws TextFormatException, SQLException, NoSuchAlgorithmException, UnsupportedEncodingException {
         User user;
         DBUtil du = DBUtil.getDBUtil();
         String SQLCommand = null;
         ResultSet rs;
-        if(userName == null)
+        //if(userName == null)
+        if(Util.isEmpty(userName))
             throw new TextFormatException("userName is null");
         SQLCommand  = " select * from " + tableName + " where userName = '" + userName+"'";
 
         rs=du.executeQuery(SQLCommand);
         // while(rs.next()){
         rs.next();
-        user = new User(rs.getInt("userID"));
-        user.setUserName(rs.getString("userName"));
-        user.setNickName(rs.getString("nickName"));
-        user.setPasswd(rs.getString("passwd"));
-        user.setOtherInfo(rs.getInt("otherInfo"));
-        user.setPlans(rs.getString("plans"));
-        user.setRecords(rs.getString("records"));
+        user = new User(rs.getInt("userID"), rs.getString("userName"), rs.getString("nickName"), rs.getString("passwd"), rs.getInt("otherInfo"), rs.getString("plans"), rs.getString("records"));
+        //user = new User(rs.getInt("userID"));
+        //user.setUserName(rs.getString("userName"));
+        //user.setNickName(rs.getString("nickName"));
+        //user.setPasswd(rs.getString("passwd"));
+        //user.setOtherInfo(rs.getInt("otherInfo"));
+        //user.setPlans(rs.getString("plans"));
+        //user.setRecords(rs.getString("records"));
         // }
 
         return user;
     }
-    public User selectUser(int userID) throws TextFormatException, SQLException {
+    public static User selectUser(int userID) throws TextFormatException, SQLException, NoSuchAlgorithmException, UnsupportedEncodingException {
         User user=new User(userID);
         DBUtil du = DBUtil.getDBUtil();
         String SQLCommand = null;
@@ -64,26 +68,30 @@ public class UserManager {
         rs=du.executeQuery(SQLCommand);
         //while(rs.next()){
         rs.next();
+        user = new User(rs.getInt("userID"), rs.getString("userName"), rs.getString("nickName"), rs.getString("passwd"), rs.getInt("otherInfo"), rs.getString("plans"), rs.getString("records"));
+        /*
         user.setUserName(rs.getString("userName"));
         user.setNickName(rs.getString("nickName"));
         user.setPasswd(rs.getString("passwd"));
         user.setOtherInfo(rs.getInt("otherInfo"));
         user.setPlans(rs.getString("plans"));
         user.setRecords(rs.getString("records"));
+        */
         //}
 
         return user;
     }
-    public void deleteUser(String userName) throws TextFormatException, SQLException {
+    public  void deleteUser(String userName) throws TextFormatException, SQLException {
         DBUtil du = DBUtil.getDBUtil();
         String SQLCommand = null;
-        if(userName == null)
+        //if(userName == null)
+        if(Util.isEmpty(userName))
             throw new TextFormatException("userName is null");
         SQLCommand  = " delete from " + tableName + " where userName = '" + userName + "'";
         du.executeUpdate(SQLCommand);
 
     }
-    public void deleteUser(int userID) throws TextFormatException, SQLException {
+    public  void deleteUser(int userID) throws TextFormatException, SQLException {
         DBUtil du = DBUtil.getDBUtil();
         String SQLCommand = null;
         if(userID < 0)
@@ -92,14 +100,16 @@ public class UserManager {
         du.executeUpdate(SQLCommand);
 
     }
-    public void editUser(String userName, User new_user) throws TextFormatException, SQLException {
+    public  void editUser(String userName, User new_user) throws TextFormatException, SQLException {
         DBUtil du = DBUtil.getDBUtil();
         String SQLCommand = null;
         boolean isComma = false;
-        if(userName == null)
+        //if(userName == null)
+        if(Util.isEmpty(userName))
             throw new TextFormatException("userName is null");
         SQLCommand  = " update " + tableName + " set ";
-        if(new_user.getNickName() != null){
+        //if(new_user.getNickName() != null){
+        if(!Util.isEmpty(new_user.getNickName())) {
             SQLCommand += " nickName = '" + new_user.getNickName() + "'";
             isComma = true;
         }
@@ -116,13 +126,15 @@ public class UserManager {
             SQLCommand += " otherInfo = " + new_user.getOtherInfo();
             isComma = true;
         }
-        if(new_user.getPlans() != null){
+        //if(new_user.getPlans() != null){
+        if(!Util.isEmpty(new_user.getPlans())) {
             if(isComma)
                 SQLCommand += " , ";
             SQLCommand += " plans = '" + new_user.getPlans() + "'";
             isComma = true;
         }
-        if(new_user.getRecords() != null){
+        //if(new_user.getRecords() != null){
+        if(!Util.isEmpty(new_user.getRecords())){
             if(isComma)
                 SQLCommand += " , ";
             SQLCommand += " records = '" + new_user.getRecords() + "'";
@@ -132,14 +144,15 @@ public class UserManager {
         du.executeUpdate(SQLCommand);
 
     }
-    public void editUser(int userID, User new_user) throws TextFormatException, SQLException {
+    public  void editUser(int userID, User new_user) throws TextFormatException, SQLException {
         DBUtil du = DBUtil.getDBUtil();
         String SQLCommand = null;
         boolean isComma = false;
         if(userID < 0)
             throw new TextFormatException("userID is null");
         SQLCommand  = " update " + tableName + " set ";
-        if(new_user.getNickName() != null){
+        //if(new_user.getNickName() != null){
+        if(!Util.isEmpty(new_user.getNickName())){
             SQLCommand += " nickName = '" + new_user.getNickName() + "'";
             isComma = true;
         }
@@ -156,13 +169,15 @@ public class UserManager {
             SQLCommand += " otherInfo = " + new_user.getOtherInfo();
             isComma = true;
         }
-        if(new_user.getPlans() != null){
+        //if(new_user.getPlans() != null){
+        if(!Util.isEmpty(new_user.getPlans())){
             if(isComma)
                 SQLCommand += " , ";
             SQLCommand += " plans = '" + new_user.getPlans() + "'";
             isComma = true;
         }
-        if(new_user.getRecords() != null){
+        //if(new_user.getRecords() != null){
+        if(!Util.isEmpty(new_user.getRecords())){
             if(isComma)
                 SQLCommand += " , ";
             SQLCommand += " records = '" + new_user.getRecords() + "'";

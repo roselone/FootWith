@@ -5,6 +5,8 @@ import edu.thu.cslab.footwith.server.TextFormatException;
 import org.json.JSONException;
 import org.junit.Test;
 
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 
 /**
@@ -16,7 +18,7 @@ import java.sql.SQLException;
  */
 public class RecordManagerTest {
     @Test
-    public void convertRecordTest() throws TextFormatException, SQLException, JSONException {
+    public void convertRecordTest() throws TextFormatException, SQLException, JSONException, NoSuchAlgorithmException, UnsupportedEncodingException {
         Plan plan=new PlanManager().selectPlan(1);
         new RecordManager().addRecordFromPlan(plan);
     }
