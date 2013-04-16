@@ -5,9 +5,10 @@ import org.json.JSONException;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Date;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Vector;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 /**
  * Created with IntelliJ IDEA.
@@ -18,6 +19,7 @@ import java.util.Vector;
  */
 public class Mediator {
 
+      private Logger logger=LogManager.getLogger(this.getClass().getName());
       public  Mediator(){
 
       }
@@ -48,7 +50,7 @@ public class Mediator {
     public static boolean isValid(String username, String passwd) throws TextFormatException, SQLException, NoSuchAlgorithmException, UnsupportedEncodingException {
         User user=UserManager.selectUser(username);
         if (user==null) return false;
-        System.out.println(user.getUserID());
+        //System.out.println(user.getUserID());
         if (user.checkPasswd(passwd))
             return true;
         else

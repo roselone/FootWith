@@ -9,6 +9,8 @@ import java.sql.SQLException;
 
 import edu.thu.cslab.footwith.server.Mediator;
 import edu.thu.cslab.footwith.server.TextFormatException;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 
 /**
@@ -20,6 +22,7 @@ import edu.thu.cslab.footwith.server.TextFormatException;
  */
 public class LoginForm implements  ActionListener{
 
+    private Logger logger=LogManager.getLogger(this.getClass().getName());
     private JFrame frame = new JFrame("登录");
     private Container c = frame.getContentPane();
     private JTextField username = new JTextField();
@@ -86,7 +89,7 @@ public class LoginForm implements  ActionListener{
 
 
                     } else{
-
+                       logger.debug("Username={},password={}",uname,pwd);
                     }
                 } catch (TextFormatException e1) {
                     e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
