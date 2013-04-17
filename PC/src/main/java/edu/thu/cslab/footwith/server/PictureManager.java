@@ -12,6 +12,13 @@ import java.sql.SQLException;
  */
 public class PictureManager {
     private final String tableName = "picture";
+
+    /**
+     * add picture
+     * @param picture
+     * @return picture ID
+     * @throws SQLException
+     */
     public int addPicture(Picture picture) throws SQLException {
         String SQLComment = "insert into " + tableName + " ( userID, title, picturePath, time ) values (" + picture.getUserID()
                 + " , '" + picture.getTitle() + "' , '" + picture.getDate() + "')" ;
@@ -21,6 +28,12 @@ public class PictureManager {
         return rs.getInt(1);
     }
 
+    /**
+     * edit picture
+     * @param pictureID
+     * @param picture
+     * @throws SQLException
+     */
     public void editPicture(int pictureID,Picture picture) throws  SQLException {
         String SQLComment = "update " + tableName + " set ";
         boolean flag=false;
@@ -32,11 +45,22 @@ public class PictureManager {
         }
     }
 
+    /**
+     * delete picture
+     * @param pictureID
+     * @throws SQLException
+     */
     public void deletePicture(int pictureID) throws SQLException {
         String SQLComment = "delete from " + tableName + " where pictureID=" + String.valueOf(pictureID) + ";";
         DBUtil.getDBUtil().executeUpdate(SQLComment);
     }
 
+    /**
+     * select picture
+     * @param pictureID
+     * @return
+     * @throws SQLException
+     */
     public Picture selectPicture(int pictureID) throws SQLException {
         String SQLComment = "select * from " + tableName + " where pictureID = " +String.valueOf(pictureID)+";";
         ResultSet rs = DBUtil.getDBUtil().executeQuery(SQLComment);
