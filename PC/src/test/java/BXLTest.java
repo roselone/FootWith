@@ -53,12 +53,12 @@ public class BXLTest {
         siteIDs_v.add(siteID);
 
 
-        Plan plan = new Plan("my1", JSONHelper.getJSONHelperInstance().convertToString(siteIDs_v), Date.valueOf("2000-01-01"), Date.valueOf("2000-02-03"), userID, 10, 10);
-        pm.addPlan(plan);
-        Vector<Plan> plans = pm.selectPlan(plan);
-        plan.setBudget(10);
-        pm.editPlan(plans.get(0).getPlanID(), plan);
-        pm.deletePlan(plans.get(0).getPlanID());
+//        Plan plan = new Plan("my1", JSONHelper.getJSONHelperInstance().convertToString(siteIDs_v), Date.valueOf("2000-01-01"), Date.valueOf("2000-02-03"), userID, 10, 10);
+//        pm.addPlan(plan);
+//        Vector<Plan> plans = pm.selectPlan(plan);
+//        plan.setBudget(10);
+//        pm.editPlan(plans.get(0).getPlanID(), plan);
+//        pm.deletePlan(plans.get(0).getPlanID());
 
 
     }

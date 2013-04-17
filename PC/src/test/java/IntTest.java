@@ -14,7 +14,5 @@ public class IntTest {
         i=10;
         String s;
         s=null;
-        System.out.println(s.length());
-
     }
 }

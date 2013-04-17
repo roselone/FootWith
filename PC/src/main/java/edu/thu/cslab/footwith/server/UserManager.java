@@ -6,6 +6,8 @@ import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * Created with IntelliJ IDEA.
@@ -15,6 +17,7 @@ import java.sql.SQLException;
  * To change this template use File | Settings | File Templates.
  */
 public class UserManager {
+    static Logger logger=LogManager.getLogger("UserManager");
     public UserManager() { }
     public static int addUser(User user) throws TextFormatException, SQLException {
         String SQLCommand = null;
@@ -37,6 +40,7 @@ public class UserManager {
         if(Util.isEmpty(userName))
             throw new TextFormatException("userName is null");
         SQLCommand  = " select * from " + tableName + " where userName = '" + userName+"'";
+
         rs=du.executeQuery(SQLCommand);
         // while(rs.next()){
         rs.next();
@@ -60,6 +64,7 @@ public class UserManager {
         if(userID < 0)
             throw new TextFormatException("userID is null");
         SQLCommand  = " select * from " + tableName + " where userID = " + userID;
+        logger.debug("SQL={}",SQLCommand);
         rs=du.executeQuery(SQLCommand);
         //while(rs.next()){
         rs.next();

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<web-app>
+    <display-name>test</display-name>
+    <servlet>
+        <servlet-name>test</servlet-name>
+        <servlet-class>edu.thu.cslab.footwith.web.test</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>test</servlet-name>
+        <url-pattern>/test</url-pattern>
+    </servlet-mapping>
+</web-app>

@@ -1,4 +1,4 @@
-import edu.thu.cslab.footwith.server.DBUtil;
+import edu.thu.cslab.footwith.dao.DBUtil;
 import org.junit.Test;
 
 import java.io.UnsupportedEncodingException;
@@ -17,7 +17,7 @@ public class DBUtilTest {
     public void testDB() throws SQLException, UnsupportedEncodingException {
         DBUtil DB=DBUtil.getDBUtil();
         String siteName="fuck小玉1";
-        String location="玉儿";
+        String location="北京";
 
         String SQLCMD1="insert into site ( siteName, rate, location ) values ( '"+siteName+"',5,'"+location+"' )";
         //DB.executeUpdate(SQLCMD1);

@@ -13,8 +13,11 @@ import sun.misc.BASE64Encoder;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class User {
+    private Logger logger=LogManager.getLogger(this.getClass().getName());
     public User(){
         this.userID = -1;
         nickName = "";
@@ -122,6 +125,7 @@ public class User {
 
     public boolean checkPasswd(String in_passwd) throws NoSuchAlgorithmException, UnsupportedEncodingException {
         String in_passwd_md5 = convertToMD5(in_passwd);
+        logger.debug("passwd in MD5:{}",in_passwd_md5);
         if(this.passwd.equals(in_passwd_md5))
             return true;
         else
