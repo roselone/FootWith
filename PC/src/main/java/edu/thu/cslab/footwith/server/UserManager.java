@@ -17,7 +17,7 @@ import org.apache.logging.log4j.Logger;
  * To change this template use File | Settings | File Templates.
  */
 public class UserManager {
-    Logger logger=LogManager.getLogger(this.getClass().getName());
+    static Logger logger=LogManager.getLogger("UserManager");
     public UserManager() { }
     public static int addUser(User user) throws TextFormatException, SQLException {
         String SQLCommand = null;

@@ -20,7 +20,7 @@ public class DBUtilTest {
         String location="玉儿";
 
         String SQLCMD1="insert into site ( siteName, rate, location ) values ( '"+siteName+"',5,'"+location+"' )";
-        DB.executeUpdate(SQLCMD1);
+        //DB.executeUpdate(SQLCMD1);
         location = new String(location.getBytes(),"UTF-8");
         String SQLCOM2="select * from site where location = '"+location+"' ";
         ResultSet rs=DB.executeQuery(SQLCOM2);

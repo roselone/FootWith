@@ -17,28 +17,28 @@ import java.util.Vector;
  */
 public class ImportDataTest {
     private String projectPath=Constant.getInstantce().getProperty("PROJECT_PATH");
-    @Test
-    public void import4A() throws IOException, SQLException {
-        String fileName="4A.txt";
-        ImportData im=new ImportData();
-        im.importSite(projectPath + "/data/" + fileName);
-    }
-    @Test
-    public void import5A()throws IOException, SQLException {
-        String fileName="5A.txt";
-        ImportData im=new ImportData();
-        im.importSite2(projectPath + "/data/" + fileName);
-    }
-    @Test
-    public void importTest(){
-        Site site=new Site("中文1","尼玛",3);
-        SiteManager sm=new SiteManager();
-        try {
-            sm.addSite(site);
-        } catch (SQLException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        }
-    }
+//    @Test
+//    public void import4A() throws IOException, SQLException {
+//        String fileName="4A.txt";
+//        ImportData im=new ImportData();
+//        im.importSite(projectPath + "/data/" + fileName);
+//    }
+//    @Test
+//    public void import5A()throws IOException, SQLException {
+//        String fileName="5A.txt";
+//        ImportData im=new ImportData();
+//        im.importSite2(projectPath + "/data/" + fileName);
+//    }
+//    @Test
+//    public void importTest(){
+//        Site site=new Site("中文1","尼玛",3);
+//        SiteManager sm=new SiteManager();
+//        try {
+//            sm.addSite(site);
+//        } catch (SQLException e) {
+//            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+//        }
+//    }
     @Test
     public void readSite() throws SQLException {
         SiteManager sm=new SiteManager();

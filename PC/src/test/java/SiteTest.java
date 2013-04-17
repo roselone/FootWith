@@ -13,12 +13,12 @@ import java.sql.SQLException;
  * To change this template use File | Settings | File Templates.
  */
 public class SiteTest {
-    @Test
-    public void siteTest() throws SQLException, TextFormatException {
-        Site site = new Site("清华大学", "北京", 4);
-        SiteManager sm = new SiteManager();
-        sm.addSite(site);
-        sm.selectSite(site);
-
-    }
+//    @Test
+//    public void siteTest() throws SQLException, TextFormatException {
+//        Site site = new Site("清华大学", "北京", 4);
+//        SiteManager sm = new SiteManager();
+//        sm.addSite(site);
+//        sm.selectSite(site);
+//
+//    }
 }
