@@ -17,10 +17,19 @@ public class JSONHelper {
 
     public static final JSONHelper JSONHelperInstance=new JSONHelper();
 
+    /**
+     *
+     * @return jsonhelper instance
+     */
     public static JSONHelper getJSONHelperInstance(){
         return JSONHelperInstance;
     }
 
+    /**
+     * convert vector to json array
+     * @param parts
+     * @return
+     */
     public String convertToString(Vector<Integer> parts){
         JSONArray array=new JSONArray();
         for (int i=0;i<parts.size();i++){
@@ -29,6 +38,12 @@ public class JSONHelper {
         return array.toString();
     }
 
+    /**
+     * convert json array to vector
+     * @param s             /home/roselone/Git/FootWith/messenger
+     * @return vector
+     * @throws JSONException
+     */
     public Vector<Integer> convertToArray(String s) throws JSONException {
         if (Util.isEmpty(s)) return null;
         JSONArray array=new JSONArray(s);
@@ -37,6 +52,13 @@ public class JSONHelper {
         return result;
     }
 
+    /**
+     * add one int to json array
+     * @param s
+     * @param one
+     * @return json array
+     * @throws JSONException
+     */
     public String addToArray(String s, int one) throws JSONException {
         Vector<Integer> tmp;
         if (Util.isEmpty(s)) {
@@ -48,6 +70,13 @@ public class JSONHelper {
         return convertToString(tmp);
     }
 
+    /**
+     * delete one from json array
+     * @param s
+     * @param one
+     * @return json array
+     * @throws JSONException
+     */
     public String deleteFromArray(String s, int one) throws JSONException {
         if (Util.isEmpty(s)) return null;
         Vector<Integer> tmp=convertToArray(s);
@@ -55,6 +84,13 @@ public class JSONHelper {
         return convertToString(tmp);
     }
 
+    /**
+     * whether json array contains the one
+     * @param s
+     * @param one
+     * @return isContained
+     * @throws JSONException
+     */
     public boolean isContained(String s,int one) throws JSONException {
         if (Util.isEmpty(s)) return false;
         Vector<Integer> tmp=convertToArray(s);

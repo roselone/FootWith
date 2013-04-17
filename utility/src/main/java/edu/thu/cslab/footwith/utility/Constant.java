@@ -22,10 +22,19 @@ public class Constant {
         }
     }
 
+    /**
+     * get key-value
+     * @param key
+     * @return value
+     */
     public String getProperty(String key){
         return this.properties.getProperty(key,"NULL");
     }
 
+    /**
+     *
+     * @return constant instance
+     */
     public static Constant getInstantce(){
         return constantInstantce;
     }

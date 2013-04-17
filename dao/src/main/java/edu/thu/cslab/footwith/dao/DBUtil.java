@@ -27,10 +27,21 @@ public class DBUtil {
         }
     }
 
+    /**
+     *
+     * @return DBUtil instance
+     */
     public static DBUtil getDBUtil(){
 
        return DBUtilInstance;
     }
+
+    /**
+     * deal with query operate to database
+     * @param SQLCommand
+     * @return result set of query
+     * @throws SQLException
+     */
     public ResultSet executeQuery(String SQLCommand) throws SQLException {
         if(conn == null){    //Failed at connection step (DBUtil Construction)
             System.out.println("Ever failed at connection step");
@@ -43,6 +54,13 @@ public class DBUtil {
         return rs;
 
     }
+
+    /**
+     * deal with update delete add operates to database
+     * @param SQLCommand
+     * @return result set contains ID
+     * @throws SQLException
+     */
     public ResultSet executeUpdate(String SQLCommand) throws SQLException {
         ResultSet result ;
         if(conn == null){    //Failed at connection step (DBUtil Construction)
