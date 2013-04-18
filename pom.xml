@@ -15,6 +15,9 @@
   </properties>
 
   <modules>
+	<module>utility</module>
+	<module>dao</module>
+	<module>messenger</module>
 	<module>PC</module>
 	<module>web</module>
   </modules>
