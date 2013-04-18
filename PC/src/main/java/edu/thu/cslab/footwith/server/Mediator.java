@@ -5,9 +5,10 @@ import org.json.JSONException;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Date;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Vector;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 /**
  * Created with IntelliJ IDEA.
@@ -18,10 +19,11 @@ import java.util.Vector;
  */
 public class Mediator {
 
+      private Logger logger=LogManager.getLogger(this.getClass().getName());
       public  Mediator(){
 
       }
-    public void addPlanFromForm(String title,int organizer, int groupNumMax, String siteName1, String siteName2, String startTime, String endTime) throws TextFormatException, SQLException, JSONException {
+    public void addPlanFromForm(String title,int organizer, int groupNumMax, String siteName1, String siteName2, String startTime, String endTime) throws TextFormatException, SQLException, JSONException, NoSuchAlgorithmException, UnsupportedEncodingException {
         UserManager um = new UserManager();
         SiteManager sm = new SiteManager();
         PlanManager pm = new PlanManager();
@@ -48,7 +50,7 @@ public class Mediator {
     public static boolean isValid(String username, String passwd) throws TextFormatException, SQLException, NoSuchAlgorithmException, UnsupportedEncodingException {
         User user=UserManager.selectUser(username);
         if (user==null) return false;
-        System.out.println(user.getUserID());
+        //System.out.println(user.getUserID());
         if (user.checkPasswd(passwd))
             return true;
         else
@@ -103,7 +105,7 @@ public class Mediator {
         }
         return siteNames;
     }
-    public Vector<Plan> selectPlanFromForm(String organizer, String siteName, String startTime, String endTime) throws TextFormatException, SQLException, JSONException {
+    public Vector<Plan> selectPlanFromForm(String organizer, String siteName, String startTime, String endTime) throws TextFormatException, SQLException, JSONException, NoSuchAlgorithmException, UnsupportedEncodingException {
         Vector<Plan> plans;
         UserManager um = new UserManager();
         SiteManager sm = new SiteManager();
@@ -114,7 +116,7 @@ public class Mediator {
         Plan plan = new Plan();
         Date d_startTime = Date.valueOf(startTime);
         Date d_endTime = Date.valueOf(endTime);
-        user = um.selectUser(organizer);
+        user = UserManager.selectUser(organizer);
         site = sm.seleteSite(siteName);
         plan.setOrganizer(user.getUserID());
         plan.setStartTime(d_startTime);

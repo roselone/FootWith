@@ -13,6 +13,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 import java.text.Format;
 import java.text.SimpleDateFormat;
@@ -217,6 +219,10 @@ public class SearchPlanForm extends JFrame {
                     } catch (SQLException e1) {
                         e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                     } catch (JSONException e1) {
+                        e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                    } catch (NoSuchAlgorithmException e1) {
+                        e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                    } catch (UnsupportedEncodingException e1) {
                         e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                     }
 

@@ -22,6 +22,12 @@ public class ImportData {
         return ;
     }
 
+    /**
+     * import Site info 4A.txt
+     * @param fileName
+     * @throws IOException
+     * @throws SQLException
+     */
     public void importSite(String fileName) throws IOException, SQLException {
         openFile(fileName);
         BufferedReader bufferedReader=new BufferedReader(f);
@@ -35,6 +41,11 @@ public class ImportData {
         }
     }
 
+    /**
+     * import Site info 5A.txt
+     * @param fileName
+     * @throws IOException
+     */
     public void importSite2(String fileName) throws IOException{
         openFile(fileName);
         BufferedReader bufferedReader=new BufferedReader(f);

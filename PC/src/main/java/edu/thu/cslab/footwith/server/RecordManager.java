@@ -2,6 +2,8 @@ package edu.thu.cslab.footwith.server;
 
 import org.json.JSONException;
 
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -20,7 +22,18 @@ public class RecordManager {
     private Logger logger=LogManager.getLogger(this.getClass().getName());
     public RecordManager() {
     }
-    public boolean addRecord(Record  record) throws SQLException, TextFormatException, JSONException {
+
+    /**
+     * add record
+     * @param record
+     * @return success or fail
+     * @throws SQLException
+     * @throws TextFormatException
+     * @throws JSONException
+     * @throws NoSuchAlgorithmException
+     * @throws UnsupportedEncodingException
+     */
+    public boolean addRecord(Record  record) throws SQLException, TextFormatException, JSONException, NoSuchAlgorithmException, UnsupportedEncodingException {
         String SQLCommand;
         DBUtil du = DBUtil.getDBUtil();
         ResultSet rs;
@@ -75,6 +88,14 @@ public class RecordManager {
         }
         return true;
     }
+
+    /**
+     * select record according record ID
+     * @param recordID
+     * @return record
+     * @throws TextFormatException
+     * @throws SQLException
+     */
     public Record selectRecord(int recordID) throws TextFormatException, SQLException {
         DBUtil du = DBUtil.getDBUtil();
         String SQLCommand = null;
@@ -96,7 +117,7 @@ public class RecordManager {
      * @return success or not
      * @throws JSONException
      */
-    public boolean addRecordFromPlan(Plan plan) throws JSONException {
+    public boolean addRecordFromPlan(Plan plan) throws JSONException, NoSuchAlgorithmException, UnsupportedEncodingException {
         Record record=new Record(plan);
         try {
             if(!addRecord(record)){
@@ -121,6 +142,12 @@ public class RecordManager {
         return true;
     }
 
+    /**
+     * delete record
+     * @param recordID
+     * @throws TextFormatException
+     * @throws SQLException
+     */
     public void deleteRecord(int recordID) throws TextFormatException, SQLException {
         DBUtil du = DBUtil.getDBUtil();
         String SQLCommand = null;
@@ -132,6 +159,14 @@ public class RecordManager {
         du.executeUpdate(SQLCommand);
     }
 
+    /**
+     * add journal
+     * @param recordID
+     * @param journal
+     * @throws SQLException
+     * @throws TextFormatException
+     * @throws JSONException
+     */
     public void addJournal(int recordID, Journal journal) throws SQLException, TextFormatException, JSONException {
         JournalManager jm=new JournalManager();
         int journalID=jm.addJournal(journal);
@@ -141,6 +176,14 @@ public class RecordManager {
         DBUtil.getDBUtil().executeUpdate(SQLCommand);
     }
 
+    /**
+     * add picture
+     * @param recordID
+     * @param picture
+     * @throws SQLException
+     * @throws TextFormatException
+     * @throws JSONException
+     */
     public void addPicture(int recordID, Picture picture) throws SQLException, TextFormatException, JSONException {
         PictureManager pm=new PictureManager();
         int pictureID=pm.addPicture(picture);
