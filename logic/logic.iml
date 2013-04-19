@@ -11,6 +11,7 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="Maven: edu.thu.cslab.footwith:user:1.0" level="project" />
     <orderEntry type="library" name="Maven: edu.thu.cslab.footwith:dao:1.0" level="project" />
     <orderEntry type="library" name="Maven: mysql:mysql-connector-java:5.1.6" level="project" />
     <orderEntry type="library" name="Maven: org.aspectj:aspectjtools:1.7.2" level="project" />
@@ -22,7 +23,6 @@
     <orderEntry type="library" name="Maven: org.apache.logging.log4j:log4j-core:2.0-beta4" level="project" />
     <orderEntry type="library" name="Maven: org.json:json:20090211" level="project" />
     <orderEntry type="library" name="Maven: edu.thu.cslab.footwith:exception:1.0" level="project" />
-    <orderEntry type="library" name="Maven: edu.thu.cslab.footwith:user:1.0" level="project" />
     <orderEntry type="library" name="Maven: edu.thu.cslab.footwith:site:1.0" level="project" />
     <orderEntry type="library" name="Maven: edu.thu.cslab.footwith:plan_record:1.0" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: junit:junit:4.8.1" level="project" />

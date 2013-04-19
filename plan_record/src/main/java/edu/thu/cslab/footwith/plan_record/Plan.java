@@ -26,7 +26,7 @@ public class Plan {
         this.groupNum = -1;
         this.groupNumMax = -1;
         this.talkStreamID = -1;
-        this.isDone=false ;
+        this.isDone=false;
     }
 
     public Plan(int planID) {
