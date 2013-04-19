@@ -292,6 +292,86 @@ public class Mediator {
         return PlanManager.joinPlan(userID, planID);
     }
     // Record
+    private static Record convertMapToRecord(HashMap<String,String> record_map){
+        String recordID = String.valueOf(-1);
+        String title = "";
+        String siteIDs = "";
+        String startTime = "";
+        String endTime = "";
+        String userIDs = "";
+        String groupNum = String.valueOf(-1);
+        String journals = "";
+        String pictures = "";
+        String talkStreamID = String.valueOf(-1);
+        String isDone = String.valueOf(false);
+        recordID = record_map.get("recordID");
+        if(recordID == null || Util.isEmpty(recordID)){
+            recordID = String.valueOf(-1);
+        }
+        title = record_map.get("title");
+        if(title == null || Util.isEmpty(title)){
+            title = "";
+        }
+        siteIDs = record_map.get("siteIDs");
+        if(siteIDs == null || Util.isEmpty(siteIDs)){
+            siteIDs = "";
+        }
+        startTime = record_map.get("startTime");
+        if(startTime == null || Util.isEmpty(startTime)){
+            startTime = "1970-01-01";
+        }
+        endTime = record_map.get("endTime");
+        if(endTime == null || Util.isEmpty(endTime)){
+            endTime = "1970-01-01";
+        }
+        groupNum = record_map.get("groupNum");
+        if(groupNum == null || Util.isEmpty(groupNum)){
+            groupNum = String.valueOf(-1);
+        }
+        journals = record_map.get("journals");
+        if(journals == null || Util.isEmpty(journals)){
+            journals = "";
+        }
+        pictures = record_map.get("pictures");
+        if(pictures == null || Util.isEmpty(pictures)){
+            pictures = "";
+        }
+        talkStreamID = record_map.get("talkStreamID");
+        if(talkStreamID == null || Util.isEmpty(talkStreamID)){
+            talkStreamID = String.valueOf(-1);
+        }
+        isDone = record_map.get("isDone");
+        if(isDone == null || Util.isEmpty(isDone)){
+            isDone = String.valueOf(false);
+        }
+        return new Record(Integer.valueOf(recordID), title, siteIDs, Date.valueOf(startTime), Date.valueOf(endTime), userIDs, Integer.valueOf(groupNum), journals, pictures, Integer.valueOf(talkStreamID), Boolean.valueOf(isDone));
+    }
+    private static HashMap<String,String>  convertRecordToMap(Record record){
+        HashMap<String,String> record_map = new HashMap<String, String>();
+
+        record_map.put("recordID", String.valueOf(record.getRecordID()));
+        record_map.put("title", record.getTitle());
+        record_map.put("siteIDs", record.getSiteIDs());
+        record_map.put("startTime", record.getStartTime().toString());
+        record_map.put("endTime", record.getEndTime().toString());
+        record_map.put("userIDs", record.getUserIDs());
+        record_map.put("groupNum", String.valueOf(record.getGroupNum()));
+        record_map.put("journals", record.getJournals());
+        record_map.put("pictures", record.getPictures());
+        record_map.put("talkStreamID", String.valueOf(record.getTalkStreamID()));
+        record_map.put("isDone", String.valueOf(record.isDone()));
+        return  record_map;
+
+    }
+    public static Vector<String> getAllRecord() throws SQLException {
+        Vector<Record> records = RecordManager.getAllRecord();
+        Vector<String> records_string = new Vector<String>();
+        for(int i=0;i<records.size();i++) {
+            records_string.add(JSONHelper.getJSONHelperInstance().convertToString(convertRecordToMap(records.get(i))));
+
+        }
+        return records_string;
+    }
     public static Record selectRecord(int recordID) throws TextFormatException, SQLException {
         return RecordManager.selectRecord(recordID);
     }
