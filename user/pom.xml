@@ -27,11 +27,6 @@
         </dependency>
         <dependency>
             <groupId>edu.thu.cslab.footwith</groupId>
-            <artifactId>messenger</artifactId>
-            <version>1.0</version>
-        </dependency>
-        <dependency>
-            <groupId>edu.thu.cslab.footwith</groupId>
             <artifactId>exception</artifactId>
             <version>1.0</version>
         </dependency>
