@@ -25,7 +25,16 @@ public class RecordManager {
     private static Logger logger=LogManager.getLogger(new RecordManager().getClass().getName());
     public RecordManager() {
     }
-
+    public static Vector<Record> getAllRecord() throws SQLException {
+        Vector<Record> records=new Vector<Record>();
+        String SQLCommand="select * from "+tableName+";";
+        ResultSet rs=DBUtil.getDBUtil().executeQuery(SQLCommand);
+        while(rs.next()){
+            records.add(new Record(rs.getInt("recordID"),rs.getString("title"), rs.getString("siteIDs"), rs.getDate("startTime"), rs.getDate("endTime"),
+                    rs.getString("userIDs"), rs.getInt("groupNum"), rs.getString("journals"), rs.getString("pictures"), rs.getInt("talkStreamID"),rs.getBoolean("isDone")));
+        }
+        return records;
+    }
     /**
      * add record
      * @param record
