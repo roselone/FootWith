@@ -10,27 +10,19 @@
         <version>1.0</version>
     </parent>
 
-    <artifactId>messenger</artifactId>
-
-    <properties>
-        <log4j.file>resources/log4j2.xml</log4j.file>
-    </properties>
+    <artifactId>log</artifactId>
 
     <dependencies>
         <dependency>
-            <groupId>edu.thu.cslab.footwith</groupId>
-            <artifactId>utility</artifactId>
-            <version>1.0</version>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-api</artifactId>
+            <version>2.0-beta4</version>
         </dependency>
+
         <dependency>
-            <groupId>edu.thu.cslab.footwith</groupId>
-            <artifactId>log</artifactId>
-            <version>1.0</version>
-        </dependency>
-        <dependency>
-            <groupId>org.json</groupId>
-            <artifactId>json</artifactId>
-            <version>20090211</version>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>2.0-beta4</version>
         </dependency>
     </dependencies>
     
