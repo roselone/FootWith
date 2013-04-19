@@ -83,7 +83,7 @@ public class UserManager {
 
         return user;
     }
-    public  void deleteUser(String userName) throws TextFormatException, SQLException {
+    public static void deleteUser(String userName) throws TextFormatException, SQLException {
         DBUtil du = DBUtil.getDBUtil();
         String SQLCommand = null;
         //if(userName == null)
@@ -93,7 +93,7 @@ public class UserManager {
         du.executeUpdate(SQLCommand);
 
     }
-    public  void deleteUser(int userID) throws TextFormatException, SQLException {
+    public static void deleteUser(int userID) throws TextFormatException, SQLException {
         DBUtil du = DBUtil.getDBUtil();
         String SQLCommand = null;
         if(userID < 0)
@@ -102,7 +102,7 @@ public class UserManager {
         du.executeUpdate(SQLCommand);
 
     }
-    public  void editUser(String userName, User new_user) throws TextFormatException, SQLException {
+    public static void editUser(String userName, User new_user) throws TextFormatException, SQLException {
         DBUtil du = DBUtil.getDBUtil();
         String SQLCommand = null;
         boolean isComma = false;
@@ -146,7 +146,7 @@ public class UserManager {
         du.executeUpdate(SQLCommand);
 
     }
-    public  void editUser(int userID, User new_user) throws TextFormatException, SQLException {
+    public static void editUser(int userID, User new_user) throws TextFormatException, SQLException {
         DBUtil du = DBUtil.getDBUtil();
         String SQLCommand = null;
         boolean isComma = false;
