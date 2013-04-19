@@ -125,7 +125,7 @@ public class RecordManager {
     public static boolean addRecordFromPlan(Plan plan) throws JSONException, NoSuchAlgorithmException, UnsupportedEncodingException {
         Record record=new Record(plan);
         try {
-            if(!addRecord(record)){
+            if(addRecord(record)==null){
                 logger.error("add Record failed!");
                 return false;
             }

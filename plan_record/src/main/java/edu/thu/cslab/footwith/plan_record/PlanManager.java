@@ -2,6 +2,7 @@ package edu.thu.cslab.footwith.plan_record;
 
 import edu.thu.cslab.footwith.dao.DBUtil;
 import edu.thu.cslab.footwith.exception.TextFormatException;
+import edu.thu.cslab.footwith.messenger.JSONHelper;
 import edu.thu.cslab.footwith.utility.Util;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -22,10 +23,10 @@ import java.util.Vector;
  * To change this template use File | Settings | File Templates.
  */
 public class PlanManager {
-    private  Logger logger= LogManager.getLogger(this.getClass().getName());
+    private static Logger logger= LogManager.getLogger(new PlanManager().getClass().getName());
     public PlanManager() {
     }
-    public   Plan addPlan(Plan plan) throws SQLException, TextFormatException, JSONException, NoSuchAlgorithmException, UnsupportedEncodingException {
+    public static Plan addPlan(Plan plan) throws SQLException, TextFormatException, JSONException, NoSuchAlgorithmException, UnsupportedEncodingException {
 
         if(plan == null) {
             logger.error("Can't add empty plan");
@@ -43,7 +44,7 @@ public class PlanManager {
         Date endTime = plan.getEndTime();
         if(Util.isEmpty(siteIDs) || organizer<0 || startTime==null || endTime==null || startTime.after(endTime)){
             logger.error("illegal plan");
-            return false;
+            return null;
         }
         SQLCommand = " insert into " + tableName + " ( title, siteIDs, startTime, endTime, organizer, participants, budget, groupNum, groupNumMax, talkStreamID, isDone ) " +
                 " values ( '"+title+"' , '"+ siteIDs + "' , '"+ startTime + "' , '" + endTime+ "' , " + organizer + " , '" + plan.getParticipants() + "' , " + plan.getBudget() + " , " + plan.getGroupNum()+ " , " + plan.getGroupNumMax() + " , " + plan.getTalkStreamID() +" , false ) ";
@@ -67,7 +68,7 @@ public class PlanManager {
         */
         return new_plan;
     }
-    public  Plan selectPlan(int planID) throws TextFormatException, SQLException {
+    public static Plan selectPlan(int planID) throws TextFormatException, SQLException {
         DBUtil du = DBUtil.getDBUtil();
         String SQLCommand = null;
         ResultSet rs;
@@ -81,7 +82,7 @@ public class PlanManager {
 
     }
 
-    public Vector<Plan> selectPlan(Plan plan) throws TextFormatException, SQLException {
+    public static Vector<Plan> selectPlan(Plan plan) throws TextFormatException, SQLException {
         assert plan.getTitle().length()<80;
         DBUtil du = DBUtil.getDBUtil();
         String SQLCommand = null;
@@ -151,7 +152,7 @@ public class PlanManager {
 
         return vector;
     }
-    public  void deletePlan(int planID) throws TextFormatException, SQLException {
+    public static void deletePlan(int planID) throws TextFormatException, SQLException {
         DBUtil du = DBUtil.getDBUtil();
         String SQLCommand = null;
         if(planID < 0)
@@ -163,7 +164,7 @@ public class PlanManager {
     }
 
     //TODO : if isDone=true can't modify it
-    public  void editPlan(int planID, Plan new_plan) throws TextFormatException, SQLException, JSONException {
+    public static void editPlan(int planID, Plan new_plan) throws TextFormatException, SQLException, JSONException {
         DBUtil du = DBUtil.getDBUtil();
         String SQLCommand = null, subSQLcommand=null;
         boolean isComma = false;
@@ -326,7 +327,7 @@ public class PlanManager {
      * @throws java.sql.SQLException
      * @throws JSONException
      */
-    public  boolean joinPlan(int userID,int planID) throws TextFormatException, SQLException, JSONException {
+    public static boolean joinPlan(int userID,int planID) throws TextFormatException, SQLException, JSONException {
         Plan plan=new PlanManager().selectPlan(planID);
         if (plan.getGroupNum()==plan.getGroupNumMax()) {
             logger.warn("Plan is fulled");
