@@ -19,7 +19,7 @@ import java.util.Vector;
 public class SiteManager {
     public SiteManager() {
     }
-    public  int addSite(Site site) throws SQLException {
+    public static int addSite(Site site) throws SQLException {
         assert site.getSiteName().length()<40;
 //        assert !Mediator.getAllLocations().contains(site.getLocation());
 
@@ -38,7 +38,7 @@ public class SiteManager {
      * @return site information vector
      * @throws java.sql.SQLException
      */
-    public  Vector<Site> getAllSite() throws SQLException {
+    public static Vector<Site> getAllSite() throws SQLException {
         Vector<Site> sites=new Vector<Site>();
         String SQLCommand="select * from "+tableName+";";
         ResultSet rs=DBUtil.getDBUtil().executeQuery(SQLCommand);
@@ -47,7 +47,7 @@ public class SiteManager {
         }
         return sites;
     }
-    public  Site seleteSite(String siteName) throws TextFormatException, SQLException {
+    public static Site seleteSite(String siteName) throws TextFormatException, SQLException {
         assert siteName.length()<=40;
         Site site;
         DBUtil du = DBUtil.getDBUtil();
@@ -71,7 +71,7 @@ public class SiteManager {
         //}
         return site;
     }
-    public  Site seleteSite(int siteID) throws TextFormatException, SQLException {
+    public static Site seleteSite(int siteID) throws TextFormatException, SQLException {
         Site site;
         DBUtil du = DBUtil.getDBUtil();
         String SQLCommand = null;
@@ -86,7 +86,7 @@ public class SiteManager {
         //}
         return site;
     }
-    public  Vector<Site> selectSite(Site site) throws TextFormatException, SQLException {
+    public static Vector<Site> selectSite(Site site) throws TextFormatException, SQLException {
         DBUtil du = DBUtil.getDBUtil();
         String SQLCommand = null;
         ResultSet rs;
@@ -123,7 +123,7 @@ public class SiteManager {
         }
         return sites;
     }
-    public  void deleteSite(String siteName) throws TextFormatException, SQLException {
+    public static void deleteSite(String siteName) throws TextFormatException, SQLException {
         Site site=new Site();
         DBUtil du = DBUtil.getDBUtil();
         String SQLCommand = null;
@@ -134,7 +134,7 @@ public class SiteManager {
         du.executeUpdate(SQLCommand);
 
     }
-    public  void deleteSite(int siteID) throws TextFormatException, SQLException {
+    public static void deleteSite(int siteID) throws TextFormatException, SQLException {
         Site site=new Site();
         DBUtil du = DBUtil.getDBUtil();
         String SQLCommand = null;
@@ -144,7 +144,7 @@ public class SiteManager {
         du.executeUpdate(SQLCommand);
     }
 
-    public  void editSite(String siteName, Site new_site) throws TextFormatException, SQLException {
+    public static void editSite(String siteName, Site new_site) throws TextFormatException, SQLException {
         DBUtil du = DBUtil.getDBUtil();
         String SQLCommand = null;
         boolean isComma = false;
@@ -182,7 +182,7 @@ public class SiteManager {
         du.executeUpdate(SQLCommand);
 
     }
-    public  void editSite(int siteID, Site new_site) throws TextFormatException, SQLException {
+    public static void editSite(int siteID, Site new_site) throws TextFormatException, SQLException {
         DBUtil du = DBUtil.getDBUtil();
         String SQLCommand = null;
         boolean isComma = false;
@@ -220,5 +220,5 @@ public class SiteManager {
 
     }
 
-    private  final String tableName ="site";
+    private static final String tableName ="site";
 }
