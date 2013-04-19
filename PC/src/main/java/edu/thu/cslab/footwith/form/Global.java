@@ -8,5 +8,5 @@ package edu.thu.cslab.footwith.form;
  * To change this template use File | Settings | File Templates.
  */
 public class Global {
-    public  static String username = "";
+    public  static String username = "wjy";
 }

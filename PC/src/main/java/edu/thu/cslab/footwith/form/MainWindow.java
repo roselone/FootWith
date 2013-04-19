@@ -16,14 +16,14 @@ public class MainWindow {
 
        private MenuPanel menuPanel = new MenuPanel();
 //       private toolBarPanel toolBar = new toolBarPanel();
-       private  UserPanel userPanel = new UserPanel();
+      // private  UserPanel userPanel = new UserPanel();
 
        private  JPanel centerPanel = new JPanel();
        private  JPanel rightPanel = new JPanel();
 
-       private SitePanel sitePanel = new SitePanel();
-       private  PlanPanel  PlanPanel = new PlanPanel(); // test whether it get the data
-       private  RecordPanel recordPanle = new RecordPanel();
+     //  private SitePanel sitePanel = new SitePanel();
+    //   private  PlanPanel  PlanPanel = new PlanPanel(); // test whether it get the data
+     //  private  RecordPanel recordPanle = new RecordPanel();
 
 //       private JMenu   mainMemu = new JMenu();
 //       private JPanel rightPanel = new JPanel();
@@ -64,28 +64,28 @@ public class MainWindow {
         JSplitPane centerJsp = new JSplitPane(JSplitPane.VERTICAL_SPLIT);           //vertical     centerJsp
         centerJsp.setDividerLocation(400);
         centerJsp.setDividerSize(5);
-        centerJsp.setLeftComponent(sitePanel);
-        centerJsp.setRightComponent(recordPanle);
+       // centerJsp.setLeftComponent(sitePanel);
+        //centerJsp.setRightComponent(recordPanle);
 
       //  JSplitPane rightJsp = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);            //horizontal
       //  centerJsp.setDividerLocation(400);
        // centerJsp.setDividerSize(5);
         
 
-        panel_1.setLeftComponent(leftJsp);
-        panel_1.setRightComponent(centerJsp);
+      //  panel_1.setLeftComponent(leftJsp);
+       // panel_1.setRightComponent(centerJsp);
 
      //   rightJsp.setLeftComponent(centerJsp);
      //   rightJsp.setRightComponent(new JPanel());
       //  rightJsp.setDividerLocation(400);
       //  rightJsp.setDividerSize(5);
 
-        leftJsp.setLeftComponent(userPanel);
-        leftJsp.setRightComponent(PlanPanel); // test
+       // leftJsp.setLeftComponent(userPanel);
+       // leftJsp.setRightComponent(PlanPanel); // test
 
-        mainFrame.add(panel_1,"Center");
+       // mainFrame.add(panel_1,"Center");
 
-        userPanel.setUserInfo("username","time");
+        //userPanel.setUserInfo("username","time");
        // userPanel.add(userPanel,"North");
 
 

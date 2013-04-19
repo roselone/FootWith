@@ -180,8 +180,8 @@ import java.util.Vector;
         }
 
         void setTable(){
-            DefaultTableModel model = new ViewTable().makeTable("select * from record");
-            table.setModel(model);
+//            DefaultTableModel model = new ViewTable().makeTable("select * from record");
+//            table.setModel(model);
         }
         //  ImageIcon siteModiandDelIcon = CreatecdIcon
     }

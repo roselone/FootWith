@@ -10,6 +10,8 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.text.TableView;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.util.Vector;
@@ -149,7 +151,14 @@ public class PlanDelandUpdateFrame extends JFrame {
                 }
                 RecordManager recordManager = new RecordManager();
                 try {
-                    boolean flag = recordManager.addRecordFromPlan(tmpPlan);
+                    boolean flag = false;
+                    try {
+                        flag = recordManager.addRecordFromPlan(tmpPlan);
+                    } catch (NoSuchAlgorithmException e1) {
+                        e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                    } catch (UnsupportedEncodingException e1) {
+                        e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                    }
                     PlanManager planManager = new PlanManager();
                     try {
                         planManager.deletePlan(tmpPlan.getPlanID());
@@ -298,11 +307,17 @@ public class PlanDelandUpdateFrame extends JFrame {
         table.setModel(model);
     }
     private DefaultTableModel makeTable(){
-        DefaultTableModel model = new DefaultTableModel(columnNames,0);
+        DefaultTableModel model = new DefaultTableModel(columnNames,3);
         Vector<Plan>   planVector=null;
 
         try {
-            planVector = dataSource.selectPlanFromForm(Global.username,null,"1970-1-1","2100-12-31");
+            try {
+                planVector = dataSource.selectPlanFromForm(Global.username,null,"1970-1-1","2100-12-31");
+            } catch (NoSuchAlgorithmException e) {
+                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            }
         } catch (TextFormatException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         } catch (SQLException e) {
@@ -311,6 +326,8 @@ public class PlanDelandUpdateFrame extends JFrame {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
         //"组织者","开始时间","结束时间","人数","参观景点"
+        if(planVector!=null)
+        {
         for(int i=0;i < planVector.size();i++)
         {
             Vector tmpRow = new Vector();
@@ -322,6 +339,7 @@ public class PlanDelandUpdateFrame extends JFrame {
             tmpRow.add(planVector.get(i).getSiteIDs());
 
             model.addRow(tmpRow);
+        }
         }
         return model;
     }

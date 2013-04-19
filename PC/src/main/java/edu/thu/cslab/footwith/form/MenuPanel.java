@@ -117,7 +117,7 @@ public class MenuPanel extends JRootPane {
                 }
             } if(cmd.equals("景点管理")){
 
-                new SiteManage();
+              //  new SiteManage();
 
             }  if(cmd.equals("增加景点")){
                 new InsertSiteForm();

@@ -106,8 +106,8 @@ public class SearchRecordForm extends  JFrame {
               });
     }
     void  setTable() {
-        DefaultTableModel model = new ViewTable().makeTable("select * from record ");
-        table.setModel(model);
+      //  DefaultTableModel model = new ViewTable().makeTable("select * from record ");
+       // table.setModel(model);
     }
 
 }
