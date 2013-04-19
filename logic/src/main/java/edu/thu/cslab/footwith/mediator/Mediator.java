@@ -503,18 +503,61 @@ public class Mediator {
         return UserManager.selectUser(userName);
     }
     */
-    /*
-    private static User convertMapToUser(HashMap<String,String> user_map){
 
+    private static User convertMapToUser(HashMap<String,String> user_map) throws NoSuchAlgorithmException, UnsupportedEncodingException {
+        String userID = String.valueOf(-1);
+        String userName = "";
+        String nickName = "";
+        String passwd = "";
+        String otherInfo = String.valueOf(-1);
+        String plans = "";
+        String records = "";
+        userID = user_map.get("userID");
+        if(userID == null || Util.isEmpty(userID)){
+            userID = String.valueOf(-1);
+        }
+        userName = user_map.get("userName");
+        if(userName == null || Util.isEmpty(userName)){
+            userName = "";
+        }
+        nickName = user_map.get("nickName");
+        if(nickName == null || Util.isEmpty(nickName)){
+            nickName = "";
+        }
+        passwd = user_map.get("passwd");
+        if(passwd == null || Util.isEmpty(passwd)){
+            passwd = "";
+        }
+        otherInfo = user_map.get("otherInfo");
+        if(otherInfo == null || Util.isEmpty(otherInfo)){
+            otherInfo = String.valueOf(-1);
+        }
+        plans = user_map.get("plans");
+        if(plans == null || Util.isEmpty(plans)){
+            plans = "";
+        }
+        records = user_map.get("records");
+        if(records == null || Util.isEmpty(records)){
+            records = "";
+        }
+        return new User(Integer.valueOf(userID), userName, nickName, passwd, Integer.valueOf(otherInfo), plans, records);
 
     }
-    private static HashMap<String,String>  convertMapToUser(User user){
-
+    private static HashMap<String,String>  convertUserToMap(User user){
+        HashMap<String,String> user_map = new HashMap<String, String>();
+        user_map.put("userID", String.valueOf(user.getUserID()));
+        user_map.put("userName", user.getUserName());
+        user_map.put("nickName", user.getNickName());
+        user_map.put("passwd", user.getPasswd());
+        user_map.put("otherInfo", String.valueOf(user.getOtherInfo()));
+        user_map.put("plans", user.getPlans());
+        user_map.put("records", user.getRecords());
+        return user_map;
     }
     public static String selectUser(String userName) throws TextFormatException, SQLException, NoSuchAlgorithmException, UnsupportedEncodingException {
-        //return UserManager.selectUser(userName);
+        return JSONHelper.getJSONHelperInstance().convertToString(convertUserToMap(UserManager.selectUser(userName)));
     }
-    */
+
     public static User selectUser(int userID) throws TextFormatException, SQLException, NoSuchAlgorithmException, UnsupportedEncodingException {
         return UserManager.selectUser(userID);
     }
