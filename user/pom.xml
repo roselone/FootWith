@@ -10,13 +10,16 @@
         <version>1.0</version>
     </parent>
 
-    <artifactId>messenger</artifactId>
 
-    <properties>
-        <log4j.file>resources/log4j2.xml</log4j.file>
-    </properties>
+    <artifactId>user</artifactId>
+
 
     <dependencies>
+        <dependency>
+            <groupId>edu.thu.cslab.footwith</groupId>
+            <artifactId>dao</artifactId>
+            <version>1.0</version>
+        </dependency>
         <dependency>
             <groupId>edu.thu.cslab.footwith</groupId>
             <artifactId>utility</artifactId>
@@ -24,13 +27,13 @@
         </dependency>
         <dependency>
             <groupId>edu.thu.cslab.footwith</groupId>
-            <artifactId>log</artifactId>
+            <artifactId>exception</artifactId>
             <version>1.0</version>
         </dependency>
         <dependency>
-            <groupId>org.json</groupId>
-            <artifactId>json</artifactId>
-            <version>20090211</version>
+            <groupId>edu.thu.cslab.footwith</groupId>
+            <artifactId>log</artifactId>
+            <version>1.0</version>
         </dependency>
     </dependencies>
     
