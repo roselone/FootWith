@@ -4,19 +4,23 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
+
     <parent>
         <groupId>edu.thu.cslab.footwith</groupId>
         <artifactId>father</artifactId>
         <version>1.0</version>
     </parent>
 
-    <artifactId>messenger</artifactId>
 
-    <properties>
-        <log4j.file>resources/log4j2.xml</log4j.file>
-    </properties>
+    <artifactId>site</artifactId>
+
 
     <dependencies>
+        <dependency>
+            <groupId>edu.thu.cslab.footwith</groupId>
+            <artifactId>dao</artifactId>
+            <version>1.0</version>
+        </dependency>
         <dependency>
             <groupId>edu.thu.cslab.footwith</groupId>
             <artifactId>utility</artifactId>
@@ -24,13 +28,8 @@
         </dependency>
         <dependency>
             <groupId>edu.thu.cslab.footwith</groupId>
-            <artifactId>log</artifactId>
+            <artifactId>exception</artifactId>
             <version>1.0</version>
-        </dependency>
-        <dependency>
-            <groupId>org.json</groupId>
-            <artifactId>json</artifactId>
-            <version>20090211</version>
         </dependency>
     </dependencies>
     

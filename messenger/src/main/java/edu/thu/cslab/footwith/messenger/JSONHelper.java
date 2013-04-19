@@ -1,9 +1,14 @@
 package edu.thu.cslab.footwith.messenger;
 
 import edu.thu.cslab.footwith.utility.Util;
+import org.json.JSONObject;
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Vector;
 
 /**
@@ -16,6 +21,7 @@ import java.util.Vector;
 public class JSONHelper {
 
     public static final JSONHelper JSONHelperInstance=new JSONHelper();
+    private Logger logger=LogManager.getLogger(this.getClass().getName());
 
     /**
      *
@@ -23,6 +29,29 @@ public class JSONHelper {
      */
     public static JSONHelper getJSONHelperInstance(){
         return JSONHelperInstance;
+    }
+
+    public String convertToString(HashMap<String,String> map){
+        JSONObject object=new JSONObject(map);
+        return map.toString();
+    }
+
+    public HashMap<String,String> convertToMap(String s) {
+        if (Util.isEmpty(s)) return null;
+        try {
+            JSONObject object=new JSONObject(s);
+            Iterator it=  object.keys();
+            HashMap<String,String> map= new HashMap<String, String>();
+            while (it.hasNext()){
+                String key = (String) it.next();
+                map.put(key,object.optString(key));
+            }
+            return map;
+        } catch (JSONException e) {
+            logger.error("JSON ERROR: can't convert to {} to JSONObject",s);
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            return null;
+        }
     }
 
     /**
