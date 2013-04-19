@@ -153,6 +153,10 @@ public class Record {
         this.talkStreamID = talkStreamID;
     }
 
+    public boolean isDone() {
+        return isDone;
+    }
+
     private int recordID;
     private String title;
     private String siteIDs;

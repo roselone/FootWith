@@ -7,12 +7,14 @@ import edu.thu.cslab.footwith.site.Site;
 import edu.thu.cslab.footwith.site.SiteManager;
 import edu.thu.cslab.footwith.user.User;
 import edu.thu.cslab.footwith.user.UserManager;
+import edu.thu.cslab.footwith.utility.Util;
 import org.json.JSONException;
 
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Date;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.Vector;
 
 /**
@@ -32,8 +34,8 @@ public class Mediator {
         SiteManager sm = new SiteManager();
         PlanManager pm = new PlanManager();
         //System.out.println(siteName);
-        Site site1 = sm.seleteSite(siteName1);
-        Site site2 = sm.seleteSite(siteName2);
+        Site site1 = SiteManager.seleteSite(siteName1);
+        Site site2 = SiteManager.seleteSite(siteName2);
         Vector<Integer> vector =  new Vector<Integer>();
         vector.add(site1.getSiteID());
         vector.add(site2.getSiteID());
@@ -43,13 +45,13 @@ public class Mediator {
         Date date_endTime = Date.valueOf(endTime);
         //int int_organizer = user.getUserID();
         Plan plan = new Plan(title, siteIDs, date_startTime, date_endTime, organizer, 1, groupNumMax );
-        pm.addPlan(plan);
+        PlanManager.addPlan(plan);
     }
     public static void addSiteFromForm(String siteName, String rate, String location) throws SQLException {
         SiteManager sm = new SiteManager();
         int int_rate = Integer.parseInt(rate);
         Site site = new Site(siteName, location ,int_rate);
-        sm.addSite(site);
+        SiteManager.addSite(site);
     }
     public static boolean isValid(String username, String passwd) throws TextFormatException, SQLException, NoSuchAlgorithmException, UnsupportedEncodingException {
         User user=UserManager.selectUser(username);
@@ -103,13 +105,13 @@ public class Mediator {
         SiteManager sm = new SiteManager();
         site.setLocation(location);
         Vector<String> siteNames = new Vector<String>();
-        Vector<Site> sites = sm.selectSite(site);
+        Vector<Site> sites = SiteManager.selectSite(site);
         for(int i=0;i<sites.size();i++){
             siteNames.add(sites.get(i).getSiteName());
         }
         return siteNames;
     }
-    public static Vector<Plan> selectPlanFromForm(String organizer, String siteName, String startTime, String endTime) throws TextFormatException, SQLException, JSONException, NoSuchAlgorithmException, UnsupportedEncodingException {
+    public static Vector<String> selectPlanFromForm(String organizer, String siteName, String startTime, String endTime) throws TextFormatException, SQLException, JSONException, NoSuchAlgorithmException, UnsupportedEncodingException {
         Vector<Plan> plans;
         UserManager um = new UserManager();
         SiteManager sm = new SiteManager();
@@ -121,19 +123,22 @@ public class Mediator {
         Date d_startTime = Date.valueOf(startTime);
         Date d_endTime = Date.valueOf(endTime);
         user = UserManager.selectUser(organizer);
-        site = sm.seleteSite(siteName);
+        site = SiteManager.seleteSite(siteName);
         plan.setOrganizer(user.getUserID());
         plan.setStartTime(d_startTime);
         plan.setEndTime(d_endTime);
 
-        plans = pm.selectPlan(plan);
+        plans = PlanManager.selectPlan(plan);
         for(int i=0;i<plans.size();i++){
             if(!jh.isContained(plans.get(i).getSiteIDs(), site.getSiteID())){
                 plans.remove(i);
             }
         }
-
-        return plans;
+        Vector<String> plans_string_vector = new Vector<String>();
+        for(int i=0;i<plans.size();i++){
+            plans_string_vector.add(jh.convertToString(convertPlanToMap(plans.get(i))));
+        }
+        return plans_string_vector;
     }
 
     public static boolean addPlan(Plan plan) throws SQLException, TextFormatException, JSONException, NoSuchAlgorithmException, UnsupportedEncodingException {
@@ -146,9 +151,9 @@ public class Mediator {
         int planID = new_plan.getPlanID();
 
         User user = new User();
-        String orig_plans =new UserManager().selectUser(organizer).getPlans();
+        String orig_plans =UserManager.selectUser(organizer).getPlans();
         user.setPlans(new JSONHelper().addToArray(orig_plans, planID));
-        new UserManager().editUser(organizer, user);
+        UserManager.editUser(organizer, user);
 
         return true;
     }
@@ -167,10 +172,10 @@ public class Mediator {
         JSONHelper jh = new JSONHelper();
         String orig_records;
         for(int i=0;i<userIDVector.size(); i++){
-            user = um.selectUser(userIDVector.get(i));
+            user = UserManager.selectUser(userIDVector.get(i));
             orig_records = user.getRecords();
             user.setRecords(jh.addToArray(orig_records, new_record.getRecordID()));
-            um.editUser(userIDVector.get(i), user);
+            UserManager.editUser(userIDVector.get(i), user);
         }
         return true;
     }
@@ -181,21 +186,202 @@ public class Mediator {
     public static Vector<Plan> selectPlan(Plan plan) throws TextFormatException, SQLException {
         return PlanManager.selectPlan(plan);
     }
+    public static Vector<String> selectPlan(String plan_string) throws TextFormatException, SQLException {
+        Vector<String> plans_all_string = new Vector<String>();
+        JSONHelper jh = new JSONHelper();
+        HashMap<String,String> plan_map = jh.convertToMap(plan_string);
+        Vector<Plan> plans = PlanManager.selectPlan(convertMapToPlan(plan_map));
+        for(int i=0;i<plans.size();i++){
+            plans_all_string.add(jh.convertToString(convertPlanToMap(plans.get(i))));
+        }
+        return plans_all_string;
+    }
     public static void deletePlan(int planID) throws TextFormatException, SQLException {
         PlanManager.deletePlan(planID);
     }
     public static void editPlan(int planID, Plan new_plan) throws TextFormatException, SQLException, JSONException {
         PlanManager.editPlan(planID, new_plan);
     }
+    private static HashMap<String,String> convertPlanToMap(Plan plan){
+        HashMap<String,String> plan_map = new HashMap<String, String>();
+        plan_map.put("planID", String.valueOf(plan.getPlanID()));
+        plan_map.put("title", plan.getTitle());
+        plan_map.put("siteIDs", plan.getSiteIDs());
+        plan_map.put("startTime", plan.getStartTime().toString());
+        plan_map.put("endTime", plan.getEndTime().toString());
+        plan_map.put("organizer", String.valueOf(plan.getOrganizer()));
+        plan_map.put("participants", plan.getParticipants());
+        plan_map.put("budget", String.valueOf(plan.getBudget()));
+        plan_map.put("groupNum", String.valueOf(plan.getGroupNum()));
+        plan_map.put("groupNumMax", String.valueOf(plan.getGroupNumMax()));
+        plan_map.put("talkStreamID", String.valueOf(plan.getTalkStreamID()));
+        plan_map.put("isDone", String.valueOf(plan.getIsDone()));
+        return plan_map;
+    }
+    private static Plan convertMapToPlan(HashMap<String,String> plan_map){
+        String planID = String.valueOf(-1);
+        String title="";
+        String siteIDs = "";
+        String startTime = null;
+        String endTime = null;
+        String organizer = String.valueOf(-1);
+        String participants = "";
+        String budget = String.valueOf(-1);
+        String groupNum = String.valueOf(-1);
+        String groupNumMax = String.valueOf(-1);
+        String talkStreamID = String.valueOf(-1);
+        String isDone= String.valueOf(false);
+
+        planID = plan_map.get("planID");
+        if(planID==null || Util.isEmpty(planID)){
+            planID = String.valueOf(-1);
+        }
+        title = plan_map.get("title");
+        if(title==null || Util.isEmpty(title)){
+            title = "";
+        }
+        siteIDs = plan_map.get("siteIDs");
+        if(siteIDs==null || Util.isEmpty(siteIDs)){
+            siteIDs = "";
+        }
+        startTime = plan_map.get("startTime");
+        if(startTime==null || Util.isEmpty(startTime)){
+            startTime = "1970-01-01";
+        }
+        endTime = plan_map.get("endTime");
+        if(endTime==null || Util.isEmpty(endTime)){
+            endTime = "1970-01-01";
+        }
+        organizer = plan_map.get("organizer");
+        if(organizer==null || Util.isEmpty(organizer)){
+            organizer = String.valueOf(-1);
+        }
+        participants = plan_map.get("participants");
+        if(participants==null || Util.isEmpty(participants)){
+            participants = "";
+        }
+        budget = plan_map.get("budget");
+        if(budget==null || Util.isEmpty(budget)){
+            budget = String.valueOf(-1);
+        }
+        groupNum = plan_map.get("groupNum");
+        if(groupNum==null || Util.isEmpty(groupNum)){
+            groupNum = String.valueOf(-1);
+        }
+        groupNumMax = plan_map.get("groupNumMax");
+        if(groupNumMax==null || Util.isEmpty(groupNumMax)){
+            groupNumMax = String.valueOf(-1);
+        }
+        talkStreamID = plan_map.get("talkStreamID");
+        if(talkStreamID==null || Util.isEmpty(talkStreamID)){
+            talkStreamID = String.valueOf(-1);
+        }
+        isDone = plan_map.get("isDone");
+        if(isDone==null || Util.isEmpty(isDone)){
+            isDone= String.valueOf(false);
+        }
+        Plan plan = new Plan(Integer.valueOf(planID), title, siteIDs, Date.valueOf(startTime), Date.valueOf(endTime) , Integer.valueOf(organizer) , participants, Integer.valueOf(budget) , Integer.valueOf(groupNum) , Integer.valueOf(groupNumMax), Integer.valueOf(talkStreamID), Boolean.valueOf(isDone));
+        return plan;
+    }
+    public static void editPlan(int planID, String new_plan_string) throws TextFormatException, SQLException, JSONException {
+        JSONHelper jh = new JSONHelper();
+        HashMap<String,String> new_plan_map = jh.convertToMap(new_plan_string);
+        PlanManager.editPlan(planID, convertMapToPlan(new_plan_map));
+    }
     public static boolean joinPlan(int userID,int planID) throws TextFormatException, SQLException, JSONException {
         return PlanManager.joinPlan(userID, planID);
     }
     // Record
+    private static Record convertMapToRecord(HashMap<String,String> record_map){
+        String recordID = String.valueOf(-1);
+        String title = "";
+        String siteIDs = "";
+        String startTime = "";
+        String endTime = "";
+        String userIDs = "";
+        String groupNum = String.valueOf(-1);
+        String journals = "";
+        String pictures = "";
+        String talkStreamID = String.valueOf(-1);
+        String isDone = String.valueOf(false);
+        recordID = record_map.get("recordID");
+        if(recordID == null || Util.isEmpty(recordID)){
+            recordID = String.valueOf(-1);
+        }
+        title = record_map.get("title");
+        if(title == null || Util.isEmpty(title)){
+            title = "";
+        }
+        siteIDs = record_map.get("siteIDs");
+        if(siteIDs == null || Util.isEmpty(siteIDs)){
+            siteIDs = "";
+        }
+        startTime = record_map.get("startTime");
+        if(startTime == null || Util.isEmpty(startTime)){
+            startTime = "1970-01-01";
+        }
+        endTime = record_map.get("endTime");
+        if(endTime == null || Util.isEmpty(endTime)){
+            endTime = "1970-01-01";
+        }
+        groupNum = record_map.get("groupNum");
+        if(groupNum == null || Util.isEmpty(groupNum)){
+            groupNum = String.valueOf(-1);
+        }
+        journals = record_map.get("journals");
+        if(journals == null || Util.isEmpty(journals)){
+            journals = "";
+        }
+        pictures = record_map.get("pictures");
+        if(pictures == null || Util.isEmpty(pictures)){
+            pictures = "";
+        }
+        talkStreamID = record_map.get("talkStreamID");
+        if(talkStreamID == null || Util.isEmpty(talkStreamID)){
+            talkStreamID = String.valueOf(-1);
+        }
+        isDone = record_map.get("isDone");
+        if(isDone == null || Util.isEmpty(isDone)){
+            isDone = String.valueOf(false);
+        }
+        return new Record(Integer.valueOf(recordID), title, siteIDs, Date.valueOf(startTime), Date.valueOf(endTime), userIDs, Integer.valueOf(groupNum), journals, pictures, Integer.valueOf(talkStreamID), Boolean.valueOf(isDone));
+    }
+    private static HashMap<String,String>  convertRecordToMap(Record record){
+        HashMap<String,String> record_map = new HashMap<String, String>();
+
+        record_map.put("recordID", String.valueOf(record.getRecordID()));
+        record_map.put("title", record.getTitle());
+        record_map.put("siteIDs", record.getSiteIDs());
+        record_map.put("startTime", record.getStartTime().toString());
+        record_map.put("endTime", record.getEndTime().toString());
+        record_map.put("userIDs", record.getUserIDs());
+        record_map.put("groupNum", String.valueOf(record.getGroupNum()));
+        record_map.put("journals", record.getJournals());
+        record_map.put("pictures", record.getPictures());
+        record_map.put("talkStreamID", String.valueOf(record.getTalkStreamID()));
+        record_map.put("isDone", String.valueOf(record.isDone()));
+        return  record_map;
+
+    }
+    public static Vector<String> getAllRecord() throws SQLException {
+        Vector<Record> records = RecordManager.getAllRecord();
+        Vector<String> records_string = new Vector<String>();
+        for(int i=0;i<records.size();i++) {
+            records_string.add(JSONHelper.getJSONHelperInstance().convertToString(convertRecordToMap(records.get(i))));
+
+        }
+        return records_string;
+    }
     public static Record selectRecord(int recordID) throws TextFormatException, SQLException {
         return RecordManager.selectRecord(recordID);
     }
     public static boolean addRecordFromPlan(Plan plan) throws JSONException, NoSuchAlgorithmException, UnsupportedEncodingException {
         return RecordManager.addRecordFromPlan(plan);
+    }
+    public static boolean addRecordFromPlan(String plan_string) throws JSONException, NoSuchAlgorithmException, UnsupportedEncodingException {
+        JSONHelper jh = new JSONHelper();
+        HashMap<String,String> plan_map = jh.convertToMap(plan_string);
+        return RecordManager.addRecordFromPlan(convertMapToPlan(plan_map));
     }
     public static void deleteRecord(int recordID) throws TextFormatException, SQLException {
         RecordManager.deleteRecord(recordID);
@@ -213,14 +399,78 @@ public class Mediator {
     public static int addSite(Site site) throws SQLException {
         return SiteManager.addSite(site);
     }
+    /*
     public static Vector<Site> getAllSite() throws SQLException {
         return SiteManager.getAllSite();
     }
+    */
+    private static Site convertMapToSite(HashMap<String,String> site_map){
+        String siteID = String.valueOf(-1);
+        String siteName = "";
+        String rate = String.valueOf(-1);
+        String location = "";
+        String brief = "";
+        String picture = String.valueOf(-1);
+        siteID = site_map.get("siteID");
+        if(siteID == null || Util.isEmpty(siteID)) {
+            siteID = String.valueOf(-1);
+        }
+        siteName = site_map.get("siteName");
+        if(siteName == null || Util.isEmpty(siteName)) {
+            siteName = "";
+        }
+        rate = site_map.get("rate");
+        if(rate == null || Util.isEmpty(rate)) {
+            rate = String.valueOf(-1);
+        }
+        location = site_map.get("location");
+        if(location == null || Util.isEmpty(location)) {
+            location = "";
+        }
+        brief = site_map.get("brief");
+        if(brief == null || Util.isEmpty(brief)) {
+            brief = "";
+        }
+        picture = site_map.get("picture");
+        if(picture == null || Util.isEmpty(picture)) {
+            picture = String.valueOf(-1);
+        }
+        return new Site(Integer.valueOf(siteID), siteName, Integer.valueOf(rate), location, brief, Integer.valueOf(picture));
+
+    }
+    private static  HashMap<String,String> convertSiteToMap(Site site){
+        HashMap<String,String> site_map = new HashMap<String, String>();
+        site_map.put("siteID", String.valueOf(site.getSiteID()));
+        site_map.put("siteName", site.getSiteName());
+        site_map.put("rate", String.valueOf(site.getRate()));
+        site_map.put("location", site.getLocation());
+        site_map.put("brief", site.getBrief());
+        site_map.put("picture", String.valueOf(site.getPicture()));
+        return site_map;
+    }
+    public static Vector<String> getAllSite() throws SQLException {
+        Vector<Site> sites = SiteManager.getAllSite();
+        Vector<String> sites_string = new Vector<String>();
+        for(int i=0;i<sites.size();i++){
+            sites_string.add(new JSONHelper().convertToString(convertSiteToMap(sites.get(i))));
+        }
+        return  sites_string;
+    }
+    /*
     public static Site seleteSite(String siteName) throws TextFormatException, SQLException {
         return SiteManager.seleteSite(siteName);
     }
+    */
+    public static String seleteSite(String siteName) throws TextFormatException, SQLException {
+        return new JSONHelper().convertToString(convertSiteToMap(SiteManager.seleteSite(siteName)));
+    }
+    /*
     public static Site seleteSite(int siteID) throws TextFormatException, SQLException {
         return SiteManager.seleteSite(siteID);
+    }
+    */
+    public static String seleteSite(int siteID) throws TextFormatException, SQLException {
+        return new JSONHelper().convertToString(convertSiteToMap(SiteManager.seleteSite(siteID)));
     }
     public static Vector<Site> selectSite(Site site) throws TextFormatException, SQLException {
         return SiteManager.selectSite(site);
@@ -234,16 +484,37 @@ public class Mediator {
     public static void editSite(String siteName, Site new_site) throws TextFormatException, SQLException {
         SiteManager.editSite(siteName,new_site);
     }
+    public static void editSite(String siteName, String new_site) throws TextFormatException, SQLException {
+
+        SiteManager.editSite(siteName,convertMapToSite(JSONHelper.getJSONHelperInstance().convertToMap(new_site)));
+    }
     public static void editSite(int siteID, Site new_site) throws TextFormatException, SQLException {
         SiteManager.editSite(siteID, new_site);
+    }
+    public static void editSite(int siteID, String new_site) throws TextFormatException, SQLException {
+        SiteManager.editSite(siteID,convertMapToSite(JSONHelper.getJSONHelperInstance().convertToMap(new_site)));
     }
     // User
     public static int addUser(User user) throws TextFormatException, SQLException {
         return UserManager.addUser(user);
     }
+    /*
     public static User selectUser(String userName) throws TextFormatException, SQLException, NoSuchAlgorithmException, UnsupportedEncodingException {
         return UserManager.selectUser(userName);
     }
+    */
+    /*
+    private static User convertMapToUser(HashMap<String,String> user_map){
+
+
+    }
+    private static HashMap<String,String>  convertMapToUser(User user){
+
+    }
+    public static String selectUser(String userName) throws TextFormatException, SQLException, NoSuchAlgorithmException, UnsupportedEncodingException {
+        //return UserManager.selectUser(userName);
+    }
+    */
     public static User selectUser(int userID) throws TextFormatException, SQLException, NoSuchAlgorithmException, UnsupportedEncodingException {
         return UserManager.selectUser(userID);
     }
