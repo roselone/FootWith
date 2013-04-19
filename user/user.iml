@@ -18,6 +18,9 @@
     <orderEntry type="library" name="Maven: org.aspectj:aspectjrt:1.7.2" level="project" />
     <orderEntry type="library" name="Maven: edu.thu.cslab.footwith:utility:1.0" level="project" />
     <orderEntry type="library" name="Maven: edu.thu.cslab.footwith:messenger:1.0" level="project" />
+    <orderEntry type="library" name="Maven: edu.thu.cslab.footwith:log:1.0" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.logging.log4j:log4j-api:2.0-beta4" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.logging.log4j:log4j-core:2.0-beta4" level="project" />
     <orderEntry type="library" name="Maven: org.json:json:20090211" level="project" />
     <orderEntry type="library" name="Maven: edu.thu.cslab.footwith:exception:1.0" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: junit:junit:4.8.1" level="project" />
