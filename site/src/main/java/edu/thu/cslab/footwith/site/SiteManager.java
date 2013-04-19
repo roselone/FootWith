@@ -61,6 +61,8 @@ public class SiteManager {
         rs=du.executeQuery(SQLCommand);
         //while(rs.next()){
         rs.next();
+        site = new Site(rs.getInt("siteID"),rs.getString("siteName"), rs.getInt("rate"),rs.getString("location"), rs.getString("brief"),rs.getInt("picture")) ;
+        /*
         site = new Site();
         site.setSiteID(rs.getInt("siteID"));
         site.setSiteName(rs.getString("siteName"));
@@ -68,6 +70,7 @@ public class SiteManager {
         site.setLocation(rs.getString("location"));
         site.setBrief(rs.getString("brief"));
         site.setPicture(rs.getInt("picture"));
+        */
         //}
         return site;
     }
