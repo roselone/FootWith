@@ -2,7 +2,7 @@ package edu.thu.cslab.footwith.mediator;
 
 import edu.thu.cslab.footwith.exception.TextFormatException;
 import edu.thu.cslab.footwith.messenger.JSONHelper;
-import edu.thu.cslab.footwith.planc_record.*;
+import edu.thu.cslab.footwith.plan_record.*;
 import edu.thu.cslab.footwith.site.Site;
 import edu.thu.cslab.footwith.site.SiteManager;
 import edu.thu.cslab.footwith.user.User;
