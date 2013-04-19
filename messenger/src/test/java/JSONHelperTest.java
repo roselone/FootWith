@@ -1,7 +1,10 @@
 import edu.thu.cslab.footwith.messenger.JSONHelper;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.json.JSONException;
 import org.junit.Test;
 
+import java.util.HashMap;
 import java.util.Vector;
 
 /**
@@ -13,6 +16,7 @@ import java.util.Vector;
  */
 public class JSONHelperTest {
     private JSONHelper jsonHelper=JSONHelper.getJSONHelperInstance();
+    private Logger logger= LogManager.getLogger(this.getClass().getName());
     @Test
     public void convertToStringTest(){
         Vector<Integer> tmp=new Vector<Integer>();
@@ -40,4 +44,16 @@ public class JSONHelperTest {
         int one=123;
         System.out.println(jsonHelper.deleteFromArray(tmp,one));
     }
+    @Test
+    public void mapTest(){
+        HashMap<String,String> map=new HashMap<String, String>();
+        map.put("1","1");
+        map.put("2","2");
+        map.put("3","3");
+        String s=jsonHelper.convertToString(map);
+        logger.debug(s);
+        map=jsonHelper.convertToMap(s);
+        logger.debug(map.toString());
+    }
+
 }
