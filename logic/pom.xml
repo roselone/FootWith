@@ -16,26 +16,6 @@
     <dependencies>
         <dependency>
             <groupId>edu.thu.cslab.footwith</groupId>
-            <artifactId>dao</artifactId>
-            <version>1.0</version>
-        </dependency>
-        <dependency>
-            <groupId>edu.thu.cslab.footwith</groupId>
-            <artifactId>utility</artifactId>
-            <version>1.0</version>
-        </dependency>
-        <dependency>
-            <groupId>edu.thu.cslab.footwith</groupId>
-            <artifactId>messenger</artifactId>
-            <version>1.0</version>
-        </dependency>
-        <dependency>
-            <groupId>edu.thu.cslab.footwith</groupId>
-            <artifactId>exception</artifactId>
-            <version>1.0</version>
-        </dependency>
-        <dependency>
-            <groupId>edu.thu.cslab.footwith</groupId>
             <artifactId>user</artifactId>
             <version>1.0</version>
         </dependency>
@@ -47,11 +27,6 @@
         <dependency>
             <groupId>edu.thu.cslab.footwith</groupId>
             <artifactId>plan_record</artifactId>
-            <version>1.0</version>
-        </dependency>
-        <dependency>
-            <groupId>edu.thu.cslab.footwith</groupId>
-            <artifactId>log</artifactId>
             <version>1.0</version>
         </dependency>
     </dependencies>
