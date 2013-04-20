@@ -24,6 +24,7 @@
 	<module>site</module>
 	<module>plan_record</module>
 	<module>logic</module>
+	<module>form</module>
 	<module>web</module>
   </modules>
   
