@@ -45,11 +45,11 @@ public class SearchSiteForm extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                if(siteName.getText() == null || siteName.getText().length() ==0 )
-                    jsp.setRightComponent(new SitePanel("select * from site"));
-                else {
-                       jsp.setRightComponent(new SitePanel("select * from site where siteName ="+"'"+siteName.getText()+"'"));
-                }
+//                if(siteName.getText() == null || siteName.getText().length() ==0 )
+//                    jsp.setRightComponent(new SitePanel("select * from site"));
+//                else {
+//                       jsp.setRightComponent(new SitePanel("select * from site where siteName ="+"'"+siteName.getText()+"'"));
+//                }
                    //    System.out.println("where siteName ="+"'"+siteName.getText()+"'");
             }
         });

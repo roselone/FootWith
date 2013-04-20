@@ -1,5 +1,7 @@
 package edu.thu.cslab.footwith.form;
-import edu.thu.cslab.footwith.server.TextFormatException;
+
+
+import edu.thu.cslab.footwith.exception.TextFormatException;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -85,62 +87,65 @@ public class MenuPanel extends JRootPane {
         this.setVisible(true);
     }
 }
-    //注册监听器
-    class MyMenuLister implements ActionListener {
 
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            //To change body of implemented methods use File | Settings | File Templates.
-            String cmd=e.getActionCommand();
+//注册监听器
+class MyMenuLister implements ActionListener {
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        //To change body of implemented methods use File | Settings | File Templates.
+        String cmd=e.getActionCommand();
 //            TextArea ta=new TextArea(6,40);//这个文本框6行 40列
 //            ta.append("单击"+cmd+"菜单"+"\n");
-            if(cmd.equals("退出")){
+        if(cmd.equals("退出")){
 //                ta.append("正在退出\n");
-                try {
-                    Thread.sleep(5000);
-                } catch (InterruptedException e1) {
-                    // TODO Auto-generated catch block
-                    e1.printStackTrace();
-                }
-                System.exit(0);
-            }if(cmd.equals("用户管理")){
+            try {
+                Thread.sleep(5000);
+            } catch (InterruptedException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
+            System.exit(0);
+        }if(cmd.equals("用户管理")){
+            try {
                 try {
                     new UserInfoFrame();
                 } catch (TextFormatException e1) {
                     e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-                } catch (SQLException e1) {
-                    e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-                } catch (NoSuchAlgorithmException e1) {
-                    e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-                } catch (UnsupportedEncodingException e1) {
-                    e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                 }
-            } if(cmd.equals("景点管理")){
-
-              //  new SiteManage();
-
-            }  if(cmd.equals("增加景点")){
-                new InsertSiteForm();
-            }  if(cmd.equals("景点查询")){
-                new SearchSiteForm();
-            } if(cmd.equals("景点修改")) {
-                new SiteModiAndDelFrame();
-            } if(cmd.equals("行程查询")){
-              new SearchRecordForm();
-            } if(cmd.equals("我的行程")){
-                new RecordDelandUpdateFrame();
+            } catch (SQLException e1) {
+                e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            } catch (NoSuchAlgorithmException e1) {
+                e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            } catch (UnsupportedEncodingException e1) {
+                e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
             }
-            if(cmd.equals("行程修改")){
+        } if(cmd.equals("景点管理")){
 
-            } if(cmd.equals("我的计划")){
-                new PlanDelandUpdateFrame();
-            }  if(cmd.equals("定制计划")){
-                // new PlanManage();
-                new InsertPlanForm();
-            }  if(cmd.equals("计划查询")){
-                new SearchPlanForm();
-            }
+          //  new SiteManage();
 
+        }  if(cmd.equals("增加景点")){
+            new InsertSiteForm();
+        }  if(cmd.equals("景点查询")){
+            new SearchSiteForm();
+        } if(cmd.equals("景点修改")) {
+            new SiteModiAndDelFrame();
+        } if(cmd.equals("行程查询")){
+          new SearchRecordForm();
+        } if(cmd.equals("我的行程")){
+            new RecordDelandUpdateFrame();
         }
+        if(cmd.equals("行程修改")){
+
+        } if(cmd.equals("我的计划")){
+            new PlanDelandUpdateFrame();
+        }  if(cmd.equals("定制计划")){
+            // new PlanManage();
+            new InsertPlanForm();
+        }  if(cmd.equals("计划查询")){
+            new SearchPlanForm();
+        }
+
     }
+}
 

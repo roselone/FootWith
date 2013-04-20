@@ -94,6 +94,10 @@ public class User {
         this.state = state;
     }
 
+    public void setUserID(int userID) {
+        this.userID=userID;
+    }
+
     public void setUserName(String userName) throws TextFormatException{
         if(Util.isEmpty(userName) || userName.length() == 0 || userName.length()>32)
             throw new TextFormatException("UserName");

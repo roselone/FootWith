@@ -1,6 +1,8 @@
 package edu.thu.cslab.footwith.form;
 
-import edu.thu.cslab.footwith.server.DBUtil;
+import edu.thu.cslab.footwith.mediator.Mediator;
+import edu.thu.cslab.footwith.messenger.JSONHelper;
+import org.json.JSONException;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -8,8 +10,10 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
+import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.Vector;
 
 /**
@@ -108,6 +112,34 @@ public class SearchRecordForm extends  JFrame {
     void  setTable() {
       //  DefaultTableModel model = new ViewTable().makeTable("select * from record ");
        // table.setModel(model);
+        String[] columnNames={"title","startTime","endTime","siteIDs","groupNumMax"};
+        DefaultTableModel model = new DefaultTableModel(columnNames,3);
+        Vector<String> recordVector = null;
+        JSONHelper jsonHelper = JSONHelper.getJSONHelperInstance();
+        try {
+            recordVector = Mediator.getAllRecord();
+        } catch (SQLException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
+
+        Vector newRow = new Vector();
+        if(recordVector!=null)
+        {
+            for(int j=0;j<recordVector.size();j++)
+            {
+                HashMap<String,String> planMap = new HashMap<String, String>();
+                planMap = jsonHelper.convertToMap(recordVector.get(j));
+                newRow.addElement(planMap.get("title"));
+                newRow.addElement(planMap.get("startTime"));
+                newRow.addElement(planMap.get("endTime"));
+                newRow.addElement(planMap.get("siteIDs"));
+                newRow.addElement(planMap.get("groupNumMax"));
+
+                model.addRow(newRow);
+
+            }
+        }
+        table.setModel(model);
     }
 
 }

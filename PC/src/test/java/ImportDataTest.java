@@ -16,7 +16,7 @@ import java.util.Vector;
  * To change this template use File | Settings | File Templates.
  */
 public class ImportDataTest {
-    private String projectPath=Constant.getInstantce().getProperty("PROJECT_PATH");
+//    private String projectPath=Constant.getInstantce().getProperty("PROJECT_PATH");
 //    @Test
 //    public void import4A() throws IOException, SQLException {
 //        String fileName="4A.txt";
