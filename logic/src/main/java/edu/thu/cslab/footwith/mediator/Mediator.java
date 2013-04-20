@@ -29,6 +29,22 @@ public class Mediator {
     public  Mediator(){
 
     }
+
+    /**
+     * add Plan from form: sanitize parameters and call PlanManager.addPlan()
+     * @param title
+     * @param organizer
+     * @param groupNumMax
+     * @param siteName1
+     * @param siteName2
+     * @param startTime
+     * @param endTime
+     * @throws TextFormatException
+     * @throws SQLException
+     * @throws JSONException
+     * @throws NoSuchAlgorithmException
+     * @throws UnsupportedEncodingException
+     */
     public static void addPlanFromForm(String title,int organizer, int groupNumMax, String siteName1, String siteName2, String startTime, String endTime) throws TextFormatException, SQLException, JSONException, NoSuchAlgorithmException, UnsupportedEncodingException {
         UserManager um = new UserManager();
         SiteManager sm = new SiteManager();
@@ -47,6 +63,14 @@ public class Mediator {
         Plan plan = new Plan(title, siteIDs, date_startTime, date_endTime, organizer, 1, groupNumMax );
         PlanManager.addPlan(plan);
     }
+
+    /**
+     * add Site from form: sanitize parameters and call SiteManager.addSite()
+     * @param siteName
+     * @param rate
+     * @param location
+     * @throws SQLException
+     */
     public static void addSiteFromForm(String siteName, String rate, String location) throws SQLException {
         SiteManager sm = new SiteManager();
         int int_rate = Integer.parseInt(rate);
@@ -100,6 +124,14 @@ public class Mediator {
         allLocations.add("台湾");
         return allLocations;
     }
+
+    /**
+     * select SiteName according to Location
+     * @param location
+     * @return
+     * @throws TextFormatException
+     * @throws SQLException
+     */
     public static Vector<String> selectSiteNameWithLocation(String location) throws TextFormatException, SQLException {
         Site site = new Site();
         SiteManager sm = new SiteManager();
@@ -111,6 +143,20 @@ public class Mediator {
         }
         return siteNames;
     }
+
+    /**
+     * select Plan from form: sanitize parameters and call PlanManager.selectPlan()
+     * @param organizer
+     * @param siteName
+     * @param startTime
+     * @param endTime
+     * @return
+     * @throws TextFormatException
+     * @throws SQLException
+     * @throws JSONException
+     * @throws NoSuchAlgorithmException
+     * @throws UnsupportedEncodingException
+     */
     public static Vector<String> selectPlanFromForm(String organizer, String siteName, String startTime, String endTime) throws TextFormatException, SQLException, JSONException, NoSuchAlgorithmException, UnsupportedEncodingException {
         Vector<Plan> plans;
         UserManager um = new UserManager();
@@ -141,6 +187,16 @@ public class Mediator {
         return plans_string_vector;
     }
 
+    /**
+     * addPlan: add Plan to table plan and add to relation table, and edit organizer's plans list
+     * @param plan
+     * @return
+     * @throws SQLException
+     * @throws TextFormatException
+     * @throws JSONException
+     * @throws NoSuchAlgorithmException
+     * @throws UnsupportedEncodingException
+     */
     public static boolean addPlan(Plan plan) throws SQLException, TextFormatException, JSONException, NoSuchAlgorithmException, UnsupportedEncodingException {
         Plan new_plan = PlanManager.addPlan(plan);
         if(new_plan == null){
@@ -157,6 +213,17 @@ public class Mediator {
 
         return true;
     }
+
+    /**
+     * addRecord: add Record to table Record and add to relation table, and edit organizer's records list
+     * @param record
+     * @return
+     * @throws SQLException
+     * @throws TextFormatException
+     * @throws JSONException
+     * @throws NoSuchAlgorithmException
+     * @throws UnsupportedEncodingException
+     */
     public static boolean addRecord(Record record) throws SQLException, TextFormatException, JSONException, NoSuchAlgorithmException, UnsupportedEncodingException {
 
         Record new_record = RecordManager.addRecord(record);
@@ -180,6 +247,7 @@ public class Mediator {
         return true;
     }
     // Plan
+    // Wrappers for Plan functions
     public static Plan selectPlan(int planID) throws TextFormatException, SQLException {
         return PlanManager.selectPlan(planID);
     }
@@ -292,6 +360,7 @@ public class Mediator {
         return PlanManager.joinPlan(userID, planID);
     }
     // Record
+    // Wrappers for Record functions
     private static Record convertMapToRecord(HashMap<String,String> record_map){
         String recordID = String.valueOf(-1);
         String title = "";
@@ -396,6 +465,7 @@ public class Mediator {
         RecordManager.endRecord(recordID, date);
     }
     // Site
+    // Wrappers for SiteManager function
     public static int addSite(Site site) throws SQLException {
         return SiteManager.addSite(site);
     }
@@ -495,6 +565,7 @@ public class Mediator {
         SiteManager.editSite(siteID,convertMapToSite(JSONHelper.getJSONHelperInstance().convertToMap(new_site)));
     }
     // User
+    // Wrappers for User functions
     public static int addUser(User user) throws TextFormatException, SQLException {
         return UserManager.addUser(user);
     }
