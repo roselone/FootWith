@@ -1,6 +1,6 @@
 package edu.thu.cslab.footwith.form;
 
-import edu.thu.cslab.footwith.server.Mediator;
+
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -22,7 +22,7 @@ import java.util.Vector;
  */
     public class RecordDelandUpdateFrame extends JFrame {
 
-        private Mediator dataSource = new Mediator();
+
         public  JTable table = new JTable();
 
         public  RecordDelandUpdateFrame(){

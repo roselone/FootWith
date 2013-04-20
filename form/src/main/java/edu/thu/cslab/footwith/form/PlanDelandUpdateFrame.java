@@ -1,19 +1,25 @@
 package edu.thu.cslab.footwith.form;
 
-import edu.thu.cslab.footwith.server.*;
+import edu.thu.cslab.footwith.exception.TextFormatException;
+import edu.thu.cslab.footwith.mediator.Mediator;
+import edu.thu.cslab.footwith.messenger.JSONHelper;
 import org.json.JSONException;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.text.TableView;
+import javax.xml.crypto.Data;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Date;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.Vector;
 
 /**
@@ -25,9 +31,10 @@ import java.util.Vector;
  */
 public class PlanDelandUpdateFrame extends JFrame {
 
-    private Mediator dataSource = new Mediator();
+
     public  JTable table = new JTable();
     String[] columnNames;
+    int planId = -1;
     public  PlanDelandUpdateFrame(){
         super();
         final BorderLayout borderLayout = new BorderLayout();
@@ -106,7 +113,7 @@ public class PlanDelandUpdateFrame extends JFrame {
                 endTime.setText(table.getValueAt(selRow,3).toString().trim());
                 groupNumMax.setText(table.getValueAt(selRow,7).toString().trim());
                 siteSets.setText(table.getValueAt(selRow,1).toString().trim());
-
+                planId = Integer.valueOf(table.getValueAt(selRow,0).toString().trim());
             }
 
         });
@@ -123,47 +130,39 @@ public class PlanDelandUpdateFrame extends JFrame {
         setoff.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Plan tmpPlan = new Plan();
-                try {
-                    tmpPlan.setSiteIDs(siteSets.getText().toString());
-                } catch (TextFormatException e1) {
-                    e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-                }
-                try {
-                    tmpPlan.setStartTime(Date.valueOf(startTime.getText().toString()));
-                } catch (TextFormatException e1) {
-                    e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-                }
-                try {
-                    tmpPlan.setEndTime(Date.valueOf(endTime.getText().toString()));
-                } catch (TextFormatException e1) {
-                    e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-                }
-                try {
-                    tmpPlan.setGroupNumMax(Integer.valueOf(groupNumMax.getText().toString()));
-                } catch (TextFormatException e1) {
-                    e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-                }
-                try {
-                    tmpPlan.setOrganizer(Integer.valueOf(organizer.getText().toString()));
-                } catch (TextFormatException e1) {
-                    e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-                }
-                RecordManager recordManager = new RecordManager();
+                HashMap<String,String> new_plan_map = new HashMap<String, String>();
+                new_plan_map.put("title",null) ;
+                new_plan_map.put("siteIDs",siteSets.getText().toString());
+                new_plan_map.put("startTime", Date.valueOf(startTime.getText()).toString());
+                new_plan_map.put("endTime",Date.valueOf(endTime.getText()).toString());
+                new_plan_map.put("organizer",organizer.getText().toString());
+                new_plan_map.put("participants",null);
+                new_plan_map.put("budget",String.valueOf(-1));
+                new_plan_map.put("groupNum",String.valueOf(-1));
+                new_plan_map.put("groupNumMax",groupNumMax.getText().toString());
+                new_plan_map.put("talkStreamID",String.valueOf(-1));
+                new_plan_map.put("isDone", String.valueOf(false));
+                JSONHelper jsonHelper = JSONHelper.getJSONHelperInstance();
+                String newPlan = jsonHelper.convertToString(new_plan_map);
+
+
                 try {
                     boolean flag = false;
                     try {
-                        flag = recordManager.addRecordFromPlan(tmpPlan);
+
+                        flag = Mediator.addRecordFromPlan(newPlan);
                     } catch (NoSuchAlgorithmException e1) {
                         e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                     } catch (UnsupportedEncodingException e1) {
                         e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                     }
-                    PlanManager planManager = new PlanManager();
+
                     try {
-                        planManager.deletePlan(tmpPlan.getPlanID());
-                    } catch (TextFormatException e1) {
-                        e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                        try {
+                            Mediator.deletePlan(planId);
+                        } catch (TextFormatException e1) {
+                            e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                        }
                     } catch (SQLException e1) {
                         e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                     }
@@ -184,36 +183,23 @@ public class PlanDelandUpdateFrame extends JFrame {
         delButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                HashMap<String,String> new_plan_map = new HashMap<String, String>();
+                new_plan_map.put("title",null) ;
+                new_plan_map.put("siteIDs",siteSets.getText().toString());
+                new_plan_map.put("startTime", Date.valueOf(startTime.getText()).toString());
+                new_plan_map.put("endTime",Date.valueOf(endTime.getText()).toString());
+                new_plan_map.put("organizer",organizer.getText().toString());
+                new_plan_map.put("participants",null);
+                new_plan_map.put("budget",String.valueOf(-1));
+                new_plan_map.put("groupNum",String.valueOf(-1));
+                new_plan_map.put("groupNumMax",groupNumMax.getText().toString());
+                new_plan_map.put("talkStreamID",String.valueOf(-1));
+                new_plan_map.put("isDone", String.valueOf(false));
+                JSONHelper jsonHelper = JSONHelper.getJSONHelperInstance();
+                String tmpPlan = jsonHelper.convertToString(new_plan_map);
 
-                Plan tmpPlan = new Plan();
                 try {
-                    tmpPlan.setSiteIDs(siteSets.getText().toString());
-                } catch (TextFormatException e1) {
-                    e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-                }
-                try {
-                    tmpPlan.setStartTime(Date.valueOf(startTime.getText().toString()));
-                } catch (TextFormatException e1) {
-                    e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-                }
-                try {
-                    tmpPlan.setEndTime(Date.valueOf(endTime.getText().toString()));
-                } catch (TextFormatException e1) {
-                    e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-                }
-                try {
-                    tmpPlan.setGroupNumMax(Integer.valueOf(groupNumMax.getText().toString()));
-                } catch (TextFormatException e1) {
-                    e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-                }
-                try {
-                    tmpPlan.setOrganizer(Integer.valueOf(organizer.getText().toString()));
-                } catch (TextFormatException e1) {
-                    e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-                }
-                PlanManager planManager = new PlanManager();
-                try {
-                    planManager.deletePlan(tmpPlan.getPlanID());
+                    Mediator.deletePlan(planId);
                     JOptionPane.showMessageDialog(null,"删除成功");
                     // Object[][] results = getAllSite();
                     setTable();
@@ -232,35 +218,24 @@ public class PlanDelandUpdateFrame extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 //int i =  dataOPeraion
                 //  updateSite(siteName,siteRate,siteLocation,siteBrief,sitePicture)
-                Plan tmpPlan = new Plan();
+
+
+                HashMap<String,String> new_plan_map = new HashMap<String, String>();
+                new_plan_map.put("title",null) ;
+                new_plan_map.put("siteIDs",siteSets.getText().toString());
+                new_plan_map.put("startTime", Date.valueOf(startTime.getText()).toString());
+                new_plan_map.put("endTime",Date.valueOf(endTime.getText()).toString());
+                new_plan_map.put("organizer",organizer.getText().toString());
+                new_plan_map.put("participants",null);
+                new_plan_map.put("budget",String.valueOf(-1));
+                new_plan_map.put("groupNum",String.valueOf(-1));
+                new_plan_map.put("groupNumMax",groupNumMax.getText().toString());
+                new_plan_map.put("talkStreamID",String.valueOf(-1));
+                new_plan_map.put("isDone", String.valueOf(false));
+                JSONHelper jsonHelper = JSONHelper.getJSONHelperInstance();
+                String new_plan = jsonHelper.convertToString(new_plan_map);
                 try {
-                    tmpPlan.setSiteIDs(siteSets.getText().toString());
-                } catch (TextFormatException e1) {
-                    e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-                }
-                try {
-                    tmpPlan.setStartTime(Date.valueOf(startTime.getText().toString()));
-                } catch (TextFormatException e1) {
-                    e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-                }
-                try {
-                    tmpPlan.setEndTime(Date.valueOf(endTime.getText().toString()));
-                } catch (TextFormatException e1) {
-                    e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-                }
-                try {
-                    tmpPlan.setGroupNumMax(Integer.valueOf(groupNumMax.getText().toString()));
-                } catch (TextFormatException e1) {
-                    e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-                }
-                try {
-                    tmpPlan.setOrganizer(Integer.valueOf(organizer.getText().toString()));
-                } catch (TextFormatException e1) {
-                    e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-                }
-                PlanManager planManager = new PlanManager();
-                try {
-                    planManager.editPlan(tmpPlan.getPlanID(),tmpPlan);
+                Mediator.editPlan(planId,new_plan);
                     JOptionPane.showMessageDialog(null,"修改成功");
                     // Object[][] results = getAllSite();
                    setTable();
@@ -271,14 +246,7 @@ public class PlanDelandUpdateFrame extends JFrame {
                 } catch (JSONException e1) {
                     e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                 }
-                int flag = 0;
-                if(flag == 1) {
-                    JOptionPane.showMessageDialog(null,"修改成功");
-                    // Object[][] results = getAllSite();
-                    DefaultTableModel model = new DefaultTableModel();
-                    table.setModel(model);
-                    //    model.setDataVector(results,columnNames);
-                }
+
             }
         });
         updateButton.setText("更新");
@@ -308,11 +276,13 @@ public class PlanDelandUpdateFrame extends JFrame {
     }
     private DefaultTableModel makeTable(){
         DefaultTableModel model = new DefaultTableModel(columnNames,3);
-        Vector<Plan>   planVector=null;
+        Vector<String>   planVector=null;
+        JSONHelper jsonHelper = JSONHelper.getJSONHelperInstance();
+
 
         try {
             try {
-                planVector = dataSource.selectPlanFromForm(Global.username,null,"1970-1-1","2100-12-31");
+                planVector = Mediator.selectPlanFromForm(Global.username,null,"1970-1-1","2100-12-31");
             } catch (NoSuchAlgorithmException e) {
                 e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
             } catch (UnsupportedEncodingException e) {
@@ -331,12 +301,13 @@ public class PlanDelandUpdateFrame extends JFrame {
         for(int i=0;i < planVector.size();i++)
         {
             Vector tmpRow = new Vector();
-
-            tmpRow.add(planVector.get(i).getOrganizer());
-            tmpRow.add(planVector.get(i).getStartTime());
-            tmpRow.add(planVector.get(i).getEndTime());
-            tmpRow.add(planVector.get(i).getGroupNumMax());
-            tmpRow.add(planVector.get(i).getSiteIDs());
+            HashMap<String,String> planMap = new HashMap<String, String>();
+            planMap = jsonHelper.convertToMap(planVector.get(i));
+            tmpRow.add(planMap.get("organizer"));
+            tmpRow.add(planMap.get("startTime"));
+            tmpRow.add(planMap.get("endTime"));
+            tmpRow.add(planMap.get("groupNumMax"));
+            tmpRow.add(planMap.get("siteIDs"));
 
             model.addRow(tmpRow);
         }

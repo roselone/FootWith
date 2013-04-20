@@ -527,19 +527,19 @@ public class Mediator {
         return  sites_string;
     }
     /*
-    public static Site seleteSite(String siteName) throws TextFormatException, SQLException {
+    public static Site selectSite(String siteName) throws TextFormatException, SQLException {
         return SiteManager.seleteSite(siteName);
     }
     */
-    public static String seleteSite(String siteName) throws TextFormatException, SQLException {
+    public static String selectSite(String siteName) throws TextFormatException, SQLException {
         return new JSONHelper().convertToString(convertSiteToMap(SiteManager.seleteSite(siteName)));
     }
     /*
-    public static Site seleteSite(int siteID) throws TextFormatException, SQLException {
+    public static Site selectSite(int siteID) throws TextFormatException, SQLException {
         return SiteManager.seleteSite(siteID);
     }
     */
-    public static String seleteSite(int siteID) throws TextFormatException, SQLException {
+    public static String selectSite(int siteID) throws TextFormatException, SQLException {
         return new JSONHelper().convertToString(convertSiteToMap(SiteManager.seleteSite(siteID)));
     }
     public static Vector<Site> selectSite(Site site) throws TextFormatException, SQLException {
