@@ -46,14 +46,14 @@ public class UserManager {
         rs=du.executeQuery(SQLCommand);
         // while(rs.next()){
         rs.next();
-        user = new User(rs.getInt("userID"), rs.getString("userName"), rs.getString("nickName"), rs.getString("passwd"), rs.getInt("otherInfo"), rs.getString("plans"), rs.getString("records"));
-        //user = new User(rs.getInt("userID"));
-        //user.setUserName(rs.getString("userName"));
-        //user.setNickName(rs.getString("nickName"));
-        //user.setPasswd(rs.getString("passwd"));
-        //user.setOtherInfo(rs.getInt("otherInfo"));
-        //user.setPlans(rs.getString("plans"));
-        //user.setRecords(rs.getString("records"));
+        //user = new User(rs.getInt("userID"), rs.getString("userName"), rs.getString("nickName"), rs.getString("passwd"), rs.getInt("otherInfo"), rs.getString("plans"), rs.getString("records"));
+        user = new User(rs.getInt("userID"));
+        user.setUserName(rs.getString("userName"));
+        user.setNickName(rs.getString("nickName"));
+        user.setPasswd(rs.getString("passwd"));
+        user.setOtherInfo(rs.getInt("otherInfo"));
+        user.setPlans(rs.getString("plans"));
+        user.setRecords(rs.getString("records"));
         // }
 
         return user;
@@ -70,15 +70,14 @@ public class UserManager {
         rs=du.executeQuery(SQLCommand);
         //while(rs.next()){
         rs.next();
-        user = new User(rs.getInt("userID"), rs.getString("userName"), rs.getString("nickName"), rs.getString("passwd"), rs.getInt("otherInfo"), rs.getString("plans"), rs.getString("records"));
-        /*
+        //user = new User(rs.getInt("userID"), rs.getString("userName"), rs.getString("nickName"), rs.getString("passwd"), rs.getInt("otherInfo"), rs.getString("plans"), rs.getString("records"));
         user.setUserName(rs.getString("userName"));
         user.setNickName(rs.getString("nickName"));
         user.setPasswd(rs.getString("passwd"));
         user.setOtherInfo(rs.getInt("otherInfo"));
         user.setPlans(rs.getString("plans"));
         user.setRecords(rs.getString("records"));
-        */
+
         //}
 
         return user;
