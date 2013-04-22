@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content" >
+
+    <TextView 
+        android:id="@+id/logo_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/logo_text"
+        style="@style/logoText"
+        />
+    
+    <TextView
+        android:id="@+id/logo_subtext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/logo_text"
+        android:text="[a]旅伴"
+        android:paddingLeft="4dp"
+        android:paddingTop="4dp"
+        style="@style/logoSubText" />
+	
+    <View 
+        android:layout_width="fill_parent"
+        android:layout_height="1px"
+        android:layout_below="@id/logo_text"
+        android:layout_marginTop="2px"
+        android:background="@android:color/darker_gray"
+        />
+    
+</RelativeLayout>
