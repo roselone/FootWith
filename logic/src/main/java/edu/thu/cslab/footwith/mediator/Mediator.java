@@ -569,6 +569,11 @@ public class Mediator {
     public static int addUser(User user) throws TextFormatException, SQLException {
         return UserManager.addUser(user);
     }
+    public static int addUser(String s) throws UnsupportedEncodingException, NoSuchAlgorithmException, TextFormatException, SQLException {
+        User user=convertMapToUser(JSONHelper.getJSONHelperInstance().convertToMap(s));
+        return UserManager.addUser(user);
+    }
+
     /*
     public static User selectUser(String userName) throws TextFormatException, SQLException, NoSuchAlgorithmException, UnsupportedEncodingException {
         return UserManager.selectUser(userName);

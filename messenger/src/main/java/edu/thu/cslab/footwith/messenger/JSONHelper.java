@@ -19,6 +19,7 @@ import java.util.Vector;
  * To change this template use File | Settings | File Templates.
  */
 public class JSONHelper {
+    //TODO encode decode
 
     public static final JSONHelper JSONHelperInstance=new JSONHelper();
     private Logger logger=LogManager.getLogger(this.getClass().getName());
