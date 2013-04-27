@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="80dp"
+            android:layout_height="fill_parent" android:padding="15dp">
+        <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:id="@+id/imageView" android:layout_gravity="center" android:layout_marginTop="5dp"/>
+        <ImageView android:layout_width="fill_parent" android:layout_height="50dp" android:id="@+id/imageView1"
+                   android:layout_marginTop="5dp"/>
+        <ImageView android:layout_width="50dp" android:layout_height="50dp" android:id="@+id/imageView2"
+                   android:layout_marginTop="5dp" android:layout_gravity="center"/>
+        <ImageView android:layout_width="fill_parent" android:layout_height="50dp" android:id="@+id/imageView3"
+                   android:layout_marginTop="5dp"/>
+    </LinearLayout>
+    <FrameLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" android:layout_gravity="center">
+        <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent" android:layout_gravity="left|top">
+            <ListView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/listView1" android:layout_gravity="center"/>
+            <ListView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/listView2"/>
+        </LinearLayout>
+        <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
+            <ListView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/listView"/>
+        </LinearLayout>
+        <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
+            <Gallery
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/gallery" android:layout_gravity="center"/>
+            <GridView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/gridView" android:background="100" android:numColumns="auto_fit"
+                    android:padding="5dp" android:horizontalSpacing="10dp" android:gravity="center"/>
+        </LinearLayout>
+    </FrameLayout>
+</LinearLayout>

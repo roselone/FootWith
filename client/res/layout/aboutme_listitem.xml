@@ -78,7 +78,7 @@
     	    android:layout_width="fill_parent"
     	    android:layout_height="wrap_content"
     	    android:layout_toRightOf="@id/aboutme_itemTime"
-    	    android:layout_below="@id/aboutme_itemPlaceCon" 
+    	    android:layout_below="@id/aboutme_itemPlaceCon"
     	    android:paddingTop="2dp"
     	    android:text="1到2月份期间"
     	    style="@style/whiteSmallText"

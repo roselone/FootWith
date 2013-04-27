@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/record_listitme" android:paddingLeft="12dp"
+        android:paddingBottom="10dp" android:paddingTop="4dp">
+    <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:id="@+id/imageView" android:layout_marginLeft="8dp" android:layout_marginTop="4dp"/>
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="title"
+            android:id="@+id/record_listitem_title" android:layout_toRightOf="@+id/imageView"
+            android:layout_alignTop="@+id/imageView" android:paddingLeft="12dp"/>
+    <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" android:layout_toRightOf="@+id/imageView"
+            android:layout_below="@+id/imageView" android:layout_marginTop="4dp" android:layout_marginRight="20dp"
+            android:layout_marginBottom="4dp" android:id="@+id/record_itmelist_relative_layout"
+            android:background="@drawable/background_aboutme_trip_div" android:padding="10dp">
+        <TextView
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:text="景点"
+                android:id="@+id/record_listitem_sites"
+                android:layout_alignParentLeft="true" android:layout_centerVertical="true" android:singleLine="false"
+                android:paddingTop="2dp" android:layout_alignParentTop="true"/>
+        <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="New Text"
+                android:id="@+id/record_listitem_sites_con"
+                android:layout_alignParentLeft="false"
+                android:layout_alignTop="@+id/record_listitem_sites" android:paddingTop="2dp"
+                android:layout_toRightOf="@+id/record_listitem_sites"/>
+        <TextView android:layout_width="80dp" android:layout_height="wrap_content" android:text="出发时间"
+                  android:id="@+id/record_listitem_starttime"
+                  android:singleLine="false" android:paddingTop="2dp"
+                  android:layout_below="@+id/record_listitem_sites"/>
+        <TextView android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="New Text"
+                  android:id="@+id/record_listitem_starttime_con"
+                  android:paddingTop="2dp"
+                  android:layout_alignParentLeft="false" android:layout_below="@+id/record_listitem_sites_con"
+                  android:layout_toRightOf="@+id/record_listitem_starttime"/>
+        <TextView
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:text="参与人员"
+                android:id="@+id/record_listitem_users" android:layout_alignLeft="@+id/record_listitem_sites"
+                android:layout_below="@+id/record_listitem_starttime" android:paddingTop="2dp"/>
+        <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="New Text"
+                android:id="@+id/record_listitem_users_con" android:layout_toRightOf="@+id/record_listitem_sites"
+                android:layout_below="@+id/record_listitem_starttime" android:paddingTop="2dp"/>
+        <TextView
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:text="状态"
+                android:id="@+id/textView" android:layout_alignLeft="@+id/record_listitem_sites"
+                android:layout_below="@+id/record_listitem_users" android:paddingTop="2dp"/>
+        <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="New Text"
+                android:id="@+id/textView1" android:layout_toRightOf="@+id/record_listitem_sites"
+                android:layout_below="@+id/record_listitem_users" android:paddingTop="2dp"/>
+    </RelativeLayout>
+</RelativeLayout>
