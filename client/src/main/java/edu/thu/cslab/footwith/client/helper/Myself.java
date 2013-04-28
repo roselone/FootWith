@@ -45,6 +45,16 @@ public class Myself {
 		map2.put("itemAttention", "刘佳、毛一毛");
 		map2.put("itemJoin", "韩梅梅");
 		selfInfoList.add(map2);
+
+        HashMap<String, Object> map3=new HashMap<String, Object>();
+        map3.put("itemType", "record");
+        map3.put("itemName", "旅游行程");
+        map3.put("itemPlace", "八达岭长城，十三陵水库...");
+        map3.put("itemParticipates", "李雷，韩梅梅...");
+        map3.put("itemTimeFrom", "1970-01-01");
+        map3.put("itemState", "进行中");
+        selfInfoList.add(map3);
+
 	}
 	
 }
