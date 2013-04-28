@@ -8,11 +8,17 @@ import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.Toast;
+import edu.thu.cslab.footwith.client.helper.ServerConnector;
+import edu.thu.cslab.footwith.messenger.JSONHelper;
+import edu.thu.cslab.footwith.utility.Util;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 //import edu.xdu.RL.FootWith.helper.ServerConnector;
 
@@ -21,7 +27,8 @@ public class Login extends Activity{
 	
 	private Button loginButton;
 	private Button registerButton;
-	static public String userID="我";
+	static public String userID="TODO";
+    static public String userName="me";
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -43,63 +50,71 @@ public class Login extends Activity{
 	}
 	
 	private OnClickListener loginListener=new OnClickListener() {
-		
+        private String getTextValue(int id){
+            EditText editText=(EditText)findViewById(id);
+            String value=editText.getText().toString().trim();
+            return value;
+        }
+
+        private boolean addParams(String key,String value,HashMap<String,String> map){
+            if (!Util.isEmpty(value)){
+                map.put(key,value);
+                return true;
+            }
+            return false;
+        }
+
+        private String getParams(HashMap<String,String> params){
+
+            String values=getTextValue(R.id.username_edit);
+            if (!addParams("userName",values,params)){
+                return "userName不得为空";
+            }
+
+            values=getTextValue(R.id.password_edit);
+            if (!addParams("passwd",values,params)){
+                return "passwd null error";
+            }
+
+            return "Valid";
+        }
 		@Override
 		public void onClick(View v) {
 			// TODO Auto-generated method stub
-			Intent intent=new Intent();
-			intent.setClass(Login.this, FootWithActivity.class);
-			startActivity(intent);
-			overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
+            HashMap<String,String> params=new HashMap<String, String>();
+            String judge=getParams(params);
+
+            if (!judge.equals("Valid")){
+                Toast.makeText(Login.this, judge, Toast.LENGTH_SHORT).show();
+            }else{
+                ServerConnector connector=new ServerConnector("login");
+                String result= null;
+                try {
+                    result = connector.setRequestParam("login", JSONHelper.getJSONHelperInstance().convertToString(params)).doPost();
+                } catch (IOException e) {
+                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                }
+                if (result!=null && result.equals("successful")){
+                    Intent intent=new Intent();
+                    intent.setClass(Login.this, FootWithActivity.class);
+                    startActivity(intent);
+                    overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
+                }else {
+                    Toast.makeText(Login.this, result, Toast.LENGTH_SHORT).show();
+                }
+            }
 		}
 	};
 	
 	private OnClickListener registerListener=new OnClickListener() {
-		
-		private ArrayList<NameValuePair> getParams(){
-			ArrayList<NameValuePair> params=new ArrayList<NameValuePair>();
-			EditText editText=(EditText)findViewById(R.id.username_edit);
-			String values=editText.getText().toString();
-			if (values.trim().length()!=0){
-				Login.userID=values;
-				params.add(new BasicNameValuePair("ID", values));
-			}else{
-				params.add(new BasicNameValuePair("judge", "用户名不得为空"));
-				return params;
-			}
-			editText=(EditText)findViewById(R.id.password_edit);
-			values=editText.getText().toString();
-			if (values.trim().length()!=0){
-				params.add(new BasicNameValuePair("PASSWORD", values));
-			}else {
-				params.add(new BasicNameValuePair("judge", "密码不得为空"));
-				return params;
-			}
-			params.add(new BasicNameValuePair("judge", "true"));
-			return params;
-		}
+
 		@Override
 		public void onClick(View v) {
 			// TODO Auto-generated method stub
-			ArrayList<NameValuePair> params=new ArrayList<NameValuePair>();
-			params=getParams();
-			String judge=params.get(params.size()-1).getValue().toString();
-			
-			if (!judge.equals("true")){
-				Toast.makeText(Login.this, judge, Toast.LENGTH_SHORT);
-			}else{
-//				params.add(new BasicNameValuePair("REQUEST", "CONFIRM"));
-//				ServerConnector connector=new ServerConnector();
-//				String result=connector.userRequest(params);
-//				if (result.equals("Yes")){
-//					Intent intent=new Intent();
-//					intent.setClass(login.this, FootWithActivity.class);
-//					startActivity(intent);
-//					overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
-//				}else {
-//					Toast.makeText(login.this, result, Toast.LENGTH_SHORT).show();
-//				}
-			}
+            Intent intent=new Intent();
+            intent.setClass(Login.this,Register.class);
+            startActivity(intent);
+            overridePendingTransition(R.anim.zoom_enter,R.anim.zoom_exit);
 		}
 	};
 	

@@ -25,13 +25,30 @@
         android:padding="15dp" >
 
         <TextView
+                android:id="@+id/register_user_mail"
+                style="@style/whiteSmallText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="5dp"
+                android:text="@string/register_label_email" />
+
+        <EditText
+                android:id="@+id/register_usermail_edit"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/register_user_mail"
+                android:inputType="text"
+                android:singleLine="true" />
+
+        <TextView
             android:id="@+id/register_user_input"
             style="@style/whiteSmallText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_marginTop="5dp"
-            android:text="@string/register_label_username" />
+            android:layout_below="@id/register_usermail_edit"
+            android:layout_marginTop="3dp"
+            android:text="@string/register_label_nickname" />
 
         <EditText
             android:id="@+id/register_username_edit"
@@ -106,9 +123,7 @@
             android:layout_alignRight="@id/register_repassword_edit"
             android:text="@string/register_button"
             android:background="@drawable/button"
-            android:layout_alignParentTop="false" android:layout_alignParentBottom="false"
-            android:layout_alignParentRight="false" android:layout_alignWithParentIfMissing="false"
-            android:layout_alignParentLeft="false" android:enabled="false"/>
+            android:layout_marginTop="6dp"/>
     </RelativeLayout>
 
 </LinearLayout>
