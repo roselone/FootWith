@@ -8,19 +8,19 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Title"
-            android:id="@+id/textView"
+            android:id="@+id/journal_title_textView"
             android:layout_alignParentLeft="true" android:layout_marginLeft="0dp"
             android:layout_alignParentTop="true"/>
     <TextView
             android:layout_width="fill_parent"
             android:layout_height="100dp"
             android:text="Content"
-            android:id="@+id/textView1"
-            android:layout_alignLeft="@+id/textView" android:layout_below="@+id/textView"/>
+            android:id="@+id/journal_content_textView"
+            android:layout_alignLeft="@id/journal_title_textView" android:layout_below="@id/journal_title_textView"/>
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Date"
-            android:id="@+id/textView2" android:layout_alignRight="@+id/textView1"
-            android:layout_below="@+id/textView1"/>
+            android:id="@+id/journal_date_textView" android:layout_alignRight="@id/journal_content_textView"
+            android:layout_below="@id/journal_content_textView"/>
 </RelativeLayout>

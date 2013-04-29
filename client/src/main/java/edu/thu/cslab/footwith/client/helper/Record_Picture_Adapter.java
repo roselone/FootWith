@@ -1,6 +1,7 @@
 package edu.thu.cslab.footwith.client.helper;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -59,10 +60,10 @@ public class Record_Picture_Adapter extends BaseAdapter {
 
         view.setImageResource(mImages.get(position));
         view.setScaleType(ImageView.ScaleType.FIT_XY);
-        view.setLayoutParams(new Gallery.LayoutParams(136, 88));
+        view.setLayoutParams(new Gallery.LayoutParams(160, 88*160/136));
 
         // The preferred Gallery item background
-        //view.setBackgroundResource(mGalleryItemBackground);
+        view.setBackgroundResource(mContext.obtainStyledAttributes(R.styleable.Gallery1).getResourceId(R.styleable.Gallery1_android_galleryItemBackground, 0));
 
         return view;
 
