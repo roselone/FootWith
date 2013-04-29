@@ -31,13 +31,19 @@ public class loginTest {
     public void doPost() throws IOException {
         DefaultHttpClient client=new DefaultHttpClient();
         HashMap<String,String> userMap=new HashMap<String, String>();
-        userMap.put("userName","roselonelh@gmail.com");
-        userMap.put("passwd","00371989");
+        userMap.put("userName","121@test.com");
+        userMap.put("passwd","123");
         ArrayList<NameValuePair> param=new ArrayList<NameValuePair>();
         param.add(new BasicNameValuePair("login", JSONHelper.getJSONHelperInstance().convertToString(userMap)));
         post.setEntity(new UrlEncodedFormEntity(param, HTTP.UTF_8));
         HttpResponse response=client.execute(post);
         HttpEntity entity=response.getEntity();
-        System.out.println(EntityUtils.toString(entity));
+        String tmp= EntityUtils.toString(entity);
+        System.out.println(tmp);
+        HashMap<String,String> res=JSONHelper.getJSONHelperInstance().convertToMap(tmp);
+        System.out.println(res.get("state"));
+        HashMap<String,String> userinfo=JSONHelper.getJSONHelperInstance().convertToMap(res.get("userinfo"));
+        System.out.println(userinfo.toString());
+
     }
 }

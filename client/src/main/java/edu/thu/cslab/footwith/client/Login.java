@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Toast;
+import edu.thu.cslab.footwith.client.helper.Constant;
 import edu.thu.cslab.footwith.client.helper.ServerConnector;
 import edu.thu.cslab.footwith.messenger.JSONHelper;
 import edu.thu.cslab.footwith.utility.Util;
@@ -29,6 +30,12 @@ public class Login extends Activity{
 	private Button registerButton;
 	static public String userID="TODO";
     static public String userName="me";
+    static public String userNickName;
+    static public String userSex;
+    static public String userPlans;
+    static public String userRecords;
+    static public String userLike;
+    static public String userMarks;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -40,7 +47,7 @@ public class Login extends Activity{
     }
 
 	private void bindButton() {
-		// TODO Auto-generated method stub
+		// TODO Auto-generated     method stub
 		loginButton=(Button)findViewById(R.id.button_login);
 		loginButton.setOnClickListener(loginListener);
 		
@@ -94,13 +101,28 @@ public class Login extends Activity{
                 } catch (IOException e) {
                     e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                 }
-                if (result!=null && result.equals("successful")){
-                    Intent intent=new Intent();
-                    intent.setClass(Login.this, FootWithActivity.class);
-                    startActivity(intent);
-                    overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
+                if (!Util.isEmpty(result)){
+                    HashMap<String,String> res=JSONHelper.getJSONHelperInstance().convertToMap(result);
+                    if (res.get("state").equals("successful")){
+                        HashMap<String,String> userinfo=JSONHelper.getJSONHelperInstance().convertToMap(res.get("userinfo"));
+                        //TODO
+                        userNickName=userinfo.get("nickName");
+                        userID = userinfo.get("userID");
+                        userPlans= userinfo.get("plans");
+                        userRecords = userinfo.get("records");
+                        userLike = userinfo.get("like");
+                        userMarks = userinfo.get("marks");
+                        userSex = userinfo.get("sex");
+
+                        Intent intent=new Intent();
+                        intent.setClass(Login.this, FootWithActivity.class);
+                        startActivity(intent);
+                        overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
+                    }else{
+                        Toast.makeText(Login.this, res.get("state"), Toast.LENGTH_SHORT).show();
+                    }
                 }else {
-                    Toast.makeText(Login.this, result, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Login.this, "connection failure", Toast.LENGTH_SHORT).show();
                 }
             }
 		}
@@ -112,9 +134,8 @@ public class Login extends Activity{
 		public void onClick(View v) {
 			// TODO Auto-generated method stub
             Intent intent=new Intent();
-            intent.setClass(Login.this,Register.class);
+            intent.setClass(Login.this, Register.class);
             startActivity(intent);
-            overridePendingTransition(R.anim.zoom_enter,R.anim.zoom_exit);
 		}
 	};
 	
