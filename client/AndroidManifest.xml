@@ -21,6 +21,10 @@
         <activity android:name=".Messages"></activity>
         <activity android:name=".AboutMe"></activity>
         <activity android:name=".Record"/>
+        <activity android:name=".Record_Tab"/>
+        <activity android:name=".Record_Basic"/>
+        <activity android:name=".Record_Journal"/>
+        <activity android:name=".Record_Picture"/>
 
     </application>
 </manifest> 

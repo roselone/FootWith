@@ -148,7 +148,8 @@ public class AboutMe extends Activity {
 					
 				}
                 if (type.equals("record")){
-                     arg1.getContext().startActivity(new Intent(arg1.getContext(), Record.class));
+                     //arg1.getContext().startActivity(new Intent(arg1.getContext(), Record.class));
+                     arg1.getContext().startActivity(new Intent(arg1.getContext(), Record_Tab.class));
                 }
 				
 			}
