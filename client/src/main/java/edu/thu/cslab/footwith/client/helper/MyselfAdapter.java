@@ -112,7 +112,40 @@ public class MyselfAdapter extends BaseAdapter{
 			itemJoinTextView.setText("加入的人: "+itemJoin);
 			
 		}
-		
+
+        else if (type.equals("record")){
+
+            view=mInflater.inflate(R.layout.record_listitem, null);
+            //view=mInflater.inflate(R.layout.aboutme_listitem, null);
+
+            String itemName=(String)map.get("itemName");
+            String itemPlace=(String)map.get("itemPlace");
+            String itemTimeFrom=(String)map.get("itemTimeFrom");
+            String itemState=(String)map.get("itemState");
+            String itemParticipates=(String)map.get("itemParticipates");
+
+
+            ImageView imageView=(ImageView)view.findViewById(R.id.record_itemimage);
+            imageView.setImageResource(R.drawable.me);
+
+            TextView itemNameTextView=(TextView)view.findViewById(R.id.record_listitem_title);
+            itemNameTextView.setText(itemName);
+
+            TextView itemPlaceTextView=(TextView)view.findViewById(R.id.record_listitem_sites_con);
+            itemPlaceTextView.setText(itemPlace);
+
+            TextView itemTimeTextView=(TextView)view.findViewById(R.id.record_listitem_starttime_con);
+            itemTimeTextView.setText(itemTimeFrom);
+
+            TextView itemParticipatesTextView=(TextView)view.findViewById(R.id.record_listitem_users_con);
+            itemParticipatesTextView.setText(itemParticipates);
+
+            TextView itemStateTextView=(TextView)view.findViewById(R.id.record_listitem_status_con);
+            itemStateTextView.setText(itemState);
+
+
+        }
+
 		
 		return view;
 	}
