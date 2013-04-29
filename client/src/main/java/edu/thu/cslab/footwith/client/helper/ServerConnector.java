@@ -26,12 +26,11 @@ import java.util.ArrayList;
 public class ServerConnector {
     private String dest;
     private DefaultHttpClient client = new DefaultHttpClient();
-    private String URL="http://166.111.70.170:8080/web-1.0/";
     private HttpPost post;
     private ArrayList<NameValuePair> param=new ArrayList<NameValuePair>();
     public ServerConnector(String dest){
         this.dest=dest;
-        post=new HttpPost(URL+dest);
+        post=new HttpPost(Constant.URL+dest);
     }
     public ServerConnector setRequestParam(String key,String value){
         param.add(new BasicNameValuePair(key,value));
