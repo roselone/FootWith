@@ -28,7 +28,10 @@ public class Login extends HttpServlet {
         PrintWriter out=response.getWriter();
         try {
             if (Mediator.isValid(info.get("userName"),info.get("passwd"))){
-                out.print("successful");
+                HashMap<String,String> req=new HashMap<String, String>();
+                req.put("state","successful");
+                req.put("userinfo",Mediator.selectUser(info.get("userName")));
+                out.print(JSONHelper.getJSONHelperInstance().convertToString(req));
             }else{
                 out.println("wrong username or password!");
             }

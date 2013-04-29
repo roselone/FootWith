@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <string name="URL">http://166.111.70.170:8080/web-1.0/</string>
     <string name="hello">Hello World, FootWithActivity!</string>
     <string name="app_name">FootWith</string>
     <string name="login_label_username">帐号</string>
@@ -14,6 +15,8 @@
     <string name="logo_text">Footwith You</string>
     <string name="tab1_text">首页</string>
     <string name="tab2_text">叮叮</string>
-    <string name="tab3_text">我</string><string name="register_label_nickname">nickname</string><string name="register_label_email">Mail Address</string>
+    <string name="tab3_text">我</string>
+    <string name="register_label_nickname">nickname</string>
+    <string name="register_label_email">Mail Address</string>
 
 </resources>

@@ -32,7 +32,7 @@ public class registerTest {
     @Test
     public void doPost() throws IOException {
 //        HashMap<String,String> userinfo=new HashMap<String, String>();
-//        userinfo.put("userName","tests@test.com");
+//        userinfo.put("userName","test@test.com");
 //        userinfo.put("nickName","test");
 //        userinfo.put("passwd","123");
 //        post=new HttpPost(URL);

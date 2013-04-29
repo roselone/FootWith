@@ -588,6 +588,10 @@ public class Mediator {
         String otherInfo = String.valueOf(-1);
         String plans = "";
         String records = "";
+        boolean sex=true;
+        String like="";
+        String marks="";
+
         userID = user_map.get("userID");
         if(userID == null || Util.isEmpty(userID)){
             userID = String.valueOf(-1);
@@ -616,18 +620,37 @@ public class Mediator {
         if(records == null || Util.isEmpty(records)){
             records = "";
         }
-        return new User(Integer.valueOf(userID), userName, nickName, passwd, Integer.valueOf(otherInfo), plans, records);
+        like=user_map.get("like");
+        if (Util.isEmpty(like)){
+            like="";
+        }
+        marks=user_map.get("marks");
+        if (Util.isEmpty(marks)){
+            marks="";
+        }
+        String tmp=user_map.get("sex");
+        if (!Util.isEmpty(tmp) && tmp.equals("female")){
+            sex=false;
+        }
+        return new User(Integer.valueOf(userID), userName, nickName, passwd, Integer.valueOf(otherInfo), plans, records,sex,like,marks);
 
     }
     private static HashMap<String,String>  convertUserToMap(User user){
         HashMap<String,String> user_map = new HashMap<String, String>();
         user_map.put("userID", String.valueOf(user.getUserID()));
-        user_map.put("userName", user.getUserName());
-        user_map.put("nickName", user.getNickName());
-        user_map.put("passwd", user.getPasswd());
+        if (!Util.isEmpty(user.getUserName())) user_map.put("userName", user.getUserName());
+        if (!Util.isEmpty(user.getNickName())) user_map.put("nickName", user.getNickName());
+        //if (!Util.isEmpty(user.getPasswd())) user_map.put("passwd", user.getPasswd());
         user_map.put("otherInfo", String.valueOf(user.getOtherInfo()));
-        user_map.put("plans", user.getPlans());
-        user_map.put("records", user.getRecords());
+        if (!Util.isEmpty(user.getPlans())) user_map.put("plans", user.getPlans());
+        if (!Util.isEmpty(user.getRecords())) user_map.put("records", user.getRecords());
+        if (!Util.isEmpty(user.getLike())) user_map.put("like",user.getLike());
+        if (!Util.isEmpty(user.getMarks())) user_map.put("marks",user.getMarks());
+        if (user.getSex()){
+            user_map.put("sex","male");
+        }else{
+            user_map.put("sex","female");
+        }
         return user_map;
     }
     public static String selectUser(String userName) throws TextFormatException, SQLException, NoSuchAlgorithmException, UnsupportedEncodingException {

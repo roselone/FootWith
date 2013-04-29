@@ -26,6 +26,8 @@ public class User {
         otherInfo = -1;
         plans = null;
         records = null;
+        like=null;
+        marks=null;
 
     }
     public User(int userID){
@@ -35,7 +37,8 @@ public class User {
         otherInfo = -1;
         plans = "";
         records = "";
-
+        like="";
+        marks="";
     }
 
     public User(String userName, String nickName, String passwd, int otherInfo, String plans, String records) throws NoSuchAlgorithmException, UnsupportedEncodingException {
@@ -46,10 +49,9 @@ public class User {
         this.otherInfo = otherInfo;
         this.plans = plans;
         this.records = records;
-        this.state = state;
     }
 
-    public User(int userID, String userName, String nickName, String passwd, int otherInfo, String plans, String records) throws NoSuchAlgorithmException, UnsupportedEncodingException {
+    public User(int userID, String userName, String nickName, String passwd, int otherInfo, String plans, String records,boolean sex,String like,String marks) throws NoSuchAlgorithmException, UnsupportedEncodingException {
         this.userID = userID;
         this.userName = userName;
         this.nickName = nickName;
@@ -57,7 +59,10 @@ public class User {
         this.otherInfo = otherInfo;
         this.plans = plans;
         this.records = records;
-        this.state = state;
+        this.sex=sex;
+        this.like=like;
+        this.marks=marks;
+
     }
 
     public int getState(){
@@ -89,6 +94,19 @@ public class User {
     public String getRecords(){
         return records;
     }
+
+    public boolean getSex(){
+        return sex;
+    }
+
+    public String getLike(){
+        return like;
+    }
+
+    public String getMarks(){
+        return marks;
+    }
+
     public void setState(int state) throws TextFormatException {
 
         this.state = state;
@@ -126,6 +144,22 @@ public class User {
         this.records = records;
     }
 
+    public void setLike(String like) throws TextFormatException {
+        if (!Util.isEmpty(like) && like.length()>200)
+            throw new TextFormatException("like");
+        this.like=like;
+    }
+
+    public void setMarks(String marks) throws TextFormatException {
+        if (!Util.isEmpty(marks) && marks.length()>200)
+            throw new TextFormatException("marks");
+        this.marks=marks;
+    }
+
+    public void setSex(boolean sex){
+        this.sex=sex;
+    }
+
 
 
     public boolean checkPasswd(String in_passwd) throws NoSuchAlgorithmException, UnsupportedEncodingException {
@@ -159,6 +193,9 @@ public class User {
     private int otherInfo;
     private String plans;
     private String records;
+    private String like;
+    private String marks;
+    private boolean sex;
 
     private int state;
 
