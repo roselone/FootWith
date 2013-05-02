@@ -8,12 +8,15 @@ import edu.thu.cslab.footwith.site.SiteManager;
 import edu.thu.cslab.footwith.user.User;
 import edu.thu.cslab.footwith.user.UserManager;
 import edu.thu.cslab.footwith.utility.Util;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.json.JSONException;
 
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Date;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.Vector;
 
@@ -25,6 +28,7 @@ import java.util.Vector;
  * To change this template use File | Settings | File Templates.
  */
 public class Mediator {
+    private static Logger logger= LogManager.getLogger("MediatorTest");
 
     public  Mediator(){
 
@@ -198,13 +202,13 @@ public class Mediator {
      * @throws UnsupportedEncodingException
      */
     public static boolean addPlan(Plan plan) throws SQLException, TextFormatException, JSONException, NoSuchAlgorithmException, UnsupportedEncodingException {
-        Plan new_plan = PlanManager.addPlan(plan);
-        if(new_plan == null){
+        int rs = PlanManager.addPlan(plan);
+        if(rs == -1){
             return false;
         }
 
-        int organizer = new_plan.getOrganizer();
-        int planID = new_plan.getPlanID();
+        int organizer = plan.getOrganizer();
+        int planID = rs;
 
         User user = new User();
         String orig_plans =UserManager.selectUser(organizer).getPlans();
@@ -226,8 +230,8 @@ public class Mediator {
      */
     public static boolean addRecord(Record record) throws SQLException, TextFormatException, JSONException, NoSuchAlgorithmException, UnsupportedEncodingException {
 
-        Record new_record = RecordManager.addRecord(record);
-        if(new_record == null){
+        int rs = RecordManager.addRecord(record);
+        if(rs == -1){
             return false;
         }
 
@@ -241,7 +245,7 @@ public class Mediator {
         for(int i=0;i<userIDVector.size(); i++){
             user = UserManager.selectUser(userIDVector.get(i));
             orig_records = user.getRecords();
-            user.setRecords(jh.addToArray(orig_records, new_record.getRecordID()));
+            user.setRecords(jh.addToArray(orig_records, rs));
             UserManager.editUser(userIDVector.get(i), user);
         }
         return true;
@@ -249,6 +253,7 @@ public class Mediator {
     // Plan
     // Wrappers for Plan functions
     public static Plan selectPlan(int planID) throws TextFormatException, SQLException {
+        logger.debug("selectPlan:{}",planID);
         return PlanManager.selectPlan(planID);
     }
     public static Vector<Plan> selectPlan(Plan plan) throws TextFormatException, SQLException {
@@ -264,6 +269,30 @@ public class Mediator {
         }
         return plans_all_string;
     }
+    public static HashMap<String,String> getUserPlans(String planList) throws JSONException, TextFormatException, SQLException {
+        Vector<Integer> planIDs=JSONHelper.getJSONHelperInstance().convertToArray(planList);
+        HashMap<String,String> plans=new HashMap<String, String>();     //timestamp : plan
+
+        for (int i=0;i<planIDs.size();i++){
+            Plan plan=selectPlan(planIDs.get(i));
+            logger.debug(plan.getTimestamp().toString());
+            logger.debug(JSONHelper.getJSONHelperInstance().convertToString(convertPlanToMap(plan)));
+            plans.put(Util.string2Json(plan.getTimestamp().toString()), JSONHelper.getJSONHelperInstance().convertToString(convertPlanToMap(plan)));
+        }
+
+        return plans;
+    }
+    public static HashMap<String,String> getUserRecords(String recordList) throws JSONException, TextFormatException, SQLException {
+        Vector<Integer> recordIDs=JSONHelper.getJSONHelperInstance().convertToArray(recordList);
+        HashMap<String,String> records=new HashMap<String, String>();
+
+        for (int i=0;i<recordIDs.size();i++){
+            Record record=selectRecord(recordIDs.get(i));
+            records.put(Util.string2Json(record.getTimestamp().toString()),JSONHelper.getJSONHelperInstance().convertToString(convertRecordToMap(record)));
+        }
+
+        return records;
+    }
     public static void deletePlan(int planID) throws TextFormatException, SQLException {
         PlanManager.deletePlan(planID);
     }
@@ -273,17 +302,18 @@ public class Mediator {
     private static HashMap<String,String> convertPlanToMap(Plan plan){
         HashMap<String,String> plan_map = new HashMap<String, String>();
         plan_map.put("planID", String.valueOf(plan.getPlanID()));
-        plan_map.put("title", plan.getTitle());
+        plan_map.put("title", Util.string2Json(plan.getTitle()));
         plan_map.put("siteIDs", plan.getSiteIDs());
         plan_map.put("startTime", plan.getStartTime().toString());
         plan_map.put("endTime", plan.getEndTime().toString());
         plan_map.put("organizer", String.valueOf(plan.getOrganizer()));
-        plan_map.put("participants", plan.getParticipants());
+        plan_map.put("participants", Util.string2Json(plan.getParticipants()));
         plan_map.put("budget", String.valueOf(plan.getBudget()));
         plan_map.put("groupNum", String.valueOf(plan.getGroupNum()));
         plan_map.put("groupNumMax", String.valueOf(plan.getGroupNumMax()));
         plan_map.put("talkStreamID", String.valueOf(plan.getTalkStreamID()));
         plan_map.put("isDone", String.valueOf(plan.getIsDone()));
+        plan_map.put("timestamp",Util.string2Json(String.valueOf(plan.getTimestamp())));
         return plan_map;
     }
     private static Plan convertMapToPlan(HashMap<String,String> plan_map){
@@ -299,6 +329,7 @@ public class Mediator {
         String groupNumMax = String.valueOf(-1);
         String talkStreamID = String.valueOf(-1);
         String isDone= String.valueOf(false);
+        String timestamp;
 
         planID = plan_map.get("planID");
         if(planID==null || Util.isEmpty(planID)){
@@ -348,7 +379,8 @@ public class Mediator {
         if(isDone==null || Util.isEmpty(isDone)){
             isDone= String.valueOf(false);
         }
-        Plan plan = new Plan(Integer.valueOf(planID), title, siteIDs, Date.valueOf(startTime), Date.valueOf(endTime) , Integer.valueOf(organizer) , participants, Integer.valueOf(budget) , Integer.valueOf(groupNum) , Integer.valueOf(groupNumMax), Integer.valueOf(talkStreamID), Boolean.valueOf(isDone));
+        timestamp=plan_map.get("timestamp");
+        Plan plan = new Plan(Integer.valueOf(planID), title, siteIDs, Date.valueOf(startTime), Date.valueOf(endTime) , Integer.valueOf(organizer) , participants, Integer.valueOf(budget) , Integer.valueOf(groupNum) , Integer.valueOf(groupNumMax), Integer.valueOf(talkStreamID), Boolean.valueOf(isDone), Timestamp.valueOf(timestamp));
         return plan;
     }
     public static void editPlan(int planID, String new_plan_string) throws TextFormatException, SQLException, JSONException {
@@ -373,6 +405,8 @@ public class Mediator {
         String pictures = "";
         String talkStreamID = String.valueOf(-1);
         String isDone = String.valueOf(false);
+        String timestamp;
+
         recordID = record_map.get("recordID");
         if(recordID == null || Util.isEmpty(recordID)){
             recordID = String.valueOf(-1);
@@ -413,22 +447,24 @@ public class Mediator {
         if(isDone == null || Util.isEmpty(isDone)){
             isDone = String.valueOf(false);
         }
-        return new Record(Integer.valueOf(recordID), title, siteIDs, Date.valueOf(startTime), Date.valueOf(endTime), userIDs, Integer.valueOf(groupNum), journals, pictures, Integer.valueOf(talkStreamID), Boolean.valueOf(isDone));
+        timestamp=record_map.get("timestamp");
+        return new Record(Integer.valueOf(recordID), title, siteIDs, Date.valueOf(startTime), Date.valueOf(endTime), userIDs, Integer.valueOf(groupNum), journals, pictures, Integer.valueOf(talkStreamID), Boolean.valueOf(isDone),Timestamp.valueOf(timestamp));
     }
     private static HashMap<String,String>  convertRecordToMap(Record record){
         HashMap<String,String> record_map = new HashMap<String, String>();
 
         record_map.put("recordID", String.valueOf(record.getRecordID()));
-        record_map.put("title", record.getTitle());
+        record_map.put("title", Util.string2Json(record.getTitle()));
         record_map.put("siteIDs", record.getSiteIDs());
         record_map.put("startTime", record.getStartTime().toString());
-        record_map.put("endTime", record.getEndTime().toString());
+        record_map.put("endTime", Util.string2Json(record.getEndTime().toString()));
         record_map.put("userIDs", record.getUserIDs());
         record_map.put("groupNum", String.valueOf(record.getGroupNum()));
-        record_map.put("journals", record.getJournals());
-        record_map.put("pictures", record.getPictures());
+        record_map.put("journals", Util.string2Json(record.getJournals()));
+        record_map.put("pictures", Util.string2Json(record.getPictures()));
         record_map.put("talkStreamID", String.valueOf(record.getTalkStreamID()));
         record_map.put("isDone", String.valueOf(record.isDone()));
+        record_map.put("timestamp",Util.string2Json(String.valueOf(record.getTimestamp())));
         return  record_map;
 
     }

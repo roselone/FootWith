@@ -4,6 +4,7 @@ import edu.thu.cslab.footwith.messenger.JSONHelper;
 import org.json.JSONException;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 
 /**
  * Created with IntelliJ IDEA.
@@ -64,7 +65,7 @@ public class Record {
 
     }
 
-    public Record(int recordID, String title,String siteIDs, Date startTime, Date endTime, String userIDs, int groupNum, String journals, String pictures, int talkStreamID,boolean isDone) {
+    public Record(int recordID, String title,String siteIDs, Date startTime, Date endTime, String userIDs, int groupNum, String journals, String pictures, int talkStreamID,boolean isDone,Timestamp timestamp) {
         this.recordID = recordID;
         this.title=title;
         this.siteIDs = siteIDs;
@@ -76,6 +77,7 @@ public class Record {
         this.pictures = pictures;
         this.talkStreamID = talkStreamID;
         this.isDone=isDone;
+        this.timestamp=timestamp;
     }
 
     public int getRecordID() {
@@ -116,6 +118,14 @@ public class Record {
 
     public int getTalkStreamID() {
         return talkStreamID;
+    }
+
+    public Timestamp getTimestamp(){
+        return timestamp;
+    }
+
+    public void setTimestamp(Timestamp ts){
+        this.timestamp=ts;
     }
 
     public void setTitle(String title){
@@ -167,6 +177,7 @@ public class Record {
     private String journals;
     private String pictures;
     private int talkStreamID;
+    private Timestamp timestamp;
     private boolean isDone;
 
 }

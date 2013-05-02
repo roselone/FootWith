@@ -1,7 +1,9 @@
 import edu.thu.cslab.footwith.exception.TextFormatException;
 import edu.thu.cslab.footwith.mediator.Mediator;
+import edu.thu.cslab.footwith.messenger.JSONHelper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.json.JSONException;
 import org.junit.Test;
 
 import java.io.UnsupportedEncodingException;
@@ -21,5 +23,11 @@ public class MediatorTest {
     public void selectUserTest() throws TextFormatException, NoSuchAlgorithmException, SQLException, UnsupportedEncodingException {
         String userinfo= Mediator.selectUser("121@test.com");
         logger.debug(userinfo);
+    }
+    @Test
+    public void getUserPlanTest() throws SQLException, JSONException, TextFormatException {
+        String planIDs="[15,16]";
+        String result= JSONHelper.getJSONHelperInstance().convertToString(Mediator.getUserPlans(planIDs));
+        logger.debug(result);
     }
 }
