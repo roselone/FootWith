@@ -83,7 +83,7 @@ public class Plan {
      * @param talkStreamID
      * @param isDone
      */
-    public Plan(int planID,String title, String siteIDs, Date startTime, Date endTime, int organizer, String participants, int budget, int groupNum, int groupNumMax, int talkStreamID,boolean isDone) {
+    public Plan(int planID,String title, String siteIDs, Date startTime, Date endTime, int organizer, String participants, int budget, int groupNum, int groupNumMax, int talkStreamID,boolean isDone,Timestamp timestamp) {
         this.planID = planID;
         this.title = title;
         this.siteIDs = siteIDs;
@@ -96,6 +96,7 @@ public class Plan {
         this.groupNumMax = groupNumMax;
         this.talkStreamID = talkStreamID;
         this.isDone=isDone;
+        this.timestamp=timestamp;
     }
 
     public int getPlanID() {

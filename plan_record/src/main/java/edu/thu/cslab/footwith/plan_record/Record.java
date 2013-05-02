@@ -65,7 +65,7 @@ public class Record {
 
     }
 
-    public Record(int recordID, String title,String siteIDs, Date startTime, Date endTime, String userIDs, int groupNum, String journals, String pictures, int talkStreamID,boolean isDone) {
+    public Record(int recordID, String title,String siteIDs, Date startTime, Date endTime, String userIDs, int groupNum, String journals, String pictures, int talkStreamID,boolean isDone,Timestamp timestamp) {
         this.recordID = recordID;
         this.title=title;
         this.siteIDs = siteIDs;
@@ -77,6 +77,7 @@ public class Record {
         this.pictures = pictures;
         this.talkStreamID = talkStreamID;
         this.isDone=isDone;
+        this.timestamp=timestamp;
     }
 
     public int getRecordID() {

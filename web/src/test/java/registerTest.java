@@ -25,7 +25,7 @@ import org.junit.Test;
 public class registerTest {
     private String dest;
     private DefaultHttpClient client = new DefaultHttpClient();
-    private String URL="http://127.0.0.1:8080/web-1.0/register";
+    private String URL="http://127.0.0.1:12580/web-1.0/register";
     private HttpPost post;
     private ArrayList<NameValuePair> param=new ArrayList<NameValuePair>();
 

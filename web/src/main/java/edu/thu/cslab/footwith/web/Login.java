@@ -4,6 +4,7 @@ import edu.thu.cslab.footwith.exception.TextFormatException;
 import edu.thu.cslab.footwith.mediator.Mediator;
 import edu.thu.cslab.footwith.messenger.JSONHelper;
 
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -20,6 +21,7 @@ import java.util.HashMap;
  * Time: 11:11 PM
  * To change this template use File | Settings | File Templates.
  */
+@WebServlet(name = "login")
 public class Login extends HttpServlet {
     protected void doPost(HttpServletRequest request,HttpServletResponse response) throws IOException {
         response.setContentType("text");
