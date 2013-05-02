@@ -26,15 +26,26 @@
                     android:orientation="vertical"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/background_record_detail_left_selected">
+                    android:background="@drawable/background_record_detail_left_selected"
+                    android:id="@+id/record_basic_indicator">
                 <ImageView android:layout_width="fill_parent" android:layout_height="50dp" android:id="@+id/record_image_basic"
                            android:layout_marginTop="5dp" android:src="@drawable/basic"
                         />
             </LinearLayout>
-            <ImageView android:layout_width="50dp" android:layout_height="50dp" android:id="@+id/record_image_journal"
-                       android:layout_marginTop="5dp" android:layout_gravity="center" android:src="@drawable/journal"/>
-            <ImageView android:layout_width="fill_parent" android:layout_height="50dp" android:id="@+id/record_image_journal"
-                       android:layout_marginTop="5dp" android:src="@drawable/picture"/>
+            <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content" android:id="@+id/record_journal_indicator">
+                <ImageView android:layout_width="50dp" android:layout_height="50dp" android:id="@+id/record_image_journal"
+                           android:layout_marginTop="5dp" android:layout_gravity="center" android:src="@drawable/journal"/>
+            </LinearLayout>
+            <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content" android:id="@+id/record_journal_indicator">
+                <ImageView android:layout_width="fill_parent" android:layout_height="50dp" android:id="@+id/record_image_journal"
+                           android:layout_marginTop="5dp" android:src="@drawable/picture"/>
+            </LinearLayout>
         </LinearLayout>
         <FrameLayout
                 android:layout_width="fill_parent"
@@ -42,29 +53,30 @@
             <LinearLayout
                     android:orientation="vertical"
                     android:layout_width="fill_parent"
-                    android:layout_height="fill_parent" android:layout_gravity="left|top">
+                    android:layout_height="fill_parent" android:layout_gravity="left|top"
+                    android:id="@+id/record_detail_basic">
                 <ListView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/listView1" android:layout_gravity="center"/>
+                        android:id="@+id/record_sites_listView" android:layout_gravity="center"/>
                 <ListView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/listView2"/>
+                        android:id="@+id/record_users_listView"/>
             </LinearLayout>
             <LinearLayout
                     android:orientation="vertical"
                     android:layout_width="fill_parent"
-                    android:layout_height="fill_parent">
+                    android:layout_height="fill_parent" android:id="@+id/record_detail_journal">
                 <ListView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/listView"/>
+                        android:id="@+id/record_journal_listView"/>
             </LinearLayout>
             <LinearLayout
                     android:orientation="vertical"
                     android:layout_width="fill_parent"
-                    android:layout_height="fill_parent">
+                    android:layout_height="fill_parent" android:id="@+id/record_detail_picture">
                 <Gallery
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -72,7 +84,7 @@
                 <GridView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:id="@+id/gridView" android:numColumns="auto_fit"
+                        android:id="@+id/record_picture_gridView" android:numColumns="auto_fit"
                         android:padding="5dp" android:horizontalSpacing="10dp" android:gravity="center"
                         android:columnWidth="100dp" android:background="@drawable/background_record_detail_right"/>
             </LinearLayout>

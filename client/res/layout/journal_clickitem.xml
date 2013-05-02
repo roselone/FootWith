@@ -5,41 +5,23 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent" android:background="@drawable/background_tab">
 
-    <TextView
+    <EditText
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="New Text"
-            android:id="@+id/textView" android:layout_gravity="left|center_vertical" android:layout_marginLeft="10dp"
-            android:layout_marginTop="20dp" android:layout_marginRight="10dp" android:layout_marginBottom="10dp"/>
+            android:id="@+id/journal_title_editText" android:layout_marginTop="20dp"/>
     <FrameLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content">
         <EditText
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="New EditText"
-                android:id="@+id/editText" android:layout_gravity="left|center_vertical" android:height="200dp"
+                android:id="@+id/journal_content_editText" android:layout_gravity="left|center_vertical" android:height="200dp"
                 android:editable="false"
-                android:ellipsize="none"/>
+                android:ellipsize="none" android:layout_marginTop="5dp" android:linksClickable="false"
+                android:longClickable="false" android:singleLine="false"/>
     </FrameLayout>
-    <LinearLayout
-            android:orientation="horizontal"
+    <RelativeLayout
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content" android:baselineAligned="false">
-        <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="New Button"
-                android:id="@+id/button"/>
-        <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="New Button"
-                android:id="@+id/button1" android:layout_gravity="center"/>
-        <Button
-                android:layout_width="wrap_content"
-                android:layout_height="fill_parent"
-                android:text="New Button"
-                android:id="@+id/button2"/>
-    </LinearLayout>
+            android:layout_height="wrap_content" android:paddingLeft="10dp" android:paddingRight="10dp">
+    </RelativeLayout>
 </LinearLayout>
