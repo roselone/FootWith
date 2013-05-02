@@ -1,6 +1,7 @@
 package edu.thu.cslab.footwith.plan_record;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 
 /**
  * Created with IntelliJ IDEA.
@@ -16,6 +17,7 @@ public class Journal {
     private int comments;
     private Date date;
     private int journalID;
+    private Timestamp timestamp;
 
     public Journal(){}
     public Journal(int userID,String title, String body, Date date){
@@ -31,7 +33,9 @@ public class Journal {
     public void setBody(String body){this.body = body ;}
     public void setComments(int comments){this.comments = comments;}
     public void setDate(Date date){this.date = date;}
+    public Timestamp getTimestamp(){return timestamp;}
 
+    public void setTimestamp(Timestamp ts){this.timestamp=ts;}
     public int getJournalID(){return  this.journalID;}
     public int getUserID(){return this.userID;}
     public String getTitle(){return this.title;}

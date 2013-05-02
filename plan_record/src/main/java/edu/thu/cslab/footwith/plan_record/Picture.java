@@ -1,6 +1,7 @@
 package edu.thu.cslab.footwith.plan_record;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 
 /**
  * Created with IntelliJ IDEA.
@@ -16,6 +17,7 @@ public class Picture {
     private int comments;
     private Date date;
     private int pictureID;
+    private Timestamp timestamp;
 
     public Picture(){}
     public Picture(int userID,String title, String picturePath, Date date){
@@ -31,7 +33,9 @@ public class Picture {
     public void setPicturePath(String picturePath){this.picturePath = picturePath ;}
     public void setComments(int comments){this.comments = comments;}
     public void setDate(Date date){this.date = date;}
+    public Timestamp getTimestamp(){return timestamp;}
 
+    public void setTimestamp(Timestamp ts){this.timestamp=ts;}
     public int getPictureID(){return this.pictureID;}
     public int getUserID(){return this.userID;}
     public String getTitle(){return this.title;}

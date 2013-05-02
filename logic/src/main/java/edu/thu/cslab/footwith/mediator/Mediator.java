@@ -264,6 +264,16 @@ public class Mediator {
         }
         return plans_all_string;
     }
+    public static String getUserPlans(String planList) throws JSONException, TextFormatException, SQLException {
+        Vector<Integer> planIDs=JSONHelper.getJSONHelperInstance().convertToArray(planList);
+        Vector<String> plans=new Vector<String>();
+
+        for (int i=0;i<planIDs.size();i++){
+            plans.add(JSONHelper.getJSONHelperInstance().convertToString(convertPlanToMap(selectPlan(planIDs.get(i)))));
+        }
+        //TODO
+        return null;
+    }
     public static void deletePlan(int planID) throws TextFormatException, SQLException {
         PlanManager.deletePlan(planID);
     }
@@ -278,12 +288,13 @@ public class Mediator {
         plan_map.put("startTime", plan.getStartTime().toString());
         plan_map.put("endTime", plan.getEndTime().toString());
         plan_map.put("organizer", String.valueOf(plan.getOrganizer()));
-        plan_map.put("participants", plan.getParticipants());
-        plan_map.put("budget", String.valueOf(plan.getBudget()));
+        if (!Util.isEmpty(plan.getParticipants())) plan_map.put("participants", plan.getParticipants());
+        if (!Util.isEmpty(String.valueOf(plan.getBudget()))) plan_map.put("budget", String.valueOf(plan.getBudget()));
         plan_map.put("groupNum", String.valueOf(plan.getGroupNum()));
         plan_map.put("groupNumMax", String.valueOf(plan.getGroupNumMax()));
         plan_map.put("talkStreamID", String.valueOf(plan.getTalkStreamID()));
         plan_map.put("isDone", String.valueOf(plan.getIsDone()));
+        plan_map.put("timestamp",String.valueOf(plan.getTimestamp()));
         return plan_map;
     }
     private static Plan convertMapToPlan(HashMap<String,String> plan_map){

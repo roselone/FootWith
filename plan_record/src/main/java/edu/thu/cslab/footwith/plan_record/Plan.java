@@ -5,6 +5,7 @@ import edu.thu.cslab.footwith.messenger.JSONHelper;
 import org.json.JSONException;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 
 /**
  * Created with IntelliJ IDEA.
@@ -145,6 +146,14 @@ public class Plan {
         return isDone;
     }
 
+    public Timestamp getTimestamp(){
+        return timestamp;
+    }
+
+    public void setTimestamp(Timestamp ts){
+        this.timestamp=ts;
+    }
+
     public void setSiteIDs(String siteIDs) throws TextFormatException{
         if(siteIDs == null || siteIDs.length()==0||siteIDs.length()>100)
             throw new TextFormatException();
@@ -180,7 +189,7 @@ public class Plan {
         this.participants = participants;
     }
 
-    public void addParticipant(int userID) throws JSONException, TextFormatException {
+    public void addParticipant(int userID) throws TextFormatException, JSONException {
         setParticipants(JSONHelper.getJSONHelperInstance().addToArray(this.getParticipants(), userID));
     }
 
@@ -211,7 +220,6 @@ public class Plan {
         this.isDone=status;
     }
 
-
     private int planID;
     private String title;
     private String siteIDs;
@@ -223,6 +231,7 @@ public class Plan {
     private int groupNum;
     private int groupNumMax;
     private int talkStreamID;
+    private Timestamp timestamp;
     private boolean isDone;
 
 }
