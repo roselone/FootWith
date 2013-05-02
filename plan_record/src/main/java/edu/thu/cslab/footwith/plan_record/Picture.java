@@ -20,11 +20,12 @@ public class Picture {
     private Timestamp timestamp;
 
     public Picture(){}
-    public Picture(int userID,String title, String picturePath, Date date){
+    public Picture(int userID,String title, String picturePath, Date date,Timestamp timestamp){
         this.userID=userID;
         this.title=title;
         this.picturePath=picturePath;
         this.date=date;
+        this.timestamp=timestamp;
     }
 
     public void setPictureID(int pictureID){this.pictureID=pictureID;}

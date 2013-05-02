@@ -20,11 +20,12 @@ public class Journal {
     private Timestamp timestamp;
 
     public Journal(){}
-    public Journal(int userID,String title, String body, Date date){
+    public Journal(int userID,String title, String body, Date date,Timestamp timestamp){
         this.userID=userID;         // -1
         this.title=title;           // null
         this.body=body;             // null
         this.date=date;             // none
+        this.timestamp=timestamp;
     }
 
     public void setJournalID(int journalID){this.journalID=journalID;}

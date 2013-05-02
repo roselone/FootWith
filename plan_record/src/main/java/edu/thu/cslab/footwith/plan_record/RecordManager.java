@@ -31,7 +31,7 @@ public class RecordManager {
         ResultSet rs=DBUtil.getDBUtil().executeQuery(SQLCommand);
         while(rs.next()){
             records.add(new Record(rs.getInt("recordID"),rs.getString("title"), rs.getString("siteIDs"), rs.getDate("startTime"), rs.getDate("endTime"),
-                    rs.getString("userIDs"), rs.getInt("groupNum"), rs.getString("journals"), rs.getString("pictures"), rs.getInt("talkStreamID"),rs.getBoolean("isDone")));
+                    rs.getString("userIDs"), rs.getInt("groupNum"), rs.getString("journals"), rs.getString("pictures"), rs.getInt("talkStreamID"),rs.getBoolean("isDone"),rs.getTimestamp("timestamp")));
         }
         return records;
     }
@@ -45,13 +45,13 @@ public class RecordManager {
      * @throws java.security.NoSuchAlgorithmException
      * @throws java.io.UnsupportedEncodingException
      */
-    public static Record addRecord(Record  record) throws SQLException, TextFormatException, JSONException, NoSuchAlgorithmException, UnsupportedEncodingException {
+    public static int addRecord(Record  record) throws SQLException, TextFormatException, JSONException, NoSuchAlgorithmException, UnsupportedEncodingException {
         String SQLCommand;
         DBUtil du = DBUtil.getDBUtil();
         ResultSet rs;
         if(record==null) {
             logger.error("Can't add empty record");
-            return null;
+            return -1;
         }
         String title = record.getTitle();
         String siteIDs = record.getSiteIDs();
@@ -60,7 +60,7 @@ public class RecordManager {
         Date endTime = record.getEndTime();
         if(siteIDs == null || userIDs==null || startTime==null){
             logger.error("illegal record");
-            return null;
+            return -1;
         }
 
         SQLCommand = " insert into " + tableName + " (title,  siteIDs, startTime, userIDs, groupNum, journals, pictures, talkStreamID, isDone ) " +
@@ -68,7 +68,7 @@ public class RecordManager {
         rs = du.executeUpdate(SQLCommand);
         rs.next();
         int recordID = rs.getInt(1); // maybe wrong
-        Record new_record = new Record(recordID, title, siteIDs, startTime, endTime, userIDs, record.getGroupNum(), record.getJournals(), record.getPictures(), record.getTalkStreamID(), false);
+
         if (endTime!=null){
             SQLCommand="update "+tableName+" set endTime = '"+endTime+"' where recordID = " +recordID+";";
             du.executeUpdate(SQLCommand);
@@ -100,7 +100,7 @@ public class RecordManager {
             um.editUser(userIDVector.get(i), user);
         }
         */
-        return new_record;
+        return recordID;
     }
 
     /**
@@ -120,7 +120,7 @@ public class RecordManager {
         rs=du.executeQuery(SQLCommand);
         rs.next();
         return new Record(rs.getInt("recordID"),rs.getString("title"), rs.getString("siteIDs"), rs.getDate("startTime"), rs.getDate("endTime"),
-                rs.getString("userIDs"), rs.getInt("groupNum"), rs.getString("journals"), rs.getString("pictures"), rs.getInt("talkStreamID"),rs.getBoolean("isDone"));
+                rs.getString("userIDs"), rs.getInt("groupNum"), rs.getString("journals"), rs.getString("pictures"), rs.getInt("talkStreamID"),rs.getBoolean("isDone"),rs.getTimestamp("timestamp"));
 
     }
 
@@ -134,7 +134,7 @@ public class RecordManager {
     public static boolean addRecordFromPlan(Plan plan) throws JSONException, NoSuchAlgorithmException, UnsupportedEncodingException {
         Record record=new Record(plan);
         try {
-            if(addRecord(record)==null){
+            if(addRecord(record)==-1){
                 logger.error("add Record failed!");
                 return false;
             }

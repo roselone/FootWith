@@ -3,6 +3,7 @@ package edu.thu.cslab.footwith.web;
 import edu.thu.cslab.footwith.exception.TextFormatException;
 import edu.thu.cslab.footwith.mediator.Mediator;
 
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -18,6 +19,7 @@ import java.sql.SQLException;
  * Time: 5:44 PM
  * To change this template use File | Settings | File Templates.
  */
+@WebServlet(name = "register")
 public class Register extends HttpServlet {
     protected void doPost(HttpServletRequest request,HttpServletResponse response) throws IOException {
         String userinfo=request.getParameter("userinfo");

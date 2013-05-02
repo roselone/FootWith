@@ -67,7 +67,7 @@ public class JournalManager {
         String SQLComment = "select * from " + tableName + " where journalID = " +String.valueOf(journalID)+";";
         ResultSet rs = DBUtil.getDBUtil().executeQuery(SQLComment);
         rs.next();
-        Journal result=new Journal(rs.getInt("userID"),rs.getString("title"),rs.getString("body"),rs.getDate("time"));
+        Journal result=new Journal(rs.getInt("userID"),rs.getString("title"),rs.getString("body"),rs.getDate("time"),rs.getTimestamp("timestamp"));
         result.setJournalID(journalID);
         return result;
     }

@@ -26,11 +26,11 @@ public class PlanManager {
     private static Logger logger= LogManager.getLogger(new PlanManager().getClass().getName());
     public PlanManager() {
     }
-    public static Plan addPlan(Plan plan) throws SQLException, TextFormatException, JSONException, NoSuchAlgorithmException, UnsupportedEncodingException {
+    public static int addPlan(Plan plan) throws SQLException, TextFormatException, JSONException, NoSuchAlgorithmException, UnsupportedEncodingException {
 
         if(plan == null) {
             logger.error("Can't add empty plan");
-            return null;
+            return -1;
         }
 
         String SQLCommand = null;
@@ -44,14 +44,14 @@ public class PlanManager {
         Date endTime = plan.getEndTime();
         if(Util.isEmpty(siteIDs) || organizer<0 || startTime==null || endTime==null || startTime.after(endTime)){
             logger.error("illegal plan");
-            return null;
+            return -1;
         }
         SQLCommand = " insert into " + tableName + " ( title, siteIDs, startTime, endTime, organizer, participants, budget, groupNum, groupNumMax, talkStreamID, isDone ) " +
                 " values ( '"+title+"' , '"+ siteIDs + "' , '"+ startTime + "' , '" + endTime+ "' , " + organizer + " , '" + plan.getParticipants() + "' , " + plan.getBudget() + " , " + plan.getGroupNum()+ " , " + plan.getGroupNumMax() + " , " + plan.getTalkStreamID() +" , false ) ";
         rs = du.executeUpdate(SQLCommand);
         rs.next();
         int planID = rs.getInt(1);
-        Plan new_plan = new Plan(planID, title, siteIDs, startTime, endTime, organizer, plan.getParticipants(), plan.getBudget(), plan.getGroupNum(), plan.getGroupNumMax(), plan.getTalkStreamID(), false);
+        //Plan new_plan = new Plan(planID, title, siteIDs, startTime, endTime, organizer, plan.getParticipants(), plan.getBudget(), plan.getGroupNum(), plan.getGroupNumMax(), plan.getTalkStreamID(), false);
         /*
         User user = new User();
         String orig_plans =new UserManager().selectUser(organizer).getPlans();
@@ -66,7 +66,7 @@ public class PlanManager {
             du.executeUpdate(SQLCommand);
         }
         */
-        return new_plan;
+        return planID;
     }
     public static Plan selectPlan(int planID) throws TextFormatException, SQLException {
         DBUtil du = DBUtil.getDBUtil();
@@ -78,7 +78,7 @@ public class PlanManager {
         rs=du.executeQuery(SQLCommand);
         rs.next();
         return new Plan(rs.getInt("planID"),rs.getString("title"), rs.getString("siteIDs"), rs.getDate("startTime"), rs.getDate("endTime"), rs.getInt("organizer"),
-                rs.getString("participants"), rs.getInt("budget"), rs.getInt("groupNum"), rs.getInt("groupNumMax"), rs.getInt("talkStreamID"),rs.getBoolean("isDone"));
+                rs.getString("participants"), rs.getInt("budget"), rs.getInt("groupNum"), rs.getInt("groupNumMax"), rs.getInt("talkStreamID"),rs.getBoolean("isDone"),rs.getTimestamp("timestamp"));
 
     }
 
@@ -145,7 +145,7 @@ public class PlanManager {
         Vector<Plan> vector = new Vector<Plan>();
         while(rs.next()){
             result_plan = new Plan(rs.getInt("planID"), rs.getString("title"),rs.getString("siteIDs"), rs.getDate("startTime"), rs.getDate("endTime"), rs.getInt("organizer"),
-                    rs.getString("participants"), rs.getInt("budget"), rs.getInt("groupNum"), rs.getInt("groupNumMax"), rs.getInt("talkStreamID"),rs.getBoolean("isDOne"));
+                    rs.getString("participants"), rs.getInt("budget"), rs.getInt("groupNum"), rs.getInt("groupNumMax"), rs.getInt("talkStreamID"),rs.getBoolean("isDOne"),rs.getTimestamp("timestamp"));
             vector.add(result_plan);
         }
 
