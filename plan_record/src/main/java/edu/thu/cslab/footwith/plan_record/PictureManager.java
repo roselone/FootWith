@@ -67,7 +67,7 @@ public class PictureManager {
         String SQLComment = "select * from " + tableName + " where pictureID = " +String.valueOf(pictureID)+";";
         ResultSet rs = DBUtil.getDBUtil().executeQuery(SQLComment);
         rs.next();
-        Picture result=new Picture(rs.getInt("userID"),rs.getString("title"),rs.getString("picturePath"),rs.getDate("time"));
+        Picture result=new Picture(rs.getInt("userID"),rs.getString("title"),rs.getString("picturePath"),rs.getDate("time"),rs.getTimestamp("timestamp"));
         result.setPictureID(pictureID);
         return result;
     }

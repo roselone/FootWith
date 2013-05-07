@@ -26,8 +26,8 @@ public class UserManager {
         DBUtil du = DBUtil.getDBUtil();
         if(user == null)
             throw new TextFormatException();
-        SQLCommand = " insert into " + tableName + " ( userName, nickName, passwd, otherInfo, plans, records ) " +
-                " values ( '"+ user.getUserName()+"' , '"+ user.getNickName()+ "' , '"+ user.getPasswd()+ "' , " + user.getOtherInfo()+ " , '" + user.getPlans()+ "' , '" + user.getRecords() + "' ) ";
+        SQLCommand = " insert into " + tableName + " ( userName, nickName, passwd, otherInfo, plans, records, sex ) " +
+                " values ( '"+ user.getUserName()+"' , '"+ user.getNickName()+ "' , '"+ user.getPasswd()+ "' , " + user.getOtherInfo()+ " , '" + user.getPlans()+ "' , '" + user.getRecords() +"' , "+user.getSex()+ " ) ";
         ResultSet rs=du.executeUpdate(SQLCommand);
         rs.next();
         return rs.getInt(1);
@@ -46,14 +46,17 @@ public class UserManager {
         rs=du.executeQuery(SQLCommand);
         // while(rs.next()){
         rs.next();
-        user = new User(rs.getInt("userID"), rs.getString("userName"), rs.getString("nickName"), rs.getString("passwd"), rs.getInt("otherInfo"), rs.getString("plans"), rs.getString("records"));
-        //user = new User(rs.getInt("userID"));
-        //user.setUserName(rs.getString("userName"));
-        //user.setNickName(rs.getString("nickName"));
-        //user.setPasswd(rs.getString("passwd"));
-        //user.setOtherInfo(rs.getInt("otherInfo"));
-        //user.setPlans(rs.getString("plans"));
-        //user.setRecords(rs.getString("records"));
+        //user = new User(rs.getInt("userID"), rs.getString("userName"), rs.getString("nickName"), rs.getString("passwd"), rs.getInt("otherInfo"), rs.getString("plans"), rs.getString("records"));
+        user = new User(rs.getInt("userID"));
+        user.setUserName(rs.getString("userName"));
+        user.setNickName(rs.getString("nickName"));
+        user.setPasswd(rs.getString("passwd"));
+        user.setOtherInfo(rs.getInt("otherInfo"));
+        user.setPlans(rs.getString("plans"));
+        user.setRecords(rs.getString("records"));
+        user.setSex(rs.getBoolean("sex"));
+        user.setLike(rs.getString("like"));
+        user.setMarks(rs.getString("marks"));
         // }
 
         return user;
@@ -70,15 +73,16 @@ public class UserManager {
         rs=du.executeQuery(SQLCommand);
         //while(rs.next()){
         rs.next();
-        user = new User(rs.getInt("userID"), rs.getString("userName"), rs.getString("nickName"), rs.getString("passwd"), rs.getInt("otherInfo"), rs.getString("plans"), rs.getString("records"));
-        /*
+        //user = new User(rs.getInt("userID"), rs.getString("userName"), rs.getString("nickName"), rs.getString("passwd"), rs.getInt("otherInfo"), rs.getString("plans"), rs.getString("records"));
         user.setUserName(rs.getString("userName"));
         user.setNickName(rs.getString("nickName"));
         user.setPasswd(rs.getString("passwd"));
         user.setOtherInfo(rs.getInt("otherInfo"));
         user.setPlans(rs.getString("plans"));
         user.setRecords(rs.getString("records"));
-        */
+        user.setSex(rs.getBoolean("sex"));
+        user.setLike(rs.getString("like"));
+        user.setMarks(rs.getString("marks"));
         //}
 
         return user;
@@ -142,6 +146,18 @@ public class UserManager {
             SQLCommand += " records = '" + new_user.getRecords() + "'";
             isComma = true;
         }
+        if(!Util.isEmpty(new_user.getLike())){
+            if(isComma)
+                SQLCommand += " , ";
+            SQLCommand += " like = '" + new_user.getLike() + "'";
+            isComma = true;
+        }
+        if(!Util.isEmpty(new_user.getMarks())){
+            if(isComma)
+                SQLCommand += " , ";
+            SQLCommand += " marks = '" + new_user.getMarks() + "'";
+            isComma = true;
+        }
         SQLCommand += " where userName = '" + userName + "'";
         du.executeUpdate(SQLCommand);
 
@@ -183,6 +199,18 @@ public class UserManager {
             if(isComma)
                 SQLCommand += " , ";
             SQLCommand += " records = '" + new_user.getRecords() + "'";
+            isComma = true;
+        }
+        if(!Util.isEmpty(new_user.getLike())){
+            if(isComma)
+                SQLCommand += " , ";
+            SQLCommand += " like = '" + new_user.getLike() + "'";
+            isComma = true;
+        }
+        if(!Util.isEmpty(new_user.getMarks())){
+            if(isComma)
+                SQLCommand += " , ";
+            SQLCommand += " marks = '" + new_user.getMarks() + "'";
             isComma = true;
         }
         SQLCommand += " where userID = " + userID;
