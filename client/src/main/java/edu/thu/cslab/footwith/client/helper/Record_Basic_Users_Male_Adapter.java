@@ -9,10 +9,10 @@ import android.widget.BaseAdapter;
  * Created with IntelliJ IDEA.
  * User: bxl
  * Date: 5/2/13
- * Time: 10:14 PM
+ * Time: 10:16 PM
  * To change this template use File | Settings | File Templates.
  */
-public class Record_Basic_Sites_Adapter extends BaseAdapter {
+public class Record_Basic_Users_Male_Adapter extends BaseAdapter {
     @Override
     public int getCount() {
         return 0;  //To change body of implemented methods use File | Settings | File Templates.
@@ -34,7 +34,7 @@ public class Record_Basic_Sites_Adapter extends BaseAdapter {
     }
     private Context context;
 
-    public Record_Basic_Sites_Adapter(Context context) {
+    public Record_Basic_Users_Male_Adapter(Context context) {
         this.context = context;
     }
 }
