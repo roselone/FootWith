@@ -15,6 +15,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import edu.thu.cslab.footwith.client.helper.Myself;
 import edu.thu.cslab.footwith.client.helper.MyselfAdapter;
+import edu.thu.cslab.footwith.client.helper.MyselfNetwork;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 
@@ -32,14 +33,14 @@ public class AboutMe extends Activity {
         
         ListView selfList=(ListView)findViewById(R.id.listView_AboutMe);
         
-        ArrayList<HashMap<String, Object>> listItem=new ArrayList<HashMap<String,Object>>();
+        ArrayList<HashMap<String, String>> listItem=new ArrayList<HashMap<String,String>>();
         
-        final Myself self=new Myself();
+        final MyselfNetwork self=new MyselfNetwork();
         self.requestList();
         listItem=self.getList();
         
         final MyselfAdapter selfAdapter=new MyselfAdapter(AboutMe.this, listItem);
-        
+        //final MyselfAdapter selfAdapter=new MyselfAdapter(AboutMe.this);
         selfList.setAdapter(selfAdapter);
         
         
@@ -50,7 +51,7 @@ public class AboutMe extends Activity {
 			public void onItemClick(AdapterView<?> adapterView, View arg1, int position,
 					long arg3) {
 				// TODO Auto-generated method stub
-				HashMap<String, Object> map=(HashMap<String, Object>)adapterView.getAdapter().getItem(position);
+				HashMap<String, String> map=(HashMap<String, String>)adapterView.getAdapter().getItem(position);
 				
 				String type=(String)map.get("itemType");
 				
@@ -149,7 +150,17 @@ public class AboutMe extends Activity {
 				}
                 if (type.equals("record")){
                      //arg1.getContext().startActivity(new Intent(arg1.getContext(), Record.class));
-                     arg1.getContext().startActivity(new Intent(arg1.getContext(), Record_Tab.class));
+                    Intent intent = new Intent(arg1.getContext(), Record_Tab.class);
+                    Bundle extras = new Bundle();
+                    extras.putSerializable("map", map);
+                    intent.putExtras(extras);
+                    /*
+                    String []keys = (String[]) map.keySet().toArray();
+                    for(String key:keys){
+                        intent.putExtra(key, map.get(key));
+                    }
+                    */
+                    arg1.getContext().startActivity(intent);
                 }
 				
 			}

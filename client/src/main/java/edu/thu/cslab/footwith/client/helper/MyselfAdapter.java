@@ -9,33 +9,76 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import edu.thu.cslab.footwith.client.Login;
 import edu.thu.cslab.footwith.client.R;
+import edu.thu.cslab.footwith.messenger.JSONHelper;
+import edu.thu.cslab.footwith.utility.Util;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 public class MyselfAdapter extends BaseAdapter{
 
-	private ArrayList<HashMap<String, Object>> selfList=new ArrayList<HashMap<String,Object>>();
+	private ArrayList<HashMap<String, String>> selfList=new ArrayList<HashMap<String,String>>();
+    private ArrayList<HashMap<String, String>> selfListString=new ArrayList<HashMap<String,String>>();
 	private Context context;
 	private LayoutInflater mInflater;
 	
-	public MyselfAdapter(Context context,ArrayList<HashMap<String, Object>> map){
-		this.selfList=map;
+	public MyselfAdapter(Context context,ArrayList<HashMap<String, String>> map){
+		this.selfListString=map;
 		this.context=context;
 		this.mInflater=LayoutInflater.from(context);
 	}
-	
-	@Override
+
+    public MyselfAdapter(Context context) {
+        this.context = context;
+        this.mInflater=LayoutInflater.from(context);
+        ServerConnector sc = new ServerConnector("planrecord");
+        String result = null;
+        HashMap<String,String> userMap=new HashMap<String, String>();
+        userMap.put("planList", Login.userPlans);
+        userMap.put("recordList", Login.userRecords);
+        try {
+            result = sc.setRequestParam("getPlanRecord", JSONHelper.getJSONHelperInstance().convertToString(userMap)).doPost();
+        } catch (IOException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
+        if(!Util.isEmpty(result)){
+            HashMap<String, String> result_map = JSONHelper.getJSONHelperInstance().convertToMap(result);
+            if(result_map.get("state").equals("successful")){
+                HashMap<String, String> planrecord = JSONHelper.getJSONHelperInstance().convertToMap(result_map.get("planrecord"));
+                //TODO
+                //need to sort
+                Object[] keys =  planrecord.keySet().toArray();
+                Arrays.sort(keys);
+                HashMap<String, String> planrecord_item;
+                for(Object key:keys){
+                    planrecord_item = JSONHelper.getJSONHelperInstance().convertToMap(planrecord.get(key));
+                    if(planrecord_item.containsKey("planID")){
+                        planrecord_item.put("itemType", "plan");
+                    }else if(planrecord_item.containsKey("recordID")){
+                        planrecord_item.put("itemType", "record");
+                    }
+                    selfListString.add(planrecord_item);
+                }
+                //System.out.println(keys.toString());
+                //System.out.println(selfListString.toString());
+            }
+        }
+    }
+
+    @Override
 	public int getCount() {
 		// TODO Auto-generated method stub
-		return selfList.size();
+		return selfListString.size();
 	}
 
 	@Override
-	public HashMap<String, Object> getItem(int position) {
+	public HashMap<String, String> getItem(int position) {
 		// TODO Auto-generated method stub
-		return selfList.get(position);
+		return selfListString.get(position);
 	}
 
 	@Override
@@ -48,18 +91,21 @@ public class MyselfAdapter extends BaseAdapter{
 	public View getView(int position, View convertView, ViewGroup parent) {
 		// TODO Auto-generated method stub
 		View view=null;
-		final HashMap<String, Object> map=selfList.get(position);
+		//final HashMap<String, Object> map=selfList.get(position);
 
-		String type=(String)map.get("itemType");
-		final String name=(String)map.get("itemName");
+        final HashMap<String, String> mapString=selfListString.get(position);
+
+		String type=(String)mapString.get("itemType");
+		final String name=(String)mapString.get("title");
 		final int pos=position;
-		
+
+
 		if (type.equals("newTrip")){
 			view=mInflater.inflate(R.layout.aboutme_listitem2, null);
 			TextView itemNameTextView=(TextView)view.findViewById(R.id.aboutme_itemSystem);
 			itemNameTextView.setText(name);		
 		}
-		if (type.equals("trip")){
+		if (type.equals("plan")){
 			view=mInflater.inflate(R.layout.aboutme_listitem, null);
 			
 			Button stateButton=(Button)view.findViewById(R.id.aboutme_buttonState);
@@ -68,20 +114,20 @@ public class MyselfAdapter extends BaseAdapter{
 				@Override
 				public void onClick(View v) {
 					// TODO Auto-generated method stub
-					map.put("itemState", "旅途中");
-					selfList.set(pos, map);
+                    mapString.put("itemState", "旅途中");
+					selfListString.set(pos, mapString);
 					notifyDataSetChanged();
 				}
 			});
 			
-			String itemPlace=(String)map.get("itemPlace");
-			String itemTimeFrom=(String)map.get("itemTimeFrom");
-			String itemTimeTo=(String)map.get("itemTimeTo");
-			String itemWant=(String)map.get("itemWant");
-			String itemMore=(String)map.get("itemMore");
-			String itemState=(String)map.get("itemState");
-			String itemAttention=(String)map.get("itemAttention");
-			String itemJoin=(String)map.get("itemJoin");
+			String itemPlace=(String)mapString.get("siteIDs");
+			String itemTimeFrom=(String)mapString.get("startTime");
+			String itemTimeTo=(String)mapString.get("endTime");
+			String itemWant=(String)mapString.get("organizer");
+			String itemMore=(String)mapString.get("participants");
+			String itemState=(String)mapString.get("isDone");
+			String itemAttention=(String)mapString.get("participants");
+			String itemJoin=(String)mapString.get("participants");
 			String itemTime=itemTimeFrom.equals(itemTimeTo)?itemTimeFrom+"月份期间":itemTimeFrom+"到"+itemTimeTo+"月份期间";
 			
 			ImageView imageView=(ImageView)view.findViewById(R.id.aboutme_itemImage);
@@ -118,11 +164,11 @@ public class MyselfAdapter extends BaseAdapter{
             view=mInflater.inflate(R.layout.record_listitem, null);
             //view=mInflater.inflate(R.layout.aboutme_listitem, null);
 
-            String itemName=(String)map.get("itemName");
-            String itemPlace=(String)map.get("itemPlace");
-            String itemTimeFrom=(String)map.get("itemTimeFrom");
-            String itemState=(String)map.get("itemState");
-            String itemParticipates=(String)map.get("itemParticipates");
+            String itemName=(String)mapString.get("title");
+            String itemPlace=(String)mapString.get("siteIDs");
+            String itemTimeFrom=(String)mapString.get("startTime");
+            String itemState=(String)mapString.get("endTime");
+            String itemParticipates=(String)mapString.get("userIDs");
 
 
             ImageView imageView=(ImageView)view.findViewById(R.id.record_itemimage);
@@ -145,7 +191,10 @@ public class MyselfAdapter extends BaseAdapter{
 
 
         }
+        else if (type.equals("plan")){
+             view = null;
 
+        }
 		
 		return view;
 	}

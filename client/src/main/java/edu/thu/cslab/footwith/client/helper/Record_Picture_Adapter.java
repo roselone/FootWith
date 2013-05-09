@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import edu.thu.cslab.footwith.client.R;
 
 import java.util.ArrayList;
+import java.util.Vector;
 
 /**
  * Created with IntelliJ IDEA.
@@ -20,7 +21,14 @@ import java.util.ArrayList;
  */
 public class Record_Picture_Adapter extends BaseAdapter {
     ArrayList<Integer> mImages = new ArrayList<Integer>();
+    Vector<Integer> pictureIDVector;
     Context mContext;
+
+    public Record_Picture_Adapter(Context mContext, Vector<Integer> pictureIDVector) {
+        this.mContext = mContext;
+        this.pictureIDVector = pictureIDVector;
+    }
+
     public Record_Picture_Adapter(Context mcontext,ArrayList<Integer> mImages) {
         this.mImages = mImages;
         this.mContext = mcontext;

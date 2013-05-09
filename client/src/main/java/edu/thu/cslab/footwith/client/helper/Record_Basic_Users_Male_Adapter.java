@@ -1,6 +1,7 @@
 package edu.thu.cslab.footwith.client.helper;
 
 import android.content.Context;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -33,6 +34,7 @@ public class Record_Basic_Users_Male_Adapter extends BaseAdapter {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
     private Context context;
+    private LayoutInflater mInflater;
 
     public Record_Basic_Users_Male_Adapter(Context context) {
         this.context = context;
