@@ -10,6 +10,7 @@ import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Vector;
 
 /**
  * Created with IntelliJ IDEA.
@@ -61,6 +62,15 @@ public class UserManager {
 
         return user;
     }
+
+    public static String getUserName(int userID) throws SQLException {
+        DBUtil du=DBUtil.getDBUtil();
+        String SQLCommand="select nickName from " + tableName+" where userID= "+userID;
+        ResultSet rs=du.executeQuery(SQLCommand);
+        rs.next();
+        return rs.getString(1);
+    }
+
     public static User selectUser(int userID) throws TextFormatException, SQLException, NoSuchAlgorithmException, UnsupportedEncodingException {
         User user=new User(userID);
         DBUtil du = DBUtil.getDBUtil();

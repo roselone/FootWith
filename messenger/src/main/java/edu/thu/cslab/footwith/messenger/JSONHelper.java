@@ -92,6 +92,14 @@ public class JSONHelper {
         return array.toString();
     }
 
+    public String convertToString2(Vector<String> parts){
+        JSONArray array=new JSONArray();
+        for (int i=0;i<parts.size();i++){
+            array.put(Util.string2Json(parts.get(i)));
+        }
+        return array.toString();
+    }
+
     /**
      * convert json array to vector
      * @param s             /home/roselone/Git/FootWith/messenger
@@ -103,6 +111,14 @@ public class JSONHelper {
         JSONArray array=new JSONArray(s);
         Vector<Integer> result=new Vector<Integer>();
         for (int i=0;i<array.length();i++) result.add(array.getInt(i));
+        return result;
+    }
+
+    public Vector<String> convertToArray2(String s) throws JSONException {
+        if (Util.isEmpty(s)) return null;
+        JSONArray array=new JSONArray(s);
+        Vector<String> result=new Vector<String>();
+        for (int i=0;i<array.length();i++) result.add(array.getString(i));
         return result;
     }
 

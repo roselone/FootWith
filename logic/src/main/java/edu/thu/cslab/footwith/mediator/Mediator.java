@@ -275,6 +275,14 @@ public class Mediator {
 
         for (int i=0;i<planIDs.size();i++){
             Plan plan=selectPlan(planIDs.get(i));
+            String IDs=plan.getParticipants();
+            if (!Util.isEmpty(IDs)){
+                plan.setParticipants(getUserNames(IDs));
+            }
+            IDs=plan.getSiteIDs();
+            if (!Util.isEmpty(IDs)){
+                plan.setSiteIDs(getSiteNames(IDs));
+            }
             logger.debug(plan.getTimestamp().toString());
             logger.debug(JSONHelper.getJSONHelperInstance().convertToString(convertPlanToMap(plan)));
             plans.put(Util.string2Json(plan.getTimestamp().toString()), JSONHelper.getJSONHelperInstance().convertToString(convertPlanToMap(plan)));
@@ -288,6 +296,14 @@ public class Mediator {
 
         for (int i=0;i<recordIDs.size();i++){
             Record record=selectRecord(recordIDs.get(i));
+            String IDs=record.getUserIDs();
+            if (!Util.isEmpty(IDs)){
+                record.setUserIDs(getUserNames(IDs));
+            }
+            IDs=record.getSiteIDs();
+            if (!Util.isEmpty(IDs)){
+                record.setSiteIDs(getSiteNames(IDs));
+            }
             records.put(Util.string2Json(record.getTimestamp().toString()),JSONHelper.getJSONHelperInstance().convertToString(convertRecordToMap(record)));
         }
 
@@ -713,6 +729,22 @@ public class Mediator {
     }
     public static void editUser(int userID, User new_user) throws TextFormatException, SQLException {
         UserManager.editUser(userID, new_user);
+    }
+    public static String getUserNames(String IDs) throws JSONException, SQLException {
+        Vector<Integer> IDVector=JSONHelper.getJSONHelperInstance().convertToArray(IDs);
+        Vector<String> NameVector=new Vector<String>();
+        for (int i=0;i<IDVector.size();i++){
+            NameVector.add(UserManager.getUserName(IDVector.get(i)));
+        }
+        return JSONHelper.getJSONHelperInstance().convertToString2(NameVector);
+    }
+    public static String getSiteNames(String IDs) throws JSONException, SQLException {
+        Vector<Integer> IDVector=JSONHelper.getJSONHelperInstance().convertToArray(IDs);
+        Vector<String> NameVector=new Vector<String>();
+        for (int i=0;i<IDVector.size();i++){
+            NameVector.add(SiteManager.getSiteName(IDVector.get(i)));
+        }
+        return JSONHelper.getJSONHelperInstance().convertToString2(NameVector);
     }
 
 }

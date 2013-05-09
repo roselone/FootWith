@@ -29,7 +29,7 @@ public class PlanRecord extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String planRecord=request.getParameter("getPlanRecord");
         HashMap<String,String> req=new HashMap<String, String>();
-        response.setContentType("text");
+        response.setContentType("application/json;charset=UTF-8");
         PrintWriter out=response.getWriter();
         if (!Util.isEmpty(planRecord)){
             try {

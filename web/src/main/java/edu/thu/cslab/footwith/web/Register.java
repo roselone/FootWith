@@ -27,7 +27,7 @@ public class Register extends HttpServlet {
         try {
             int userID=Mediator.addUser(userinfo);
             if (userID!=-1){
-                response.setContentType("text");
+                response.setContentType("application/json;charset=UTF-8");
                 PrintWriter out=response.getWriter();
                 out.print("successful");
                 out.close();
