@@ -34,8 +34,14 @@ public class JSONHelper {
 
     public String convertToString(HashMap<String,String> map){
         JSONObject object=new JSONObject(map);
-        return map.toString();
+        return object.toString();
     }
+
+    public String convertToString2(HashMap<String,byte[]> map){
+        JSONObject object=new JSONObject(map);
+        return object.toString();
+    }
+
 
     public HashMap<String,String> convertToMap(String s) {
         if (Util.isEmpty(s)) return null;
@@ -46,6 +52,24 @@ public class JSONHelper {
             while (it.hasNext()){
                 String key = (String) it.next();
                 map.put(key,object.optString(key));
+            }
+            return map;
+        } catch (JSONException e) {
+            logger.error("JSON ERROR: can't convert to {} to JSONObject",s);
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            return null;
+        }
+    }
+
+    public HashMap<String,byte[]> convertToMap2(String s) {
+        if (Util.isEmpty(s)) return null;
+        try {
+            JSONObject object=new JSONObject(s);
+            Iterator it=  object.keys();
+            HashMap<String,byte[]> map= new HashMap<String, byte[]>();
+            while (it.hasNext()){
+                String key = (String) it.next();
+                map.put(key,object.optString(key).getBytes());
             }
             return map;
         } catch (JSONException e) {
@@ -68,6 +92,14 @@ public class JSONHelper {
         return array.toString();
     }
 
+    public String convertToString2(Vector<String> parts){
+        JSONArray array=new JSONArray();
+        for (int i=0;i<parts.size();i++){
+            array.put(Util.string2Json(parts.get(i)));
+        }
+        return array.toString();
+    }
+
     /**
      * convert json array to vector
      * @param s             /home/roselone/Git/FootWith/messenger
@@ -79,6 +111,14 @@ public class JSONHelper {
         JSONArray array=new JSONArray(s);
         Vector<Integer> result=new Vector<Integer>();
         for (int i=0;i<array.length();i++) result.add(array.getInt(i));
+        return result;
+    }
+
+    public Vector<String> convertToArray2(String s) throws JSONException {
+        if (Util.isEmpty(s)) return null;
+        JSONArray array=new JSONArray(s);
+        Vector<String> result=new Vector<String>();
+        for (int i=0;i<array.length();i++) result.add(array.getString(i));
         return result;
     }
 

@@ -30,4 +30,10 @@ public class MediatorTest {
         String result= JSONHelper.getJSONHelperInstance().convertToString(Mediator.getUserPlans(planIDs));
         logger.debug(result);
     }
+    @Test
+    public void getNamesTest() throws JSONException, SQLException {
+        String IDs="[1,2,3,6]";
+        String result=Mediator.getUserNames(IDs);
+        logger.debug(result);
+    }
 }

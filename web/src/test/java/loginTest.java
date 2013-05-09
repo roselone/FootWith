@@ -31,7 +31,7 @@ public class loginTest {
     public void doPost() throws IOException {
         DefaultHttpClient client=new DefaultHttpClient();
         HashMap<String,String> userMap=new HashMap<String, String>();
-        userMap.put("userName","121@test.com");
+        userMap.put("userName","123@test.com");
         userMap.put("passwd","123");
         ArrayList<NameValuePair> param=new ArrayList<NameValuePair>();
         param.add(new BasicNameValuePair("login", JSONHelper.getJSONHelperInstance().convertToString(userMap)));
