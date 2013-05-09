@@ -1,4 +1,5 @@
 import edu.thu.cslab.footwith.messenger.JSONHelper;
+import edu.thu.cslab.footwith.utility.Util;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.JSONException;
@@ -47,13 +48,25 @@ public class JSONHelperTest {
     @Test
     public void mapTest(){
         HashMap<String,String> map=new HashMap<String, String>();
-        map.put("1","1");
+        map.put("1",Util.string2Json("1"));
         map.put("2","2");
         map.put("3","3");
         String s=jsonHelper.convertToString(map);
         logger.debug(s);
         map=jsonHelper.convertToMap(s);
         logger.debug(map.toString());
+    }
+
+    @Test
+    public void map2Test(){
+        HashMap<String,byte[]> map=new HashMap<String, byte[]>();
+        map.put("1","1".getBytes());
+        map.put("2","2".getBytes());
+        map.put("3","3".getBytes());
+        String s=jsonHelper.convertToString2(map);
+        logger.debug("2:{}",s);
+        map=jsonHelper.convertToMap2(s);
+        logger.debug("2:{}",map.toString());
     }
 
 }

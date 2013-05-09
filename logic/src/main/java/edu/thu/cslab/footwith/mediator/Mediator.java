@@ -49,7 +49,7 @@ public class Mediator {
      * @throws NoSuchAlgorithmException
      * @throws UnsupportedEncodingException
      */
-    public static void addPlanFromForm(String title,int organizer, int groupNumMax, String siteName1, String siteName2, String startTime, String endTime) throws TextFormatException, SQLException, JSONException, NoSuchAlgorithmException, UnsupportedEncodingException {
+    public static void addPlanFromForm(String title,int organizer, int groupNumMax, String siteName1, String siteName2, String startTime, String endTime,String describe) throws TextFormatException, SQLException, JSONException, NoSuchAlgorithmException, UnsupportedEncodingException {
         UserManager um = new UserManager();
         SiteManager sm = new SiteManager();
         PlanManager pm = new PlanManager();
@@ -64,7 +64,7 @@ public class Mediator {
         Date date_startTime = Date.valueOf(startTime);
         Date date_endTime = Date.valueOf(endTime);
         //int int_organizer = user.getUserID();
-        Plan plan = new Plan(title, siteIDs, date_startTime, date_endTime, organizer, 1, groupNumMax );
+        Plan plan = new Plan(title, siteIDs, date_startTime, date_endTime, organizer, 1, groupNumMax ,describe);
         PlanManager.addPlan(plan);
     }
 
@@ -314,6 +314,7 @@ public class Mediator {
         plan_map.put("talkStreamID", String.valueOf(plan.getTalkStreamID()));
         plan_map.put("isDone", String.valueOf(plan.getIsDone()));
         plan_map.put("timestamp",Util.string2Json(String.valueOf(plan.getTimestamp())));
+        plan_map.put("describe",Util.string2Json(plan.getDescribe()));
         return plan_map;
     }
     private static Plan convertMapToPlan(HashMap<String,String> plan_map){
@@ -330,6 +331,7 @@ public class Mediator {
         String talkStreamID = String.valueOf(-1);
         String isDone= String.valueOf(false);
         String timestamp;
+        String describe="";
 
         planID = plan_map.get("planID");
         if(planID==null || Util.isEmpty(planID)){
@@ -379,8 +381,12 @@ public class Mediator {
         if(isDone==null || Util.isEmpty(isDone)){
             isDone= String.valueOf(false);
         }
+        describe=plan_map.get("describe");
+        if (describe==null || Util.isEmpty(describe)){
+            describe="";
+        }
         timestamp=plan_map.get("timestamp");
-        Plan plan = new Plan(Integer.valueOf(planID), title, siteIDs, Date.valueOf(startTime), Date.valueOf(endTime) , Integer.valueOf(organizer) , participants, Integer.valueOf(budget) , Integer.valueOf(groupNum) , Integer.valueOf(groupNumMax), Integer.valueOf(talkStreamID), Boolean.valueOf(isDone), Timestamp.valueOf(timestamp));
+        Plan plan = new Plan(Integer.valueOf(planID), title, siteIDs, Date.valueOf(startTime), Date.valueOf(endTime) , Integer.valueOf(organizer) , participants, Integer.valueOf(budget) , Integer.valueOf(groupNum) , Integer.valueOf(groupNumMax), Integer.valueOf(talkStreamID), Boolean.valueOf(isDone), Timestamp.valueOf(timestamp),describe);
         return plan;
     }
     public static void editPlan(int planID, String new_plan_string) throws TextFormatException, SQLException, JSONException {
