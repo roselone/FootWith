@@ -7,6 +7,7 @@ import edu.thu.cslab.footwith.utility.Util;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.Vector;
 
 /**
@@ -136,6 +137,18 @@ public class SiteManager {
         }
         return sites;
     }
+
+    public static Vector<String> selectSiteWithLocation(String location) throws SQLException {
+        DBUtil du=DBUtil.getDBUtil();
+        String SQLCommand = "select siteID,siteName from site where location = '"+location+"';";
+        Vector<String> result=new Vector<String>();
+        ResultSet rs=du.executeQuery(SQLCommand);
+        while (rs.next()){
+            result.add(String.valueOf(rs.getInt("siteID"))+":"+rs.getString("siteName"));
+        }
+        return result;
+    }
+
     public static void deleteSite(String siteName) throws TextFormatException, SQLException {
         Site site=new Site();
         DBUtil du = DBUtil.getDBUtil();

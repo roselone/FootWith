@@ -773,4 +773,7 @@ public class Mediator {
         journal.setDate(Date.valueOf(journalMap.get("time")));
         return journal;
     }
+    public static Vector<String> getSiteNameWithLocation(String location) throws SQLException {
+        return SiteManager.selectSiteWithLocation(location);
+    }
 }

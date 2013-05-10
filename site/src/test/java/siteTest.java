@@ -16,4 +16,9 @@ public class siteTest {
         int id=12;
         System.out.println(SiteManager.getSiteName(id));
     }
+    @Test
+    public void getSiteNameWithLocationTest() throws SQLException {
+        String location="beijing";
+        System.out.println(SiteManager.selectSiteWithLocation(location).toString());
+    }
 }
