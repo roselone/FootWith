@@ -25,6 +25,8 @@
         <activity android:name=".Record_Basic"/>
         <activity android:name=".Record_Journal"/>
         <activity android:name=".Record_Picture"/>
-
+        <activity android:name=".Favorite_Site"/>
+        <activity android:name=".AddPlan"/>
+        <activity android:name=".AddPlan1"/>
     </application>
 </manifest> 
