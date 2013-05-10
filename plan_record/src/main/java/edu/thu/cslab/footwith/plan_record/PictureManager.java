@@ -13,7 +13,7 @@ import java.sql.SQLException;
  * To change this template use File | Settings | File Templates.
  */
 public class PictureManager {
-    private final String tableName = "picture";
+    private static final String tableName = "picture";
 
     /**
      * add picture
@@ -21,7 +21,7 @@ public class PictureManager {
      * @return picture ID
      * @throws java.sql.SQLException
      */
-    public int addPicture(Picture picture) throws SQLException {
+    public static int addPicture(Picture picture) throws SQLException {
         String SQLComment = "insert into " + tableName + " ( userID, title, picturePath, time ) values (" + picture.getUserID()
                 + " , '" + picture.getTitle() + "' , '" + picture.getDate() + "')" ;
         DBUtil du= DBUtil.getDBUtil();
@@ -36,7 +36,7 @@ public class PictureManager {
      * @param picture
      * @throws java.sql.SQLException
      */
-    public void editPicture(int pictureID,Picture picture) throws  SQLException {
+    public static void editPicture(int pictureID,Picture picture) throws  SQLException {
         String SQLComment = "update " + tableName + " set ";
         boolean flag=false;
         if (picture.getTitle()!=null) { flag=true; SQLComment += "title = " + picture.getTitle();}
@@ -52,7 +52,7 @@ public class PictureManager {
      * @param pictureID
      * @throws java.sql.SQLException
      */
-    public void deletePicture(int pictureID) throws SQLException {
+    public static void deletePicture(int pictureID) throws SQLException {
         String SQLComment = "delete from " + tableName + " where pictureID=" + String.valueOf(pictureID) + ";";
         DBUtil.getDBUtil().executeUpdate(SQLComment);
     }
@@ -63,7 +63,7 @@ public class PictureManager {
      * @return
      * @throws java.sql.SQLException
      */
-    public Picture selectPicture(int pictureID) throws SQLException {
+    public static Picture selectPicture(int pictureID) throws SQLException {
         String SQLComment = "select * from " + tableName + " where pictureID = " +String.valueOf(pictureID)+";";
         ResultSet rs = DBUtil.getDBUtil().executeQuery(SQLComment);
         rs.next();

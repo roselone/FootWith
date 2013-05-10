@@ -95,7 +95,7 @@ public class JSONHelper {
     public String convertToString2(Vector<String> parts){
         JSONArray array=new JSONArray();
         for (int i=0;i<parts.size();i++){
-            array.put(Util.string2Json(parts.get(i)));
+            array.put(parts.get(i));
         }
         return array.toString();
     }
