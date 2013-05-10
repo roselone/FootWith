@@ -736,7 +736,7 @@ public class Mediator {
         for (int i=0;i<IDVector.size();i++){
             NameVector.add(UserManager.getUserName(IDVector.get(i)));
         }
-        return JSONHelper.getJSONHelperInstance().convertToString2(NameVector);
+        return NameVector.toString();
     }
     public static String getSiteNames(String IDs) throws JSONException, SQLException {
         Vector<Integer> IDVector=JSONHelper.getJSONHelperInstance().convertToArray(IDs);
@@ -744,7 +744,7 @@ public class Mediator {
         for (int i=0;i<IDVector.size();i++){
             NameVector.add(SiteManager.getSiteName(IDVector.get(i)));
         }
-        return JSONHelper.getJSONHelperInstance().convertToString2(NameVector);
+        return NameVector.toString();
     }
 
 }

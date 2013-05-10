@@ -27,7 +27,7 @@ public class MediatorTest {
     @Test
     public void getUserPlanTest() throws SQLException, JSONException, TextFormatException {
         String planIDs="[15,16]";
-        String result= JSONHelper.getJSONHelperInstance().convertToString(Mediator.getUserPlans(planIDs));
+        String result= Mediator.getUserPlans(planIDs).toString();
         logger.debug(result);
     }
     @Test
