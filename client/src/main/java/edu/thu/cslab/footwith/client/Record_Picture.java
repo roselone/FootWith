@@ -1,7 +1,9 @@
 package edu.thu.cslab.footwith.client;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.*;
 import android.widget.AdapterView;
 import android.widget.Gallery;
@@ -61,8 +63,16 @@ public class Record_Picture extends Activity {
     public boolean onOptionsItemSelected(MenuItem item) {
         String title = (String) item.getTitle();
         if(title.equals("图库")){
+            Intent intent = new Intent();
+            intent.setType("image/*");
+            intent.setAction(Intent.ACTION_GET_CONTENT);
+            startActivityForResult(Intent.createChooser(intent, "选择图片"), SELECT_IMAGE_ACTIVITY_REQUEST_CODE);
 
         }else if(title.equals("相机")){
+
+            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
+
 
         }else if(title.equals("帮助")){
             Menu_Functions.helpMe(this);
@@ -71,4 +81,31 @@ public class Record_Picture extends Activity {
         }
         return super.onOptionsItemSelected(item);    //To change body of overridden methods use File | Settings | File Templates.
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE){
+            if(resultCode==RESULT_OK){
+
+            }else if(requestCode==RESULT_CANCELED){
+
+            }else{
+
+            }
+        } else if(requestCode == SELECT_IMAGE_ACTIVITY_REQUEST_CODE){
+            if(resultCode==RESULT_OK){
+
+            }else if(requestCode==RESULT_CANCELED){
+
+            }else{
+
+            }
+
+        }
+        super.onActivityResult(requestCode, resultCode, data);    //To change body of overridden methods use File | Settings | File Templates.
+    }
+
+    private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
+    private static final int SELECT_IMAGE_ACTIVITY_REQUEST_CODE = 200;
+
 }
