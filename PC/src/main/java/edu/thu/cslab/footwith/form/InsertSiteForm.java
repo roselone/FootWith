@@ -1,6 +1,8 @@
 package edu.thu.cslab.footwith.form;
 
 import edu.thu.cslab.footwith.server.Mediator;
+import edu.thu.cslab.footwith.server.Site;
+import edu.thu.cslab.footwith.server.SiteManager;
 import edu.thu.cslab.footwith.server.TextFormatException;
 
 import org.json.JSONException;
@@ -102,13 +104,28 @@ public class InsertSiteForm extends JFrame {
                                }else if(siteLocation.getText() == null || siteLocation.getText().length() == 0) {
                                    JOptionPane.showMessageDialog(null,"景点位置不能为空");
                                }else {
+                                   Site newSite = new Site();
+                                   SiteManager siteManager = new SiteManager();
                                    try {
-                                    //   pm.addSiteFromForm(siteName.getText(), siteRate.getText(),siteLocation.getText(),siteBrief.getText(),sitePicture.getText());
-                                       pm.addSiteFromForm(siteName.getText(), siteRate.getText(),siteLocation.getText());
-                                   } catch (SQLException e1) {
+
+                                       newSite.setSiteName(siteName.getText().toString().trim());
+                                       newSite.setRate(new Integer(siteRate.getText().toString().trim()).intValue());
+                                       newSite.setLocation(siteLocation.getText().toString().trim());
+                                       //  newSite.setPicture(sitePicture.getText().toString().trim());
+                                       newSite.setBrief(siteBrief.getText().toString().trim());
+                                       newSite.setPicture(new Integer(sitePicture.getText().toString().trim()).intValue());
+                                       try {
+                                           siteManager.addSite(newSite);
+                                           JOptionPane.showMessageDialog(null,"添加成功");
+
+                                       } catch (SQLException e1) {
+                                           e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                                       }
+                                   } catch (TextFormatException e1) {
                                        e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                                    }
-                                   JOptionPane.showMessageDialog(null,"添加成功");
+
+
              }
              }
          });
@@ -118,6 +135,8 @@ public class InsertSiteForm extends JFrame {
                 siteLocation.setText("");
                 siteName.setText("");
                 siteRate.setText("");
+                siteBrief.setText("");
+                sitePicture.setText("");
             }
         });
 

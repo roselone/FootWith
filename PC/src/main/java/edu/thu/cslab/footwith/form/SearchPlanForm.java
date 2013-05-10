@@ -1,8 +1,9 @@
 package edu.thu.cslab.footwith.form;
 
-import com.sun.org.apache.bcel.internal.generic.NEW;
 import edu.thu.cslab.footwith.server.Mediator;
+import edu.thu.cslab.footwith.server.Plan;
 import edu.thu.cslab.footwith.server.TextFormatException;
+import org.json.JSONException;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -12,6 +13,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 import java.text.Format;
 import java.text.SimpleDateFormat;
@@ -33,6 +36,7 @@ public class SearchPlanForm extends JFrame {
     private JComboBox cityCombBox = null;
     Vector<String> city;
     Vector<String>  siteNames =null;
+    JTable viewTable = null;
     Mediator dataSource = new Mediator();
     // private JTextField
     //private  SitePanel  sitePanel = new SitePanel();
@@ -64,7 +68,7 @@ public class SearchPlanForm extends JFrame {
 
         getContentPane().setLayout(borderLayout);
         final JPanel viewPanel = new JPanel();
-        final JTable viewTable = new JTable();
+        viewTable = new JTable();
         viewPanel.setBorder(new EmptyBorder(5,10,5,10));
         JScrollPane jspViewPanel = new JScrollPane();
         viewPanel.add(jspViewPanel);
@@ -127,13 +131,13 @@ public class SearchPlanForm extends JFrame {
                               siteNames = new Vector<String>();
                              try {
 
-                               siteNames = dataSource.selectSiteNameWithLocation(item.substring(0,item.length()-1));
+                               siteNames = dataSource.selectSiteNameWithLocation(item.substring(0,item.length()));
                              } catch (TextFormatException e1) {
                                  e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                              } catch (SQLException e1) {
                                  e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                              }
-                             siteNames.addElement("");
+                             //siteNames.addElement("");
                              siteNames.insertElementAt("",0);
                              DefaultComboBoxModel model = new DefaultComboBoxModel(siteNames);
                             // model.addElement("hello");
@@ -163,13 +167,13 @@ public class SearchPlanForm extends JFrame {
          });
         JLabel startTimeLb = new JLabel("开始时间");
         SimpleDateFormat myfmt = new SimpleDateFormat("yyyy-MM-dd");
-        JFormattedTextField startTime  = new JFormattedTextField(myfmt);
+        final JFormattedTextField startTime  = new JFormattedTextField(myfmt);
         startTime.setValue(new java.util.Date());
         mainPanel.add(startTimeLb);
         mainPanel.add(startTime);
 
         JLabel endTimeLb = new JLabel("结束时间");
-        JFormattedTextField endTime = new JFormattedTextField(myfmt);
+        final JFormattedTextField endTime = new JFormattedTextField(myfmt);
         endTime.setValue(new Date());
         mainPanel.add(endTimeLb);
         mainPanel.add(endTime);
@@ -182,50 +186,69 @@ public class SearchPlanForm extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                String city = cityCombBox.getSelectedItem().toString();
-                String site = siteNameCom1.getSelectedItem().toString()+siteNameCom2.getSelectedItem().toString();
+                if(cityCombBox.getSelectedItem() == null || cityCombBox.getSelectedItem().toString().length() == 0){
+                    JOptionPane.showMessageDialog(null,"请选择城市");
+                } else if(siteNameCom1.getSelectedItem() == null || siteNameCom1.getSelectedItem().toString().length() == 0){
+                    JOptionPane.showMessageDialog(null,"请选择景点");
+                }
+                else if( userId.getText().length() ==0 )
+                {
+                       JOptionPane.showMessageDialog(null,"用户名不能为空");
+                }  else {
+                    String city = cityCombBox.getSelectedItem().toString();
 
-                System.out.println(city);
-                System.out.println(site);
-                if(userId.getText() == null || userId.getText().length() ==0 )
-                {   // viewPanel.add(new SitePanel("select * from plan"));
-                 Vector columnNames = new Vector();
-                columnNames.add("开始时间") ;
-                columnNames.add("结束时间") ;
-                columnNames.add("景点信息") ;
-                columnNames.add("费用") ;
-                  Object[][] dataVector = {
-                      {"1","2","3","4"},
-                          {"2","3","4","5"},
-                  };
+                    String site = siteNameCom1.getSelectedItem().toString()+","+siteNameCom2.getSelectedItem().toString();
+                   // setTable();
+                    String siteOne = siteNameCom1.getSelectedItem().toString();
+                    Vector columnNames = new Vector();
+                    columnNames.add("旅行名称");
+                    columnNames.add("开始时间") ;
+                    columnNames.add("结束时间") ;
+                    columnNames.add("景点信息") ;
+                    columnNames.add("最大人数") ;
+                  //  columnNames.add();
+
+                    Mediator mediator = new Mediator();
 
                     DefaultTableModel model = new DefaultTableModel(columnNames,0);
-                    viewTable.setModel(model);
+                    Vector<Plan>  planVector = null;
+                    try {
+                        planVector = mediator.selectPlanFromForm(userName.getText().toString(),siteOne,startTime.getText().toString(),endTime.getText().toString());
+                    } catch (TextFormatException e1) {
+                        e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                    } catch (SQLException e1) {
+                        e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                    } catch (JSONException e1) {
+                        e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                    } catch (NoSuchAlgorithmException e1) {
+                        e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                    } catch (UnsupportedEncodingException e1) {
+                        e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                    }
 
                     Vector newRow = new Vector();
-                    for(int j=0;j<2;j++)
+                    for(int j=0;j<planVector.size();j++)
                     {
-                    for(int i=0;i<4;i++)
-                    {
-                        newRow.addElement(dataVector[j][i]);
-                    }
+
+                            newRow.addElement(planVector.get(j).getTitle());
+                            newRow.addElement(planVector.get(j).getStartTime());
+                            newRow.addElement(planVector.get(j).getEndTime());
+                            newRow.addElement(planVector.get(j).getSiteIDs());
+                            newRow.addElement(planVector.get(j).getGroupNum());
+
                         model.addRow(newRow);
 
                     }
-
-                  //  model.setDataVector();
-                 //   model.setDataVector(dataVector,columnNames);
-                  //  model.addColumn("5");
-                    //model.addRow();
-
-                }
-                else {
-                  //  jsp.setRightComponent(new SitePanel("select * from plan where organizer ="+"'"+userId.getText()+"'"));
+                    viewTable.setModel(model);
                 }
 
             }
         });
+      }
+    void setTable(){
+    //    DefaultTableModel model = new ViewTable().makeTable("select * from plan");
 
+//        viewTable.setModel(model);
     }
 
 }

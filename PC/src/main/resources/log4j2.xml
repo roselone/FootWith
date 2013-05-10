@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration status="OFF">
+    <properties>
+        <property name="siteLogName">target/log/site.log</property>
+        <property name="planLogName">target/log/plan.log</property>
+        <property name="recordLogName">target/log/record.log</property>
+        <property name="errorLogName">target/log/error.log</property>
+    </properties>
+    <appenders>
+        <File name="siteLog" filename="${siteLogName}">
+            <PatternLayout pattern="%d{YYYY-MM-DD HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+        </File>
+        <File name="planLog" filename="${planLogName}">
+            <PatternLayout pattern="%d{YYYY-MM-DD HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+        </File>
+        <File name="errorLog" filename="errorLogName">
+            <PatternLayout pattern="%d{YYYY-MM-DD HH:mm:ss.SSS} [%t] %-5level %l - %msg%n"/>
+        </File>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{YYYY-MM-DD HH:mm:ss.SSS} [%t] %-5level %c - %msg%n"/>
+        </Console>
+    </appenders>
+    <loggers>
+        <logger name="edu.thu.cslab.footwith.AOPSupport.SiteLog" level="info" additivity="false">
+            <appender-ref ref="siteLog"/>
+        </logger>
+        <logger name="edu.thu.cslab.footwith.AOPSupport.PlanLog" level="info" additivity="false">
+            <appender-ref ref="planLog"/>
+        </logger>
+        <root level="debug">
+            <appender-ref ref="Console"/>
+        </root>
+    </loggers>
+</configuration>

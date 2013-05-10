@@ -12,6 +12,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 
 /**
@@ -27,7 +29,7 @@ public class UserInfoFrame extends JFrame{
 
 
 
-    public UserInfoFrame() throws TextFormatException, SQLException {
+    public UserInfoFrame() throws TextFormatException, SQLException, NoSuchAlgorithmException, UnsupportedEncodingException {
 
         this.setBounds(200,200,300,200);
 
@@ -35,7 +37,7 @@ public class UserInfoFrame extends JFrame{
         this.setVisible(true);
     }
 
-    private void initInfoFrame() throws TextFormatException, SQLException {
+    private void initInfoFrame() throws TextFormatException, SQLException, NoSuchAlgorithmException, UnsupportedEncodingException {
 
                 User userInfo = UserManager.selectUser(Global.username);
                 BorderLayout borderLayout = new BorderLayout();

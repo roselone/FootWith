@@ -3,6 +3,8 @@ package edu.thu.cslab.footwith.form;
 import edu.thu.cslab.footwith.server.Mediator;
 import edu.thu.cslab.footwith.server.TextFormatException;
 
+import edu.thu.cslab.footwith.server.User;
+import edu.thu.cslab.footwith.server.UserManager;
 import org.json.JSONException;
 
 import javax.swing.*;
@@ -13,7 +15,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Vector;
@@ -33,9 +38,12 @@ public class InsertPlanForm extends JFrame {
     private  JTextField endTime = new JTextField();
     private  JTextField organizer = new JTextField();
     private  JTextField numbers = new JTextField();
+    Mediator dataSource = new Mediator();
+    Vector<String> city;
+    Vector<String>  siteNames =null;
 
     public  InsertPlanForm() {
-        this.setBounds(200,200,300,200);
+        this.setBounds(200,200,400,200);
         init();
         this.setTitle("订制行程");
         this.setVisible(true);
@@ -49,13 +57,18 @@ public class InsertPlanForm extends JFrame {
         getContentPane().setLayout(borderLayout);
 
 
-        JPanel mainPanel = new JPanel();
+        final JPanel mainPanel = new JPanel();
         mainPanel.setBorder(new EmptyBorder(5,10,5,10)); // need to understand
         final  GridLayout gridLayout = new GridLayout(4,4);
         gridLayout.setVgap(5);
         gridLayout.setHgap(5);
         mainPanel.setLayout(gridLayout);
         getContentPane().add(mainPanel,"North");
+
+        JLabel planTitleLb1 = new JLabel("计划名称");
+        mainPanel.add(planTitleLb1);
+        final JTextField planTitle= new JTextField();
+        mainPanel.add(planTitle);
 
         JLabel organizerLabel = new JLabel("组织者");
         mainPanel.add(organizerLabel);
@@ -67,29 +80,77 @@ public class InsertPlanForm extends JFrame {
         final JTextField groupNumMax = new JTextField();
         mainPanel.add(groupNumMax);
 
-        JLabel siteIdLb1 = new JLabel(("具体景点信息"));
+        JLabel siteCityLb1 = new JLabel(("景点城市"));
+        mainPanel.add(siteCityLb1);
+
+        city = dataSource.getAllLocations();
+        city.insertElementAt("",0);
+        final JComboBox cityCombBox = new JComboBox(city);
+        mainPanel.add(cityCombBox);
+
+        JLabel siteIdLb1 = new JLabel("景点1");
+        final  JComboBox siteNameCom1 = new JComboBox();
         mainPanel.add(siteIdLb1);
-        final  JTextField siteName1 = new JTextField();
-        mainPanel.add(siteName1);
+        mainPanel.add(siteNameCom1);
 
         JLabel siteIdLb2 = new JLabel("景点2");
-        final  JTextField siteName2 = new JTextField();
+        final  JComboBox siteNameCom2 = new JComboBox();
         mainPanel.add(siteIdLb2);
-        mainPanel.add(siteName2);
+        mainPanel.add(siteNameCom2);
 
-        JLabel siteIdLb3 = new JLabel("景点3");
-        final  JTextField siteName3 = new JTextField();
-        mainPanel.add(siteIdLb3);
-        mainPanel.add(siteName3);
+//        JLabel siteIdLb3 = new JLabel("景点3");
+//        final  JComboBox siteNameCom3 = new JComboBox();
+//        mainPanel.add(siteIdLb3);
+//        mainPanel.add(siteNameCom3);
 
+        cityCombBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String item = cityCombBox.getSelectedItem().toString();
+                if(item.length() ==0 || item == null )
+                    JOptionPane.showMessageDialog(null,"请选择城市");
+                else {
+                    siteNames = new Vector<String>();
+                    try {
 
-        JLabel siteIdOther = new JLabel("其它景点");
-        final  JTextField siteNameText = new JTextField();
-        siteNameText.setText("请以，间隔");
-        siteNameText.setEnabled(false);
+                        siteNames = dataSource.selectSiteNameWithLocation(item.substring(0,item.length()));
+                    } catch (TextFormatException e1) {
+                        e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                    } catch (SQLException e1) {
+                        e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                    }
+                    //siteNames.addElement("");
+                    siteNames.insertElementAt("",0);
+                    DefaultComboBoxModel model = new DefaultComboBoxModel(siteNames);
+                    // model.addElement("hello");
+                    siteNameCom1.setModel(model);
+            }
+            }
+        });
+        siteNameCom1.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
 
-        mainPanel.add(siteIdOther);
-        mainPanel.add(siteNameText);
+                DefaultComboBoxModel model = new DefaultComboBoxModel(siteNames);
+                siteNameCom2.setModel(model);
+            }
+        });
+//        siteNameCom2.addActionListener(new ActionListener(){
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//
+//                DefaultComboBoxModel model = new DefaultComboBoxModel(siteNames);
+//                siteNameCom3.setModel(model);
+//            }
+//        });
+
+//        JLabel siteIdOther = new JLabel("其它景点");
+//        final  JTextField siteNameText = new JTextField();
+//        siteNameText.setText("请以，间隔");
+//        siteNameText.setEnabled(false);
+//
+//        mainPanel.add(siteIdOther);
+//        mainPanel.add(siteNameText);
 
         JLabel startTimeLb = new JLabel("开始时间");
         SimpleDateFormat myfmt = new SimpleDateFormat("yyyy-MM-dd");
@@ -123,43 +184,56 @@ public class InsertPlanForm extends JFrame {
         btnAdd.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+              SimpleDateFormat smf = new SimpleDateFormat("yyyy-MM-dd");
+                if(cityCombBox.getSelectedItem() == null || cityCombBox.getSelectedItem().toString().length() == 0){
+                    JOptionPane.showMessageDialog(null,"请选择城市");
+                } else if(siteNameCom1.getSelectedItem() == null || siteNameCom1.getSelectedItem().toString().length() == 0){
+                    JOptionPane.showMessageDialog(null,"请选择景点");
+                }else if(organizer.getText().length() ==0 || groupNumMax.getText().length() == 0)
+                     {
+                         JOptionPane.showMessageDialog(null,"信息不全");
+                     } else{
 
-              String  siteNames = siteName.getText() + ","+ siteName1.getText()+ ","+siteName2.getText()+ ","+siteName3.getText();
-                //               if(new Date(startTime.getText()).getTime() > new Date(endTime.getText()).getTime() ) {
-//                   JOptionPane.showMessageDialog(null,"时间不对");
-//               }   // time comparision  funciton
-               if(siteNames.length() == 0 || organizer.getText().length() ==0 || groupNumMax.getText().length() == 0)
-               {
-                   JOptionPane.showMessageDialog(null,"信息不全");
-               } else{
-                   int response =  JOptionPane.showConfirmDialog(null,"确定提交","are you sure",JOptionPane.YES_NO_OPTION);
-                   if(response == JOptionPane.YES_OPTION){
-                       Mediator pm=new Mediator();
-                       try{
-                           pm.addPlanFromForm(siteName.getText(), startTime.getText(),endTime.getText(),organizer.getText());
-                       }catch (TextFormatException e1) {
+                         int response =  JOptionPane.showConfirmDialog(null,"确定提交","are you sure",JOptionPane.YES_NO_OPTION);
+                         if(response == JOptionPane.YES_OPTION){
+                             Mediator pm=new Mediator();
+                             try{
+                                 String city = cityCombBox.getSelectedItem().toString();
+                                 String site = siteNameCom1.getSelectedItem().toString()+","+siteNameCom2.getSelectedItem().toString();
+                                 pm.addPlanFromForm(planTitle.getText().toString(),new UserManager().selectUser(Global.username).getUserID(),new Integer(groupNumMax.getText().toString()).intValue(),siteNameCom1.getSelectedItem().toString(),siteNameCom2.getSelectedItem().toString(),startTime.getText().toString(), endTime.getText().toString());
+                                 JOptionPane.showMessageDialog(null,"添加成功！");
+                              //   pm.addPlanFromForm(site, 0,0,startTime.getText(),endTime.getText(),organizer.getText(),null);
+                                 // function need to be improved
+                             }catch (TextFormatException e1) {
+                                 JOptionPane.showMessageDialog(null,"格式错误，参与人数为数字");
+                                 e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                             } catch (SQLException e1) {
 
-                           e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-                       } catch (SQLException e1) {
+                                 JOptionPane.showMessageDialog(null,"不存在用户");
+                                 e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                             } catch (JSONException e1) {
+                                 JOptionPane.showMessageDialog(null,"格式错误，参与人数为数字");
+                                 e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                             } catch (NoSuchAlgorithmException e1) {
+                                 e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                             } catch (UnsupportedEncodingException e1) {
+                                 e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                             }
 
-
-                           e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-                       } catch (JSONException e1) {
-
-                           e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-                       }
-                   }
-                }
-            }
-        });
+                         }
+                      }
+//                }
+              }
+            });
         btnReset.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                    siteName.setText("");
+
                    // startTime.setText("");
                    // endTime.setText("");
                     organizer.setText("");
                     groupNumMax.setText("");
+                    planTitle.setText("");
 
             }
         });

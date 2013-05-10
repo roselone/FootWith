@@ -7,6 +7,8 @@ import java.security.NoSuchAlgorithmException;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.util.Vector;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 /**
  * Created with IntelliJ IDEA.
@@ -17,23 +19,26 @@ import java.util.Vector;
  */
 public class Mediator {
 
+      private Logger logger=LogManager.getLogger(this.getClass().getName());
       public  Mediator(){
 
       }
-    public void addPlanFromForm(String siteName, String startTime, String endTime, String organizer) throws TextFormatException, SQLException, JSONException {
+    public void addPlanFromForm(String title,int organizer, int groupNumMax, String siteName1, String siteName2, String startTime, String endTime) throws TextFormatException, SQLException, JSONException, NoSuchAlgorithmException, UnsupportedEncodingException {
         UserManager um = new UserManager();
         SiteManager sm = new SiteManager();
         PlanManager pm = new PlanManager();
-        System.out.println(siteName);
-        Site site = sm.seleteSite(siteName);
+        //System.out.println(siteName);
+        Site site1 = sm.seleteSite(siteName1);
+        Site site2 = sm.seleteSite(siteName2);
         Vector<Integer> vector =  new Vector<Integer>();
-        vector.add(site.getSiteID());
+        vector.add(site1.getSiteID());
+        vector.add(site2.getSiteID());
         String siteIDs = new JSONHelper().convertToString(vector);
-        User user=um.selectUser(organizer);
+        //User user=um.selectUser(organizer);
         Date date_startTime = Date.valueOf(startTime);
         Date date_endTime = Date.valueOf(endTime);
-        int int_organizer = user.getUserID();
-        Plan plan = new Plan(siteIDs, date_startTime,date_endTime,int_organizer,0,0 );
+        //int int_organizer = user.getUserID();
+        Plan plan = new Plan(title, siteIDs, date_startTime, date_endTime, organizer, 1, groupNumMax );
         pm.addPlan(plan);
     }
     public void addSiteFromForm(String siteName, String rate, String location) throws SQLException {
@@ -45,48 +50,48 @@ public class Mediator {
     public static boolean isValid(String username, String passwd) throws TextFormatException, SQLException, NoSuchAlgorithmException, UnsupportedEncodingException {
         User user=UserManager.selectUser(username);
         if (user==null) return false;
-        System.out.println(user.getUserID());
+        //System.out.println(user.getUserID());
         if (user.checkPasswd(passwd))
             return true;
         else
             return false;
     }
-    public Vector<String> getAllLocations(){
+    public static Vector<String> getAllLocations(){
         Vector<String> allLocations = new Vector<String>();
-        allLocations.add("北京市");
-        allLocations.add("浙江省");
-        allLocations.add("天津市");
-        allLocations.add("安徽省");
-        allLocations.add("上海市");
-        allLocations.add("福建省");
-        allLocations.add("重庆市");
-        allLocations.add("江西省");
-        allLocations.add("香港特别行政区");
-        allLocations.add("山东省");
-        allLocations.add("澳门特别行政区");
-        allLocations.add("河南省");
-        allLocations.add("内蒙古自治区");
-        allLocations.add("湖北省");
-        allLocations.add("新疆维吾尔自治区");
-        allLocations.add("湖南省");
-        allLocations.add("宁夏回族自治区");
-        allLocations.add("广东省");
-        allLocations.add("西藏自治区");
-        allLocations.add("海南省");
-        allLocations.add("广西壮族自治区");
-        allLocations.add("四川省");
-        allLocations.add("河北省");
-        allLocations.add("贵州省");
-        allLocations.add("山西省");
-        allLocations.add("云南省");
-        allLocations.add("辽宁省");
-        allLocations.add("陕西省");
-        allLocations.add("吉林省");
-        allLocations.add("甘肃省");
-        allLocations.add("黑龙江省");
-        allLocations.add("青海省");
-        allLocations.add("江苏省");
-        allLocations.add("台湾省");
+        allLocations.add("北京");
+        allLocations.add("浙江");
+        allLocations.add("天津");
+        allLocations.add("安徽");
+        allLocations.add("上海");
+        allLocations.add("福建");
+        allLocations.add("重庆");
+        allLocations.add("江西");
+        allLocations.add("香港");
+        allLocations.add("山东");
+        allLocations.add("澳门");
+        allLocations.add("河南");
+        allLocations.add("内蒙古");
+        allLocations.add("湖北");
+        allLocations.add("新疆");
+        allLocations.add("湖南");
+        allLocations.add("宁夏");
+        allLocations.add("广东");
+        allLocations.add("西藏");
+        allLocations.add("海南");
+        allLocations.add("广西");
+        allLocations.add("四川");
+        allLocations.add("河北");
+        allLocations.add("贵州");
+        allLocations.add("山西");
+        allLocations.add("云南");
+        allLocations.add("辽宁");
+        allLocations.add("陕西");
+        allLocations.add("吉林");
+        allLocations.add("甘肃");
+        allLocations.add("黑龙江");
+        allLocations.add("青海");
+        allLocations.add("江苏");
+        allLocations.add("台湾");
         return allLocations;
     }
     public  Vector<String> selectSiteNameWithLocation(String location) throws TextFormatException, SQLException {
@@ -99,5 +104,31 @@ public class Mediator {
             siteNames.add(sites.get(i).getSiteName());
         }
         return siteNames;
+    }
+    public Vector<Plan> selectPlanFromForm(String organizer, String siteName, String startTime, String endTime) throws TextFormatException, SQLException, JSONException, NoSuchAlgorithmException, UnsupportedEncodingException {
+        Vector<Plan> plans;
+        UserManager um = new UserManager();
+        SiteManager sm = new SiteManager();
+        PlanManager pm = new PlanManager();
+        JSONHelper jh = new JSONHelper();
+        User user;
+        Site site;
+        Plan plan = new Plan();
+        Date d_startTime = Date.valueOf(startTime);
+        Date d_endTime = Date.valueOf(endTime);
+        user = UserManager.selectUser(organizer);
+        site = sm.seleteSite(siteName);
+        plan.setOrganizer(user.getUserID());
+        plan.setStartTime(d_startTime);
+        plan.setEndTime(d_endTime);
+
+        plans = pm.selectPlan(plan);
+        for(int i=0;i<plans.size();i++){
+            if(!jh.isContained(plans.get(i).getSiteIDs(), site.getSiteID())){
+                plans.remove(i);
+            }
+        }
+
+        return plans;
     }
 }

@@ -7,17 +7,21 @@ package edu.thu.cslab.footwith.server;
  * To change this template use File | Settings | File Templates.
  */
 
+import edu.thu.cslab.footwith.utility.Util;
 import sun.misc.BASE64Encoder;
 
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class User {
+    private Logger logger=LogManager.getLogger(this.getClass().getName());
     public User(){
         this.userID = -1;
-        nickName = null;
-        passwd = null;
+        nickName = "";
+        passwd = "";
         otherInfo = -1;
         plans = null;
         records = null;
@@ -25,15 +29,15 @@ public class User {
     }
     public User(int userID){
         this.userID = userID;
-        nickName = null;
-        passwd = null;
+        nickName = "";
+        passwd = "";
         otherInfo = -1;
-        plans = null;
-        records = null;
+        plans = "";
+        records = "";
 
     }
 
-    public User(String userName, String nickName, String passwd, int otherInfo, String plans, String records, int state) throws NoSuchAlgorithmException, UnsupportedEncodingException {
+    public User(String userName, String nickName, String passwd, int otherInfo, String plans, String records) throws NoSuchAlgorithmException, UnsupportedEncodingException {
         this.userID = -1;
         this.userName = userName;
         this.nickName = nickName;
@@ -44,7 +48,7 @@ public class User {
         this.state = state;
     }
 
-    public User(int userID, String userName, String nickName, String passwd, int otherInfo, String plans, String records, int state) throws NoSuchAlgorithmException, UnsupportedEncodingException {
+    public User(int userID, String userName, String nickName, String passwd, int otherInfo, String plans, String records) throws NoSuchAlgorithmException, UnsupportedEncodingException {
         this.userID = userID;
         this.userName = userName;
         this.nickName = nickName;
@@ -90,13 +94,13 @@ public class User {
     }
 
     public void setUserName(String userName) throws TextFormatException{
-        if(userName  == null || userName.length() == 0 || userName.length()>32)
+        if(Util.isEmpty(userName) || userName.length() == 0 || userName.length()>32)
             throw new TextFormatException("UserName");
         this.userName = userName;
     }
 
     public void setNickName(String nickName) throws TextFormatException {
-        if(nickName  == null || nickName.length() == 0 || nickName.length()>32)
+        if(Util.isEmpty(nickName) || nickName.length() == 0 || nickName.length()>32)
             throw new TextFormatException("NickName");
         this.nickName = nickName;
     }
@@ -106,13 +110,13 @@ public class User {
     }
 
     public void setPlans(String plans) throws TextFormatException {
-        if( plans.length()>80)
+        if(!Util.isEmpty(plans) && plans.length()>80)
             throw new TextFormatException("Plans");
         this.plans = plans;
     }
 
     public void setRecords(String records) throws TextFormatException {
-        if( records.length()>80)
+        if(!Util.isEmpty(records) && records.length()>80)
             throw new TextFormatException("Records");
         this.records = records;
     }
@@ -121,6 +125,7 @@ public class User {
 
     public boolean checkPasswd(String in_passwd) throws NoSuchAlgorithmException, UnsupportedEncodingException {
         String in_passwd_md5 = convertToMD5(in_passwd);
+        logger.debug("passwd in MD5:{}",in_passwd_md5);
         if(this.passwd.equals(in_passwd_md5))
             return true;
         else

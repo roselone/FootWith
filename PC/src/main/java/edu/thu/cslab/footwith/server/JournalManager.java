@@ -12,14 +12,28 @@ import java.sql.SQLException;
  */
 public class JournalManager {
     private final String tableName = "journal";
+
+    /**
+     * add journal
+     * @param journal
+     * @return journal ID
+     * @throws SQLException
+     */
     public int addJournal(Journal journal) throws SQLException {
         String SQLComment = "insert into " + tableName + " ( userID, title, body, time ) values (" + journal.getUserID()
                 + " , '" + journal.getTitle() + "' , '" + journal.getDate() + "')" ;
         DBUtil du=DBUtil.getDBUtil();
         ResultSet rs=du.executeUpdate(SQLComment);
+        rs.next();
         return rs.getInt(1);
     }
 
+    /**
+     * edit journal
+     * @param journalID
+     * @param journal
+     * @throws SQLException
+     */
     public void editJournal(int journalID,Journal journal) throws  SQLException {
         String SQLComment = "update " + tableName + " set ";
         boolean flag=false;
@@ -31,11 +45,22 @@ public class JournalManager {
         }
     }
 
+    /**
+     * delete journal
+     * @param journalID
+     * @throws SQLException
+     */
     public void deleteJournal(int journalID) throws SQLException {
         String SQLComment = "delete from " + tableName + " where journalID=" + String.valueOf(journalID) + ";";
         DBUtil.getDBUtil().executeUpdate(SQLComment);
     }
 
+    /**
+     * select journal
+     * @param journalID
+     * @return
+     * @throws SQLException
+     */
     public Journal selectJournal(int journalID) throws SQLException {
         String SQLComment = "select * from " + tableName + " where journalID = " +String.valueOf(journalID)+";";
         ResultSet rs = DBUtil.getDBUtil().executeQuery(SQLComment);
