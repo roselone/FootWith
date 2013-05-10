@@ -10,9 +10,11 @@ import android.os.Bundle;
 import android.view.*;
 import android.widget.*;
 import edu.thu.cslab.footwith.client.helper.Menu_Functions;
+import edu.thu.cslab.footwith.client.helper.MyJournalNetwork;
 import edu.thu.cslab.footwith.client.helper.Record_Journal_Adapter;
 
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -27,8 +29,13 @@ public class Record_Journal extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.record_journal);
+        Bundle bundle = getIntent().getExtras();
+        String journalIDs = (String) bundle.get("journals");
+        MyJournalNetwork myJournalNetwork = new MyJournalNetwork();
+        myJournalNetwork.requestList(journalIDs);
+        ArrayList<HashMap<String, String>> journalList=myJournalNetwork.getList();
         ListView listView = (ListView) findViewById(R.id.record_journal_listView);
-        listView.setAdapter(new Record_Journal_Adapter(this));
+        listView.setAdapter(new Record_Journal_Adapter(this, journalList));
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
