@@ -10,6 +10,8 @@ import android.widget.TabHost;
 import android.widget.TabWidget;
 import android.widget.TextView;
 
+import java.util.HashMap;
+
 /**
  * Created with IntelliJ IDEA.
  * User: bxl
@@ -23,21 +25,37 @@ public class Record_Tab extends ActivityGroup {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.main);
 
+        Bundle extras = getIntent().getExtras();
+        HashMap<String, String> map=null;
+        if(extras!=null){
+            map = (HashMap<String, String>) extras.getSerializable("map");
+        }
+
+        Intent intent;
+
         TabHost recordTabHost = (TabHost)findViewById(R.id.tabhost);
         recordTabHost.setup(this.getLocalActivityManager());
 
         TabHost.TabSpec spec = recordTabHost.newTabSpec("basic");
-        spec.setContent(new Intent(this, Record_Basic.class));
+        intent = new Intent(this, Record_Basic.class);
+        intent.putExtra("sites", map.get("siteIDs"));
+        intent.putExtra("users", map.get("userIDs"));
+        spec.setContent(intent);
         spec.setIndicator("基本", getResources().getDrawable(R.drawable.basic));
         recordTabHost.addTab(spec);
 
+
         spec = recordTabHost.newTabSpec("journal");
-        spec.setContent(new Intent(this, Record_Journal.class));
+        intent = new Intent(this, Record_Journal.class);
+        intent.putExtra("journals", map.get("journals"));
+        spec.setContent(intent);
         spec.setIndicator("日志", getResources().getDrawable(R.drawable.journal));
         recordTabHost.addTab(spec);
 
         spec = recordTabHost.newTabSpec("picture");
-        spec.setContent(new Intent(this, Record_Picture.class));
+        intent = new Intent(this, Record_Picture.class);
+        intent.putExtra("pictures", map.get("pictures"));
+        spec.setContent(intent);
         spec.setIndicator("图片", getResources().getDrawable(R.drawable.picture));
         recordTabHost.addTab(spec);
 
