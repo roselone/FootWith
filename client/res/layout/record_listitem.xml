@@ -38,7 +38,7 @@
                 android:layout_alignParentLeft="false"
                 android:layout_alignTop="@id/record_listitem_sites" android:paddingTop="2dp"
                 android:layout_toRightOf="@id/record_listitem_sites"
-                android:autoText="false" android:textStyle="bold" style="@style/whiteSmallText"/>
+                android:autoText="false" style="@style/whiteSmallText"/>
         <TextView android:layout_width="80dp" android:layout_height="wrap_content" android:text="出发时间"
                   android:id="@+id/record_listitem_starttime"
                   android:singleLine="false" android:paddingTop="2dp"
@@ -49,7 +49,7 @@
                   android:paddingTop="2dp"
                   android:layout_alignParentLeft="false" android:layout_below="@id/record_listitem_sites_con"
                   android:layout_toRightOf="@id/record_listitem_starttime"
-                  android:autoText="false" android:textStyle="bold" style="@style/whiteSmallText"/>
+                  android:autoText="false" style="@style/whiteSmallText"/>
         <TextView
                 android:layout_width="80dp"
                 android:layout_height="wrap_content"
@@ -64,7 +64,7 @@
                 android:text="New Text"
                 android:id="@+id/record_listitem_users_con" android:layout_toRightOf="@id/record_listitem_sites"
                 android:layout_below="@id/record_listitem_starttime" android:paddingTop="2dp"
-                android:autoText="false" android:textStyle="bold"
+                android:autoText="false"
                 style="@style/whiteSmallText"/>
         <TextView
                 android:layout_width="80dp"
@@ -80,7 +80,7 @@
                 android:text="New Text"
                 android:id="@+id/record_listitem_status_con" android:layout_toRightOf="@id/record_listitem_sites"
                 android:layout_below="@id/record_listitem_users" android:paddingTop="2dp"
-                android:autoText="false" android:textStyle="bold"
+                android:autoText="false"
                 style="@style/whiteSmallText"/>
     </RelativeLayout>
 </RelativeLayout>

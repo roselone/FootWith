@@ -7,29 +7,70 @@
     <RelativeLayout
             android:layout_width="fill_parent"
             android:layout_height="fill_parent" android:layout_weight="1">
-        <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="New Text"
-                android:id="@+id/textView"/>
+        <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content" android:background="@android:drawable/title_bar"
+                android:id="@+id/sites_title">
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="景点"
+                    android:id="@+id/textView"
+                    android:layout_alignParentLeft="false"
+                    android:layout_alignParentTop="false" android:layout_toRightOf="@+id/sites_icon_imageView"
+                    android:layout_alignBottom="@+id/sites_icon_imageView" style="@style/aboutMeTitle"
+                    android:layout_marginLeft="3dp"/>
+            <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:id="@+id/sites_icon_imageView" android:layout_alignParentLeft="true"
+                    android:src="@drawable/menu_sites" android:layout_marginLeft="10dp" android:layout_marginTop="5dp"
+                    android:layout_marginBottom="3dp"/>
+        </RelativeLayout>
         <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="fill_parent"
-                android:layout_height="fill_parent" android:layout_below="@+id/textView">
+                android:layout_height="fill_parent" android:layout_below="@+id/sites_title">
+            <ListView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/basic_sites_listView"/>
         </LinearLayout>
     </RelativeLayout>
     <RelativeLayout
             android:layout_width="fill_parent"
             android:layout_height="fill_parent" android:layout_weight="1">
-        <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="New Text"
-                android:id="@+id/textView1"/>
-        <LinearLayout
-                android:orientation="vertical"
+        <RelativeLayout
                 android:layout_width="fill_parent"
-                android:layout_height="fill_parent" android:layout_below="@+id/textView1">
+                android:layout_height="wrap_content" android:id="@+id/users_title"
+                android:background="@android:drawable/title_bar">
+            <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:id="@+id/imageView" android:layout_marginLeft="10dp" android:layout_marginTop="5dp"
+                    android:src="@drawable/users" android:layout_alignParentTop="false"
+                    android:layout_marginBottom="3dp"/>
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="参与者"
+                    android:id="@+id/textView1"
+                    android:layout_toRightOf="@+id/imageView" style="@style/aboutMeTitle" android:layout_marginLeft="3dp"
+                    android:layout_alignBottom="@+id/imageView"/>
+        </RelativeLayout>
+        <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent" android:layout_below="@+id/users_title">
+            <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent" android:layout_weight="1">
+                <ListView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/basic_users_listView"/>
+            </LinearLayout>
         </LinearLayout>
     </RelativeLayout>
 </LinearLayout>

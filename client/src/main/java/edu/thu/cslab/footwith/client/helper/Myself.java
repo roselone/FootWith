@@ -4,24 +4,24 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Myself {
-	private ArrayList<HashMap<String, Object>> selfInfoList=new ArrayList<HashMap<String,Object>>();
+	private ArrayList<HashMap<String, String>> selfInfoList=new ArrayList<HashMap<String,String>>();
 
-	public void add(HashMap<String, Object> map){
+	public void add(HashMap<String, String> map){
 		selfInfoList.add(map);
 		return;
 	}
-	public ArrayList<HashMap<String, Object>> getList(){
+	public ArrayList<HashMap<String, String>> getList(){
 		return selfInfoList;
 	}
-	public void modify(int position,HashMap<String, Object> map){
+	public void modify(int position,HashMap<String, String> map){
 		selfInfoList.set(position, map);
 	}
 	public void requestList(){
-		HashMap<String, Object> map0=new HashMap<String, Object>();
+		HashMap<String, String> map0=new HashMap<String, String>();
 		map0.put("itemType", "newTrip");
 		map0.put("itemName", "< 点我创建新的旅程 >");
 		selfInfoList.add(map0);
-		HashMap<String, Object> map1=new HashMap<String, Object>();
+		HashMap<String, String> map1=new HashMap<String, String>();
 		map1.put("itemType", "trip");
 		map1.put("itemName", "之行计划");
 		map1.put("itemPlace", "北京");
@@ -33,7 +33,7 @@ public class Myself {
 		map1.put("itemAttention", "刘佳、毛一毛");
 		map1.put("itemJoin", "韩梅梅");
 		selfInfoList.add(map1);
-		HashMap<String, Object> map2=new HashMap<String, Object>();
+		HashMap<String, String> map2=new HashMap<String, String>();
 		map2.put("itemType", "trip");
 		map2.put("itemName", "之行计划");
 		map2.put("itemPlace", "上海");
@@ -46,7 +46,7 @@ public class Myself {
 		map2.put("itemJoin", "韩梅梅");
 		selfInfoList.add(map2);
 
-        HashMap<String, Object> map3=new HashMap<String, Object>();
+        HashMap<String, String> map3=new HashMap<String, String>();
         map3.put("itemType", "record");
         map3.put("itemName", "旅游行程");
         map3.put("itemPlace", "八达岭长城，十三陵水库...");
