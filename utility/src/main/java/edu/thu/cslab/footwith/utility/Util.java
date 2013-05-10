@@ -12,8 +12,8 @@ public class Util {
         return (s == null || s.length()==0 || s.trim().equals("") || s.trim().toLowerCase().equals("null"));
     }
     static public String string2Json(String s){
+        if (isEmpty(s)) return "";
         StringBuffer buf=new StringBuffer();
-        buf.append('"');
         for (int i=0;i<s.length();i++){
             char c=s.charAt(i);
             switch(c){
@@ -45,7 +45,6 @@ public class Util {
                     buf.append(c);
             }
         }
-        buf.append('"');
         return buf.toString();
     }
 }

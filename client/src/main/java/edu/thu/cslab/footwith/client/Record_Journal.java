@@ -4,10 +4,12 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
+import android.view.*;
 import android.widget.*;
+import edu.thu.cslab.footwith.client.helper.Menu_Functions;
 import edu.thu.cslab.footwith.client.helper.Record_Journal_Adapter;
 
 
@@ -77,5 +79,28 @@ public class Record_Journal extends Activity {
                 builder.show();
             }
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.main_menu, menu);
+        menu.add("添加").setIcon(R.drawable.menu_add);
+        menu.add("帮助").setIcon(R.drawable.menu_help);
+        menu.add("联系").setIcon(R.drawable.menu_contact);
+        return super.onCreateOptionsMenu(menu);    //To change body of overridden methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        String title = (String) item.getTitle();
+        if(title.equals("添加")){
+
+        }else if(title.equals("帮助")){
+            Menu_Functions.helpMe(this);
+        }else if(title.equals("联系")){
+            Menu_Functions.contactMe(this);
+        }
+        return super.onOptionsItemSelected(item);    //To change body of overridden methods use File | Settings | File Templates.
     }
 }

@@ -27,13 +27,13 @@ import java.util.HashMap;
 @WebServlet(name = "planrecord")
 public class PlanRecord extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String planRecord=request.getParameter("getPlanRecord");
-        HashMap<String,String> req=new HashMap<String, String>();
-        response.setContentType("text");
+        HashMap<String,String> resp=new HashMap<String, String>();
+        response.setContentType("application/json;charset=UTF-8");
         PrintWriter out=response.getWriter();
-        if (!Util.isEmpty(planRecord)){
+        String context=request.getParameter("getPlanRecord");
+        if (!Util.isEmpty(context)){
             try {
-                HashMap<String,String> map= JSONHelper.getJSONHelperInstance().convertToMap(planRecord);
+                HashMap<String,String> map= JSONHelper.getJSONHelperInstance().convertToMap(context);
                 String planList=map.get("planList");
                 String recordList=map.get("recordList");
                 HashMap<String,String> result=new HashMap<String, String>();
@@ -44,24 +44,30 @@ public class PlanRecord extends HttpServlet {
                     result.putAll(Mediator.getUserRecords(recordList));
                 }
 
-                req.put("state","successful");
-                req.put("planrecord",JSONHelper.getJSONHelperInstance().convertToString(result));
-                out.print(JSONHelper.getJSONHelperInstance().convertToString(req));
-                out.close();
+                resp.put("planrecord",JSONHelper.getJSONHelperInstance().convertToString(result));
 
             } catch (TextFormatException e) {
-                req.put("state",e.getMessage()); //To change body of catch statement use File | Settings | File Templates.
-                out.print(JSONHelper.getJSONHelperInstance().convertToString(req));
+                resp.put("state",e.getMessage());
+                out.print(JSONHelper.getJSONHelperInstance().convertToString(resp));
                 out.close();
             } catch (SQLException e) {
-                req.put("state",e.getMessage()); //To change body of catch statement use File | Settings | File Templates.
-                out.print(JSONHelper.getJSONHelperInstance().convertToString(req));
+                resp.put("state",e.getMessage());
+                out.print(JSONHelper.getJSONHelperInstance().convertToString(resp));
                 out.close();
             } catch (JSONException e) {
-                req.put("state",e.getMessage()); //To change body of catch statement use File | Settings | File Templates.
-                out.print(JSONHelper.getJSONHelperInstance().convertToString(req));
+                resp.put("state",e.getMessage());
+                out.print(JSONHelper.getJSONHelperInstance().convertToString(resp));
                 out.close();
             }
+        }
+        context=request.getParameter("addPlan");
+        if (!Util.isEmpty(context)){
+
+        }
+        if (!resp.containsKey("state")){
+            resp.put("state","successful");
+            out.print(JSONHelper.getJSONHelperInstance().convertToString(resp));
+            out.close();
         }
     }
 

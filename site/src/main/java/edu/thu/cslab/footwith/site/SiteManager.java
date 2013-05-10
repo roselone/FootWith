@@ -89,6 +89,16 @@ public class SiteManager {
         //}
         return site;
     }
+
+    public static String getSiteName(int siteID) throws SQLException {
+        DBUtil du =DBUtil.getDBUtil();
+        String SQLCommand="select siteName from " +tableName+" where siteID = "+siteID;
+        ResultSet rs=du.executeQuery(SQLCommand);
+        rs.next();
+        return rs.getString(1);
+    }
+
+
     public static Vector<Site> selectSite(Site site) throws TextFormatException, SQLException {
         DBUtil du = DBUtil.getDBUtil();
         String SQLCommand = null;

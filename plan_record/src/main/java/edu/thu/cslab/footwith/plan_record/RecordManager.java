@@ -181,13 +181,13 @@ public class RecordManager {
      * @throws TextFormatException
      * @throws JSONException
      */
-    public static void addJournal(int recordID, Journal journal) throws SQLException, TextFormatException, JSONException {
-        JournalManager jm=new JournalManager();
-        int journalID=jm.addJournal(journal);
+    public static int addJournal(int recordID, Journal journal) throws SQLException, TextFormatException, JSONException {
+        int journalID=JournalManager.addJournal(journal);
         Record record=selectRecord(recordID);
         String journals=JSONHelper.getJSONHelperInstance().addToArray(record.getJournals(),journalID);
-        String SQLCommand = "update " + tableName + " set journals=" + journals + " where recordID=" + recordID +";";
+        String SQLCommand = "update " + tableName + " set journals= '" + journals + "' where recordID=" + recordID +";";
         DBUtil.getDBUtil().executeUpdate(SQLCommand);
+        return journalID;
     }
 
     /**
@@ -199,8 +199,7 @@ public class RecordManager {
      * @throws JSONException
      */
     public static void addPicture(int recordID, Picture picture) throws SQLException, TextFormatException, JSONException {
-        PictureManager pm=new PictureManager();
-        int pictureID=pm.addPicture(picture);
+        int pictureID=PictureManager.addPicture(picture);
         Record record=selectRecord(recordID);
         String pictures=JSONHelper.getJSONHelperInstance().addToArray(record.getPictures(),pictureID);
         String SQLCommand = "update " + tableName + " set pictures=" + pictures + " where recordID=" + recordID +";";

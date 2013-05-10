@@ -10,6 +10,7 @@ import edu.thu.cslab.footwith.client.R;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Vector;
 
 /**
  * Created with IntelliJ IDEA.
@@ -21,7 +22,15 @@ import java.util.HashMap;
 public class Record_Journal_Adapter extends BaseAdapter {
     Context mContext;
     ArrayList<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
+    Vector<Integer> journalIDVector;
     private LayoutInflater mLayoutInflater;
+
+    public Record_Journal_Adapter(Context mContext, Vector<Integer> journalIDVector) {
+        this.mContext = mContext;
+        this.journalIDVector = journalIDVector;
+        mLayoutInflater = LayoutInflater.from(mContext);
+    }
+
 
     public Record_Journal_Adapter(Context mContext, ArrayList<HashMap<String, Object>> list) {
         this.mContext = mContext;

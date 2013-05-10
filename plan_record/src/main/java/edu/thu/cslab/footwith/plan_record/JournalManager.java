@@ -1,9 +1,12 @@
 package edu.thu.cslab.footwith.plan_record;
 
 import edu.thu.cslab.footwith.dao.DBUtil;
+import edu.thu.cslab.footwith.utility.Util;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created with IntelliJ IDEA.
@@ -13,7 +16,7 @@ import java.sql.SQLException;
  * To change this template use File | Settings | File Templates.
  */
 public class JournalManager {
-    private final String tableName = "journal";
+    private static final String tableName = "journal";
 
     /**
      * add journal
@@ -21,9 +24,9 @@ public class JournalManager {
      * @return journal ID
      * @throws java.sql.SQLException
      */
-    public int addJournal(Journal journal) throws SQLException {
+    public static int addJournal(Journal journal) throws SQLException {
         String SQLComment = "insert into " + tableName + " ( userID, title, body, time ) values (" + journal.getUserID()
-                + " , '" + journal.getTitle() + "' , '" + journal.getDate() + "')" ;
+                + " , '" + journal.getTitle() + "' , '"+journal.getBody()+"' , '" + journal.getDate() + "')" ;
         DBUtil du= DBUtil.getDBUtil();
         ResultSet rs=du.executeUpdate(SQLComment);
         rs.next();
@@ -33,16 +36,20 @@ public class JournalManager {
     /**
      * edit journal
      * @param journalID
-     * @param journal
+     * @param journalMap
      * @throws java.sql.SQLException
      */
-    public void editJournal(int journalID,Journal journal) throws  SQLException {
+    public static void editJournal(int journalID,HashMap<String,String> journalMap) throws  SQLException {
         String SQLComment = "update " + tableName + " set ";
         boolean flag=false;
-        if (journal.getTitle()!=null) { flag=true; SQLComment += "title = " + journal.getTitle();}
-        if (journal.getBody() !=null) { flag=true; SQLComment += " body = " + journal.getBody(); }
+        if (!Util.isEmpty(journalMap.get("title"))) { flag=true; SQLComment += " title = '" + journalMap.get("title")+"'";}
+        if (!Util.isEmpty(journalMap.get("body"))) {
+            if (flag)
+                SQLComment += " , ";
+            flag=true; SQLComment += " body = '" + journalMap.get("body")+"'";
+        }
         if (flag){
-            SQLComment+=";";
+            SQLComment+=" where journalID = "+String.valueOf(journalID)+";";
             DBUtil.getDBUtil().executeUpdate(SQLComment);
         }
     }
@@ -52,7 +59,7 @@ public class JournalManager {
      * @param journalID
      * @throws java.sql.SQLException
      */
-    public void deleteJournal(int journalID) throws SQLException {
+    public static void deleteJournal(int journalID) throws SQLException {
         String SQLComment = "delete from " + tableName + " where journalID=" + String.valueOf(journalID) + ";";
         DBUtil.getDBUtil().executeUpdate(SQLComment);
     }
@@ -63,7 +70,7 @@ public class JournalManager {
      * @return
      * @throws java.sql.SQLException
      */
-    public Journal selectJournal(int journalID) throws SQLException {
+    public static Journal selectJournal(int journalID) throws SQLException {
         String SQLComment = "select * from " + tableName + " where journalID = " +String.valueOf(journalID)+";";
         ResultSet rs = DBUtil.getDBUtil().executeQuery(SQLComment);
         rs.next();
@@ -72,4 +79,17 @@ public class JournalManager {
         return result;
     }
 
+    public static HashMap<String,String> getJournalMap(int journalID) throws SQLException {
+        String SQLComment = "select * from " + tableName + " where journalID = " +String.valueOf(journalID)+";";
+        ResultSet rs = DBUtil.getDBUtil().executeQuery(SQLComment);
+        rs.next();
+        HashMap<String,String> result=new HashMap<String, String>();
+        result.put("userID",String.valueOf(rs.getInt("userID")));
+        result.put("title",rs.getString("title"));
+        result.put("body",rs.getString("body"));
+        result.put("time",String.valueOf(rs.getDate("time")));
+        result.put("timestamp",String.valueOf(rs.getTimestamp("timestamp")));
+        result.put("journalID",String.valueOf(journalID));
+        return result;
+    }
 }

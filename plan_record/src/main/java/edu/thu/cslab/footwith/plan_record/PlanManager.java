@@ -42,12 +42,14 @@ public class PlanManager {
         int organizer = plan.getOrganizer();
         Date startTime =  plan.getStartTime();
         Date endTime = plan.getEndTime();
+        String describe = plan.getDescribe();
         if(Util.isEmpty(siteIDs) || organizer<0 || startTime==null || endTime==null || startTime.after(endTime)){
             logger.error("illegal plan");
             return -1;
         }
-        SQLCommand = " insert into " + tableName + " ( title, siteIDs, startTime, endTime, organizer, participants, budget, groupNum, groupNumMax, talkStreamID, isDone ) " +
-                " values ( '"+title+"' , '"+ siteIDs + "' , '"+ startTime + "' , '" + endTime+ "' , " + organizer + " , '" + plan.getParticipants() + "' , " + plan.getBudget() + " , " + plan.getGroupNum()+ " , " + plan.getGroupNumMax() + " , " + plan.getTalkStreamID() +" , false ) ";
+        SQLCommand = " insert into " + tableName + " ( title, siteIDs, startTime, endTime, organizer, participants, budget, groupNum, groupNumMax, talkStreamID, isDone, describe ) " +
+                " values ( '"+title+"' , '"+ siteIDs + "' , '"+ startTime + "' , '" + endTime+ "' , " + organizer + " , '" + plan.getParticipants() + "' , " + plan.getBudget() + " , " + plan.getGroupNum()+ " , " +
+                plan.getGroupNumMax() + " , " + plan.getTalkStreamID() +" , false , '" + describe+"')";
         rs = du.executeUpdate(SQLCommand);
         rs.next();
         int planID = rs.getInt(1);
@@ -78,7 +80,8 @@ public class PlanManager {
         rs=du.executeQuery(SQLCommand);
         rs.next();
         return new Plan(rs.getInt("planID"),rs.getString("title"), rs.getString("siteIDs"), rs.getDate("startTime"), rs.getDate("endTime"), rs.getInt("organizer"),
-                rs.getString("participants"), rs.getInt("budget"), rs.getInt("groupNum"), rs.getInt("groupNumMax"), rs.getInt("talkStreamID"),rs.getBoolean("isDone"),rs.getTimestamp("timestamp"));
+                rs.getString("participants"), rs.getInt("budget"), rs.getInt("groupNum"), rs.getInt("groupNumMax"), rs.getInt("talkStreamID"),
+                rs.getBoolean("isDone"),rs.getTimestamp("timestamp"),rs.getString("describe"));
 
     }
 
@@ -145,7 +148,8 @@ public class PlanManager {
         Vector<Plan> vector = new Vector<Plan>();
         while(rs.next()){
             result_plan = new Plan(rs.getInt("planID"), rs.getString("title"),rs.getString("siteIDs"), rs.getDate("startTime"), rs.getDate("endTime"), rs.getInt("organizer"),
-                    rs.getString("participants"), rs.getInt("budget"), rs.getInt("groupNum"), rs.getInt("groupNumMax"), rs.getInt("talkStreamID"),rs.getBoolean("isDOne"),rs.getTimestamp("timestamp"));
+                    rs.getString("participants"), rs.getInt("budget"), rs.getInt("groupNum"), rs.getInt("groupNumMax"), rs.getInt("talkStreamID"),
+                    rs.getBoolean("isDOne"),rs.getTimestamp("timestamp"),rs.getString("describe"));
             vector.add(result_plan);
         }
 
@@ -163,7 +167,6 @@ public class PlanManager {
         du.executeUpdate(SQLCommand);
     }
 
-    //TODO : if isDone=true can't modify it
     public static void editPlan(int planID, Plan new_plan) throws TextFormatException, SQLException, JSONException {
         DBUtil du = DBUtil.getDBUtil();
         String SQLCommand = null, subSQLcommand=null;
