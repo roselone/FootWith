@@ -28,5 +28,9 @@
         <activity android:name=".Favorite_Site"/>
         <activity android:name=".AddPlan"/>
         <activity android:name=".AddPlan1"/>
+        <activity android:name=".provincelist"/>
+        <activity android:name=".sitelist"/>
+        <activity android:name=".siteinfo"/>
+
     </application>
 </manifest> 

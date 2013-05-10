@@ -54,7 +54,7 @@ public class Plan {
      * @param groupNum
      * @param groupNumMax
      */
-    public Plan(String title, String siteIDs, Date startTime, Date endTime, int organizer, int groupNum, int groupNumMax) {
+    public Plan(String title, String siteIDs, Date startTime, Date endTime, int organizer, int groupNum, int groupNumMax,String describe) {
         this.planID = -1;
         this.title = title;
         this.siteIDs = siteIDs;
@@ -66,6 +66,7 @@ public class Plan {
         this.participants = "";
         this.budget = -1;
         this.talkStreamID = -1;
+        this.describe=describe;
     }
 
     /**
@@ -83,7 +84,8 @@ public class Plan {
      * @param talkStreamID
      * @param isDone
      */
-    public Plan(int planID,String title, String siteIDs, Date startTime, Date endTime, int organizer, String participants, int budget, int groupNum, int groupNumMax, int talkStreamID,boolean isDone,Timestamp timestamp) {
+    public Plan(int planID,String title, String siteIDs, Date startTime, Date endTime, int organizer, String participants,
+                int budget, int groupNum, int groupNumMax, int talkStreamID,boolean isDone,Timestamp timestamp,String describe) {
         this.planID = planID;
         this.title = title;
         this.siteIDs = siteIDs;
@@ -97,6 +99,7 @@ public class Plan {
         this.talkStreamID = talkStreamID;
         this.isDone=isDone;
         this.timestamp=timestamp;
+        this.describe=describe;
     }
 
     public int getPlanID() {
@@ -149,6 +152,14 @@ public class Plan {
 
     public Timestamp getTimestamp(){
         return timestamp;
+    }
+
+    public String getDescribe(){
+        return describe;
+    }
+
+    public void setDescribe(String describe){
+        this.describe=describe;
     }
 
     public void setTimestamp(Timestamp ts){
@@ -234,5 +245,6 @@ public class Plan {
     private int talkStreamID;
     private Timestamp timestamp;
     private boolean isDone;
+    private String describe;
 
 }

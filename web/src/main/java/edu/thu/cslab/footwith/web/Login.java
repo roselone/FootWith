@@ -24,7 +24,7 @@ import java.util.HashMap;
 @WebServlet(name = "login")
 public class Login extends HttpServlet {
     protected void doPost(HttpServletRequest request,HttpServletResponse response) throws IOException {
-        response.setContentType("text");
+        response.setContentType("application/json;charset=UTF-8");
         String login=request.getParameter("login");
         HashMap<String,String> info= JSONHelper.getJSONHelperInstance().convertToMap(login);
         PrintWriter out=response.getWriter();

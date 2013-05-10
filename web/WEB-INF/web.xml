@@ -18,6 +18,10 @@
         <servlet-name>planrecord</servlet-name>
         <servlet-class>edu.thu.cslab.footwith.web.PlanRecord</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>journal</servlet-name>
+        <servlet-class>edu.thu.cslab.footwith.web.Journal</servlet-class>
+    </servlet>
 
     <servlet-mapping>
         <servlet-name>test</servlet-name>
@@ -34,5 +38,9 @@
     <servlet-mapping>
         <servlet-name>planrecord</servlet-name>
         <url-pattern>/planrecord</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>journal</servlet-name>
+        <url-pattern>/journal</url-pattern>
     </servlet-mapping>
 </web-app>
