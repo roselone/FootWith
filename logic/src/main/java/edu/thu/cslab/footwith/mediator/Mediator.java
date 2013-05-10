@@ -513,8 +513,14 @@ public class Mediator {
     public static void deleteRecord(int recordID) throws TextFormatException, SQLException {
         RecordManager.deleteRecord(recordID);
     }
-    public static void addJournal(int recordID, Journal journal) throws SQLException, TextFormatException, JSONException {
-        RecordManager.addJournal(recordID,journal);
+    public static int addJournal(int recordID, HashMap<String,String> journal) throws SQLException, TextFormatException, JSONException {
+        return RecordManager.addJournal(recordID,convertMapToJournal(journal));
+    }
+    public static void editJournal(int journalID,HashMap<String,String> jounalMap) throws SQLException {
+        JournalManager.editJournal(journalID,jounalMap);
+    }
+    public static void deleteJournal(int journalID) throws SQLException {
+        JournalManager.deleteJournal(journalID);
     }
     public static void addPicture(int recordID, Picture picture) throws SQLException, TextFormatException, JSONException {
         RecordManager.addPicture(recordID, picture);
@@ -747,4 +753,12 @@ public class Mediator {
         return NameVector.toString();
     }
 
+    public static Journal convertMapToJournal(HashMap<String,String> journalMap){
+        Journal journal=new Journal();
+        journal.setUserID(Integer.valueOf(journalMap.get("userID")));
+        journal.setTitle(journalMap.get("title"));
+        journal.setBody(journalMap.get("body"));
+        journal.setDate(Date.valueOf(journalMap.get("time")));
+        return journal;
+    }
 }
