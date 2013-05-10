@@ -269,6 +269,18 @@ public class Mediator {
         }
         return plans_all_string;
     }
+    public static HashMap<String,String> getJournals(String journalList) throws JSONException, TextFormatException, SQLException {
+        Vector<Integer> journalIDs=JSONHelper.getJSONHelperInstance().convertToArray(journalList);
+        HashMap<String,String> journals=new HashMap<String, String>();
+
+        for (int i=0;i<journalIDs.size();i++){
+            HashMap<String,String> journalMap=JournalManager.getJournalMap(journalIDs.get(i));
+            String userID=journalMap.get("userID");
+            journalMap.put("userName",UserManager.getUserName(Integer.valueOf(userID)));
+            journals.put(Util.string2Json(journalMap.get("timestamp")),JSONHelper.getJSONHelperInstance().convertToString(journalMap));
+        }
+        return journals;
+    }
     public static HashMap<String,String> getUserPlans(String planList) throws JSONException, TextFormatException, SQLException {
         Vector<Integer> planIDs=JSONHelper.getJSONHelperInstance().convertToArray(planList);
         HashMap<String,String> plans=new HashMap<String, String>();     //timestamp : plan

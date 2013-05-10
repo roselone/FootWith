@@ -79,4 +79,17 @@ public class JournalManager {
         return result;
     }
 
+    public static HashMap<String,String> getJournalMap(int journalID) throws SQLException {
+        String SQLComment = "select * from " + tableName + " where journalID = " +String.valueOf(journalID)+";";
+        ResultSet rs = DBUtil.getDBUtil().executeQuery(SQLComment);
+        rs.next();
+        HashMap<String,String> result=new HashMap<String, String>();
+        result.put("userID",String.valueOf(rs.getInt("userID")));
+        result.put("title",rs.getString("title"));
+        result.put("body",rs.getString("body"));
+        result.put("time",String.valueOf(rs.getDate("time")));
+        result.put("timestamp",String.valueOf(rs.getTimestamp("timestamp")));
+        result.put("journalID",String.valueOf(journalID));
+        return result;
+    }
 }

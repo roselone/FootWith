@@ -32,7 +32,7 @@ public class Journal extends HttpServlet {
         HashMap<String,String> resp=new HashMap<String, String>();
         PrintWriter out=response.getWriter();
         /**
-         * {add : {recordID = 12, title ...}}
+         * {add : {recordID = 12, journal = {title userID body time}}}
          */
         String context = request.getParameter("add");
         if (!Util.isEmpty(context)){
@@ -59,6 +59,7 @@ public class Journal extends HttpServlet {
         /**
          * {modify : {title = blala , body = balab}}
          */
+        //TODO modify time update
         context=request.getParameter("modify");
         if (!Util.isEmpty(context)){
             HashMap<String,String> tmpMap=JSONHelper.getJSONHelperInstance().convertToMap(context);
@@ -95,10 +96,17 @@ public class Journal extends HttpServlet {
         context=request.getParameter("query");
         if (!Util.isEmpty(context)){
             try {
-                Vector<Integer> journalVector=JSONHelper.getJSONHelperInstance().convertToArray(context);
-                HashMap<String,String> journalMap=new HashMap<String, String>();
-
+                HashMap<String,String> journalMap=Mediator.getJournals(context);
+                resp.put("journal",JSONHelper.getJSONHelperInstance().convertToString(journalMap));
             } catch (JSONException e) {
+                resp.put("state",e.getMessage());
+                out.print(JSONHelper.getJSONHelperInstance().convertToString(resp));
+                out.close();
+            } catch (TextFormatException e) {
+                resp.put("state",e.getMessage());
+                out.print(JSONHelper.getJSONHelperInstance().convertToString(resp));
+                out.close();
+            } catch (SQLException e) {
                 resp.put("state",e.getMessage());
                 out.print(JSONHelper.getJSONHelperInstance().convertToString(resp));
                 out.close();
