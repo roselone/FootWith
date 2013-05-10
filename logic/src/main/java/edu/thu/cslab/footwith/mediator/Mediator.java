@@ -269,6 +269,18 @@ public class Mediator {
         }
         return plans_all_string;
     }
+    public static HashMap<String,String> getJournals(String journalList) throws JSONException, TextFormatException, SQLException {
+        Vector<Integer> journalIDs=JSONHelper.getJSONHelperInstance().convertToArray(journalList);
+        HashMap<String,String> journals=new HashMap<String, String>();
+
+        for (int i=0;i<journalIDs.size();i++){
+            HashMap<String,String> journalMap=JournalManager.getJournalMap(journalIDs.get(i));
+            String userID=journalMap.get("userID");
+            journalMap.put("userName",UserManager.getUserName(Integer.valueOf(userID)));
+            journals.put(Util.string2Json(journalMap.get("timestamp")),JSONHelper.getJSONHelperInstance().convertToString(journalMap));
+        }
+        return journals;
+    }
     public static HashMap<String,String> getUserPlans(String planList) throws JSONException, TextFormatException, SQLException {
         Vector<Integer> planIDs=JSONHelper.getJSONHelperInstance().convertToArray(planList);
         HashMap<String,String> plans=new HashMap<String, String>();     //timestamp : plan
@@ -513,8 +525,14 @@ public class Mediator {
     public static void deleteRecord(int recordID) throws TextFormatException, SQLException {
         RecordManager.deleteRecord(recordID);
     }
-    public static void addJournal(int recordID, Journal journal) throws SQLException, TextFormatException, JSONException {
-        RecordManager.addJournal(recordID,journal);
+    public static int addJournal(int recordID, HashMap<String,String> journal) throws SQLException, TextFormatException, JSONException {
+        return RecordManager.addJournal(recordID,convertMapToJournal(journal));
+    }
+    public static void editJournal(int journalID,HashMap<String,String> jounalMap) throws SQLException {
+        JournalManager.editJournal(journalID,jounalMap);
+    }
+    public static void deleteJournal(int journalID) throws SQLException {
+        JournalManager.deleteJournal(journalID);
     }
     public static void addPicture(int recordID, Picture picture) throws SQLException, TextFormatException, JSONException {
         RecordManager.addPicture(recordID, picture);
@@ -736,7 +754,7 @@ public class Mediator {
         for (int i=0;i<IDVector.size();i++){
             NameVector.add(UserManager.getUserName(IDVector.get(i)));
         }
-        return JSONHelper.getJSONHelperInstance().convertToString2(NameVector);
+        return NameVector.toString();
     }
     public static String getSiteNames(String IDs) throws JSONException, SQLException {
         Vector<Integer> IDVector=JSONHelper.getJSONHelperInstance().convertToArray(IDs);
@@ -744,7 +762,15 @@ public class Mediator {
         for (int i=0;i<IDVector.size();i++){
             NameVector.add(SiteManager.getSiteName(IDVector.get(i)));
         }
-        return JSONHelper.getJSONHelperInstance().convertToString2(NameVector);
+        return NameVector.toString();
     }
 
+    public static Journal convertMapToJournal(HashMap<String,String> journalMap){
+        Journal journal=new Journal();
+        journal.setUserID(Integer.valueOf(journalMap.get("userID")));
+        journal.setTitle(journalMap.get("title"));
+        journal.setBody(journalMap.get("body"));
+        journal.setDate(Date.valueOf(journalMap.get("time")));
+        return journal;
+    }
 }
