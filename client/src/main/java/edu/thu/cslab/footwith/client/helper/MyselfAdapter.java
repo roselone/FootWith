@@ -13,11 +13,13 @@ import edu.thu.cslab.footwith.client.Login;
 import edu.thu.cslab.footwith.client.R;
 import edu.thu.cslab.footwith.messenger.JSONHelper;
 import edu.thu.cslab.footwith.utility.Util;
+import org.json.JSONException;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Vector;
 
 public class MyselfAdapter extends BaseAdapter{
 
@@ -121,20 +123,64 @@ public class MyselfAdapter extends BaseAdapter{
 			});
 			
 			String itemPlace=(String)mapString.get("siteIDs");
+            Vector<String> itemPlaceVector = new Vector<String>();
+            try {
+                itemPlaceVector = JSONHelper.getJSONHelperInstance().convertToArray2(itemPlace);
+            } catch (JSONException e) {
+                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            }
+            StringBuffer stringBuffer = new StringBuffer();
+            if(itemPlaceVector!=null){
+                for(int i=0; i<itemPlaceVector.size(); i++){
+                    stringBuffer.append(itemPlaceVector.get(i));
+                    if(i!=itemPlaceVector.size()-1) {
+                        stringBuffer.append(";\n");
+                    }
+                }
+                itemPlace = stringBuffer.toString();
+            }else{
+                itemPlace = "";
+            }
+
 			String itemTimeFrom=(String)mapString.get("startTime");
 			String itemTimeTo=(String)mapString.get("endTime");
-			String itemWant=(String)mapString.get("organizer");
-			String itemMore=(String)mapString.get("participants");
-			String itemState=(String)mapString.get("isDone");
-			String itemAttention=(String)mapString.get("participants");
+			String itemWant=(String)mapString.get("describe");
+
+			//String itemMore=(String)mapString.get("participants");
+            String itemState;
+            if(mapString.get("isDone").equals("false")){
+                itemState=(String)mapString.get("招募中");
+            }else{
+                itemState=(String)mapString.get("旅途中");
+            }
+			//String itemAttention=(String)mapString.get("participants");
 			String itemJoin=(String)mapString.get("participants");
-			String itemTime=itemTimeFrom.equals(itemTimeTo)?itemTimeFrom+"月份期间":itemTimeFrom+"到"+itemTimeTo+"月份期间";
+            Vector<String> itemJoinVector = new Vector<String>();
+            try {
+                itemJoinVector = JSONHelper.getJSONHelperInstance().convertToArray2(itemJoin);
+            } catch (JSONException e) {
+                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            }
+            stringBuffer = new StringBuffer();
+            if(itemJoinVector!=null){
+                for(int i=0; i<itemJoinVector.size(); i++){
+                    stringBuffer.append(itemJoinVector.get(i));
+                    if(i!=itemJoinVector.size()-1){
+                        stringBuffer.append(";");
+                    }
+                }
+                itemJoin = stringBuffer.toString();
+            }else{
+                itemJoin = "";
+            }
+
+            String itemTime=itemTimeFrom.equals(itemTimeTo)?itemTimeFrom+" ":itemTimeFrom+"\n到\n"+itemTimeTo+"";
 			
 			ImageView imageView=(ImageView)view.findViewById(R.id.aboutme_itemImage);
 			imageView.setImageResource(R.drawable.me);
 			
 			TextView itemNameTextView=(TextView)view.findViewById(R.id.aboutme_itemName);
-			itemNameTextView.setText(itemPlace+name);
+			itemNameTextView.setText(/*itemPlace+*/name);
 			
 			TextView itemPlaceTextView=(TextView)view.findViewById(R.id.aboutme_itemPlaceCon);
 			itemPlaceTextView.setText(itemPlace);
@@ -145,14 +191,14 @@ public class MyselfAdapter extends BaseAdapter{
 			TextView itemPeopleTextView=(TextView)view.findViewById(R.id.aboutme_itemPeopleCon);
 			itemPeopleTextView.setText(itemWant);
 			
-			TextView itemMoreTextView=(TextView)view.findViewById(R.id.aboutme_itemMoreCon);
-			itemMoreTextView.setText(itemMore);
+			//TextView itemMoreTextView=(TextView)view.findViewById(R.id.aboutme_itemMoreCon);
+			//itemMoreTextView.setText(itemMore);
 			
 			TextView itemStateTextView=(TextView)view.findViewById(R.id.aboutme_itemStateCon);
 			itemStateTextView.setText(itemState);
 			
-			TextView itemAttentionTextView=(TextView)view.findViewById(R.id.aboutme_attentionPeople);
-			itemAttentionTextView.setText("关注的人: "+itemAttention);
+			//TextView itemAttentionTextView=(TextView)view.findViewById(R.id.aboutme_attentionPeople);
+			//itemAttentionTextView.setText("关注的人: "+itemAttention);
 			
 			TextView itemJoinTextView=(TextView)view.findViewById(R.id.aboutme_joinPeople);
 			itemJoinTextView.setText("加入的人: "+itemJoin);
@@ -166,9 +212,46 @@ public class MyselfAdapter extends BaseAdapter{
 
             String itemName=(String)mapString.get("title");
             String itemPlace=(String)mapString.get("siteIDs");
+            Vector<String> itemPlaceVector = null;
+            try {
+                itemPlaceVector = JSONHelper.getJSONHelperInstance().convertToArray2(itemPlace);
+            } catch (JSONException e) {
+                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            }
+
+            StringBuffer stringBuffer = new StringBuffer();
+            if(itemPlaceVector!=null){
+                for(int i=0; i<itemPlaceVector.size(); i++){
+                    stringBuffer.append(itemPlaceVector.get(i));
+                    if(i!=itemPlaceVector.size()-1){
+                        stringBuffer.append(";\n");
+                    }
+                }
+                itemPlace = stringBuffer.toString();
+            }else{
+                itemPlace = "";
+            }
             String itemTimeFrom=(String)mapString.get("startTime");
             String itemState=(String)mapString.get("endTime");
             String itemParticipates=(String)mapString.get("userIDs");
+            Vector<String> itemJoinVector = null;
+            try {
+                itemJoinVector = JSONHelper.getJSONHelperInstance().convertToArray2(itemParticipates);
+            } catch (JSONException e) {
+                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            }
+            stringBuffer = new StringBuffer();
+            if(itemJoinVector!=null){
+                for(int i=0; i<itemJoinVector.size(); i++){
+                    stringBuffer.append(itemJoinVector.get(i));
+                    if(i!=itemJoinVector.size()-1){
+                        stringBuffer.append(";");
+                    }
+                }
+                itemParticipates = stringBuffer.toString();
+            }else{
+                itemParticipates = "";
+            }
 
 
             ImageView imageView=(ImageView)view.findViewById(R.id.record_itemimage);

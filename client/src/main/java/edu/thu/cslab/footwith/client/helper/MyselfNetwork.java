@@ -31,6 +31,10 @@ public class MyselfNetwork {
     public void requestList(){
         ServerConnector sc = new ServerConnector("planrecord");
         String result = null;
+        HashMap<String, String> map0=new HashMap<String, String>();
+        map0.put("itemType", "newTrip");
+        map0.put("title", "< 点我创建新的计划 >");
+        selfInfoList.add(map0);
         HashMap<String,String> userMap=new HashMap<String, String>();
         userMap.put("planList", Login.userPlans);
         userMap.put("recordList", Login.userRecords);
