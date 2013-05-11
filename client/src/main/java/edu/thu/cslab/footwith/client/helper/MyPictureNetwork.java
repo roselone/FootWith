@@ -21,9 +21,11 @@ public class MyPictureNetwork {
     private String recordID;
     public boolean add(HashMap<String, String> map){
         ServerConnector sc = new ServerConnector("picture");
+        /*
         pictureList.add(map);
         return true;
-        /*
+        */
+
         String result = null;
         HashMap<String, String> tmpMap = new HashMap<String, String>();
         tmpMap.put("recordID", recordID);
@@ -44,7 +46,7 @@ public class MyPictureNetwork {
             }
         }
         return false;
-        */
+
     }
     public ArrayList<HashMap<String, String>> getList(){
         return pictureList;
@@ -53,9 +55,11 @@ public class MyPictureNetwork {
 
         ServerConnector sc = new ServerConnector("picture");
         String result = null;
+        /*
         pictureList.set(position, map);
         return true;
-        /*
+        */
+
         try {
             result = sc.setRequestParam("modify", JSONHelper.getJSONHelperInstance().convertToString(map)).doPost();
         } catch (IOException e) {
@@ -72,7 +76,7 @@ public class MyPictureNetwork {
             }
         }
         return false;
-        */
+
     }
     public void requestList(String pictures, String recordID){
         this.pictures = pictures;
@@ -88,7 +92,7 @@ public class MyPictureNetwork {
         if(!Util.isEmpty(result)){
             HashMap<String, String> result_map = JSONHelper.getJSONHelperInstance().convertToMap(result);
             if(result_map.get("state").equals("successful")){
-                HashMap<String, String> journal = JSONHelper.getJSONHelperInstance().convertToMap(result_map.get("journal"));
+                HashMap<String, String> journal = JSONHelper.getJSONHelperInstance().convertToMap(result_map.get("picture"));
                 //TODO
                 //need to sort
                 Object[] keys =  journal.keySet().toArray();
@@ -102,5 +106,6 @@ public class MyPictureNetwork {
                 //System.out.println(selfListString.toString());
             }
         }
+
     }
 }

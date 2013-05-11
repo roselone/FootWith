@@ -152,9 +152,9 @@ public class MyselfAdapter extends BaseAdapter{
 			//String itemMore=(String)mapString.get("participants");
             String itemState = new String("招募中");
             if(mapString.get("isDone").equals("true")){
-                itemState=(String)mapString.get("旅途中");
+                itemState="旅途中";
             }else{
-                itemState=(String)mapString.get("招募中");
+                itemState="招募中";
             }
 			//String itemAttention=(String)mapString.get("participants");
 			String itemJoin=(String)mapString.get("participants");
