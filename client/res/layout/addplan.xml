@@ -66,7 +66,8 @@
                 />
         <EditText android:layout_width="100dp" android:layout_height="wrap_content" android:id="@+id/editText_num"
                   android:layout_gravity="center"
-                  android:gravity="center_horizontal"/>
+                  android:gravity="center_horizontal"
+                  android:singleLine="true" android:inputType="number"/>
     </LinearLayout>
     <TextView
             android:layout_width="wrap_content"
@@ -78,7 +79,7 @@
             android:layout_width="fill_parent"
             android:layout_height="200dp"
             android:text="描述"
-            android:id="@+id/editText_description" android:layout_gravity="left|center_vertical"/>
+            android:id="@+id/editText_description" android:layout_gravity="center_vertical"/>
     <RelativeLayout
             android:layout_width="fill_parent"
             android:layout_height="fill_parent" android:layout_gravity="left|center_vertical">

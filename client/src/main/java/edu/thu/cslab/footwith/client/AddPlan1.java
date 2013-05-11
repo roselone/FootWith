@@ -65,6 +65,7 @@ public class AddPlan1 extends Activity {
 
         Bundle bundle = getIntent().getExtras();
         String data=bundle.getString("myChoice");//读出数据
+       data = data.substring(data.indexOf(",")+1,data.length());
 
         startTime = new Date(my_Year,my_Month,my_Day);
         endTime = new Date(my_Year,my_Month,my_Day);
@@ -122,7 +123,8 @@ public class AddPlan1 extends Activity {
                 addPlan.put("startTime", new SimpleDateFormat("yyyy-MM-dd").format(startTime));
                 addPlan.put("endTime", new SimpleDateFormat("yyyy-MM-dd").format(endTime));
                 addPlan.put("describe",describe);
-                addPlan.put("userID",userId);
+                addPlan.put("organizer",userId);
+                addPlan.put("groupNumMax",String.valueOf(groupNumMax));
                 String[] chooseIds =  Favorite_Site.chooseIds.split(",");
                 Vector<String> siteIDs = new Vector<String>();
                 for(int i = 1;i<chooseIds.length;i++)
@@ -139,8 +141,11 @@ public class AddPlan1 extends Activity {
                 } catch (IOException e) {
                     e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                 }
+                HashMap<String,String> resultInfo = new HashMap<String, String>();
+                resultInfo = JSONHelper.getJSONHelperInstance().convertToMap(result);
+
                 System.out.println(result);
-                if (result!=null && result.equals("successful")){
+                if (result!=null &&  resultInfo.get("state").equals("successful")){
                     Toast.makeText(AddPlan1.this, "添加成功", Toast.LENGTH_SHORT).show();
 
                 }else {
