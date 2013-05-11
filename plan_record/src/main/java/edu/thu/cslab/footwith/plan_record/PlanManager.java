@@ -47,9 +47,10 @@ public class PlanManager {
             logger.error("illegal plan");
             return -1;
         }
-        SQLCommand = " insert into " + tableName + " ( title, siteIDs, startTime, endTime, organizer, participants, budget, groupNum, groupNumMax, talkStreamID, isDone, describe ) " +
+        SQLCommand = " insert into " + tableName + " ( title, siteIDs, startTime, endTime, organizer, participants, budget, groupNum, groupNumMax, isDone, information ) " +
                 " values ( '"+title+"' , '"+ siteIDs + "' , '"+ startTime + "' , '" + endTime+ "' , " + organizer + " , '" + plan.getParticipants() + "' , " + plan.getBudget() + " , " + plan.getGroupNum()+ " , " +
-                plan.getGroupNumMax() + " , " + plan.getTalkStreamID() +" , false , '" + describe+"')";
+                plan.getGroupNumMax() + " , false , '" + describe+"')";
+        System.out.println(SQLCommand);
         rs = du.executeUpdate(SQLCommand);
         rs.next();
         int planID = rs.getInt(1);
@@ -81,7 +82,7 @@ public class PlanManager {
         rs.next();
         return new Plan(rs.getInt("planID"),rs.getString("title"), rs.getString("siteIDs"), rs.getDate("startTime"), rs.getDate("endTime"), rs.getInt("organizer"),
                 rs.getString("participants"), rs.getInt("budget"), rs.getInt("groupNum"), rs.getInt("groupNumMax"), rs.getInt("talkStreamID"),
-                rs.getBoolean("isDone"),rs.getTimestamp("timestamp"),rs.getString("describe"));
+                rs.getBoolean("isDone"),rs.getTimestamp("timestamp"),rs.getString("information"));
 
     }
 
@@ -149,7 +150,7 @@ public class PlanManager {
         while(rs.next()){
             result_plan = new Plan(rs.getInt("planID"), rs.getString("title"),rs.getString("siteIDs"), rs.getDate("startTime"), rs.getDate("endTime"), rs.getInt("organizer"),
                     rs.getString("participants"), rs.getInt("budget"), rs.getInt("groupNum"), rs.getInt("groupNumMax"), rs.getInt("talkStreamID"),
-                    rs.getBoolean("isDOne"),rs.getTimestamp("timestamp"),rs.getString("describe"));
+                    rs.getBoolean("isDOne"),rs.getTimestamp("timestamp"),rs.getString("information"));
             vector.add(result_plan);
         }
 

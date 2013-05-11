@@ -65,8 +65,24 @@ public class MediatorTest {
 //        siteMap=JSONHelper.getJSONHelperInstance().convertToMap(result);
 //        System.out.println(siteMap.get("picture"));
 //    }
-    @Test
-    public void getSiteNameWithLocationTest() throws SQLException {
-        System.out.println(Mediator.getSiteNameWithLocation("北京").toString());
-    }
+//    @Test
+//    public void getSiteNameWithLocationTest() throws SQLException {
+//        System.out.println(Mediator.getSiteNameWithLocation("北京").toString());
+//    }
+//    @Test
+//    public void addPlanTest() throws SQLException, TextFormatException, NoSuchAlgorithmException, JSONException, UnsupportedEncodingException {
+//        HashMap<String,String> planMap=new HashMap<String, String>();
+//        planMap.put("title", "baidu");
+//        planMap.put("siteIDs","[2,3]");
+//        planMap.put("startTime","2013-05-03");
+//        planMap.put("endTime","2013-05-06");
+//        planMap.put("organizer","16");
+//        planMap.put("groupNum","0");
+//        planMap.put("groupNumMax","4");
+//        planMap.put("isDone","false");
+//        planMap.put("describe","lalalal");
+//        int id=Mediator.addPlan(planMap);
+//        System.out.println(id);
+//
+//    }
 }
