@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+        android:id="@+id/LinearLayout02"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:baselineAligned="false" android:longClickable="true" android:orientation="vertical"
+        android:background="@drawable/background_login" android:clickable="true">
+
+    <RelativeLayout
+            android:id="@+id/logo_div"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            >
+
+        <include layout="@layout/logo"/>
+
+    </RelativeLayout>
+
+
+
+    <ListView android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:id="@+id/ListView02"
+              android:cacheColorHint="#00000000"
+            />
+</LinearLayout>
+

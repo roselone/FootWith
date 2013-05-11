@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" android:background="@drawable/background_main">
+
+    <RelativeLayout
+            android:id="@+id/main_logo"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:layout_marginTop="30dp">
+
+        <include layout="@layout/logo" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                 android:id="@+id/include"/>
+        <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:baselineAligned="true" android:baselineAlignedChildIndex="0" android:clickable="false"
+                android:layout_alignParentLeft="true" android:layout_below="@+id/include">
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="我选择的景点"
+                    android:id="@+id/tv_mychoice" android:layout_gravity="center" style="@style/logoText"/>
+            <Button
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:text="返回"
+                    android:id="@+id/bt_return" android:layout_gravity="right" android:layout_marginLeft="30dp"
+                    />
+        </LinearLayout>
+        <ListView
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:id="@+id/MyListView"
+                android:layout_alignLeft="@+id/include" android:layout_alignParentTop="true"
+                android:layout_marginTop="90dp"/>
+
+    </RelativeLayout>
+
+
+</RelativeLayout>

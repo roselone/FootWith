@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical" android:background="@drawable/background_provincelist">
+
+
+    <RelativeLayout
+            android:id="@+id/logo_div"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            >
+
+        <include layout="@layout/logo"/>
+
+    </RelativeLayout>
+
+
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:orientation="vertical"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent" android:background="@drawable/background_siteinfo" android:clickable="false"
+                    android:focusableInTouchMode="false" android:layout_gravity="center_horizontal|top"
+                    android:focusable="true">
+
+
+        <TextView
+                android:layout_width="126dp"
+                android:layout_height="50dp"
+                android:text="扬州市瘦西湖风景区"
+                android:id="@+id/textView" android:layout_alignParentLeft="true" android:layout_alignParentTop="true"
+                android:textSize="15dp" android:paddingLeft="6dp" android:paddingTop="3dp" android:shadowColor="#cdc5ef"
+                android:layout_marginLeft="10dp" android:layout_marginTop="26dp" android:textColor="#000001"
+                android:layout_alignParentBottom="false" android:layout_alignWithParentIfMissing="false"
+                android:layout_centerInParent="true"/>
+        <RatingBar
+                android:layout_width="67dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/ratingBar"
+                android:focusableInTouchMode="true" android:numStars="5"
+                style="?android:attr/ratingBarStyleSmall"
+                android:paddingLeft="7dp" android:rating="5"
+                android:layout_alignParentLeft="true" android:layout_marginLeft="65dp" android:layout_alignParentTop="true"
+                android:layout_marginTop="85dp" android:paddingBottom="0dp"/>
+
+        <ImageView
+                android:layout_width="160dp"
+                android:layout_height="140dp"
+                android:id="@+id/imageView"
+                android:layout_alignWithParentIfMissing="false"
+                android:layout_alignParentLeft="true" android:layout_marginLeft="148dp" android:layout_alignParentTop="true"
+                android:layout_marginTop="18dp" android:background="@drawable/shouxihu" android:scaleType="centerInside"
+                android:baselineAlignBottom="false" android:clickable="false" android:focusable="true"
+                android:cropToPadding="true"
+                android:padding="3dp"
+                android:src="@drawable/shouxihu" android:layout_alignRight="@+id/textView1"
+                android:layout_alignParentBottom="false"/>
+        <TextView
+                android:layout_width="456dp"
+                android:layout_height="302dp"
+                android:text="      瘦西湖(Slender West Lake)，位于扬州市北郊，现有游览区面积100公顷右，1988年被国务院列为“具有重要历史文化遗产和扬州园林特色的国家重点名胜区”。 2010年被授予中国旅游界含金量最高荣誉——全国AAAAA级景区，成为扬州 首家国家5A级旅游景区。"
+                android:id="@+id/textView1" android:layout_alignLeft="@+id/textView" android:layout_alignParentTop="true"
+                android:layout_marginTop="210dp" android:layout_marginRight="10dp" android:layout_marginBottom="20dp"
+                android:clickable="false" android:textColor="#010101" android:textSize="16dp" android:autoText="false"
+                android:lines="@android:integer/config_mediumAnimTime" android:gravity="top"/>
+        <ImageButton
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:id="@+id/imageButton"
+                android:background="@drawable/heart1"
+                android:clickable="true" android:paddingLeft="10dp"
+
+                android:focusable="true" android:cropToPadding="true"
+                android:layout_alignParentLeft="true" android:layout_marginLeft="20dp"
+                android:layout_alignBottom="@+id/imageView"/>
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="景点级别："
+                android:id="@+id/textView2" android:layout_alignParentLeft="true"
+                android:layout_alignBottom="@+id/ratingBar" android:capitalize="words" android:textColor="#010101"
+                style="10" android:textSize="12dp" android:paddingLeft="12dp" android:phoneNumber="true"
+                android:layout_marginTop="85dp"/>
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="添加到 [我的喜欢]"
+                android:id="@+id/textView3"
+                android:typeface="sans"
+                android:textColor="#861fff"
+                android:textSize="11dp"
+                android:singleLine="true"
+                android:layout_alignParentLeft="false" android:layout_marginLeft="44dp"
+                android:layout_alignBottom="@+id/imageView" android:layout_alignParentTop="false"/>
+        <TextView
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:text="门票价格：  90元"
+                android:id="@+id/textView4"
+                android:layout_alignLeft="@+id/textView" android:layout_alignParentTop="true"
+                android:layout_marginTop="109dp" android:textColor="#010101" android:textSize="12dp"
+                android:layout_marginLeft="2dp" android:textStyle="normal"/>
+        <ImageView
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+                android:id="@+id/imageView1" android:layout_alignParentLeft="true" android:layout_marginLeft="20dp"
+                android:layout_alignTop="@+id/textView" android:layout_marginTop="160dp"
+                android:background="@drawable/shengdan16x16_45"/>
+        <ImageView android:layout_width="12dp" android:layout_height="12dp" android:id="@+id/imageView2"
+                   android:layout_alignParentLeft="true" android:layout_marginLeft="35dp"
+                   android:layout_alignTop="@+id/textView" android:layout_marginTop="160dp"
+                   android:background="@drawable/shengdan16x16_45" android:adjustViewBounds="false"/>
+        <ImageView android:layout_width="12dp" android:layout_height="12dp" android:id="@+id/imageView3"
+                   android:layout_alignParentLeft="true" android:layout_marginLeft="50dp"
+                   android:layout_alignTop="@+id/textView" android:layout_marginTop="160dp"
+                   android:background="@drawable/shengdan16x16_45"/>
+        <ImageView android:layout_width="12dp" android:layout_height="12dp" android:id="@+id/imageView4"
+                   android:layout_alignParentLeft="true" android:layout_marginLeft="65dp"
+                   android:layout_alignTop="@+id/textView" android:layout_marginTop="160dp"
+                   android:background="@drawable/shengdan16x16_45"/>
+        <ImageView android:layout_width="12dp" android:layout_height="12dp" android:id="@+id/imageView5"
+                   android:layout_alignParentLeft="true" android:layout_marginLeft="80dp"
+                   android:layout_alignTop="@+id/textView" android:layout_marginTop="160dp"
+                   android:background="@drawable/shengdan16x16_45"/>
+        <ImageView android:layout_width="12dp" android:layout_height="12dp" android:id="@+id/imageView6"
+                   android:layout_alignParentLeft="true" android:layout_marginLeft="95dp"
+                   android:layout_alignTop="@+id/textView" android:layout_marginTop="160dp"
+                   android:background="@drawable/shengdan16x16_45"/>
+        <ImageView android:layout_width="12dp" android:layout_height="12dp" android:id="@+id/imageView7"
+                   android:layout_alignParentLeft="true" android:layout_marginLeft="110dp"
+                   android:layout_alignTop="@+id/textView" android:layout_marginTop="160dp"
+                   android:background="@drawable/shengdan16x16_45"/>
+        <ImageView android:layout_width="12dp" android:layout_height="12dp" android:id="@+id/imageView8"
+                   android:layout_alignParentLeft="true" android:layout_marginLeft="125dp"
+                   android:layout_alignTop="@+id/textView" android:layout_marginTop="160dp"
+                   android:background="@drawable/shengdan16x16_45"/>
+        <ImageView android:layout_width="12dp" android:layout_height="12dp" android:id="@+id/imageView9"
+                   android:layout_alignParentLeft="true" android:layout_marginLeft="140dp"
+                   android:layout_alignTop="@+id/textView" android:layout_marginTop="160dp"
+                   android:background="@drawable/shengdan16x16_45"/>
+        <ImageView android:layout_width="12dp" android:layout_height="12dp" android:id="@+id/imageView10"
+                   android:layout_alignParentLeft="true" android:layout_marginLeft="140dp"
+                   android:layout_alignTop="@+id/textView" android:layout_marginTop="160dp"
+                   android:background="@drawable/shengdan16x16_45"/>
+        <ImageView android:layout_width="12dp" android:layout_height="12dp" android:id="@+id/imageView11"
+                   android:layout_alignParentLeft="true" android:layout_marginLeft="155dp"
+                   android:layout_alignTop="@+id/textView" android:layout_marginTop="160dp"
+                   android:background="@drawable/shengdan16x16_45"/>
+        <ImageView android:layout_width="12dp" android:layout_height="12dp" android:id="@+id/imageView12"
+                   android:layout_alignParentLeft="true" android:layout_marginLeft="170dp"
+                   android:layout_alignTop="@+id/textView" android:layout_marginTop="160dp"
+                   android:background="@drawable/shengdan16x16_45"/>
+        <ImageView android:layout_width="12dp" android:layout_height="12dp" android:id="@+id/imageView13"
+                   android:layout_alignParentLeft="true" android:layout_marginLeft="185dp"
+                   android:layout_alignTop="@+id/textView" android:layout_marginTop="160dp"
+                   android:background="@drawable/shengdan16x16_45"/>
+        <ImageView android:layout_width="12dp" android:layout_height="12dp" android:id="@+id/imageView14"
+                   android:layout_alignParentLeft="true" android:layout_marginLeft="200dp"
+                   android:layout_alignTop="@+id/textView" android:layout_marginTop="160dp"
+                   android:background="@drawable/shengdan16x16_45"/>
+        <ImageView android:layout_width="12dp" android:layout_height="12dp" android:id="@+id/imageView15"
+                   android:layout_alignParentLeft="true" android:layout_marginLeft="215dp"
+                   android:layout_alignTop="@+id/textView" android:layout_marginTop="160dp"
+                   android:background="@drawable/shengdan16x16_45"/>
+        <ImageView android:layout_width="12dp" android:layout_height="12dp" android:id="@+id/imageView16"
+                   android:layout_alignParentLeft="true" android:layout_marginLeft="230dp"
+                   android:layout_alignTop="@+id/textView" android:layout_marginTop="160dp"
+                   android:background="@drawable/shengdan16x16_45"/>
+        <ImageView android:layout_width="12dp" android:layout_height="12dp" android:id="@+id/imageView17"
+                   android:layout_alignParentLeft="true" android:layout_marginLeft="245dp"
+                   android:layout_alignTop="@+id/textView" android:layout_marginTop="160dp"
+                   android:background="@drawable/shengdan16x16_45"/>
+        <ImageView android:layout_width="12dp" android:layout_height="12dp" android:id="@+id/imageView18"
+                   android:layout_alignParentLeft="true" android:layout_marginLeft="260dp"
+                   android:layout_alignTop="@+id/textView" android:layout_marginTop="160dp"
+                   android:background="@drawable/shengdan16x16_45"/>
+        <ImageView android:layout_width="12dp" android:layout_height="12dp" android:id="@+id/imageView19"
+                   android:layout_alignParentLeft="true" android:layout_marginLeft="275dp"
+                   android:layout_alignTop="@+id/textView" android:layout_marginTop="160dp"
+                   android:background="@drawable/shengdan16x16_45"/>
+        <ImageView android:layout_width="12dp" android:layout_height="12dp" android:id="@+id/imageView20"
+                   android:layout_alignParentLeft="true" android:layout_marginLeft="290dp"
+                   android:layout_alignTop="@+id/textView" android:layout_marginTop="160dp"
+                   android:background="@drawable/shengdan16x16_45"/>
+
+    </RelativeLayout>
+
+</LinearLayout>
+
+
+
+
+
+
+
+
