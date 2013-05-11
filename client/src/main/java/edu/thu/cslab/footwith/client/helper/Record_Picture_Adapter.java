@@ -2,6 +2,8 @@ package edu.thu.cslab.footwith.client.helper;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.view.View;
@@ -12,6 +14,8 @@ import android.widget.ImageView;
 import edu.thu.cslab.footwith.client.R;
 import edu.thu.cslab.footwith.utility.Util;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
@@ -72,10 +76,16 @@ public class Record_Picture_Adapter extends BaseAdapter {
         String pic = picture.get("picture");
         if(!Util.isEmpty(uri)){
             view.setImageURI(Uri.parse(uri));
-
-
         }else if(!Util.isEmpty(pic)){
+            try {
+                byte[] pic_byte = net.iharder.Base64.decode(pic.getBytes());
+                ByteArrayInputStream imageStream = new ByteArrayInputStream(pic_byte);
+                Bitmap bitmap = BitmapFactory.decodeStream(imageStream);
+                view.setImageBitmap(bitmap);
 
+            } catch (IOException e) {
+                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            }
         }
         view.setScaleType(ImageView.ScaleType.FIT_XY);
         view.setLayoutParams(new Gallery.LayoutParams(160, 88*160/136));
