@@ -21,6 +21,9 @@ public class MyselfNetwork {
     public void add(HashMap<String, String> map){
         selfInfoList.add(map);
         return;
+    }public void remove(int position){
+        selfInfoList.remove(position);
+        return;
     }
     public ArrayList<HashMap<String, String>> getList(){
         return selfInfoList;

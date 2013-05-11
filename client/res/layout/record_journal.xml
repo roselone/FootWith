@@ -8,5 +8,6 @@
     <ListView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/record_journal_listView" android:layout_gravity="right|center_vertical"/>
+            android:id="@+id/record_journal_listView" android:layout_gravity="right|center_vertical"
+            android:divider="@drawable/divider"/>
 </LinearLayout>
