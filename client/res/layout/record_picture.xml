@@ -15,13 +15,36 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/record_picture_gallery" android:layout_gravity="center"/>
     </LinearLayout>
+    <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="New Text"
+                android:id="@+id/picture_title_textView" android:layout_alignParentTop="true" android:layout_alignParentLeft="true"
+                android:layout_marginLeft="20dp" style="@style/whiteSmallText"/>
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="New Text"
+                android:id="@+id/picture_user_textView" android:layout_toLeftOf="@+id/picture_date_textView" android:layout_marginRight="10dp"
+                style="@style/whiteSmallText"/>
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="New Text"
+                android:id="@+id/picture_date_textView" android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="false" android:layout_alignParentTop="true"
+                android:layout_marginRight="20dp" style="@style/whiteSmallText"/>
+    </RelativeLayout>
     <LinearLayout
             android:orientation="vertical"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent">
         <ImageView
                 android:layout_width="fill_parent"
-                android:layout_height="match_parent"
+                android:layout_height="fill_parent"
                 android:id="@+id/record_picture_imageView" android:layout_gravity="center"
                 android:layout_margin="20dp"/>
     </LinearLayout>

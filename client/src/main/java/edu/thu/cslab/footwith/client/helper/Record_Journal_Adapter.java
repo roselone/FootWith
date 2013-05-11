@@ -21,7 +21,7 @@ import java.util.Vector;
  */
 public class Record_Journal_Adapter extends BaseAdapter {
     Context mContext;
-    ArrayList<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
+    ArrayList<HashMap<String, String>> list = new ArrayList<HashMap<String, String>>();
     Vector<Integer> journalIDVector;
     private LayoutInflater mLayoutInflater;
 
@@ -32,7 +32,7 @@ public class Record_Journal_Adapter extends BaseAdapter {
     }
 
 
-    public Record_Journal_Adapter(Context mContext, ArrayList<HashMap<String, Object>> list) {
+    public Record_Journal_Adapter(Context mContext, ArrayList<HashMap<String, String>> list) {
         this.mContext = mContext;
         this.list = list;
         mLayoutInflater = LayoutInflater.from(mContext);
@@ -41,10 +41,10 @@ public class Record_Journal_Adapter extends BaseAdapter {
     public Record_Journal_Adapter(Context mContext) {
         this.mContext = mContext;
         mLayoutInflater = LayoutInflater.from(mContext);
-        list_Init();
+        //list_Init();
     }
     private void list_Init(){
-        HashMap<String, Object> map = new HashMap<String, Object>();
+        HashMap<String, String> map = new HashMap<String, String>();
         map.put("type", "journal");
         map.put("title", "hello");
         map.put("content", "大饭店洒发达热吻乞丐发达色燃气特人高飞的烧热为他人请问恶气额外她");
@@ -72,20 +72,23 @@ public class Record_Journal_Adapter extends BaseAdapter {
     public View getView(int position, View convertview, ViewGroup viewGroup) {
 
         View view = null;
-        HashMap<String, Object> map = list.get(position);
-        String type = (String) map.get("type");
-        if(type.equals("journal")){
-            view = mLayoutInflater.inflate(R.layout.journal_listitem, null);
+        HashMap<String, String> map = list.get(position);
+        //String type = (String) map.get("type");
+        //if(type.equals("journal")){
+        view = mLayoutInflater.inflate(R.layout.journal_listitem, null);
 
-            TextView titleTextView = (TextView) view.findViewById(R.id.journal_title_textView);
-            titleTextView.setText((String) map.get("title"));
+        TextView titleTextView = (TextView) view.findViewById(R.id.journal_title_textView);
+        titleTextView.setText((String) map.get("title"));
 
-            TextView contentTextView = (TextView) view.findViewById(R.id.journal_content_textView);
-            contentTextView.setText((String) map.get("content"));
+        TextView contentTextView = (TextView) view.findViewById(R.id.journal_content_textView);
+        contentTextView.setText((String) map.get("body"));
 
-            TextView dateTextView = (TextView) view.findViewById(R.id.journal_date_textView);
-            dateTextView.setText((String) map.get("date"));
-        }
+        TextView dateTextView = (TextView) view.findViewById(R.id.journal_date_textView);
+        dateTextView.setText((String) map.get("time"));
+
+        TextView userTextView = (TextView) view.findViewById(R.id.journal_user_textView);
+        userTextView.setText((String) map.get("userName"));
+        //}
 
 
 

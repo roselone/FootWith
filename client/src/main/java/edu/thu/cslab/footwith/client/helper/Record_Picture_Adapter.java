@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import edu.thu.cslab.footwith.client.R;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Vector;
 
 /**
@@ -22,6 +23,7 @@ import java.util.Vector;
 public class Record_Picture_Adapter extends BaseAdapter {
     ArrayList<Integer> mImages = new ArrayList<Integer>();
     Vector<Integer> pictureIDVector;
+    private ArrayList<HashMap<String, String>> pictureList =new ArrayList<HashMap<String,String>>();
     Context mContext;
 
     public Record_Picture_Adapter(Context mContext, Vector<Integer> pictureIDVector) {
