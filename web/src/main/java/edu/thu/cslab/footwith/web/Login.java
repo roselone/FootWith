@@ -3,6 +3,7 @@ package edu.thu.cslab.footwith.web;
 import edu.thu.cslab.footwith.exception.TextFormatException;
 import edu.thu.cslab.footwith.mediator.Mediator;
 import edu.thu.cslab.footwith.messenger.JSONHelper;
+import org.json.JSONException;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -28,22 +29,34 @@ public class Login extends HttpServlet {
         String login=request.getParameter("login");
         HashMap<String,String> info= JSONHelper.getJSONHelperInstance().convertToMap(login);
         PrintWriter out=response.getWriter();
+        HashMap<String,String> resp=new HashMap<String, String>();
         try {
             if (Mediator.isValid(info.get("userName"),info.get("passwd"))){
-                HashMap<String,String> req=new HashMap<String, String>();
-                req.put("state","successful");
-                req.put("userinfo",Mediator.selectUser(info.get("userName")));
-                out.print(JSONHelper.getJSONHelperInstance().convertToString(req));
+                resp.put("userinfo",Mediator.selectUser(info.get("userName")));
             }else{
                 out.println("wrong username or password!");
             }
         } catch (TextFormatException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            resp.put("state",e.getMessage());
+            out.print(JSONHelper.getJSONHelperInstance().convertToString(resp));
+            out.close();
         } catch (SQLException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            resp.put("state",e.getMessage());
+            out.print(JSONHelper.getJSONHelperInstance().convertToString(resp));
+            out.close();
         } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            resp.put("state",e.getMessage());
+            out.print(JSONHelper.getJSONHelperInstance().convertToString(resp));
+            out.close();
+        } catch (JSONException e) {
+            resp.put("state",e.getMessage());
+            out.print(JSONHelper.getJSONHelperInstance().convertToString(resp));
+            out.close();
         }
-        out.close();
+        if (!resp.containsKey("state")){
+            resp.put("state","successful");
+            out.print(JSONHelper.getJSONHelperInstance().convertToString(resp));
+            out.close();
+        }
     }
 }
