@@ -14,6 +14,7 @@ import edu.thu.cslab.footwith.client.helper.MyJournalNetwork;
 import edu.thu.cslab.footwith.client.helper.Record_Journal_Adapter;
 
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -70,10 +71,10 @@ public class Record_Journal extends Activity {
                     public void onClick(DialogInterface dialogInterface, int i) {
                         //To change body of implemented methods use File | Settings | File Templates.
                         modified_journal.put("title", String.valueOf(titleEditText.getText()));
-                        modified_journal.put("content", String.valueOf(contentEditText.getText()));
-                        String date = String.valueOf(new Date());
+                        modified_journal.put("body", String.valueOf(contentEditText.getText()));
+                        String date = String.valueOf(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
                         modified_journal.put("time", date);
-                        modified_journal.put("userName", Login.userName);
+                        modified_journal.put("userID", Login.userID);
                         if(myJournalNetwork.modify(position, modified_journal)){
                             Toast.makeText(Record_Journal.this, "修改成功", Toast.LENGTH_SHORT);
                         }else{
@@ -130,10 +131,10 @@ public class Record_Journal extends Activity {
                 public void onClick(DialogInterface dialogInterface, int i) {
                     //To change body of implemented methods use File | Settings | File Templates.
                     add_journal.put("title", String.valueOf(titleEditText.getText()));
-                    add_journal.put("content", String.valueOf(contentEditText.getText()));
-                    String date = String.valueOf(new Date());
+                    add_journal.put("body", String.valueOf(contentEditText.getText()));
+                    String date = String.valueOf(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
                     add_journal.put("time", date);
-                    add_journal.put("userName", Login.userID);
+                    add_journal.put("userID", Login.userID);
                     if(myJournalNetwork.add(add_journal)){
                         Toast.makeText(Record_Journal.this, "添加成功", Toast.LENGTH_SHORT);
                     }else{

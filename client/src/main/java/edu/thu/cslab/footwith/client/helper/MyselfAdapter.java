@@ -16,6 +16,7 @@ import edu.thu.cslab.footwith.utility.Util;
 import org.json.JSONException;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class MyselfAdapter extends BaseAdapter{
@@ -116,7 +117,8 @@ public class MyselfAdapter extends BaseAdapter{
                     HashMap<String, String> planMap  = mapString;
                     HashMap<String, String> recordMap = (HashMap<String, String>) planMap.clone();
                     recordMap.put("itemType", "record");
-                    recordMap.put("startTime", String.valueOf(new Date()));
+                    recordMap.put("startTime", String.valueOf(new SimpleDateFormat("yyyy-MM-dd").format(new Date())));
+                    recordMap.put("userIDs", planMap.get("participants"));
                     selfListString.remove(planMap);
                     selfListString.add(recordMap);
 					notifyDataSetChanged();
@@ -148,11 +150,11 @@ public class MyselfAdapter extends BaseAdapter{
 			String itemWant=(String)mapString.get("describe");
 
 			//String itemMore=(String)mapString.get("participants");
-            String itemState;
-            if(mapString.get("isDone").equals("false")){
-                itemState=(String)mapString.get("招募中");
-            }else{
+            String itemState = new String("招募中");
+            if(mapString.get("isDone").equals("true")){
                 itemState=(String)mapString.get("旅途中");
+            }else{
+                itemState=(String)mapString.get("招募中");
             }
 			//String itemAttention=(String)mapString.get("participants");
 			String itemJoin=(String)mapString.get("participants");
@@ -271,12 +273,8 @@ public class MyselfAdapter extends BaseAdapter{
             itemParticipatesTextView.setText(itemParticipates);
 
             TextView itemStateTextView=(TextView)view.findViewById(R.id.record_listitem_status_con);
-            itemStateTextView.setText(itemState);
+            itemStateTextView.setText("旅途中");
 
-
-        }
-        else if (type.equals("plan")){
-             view = null;
 
         }
 		
