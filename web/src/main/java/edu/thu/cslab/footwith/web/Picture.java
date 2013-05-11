@@ -15,34 +15,33 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.Vector;
 
 /**
  * Created with IntelliJ IDEA.
  * User: roselone
- * Date: 5/10/13
- * Time: 3:02 PM
+ * Date: 5/11/13
+ * Time: 10:48 PM
  * To change this template use File | Settings | File Templates.
  */
-@WebServlet(name = "journal")
-public class Journal extends HttpServlet {
+@WebServlet(name = "picture")
+public class Picture extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("application/json;charset=UTF-8");
         HashMap<String,String> resp=new HashMap<String, String>();
         PrintWriter out=response.getWriter();
         request.setCharacterEncoding("UTF-8");
         /**
-         * {add : {recordID = 12, journal = {title userID body time}}}
+         * {add : {recordID = 12, picture = {title userID pictrueName  picture time}}}
          */
         String context = request.getParameter("add");
         if (!Util.isEmpty(context)){
             HashMap<String,String> tmpMap= JSONHelper.getJSONHelperInstance().convertToMap(context);
             int recordID=Integer.valueOf(tmpMap.get("recordID"));
-            HashMap<String,String> journalMap=JSONHelper.getJSONHelperInstance().convertToMap(tmpMap.get("journal"));
+            HashMap<String,String> pictureMap=JSONHelper.getJSONHelperInstance().convertToMap(tmpMap.get("picture"));
             try {
-                int journalID=Mediator.addJournal(recordID,journalMap);
-                resp.put("journalID",String.valueOf(journalID));
+                int pictureID= Mediator.addPicture(recordID, pictureMap);
+                resp.put("pictureID",String.valueOf(pictureID));
             } catch (SQLException e) {
                 resp.put("state", e.getMessage());
                 out.print(JSONHelper.getJSONHelperInstance().convertToString(resp));
@@ -56,43 +55,33 @@ public class Journal extends HttpServlet {
                 out.print(JSONHelper.getJSONHelperInstance().convertToString(resp));
                 out.close();
             }
-            if (!resp.containsKey("state")){
-                resp.put("state","successful");
-                out.print(JSONHelper.getJSONHelperInstance().convertToString(resp));
-                out.close();
-            }
         }
         /**
-         * {modify : {journalID = 1 , journal={title = blala , body = balab}}}
+         * {modify : {title = blala , body = balab}}
          */
         //TODO modify time update
-        context=request.getParameter("modify");
-        if (!Util.isEmpty(context)){
-            HashMap<String,String> tmpMap=JSONHelper.getJSONHelperInstance().convertToMap(context);
-            int journalID=Integer.valueOf(tmpMap.get("journalID"));
-            HashMap<String,String> journalMap=JSONHelper.getJSONHelperInstance().convertToMap(tmpMap.get("journal"));
-            try {
-                Mediator.editJournal(journalID,journalMap);
-            } catch (SQLException e) {
-                resp.put("state",e.getMessage());
-                out.print(JSONHelper.getJSONHelperInstance().convertToString(resp));
-                out.close();
-            }
-            if (!resp.containsKey("state")){
-                resp.put("state","successful");
-                out.print(JSONHelper.getJSONHelperInstance().convertToString(resp));
-                out.close();
-            }
-        }
+//        context=request.getParameter("modify");
+//        if (!Util.isEmpty(context)){
+//            HashMap<String,String> tmpMap=JSONHelper.getJSONHelperInstance().convertToMap(context);
+//            int journalID=Integer.valueOf(tmpMap.get("journalID"));
+//            HashMap<String,String> journalMap=JSONHelper.getJSONHelperInstance().convertToMap(tmpMap.get("journal"));
+//            try {
+//                Mediator.editJournal(journalID,journalMap);
+//            } catch (SQLException e) {
+//                resp.put("state",e.getMessage());
+//                out.print(JSONHelper.getJSONHelperInstance().convertToString(resp));
+//                out.close();
+//            }
+//        }
         /**
          * {remove : [12,32,3]}
          */
         context=request.getParameter("remove");
         if (!Util.isEmpty(context)){
             try {
-                Vector<Integer> journalVector=JSONHelper.getJSONHelperInstance().convertToArray(context);
-                for (int i=0;i<journalVector.size();i++){
-                    Mediator.deleteJournal(journalVector.get(i));
+                Vector<Integer> pictureVector=JSONHelper.getJSONHelperInstance().convertToArray(context);
+                for (int i=0;i<pictureVector.size();i++){
+                    Mediator.deletePicture(pictureVector.get(i));
                 }
             } catch (JSONException e) {
                 resp.put("state",e.getMessage());
@@ -108,7 +97,7 @@ public class Journal extends HttpServlet {
         if (!Util.isEmpty(context)){
             try {
                 HashMap<String,String> journalMap=Mediator.getJournals(context);
-                resp.put("journal",JSONHelper.getJSONHelperInstance().convertToString(journalMap));
+                resp.put("picture",JSONHelper.getJSONHelperInstance().convertToString(journalMap));
             } catch (JSONException e) {
                 resp.put("state",e.getMessage());
                 out.print(JSONHelper.getJSONHelperInstance().convertToString(resp));

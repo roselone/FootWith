@@ -196,7 +196,7 @@ public class Mediator {
 
     /**
      * addPlan: add Plan to table plan and add to relation table, and edit organizer's plans list
-     * @param plan
+     * @param planMap
      * @return
      * @throws SQLException
      * @throws TextFormatException
@@ -204,10 +204,21 @@ public class Mediator {
      * @throws NoSuchAlgorithmException
      * @throws UnsupportedEncodingException
      */
-    public static boolean addPlan(Plan plan) throws SQLException, TextFormatException, JSONException, NoSuchAlgorithmException, UnsupportedEncodingException {
+    public static int addPlan(HashMap<String,String> planMap) throws SQLException, TextFormatException, JSONException, NoSuchAlgorithmException, UnsupportedEncodingException {
+        Plan plan = new Plan();
+        plan.setTitle(planMap.get("title"));
+        if (!Util.isEmpty(planMap.get("budget"))) plan.setBudget(Integer.valueOf(planMap.get("budget")));
+        plan.setSiteIDs(planMap.get("siteIDs"));
+        plan.setStartTime(Date.valueOf(planMap.get("startTime")));
+        plan.setEndTime(Date.valueOf(planMap.get("endTime")));
+        if (!Util.isEmpty(planMap.get("describe"))) plan.setDescribe(planMap.get("describe"));
+        plan.setOrganizer(Integer.valueOf(planMap.get("organizer")));
+        if (!Util.isEmpty(planMap.get("groupNum"))) plan.setGroupNum(Integer.valueOf(planMap.get("groupNum")));
+        plan.setGroupNumMax(Integer.valueOf(planMap.get("groupNumMax")));
+
         int rs = PlanManager.addPlan(plan);
         if(rs == -1){
-            return false;
+            return rs;
         }
 
         int organizer = plan.getOrganizer();
@@ -218,7 +229,7 @@ public class Mediator {
         user.setPlans(new JSONHelper().addToArray(orig_plans, planID));
         UserManager.editUser(organizer, user);
 
-        return true;
+        return rs;
     }
 
     /**
@@ -283,6 +294,17 @@ public class Mediator {
             journals.put(Util.string2Json(journalMap.get("timestamp")),JSONHelper.getJSONHelperInstance().convertToString(journalMap));
         }
         return journals;
+    }
+    public static HashMap<String,String> getPictures(String pictureList) throws JSONException, IOException, SQLException {
+        Vector<Integer> pictureIDs=JSONHelper.getJSONHelperInstance().convertToArray(pictureList);
+        HashMap<String,String> pictures=new HashMap<String, String>();
+
+        for (int i=0;i<pictureIDs.size();i++){
+            HashMap<String,String> pictureMap=PictureManager.getPictureInfo(pictureIDs.get(i),Constant.IMAGE_PATH);
+            String userID=pictureMap.get("userID");
+            pictureMap.put("userName",UserManager.getUserName(Integer.valueOf(userID)));
+        }
+        return pictures;
     }
     public static HashMap<String,String> getUserPlans(String planList) throws JSONException, TextFormatException, SQLException {
         Vector<Integer> planIDs=JSONHelper.getJSONHelperInstance().convertToArray(planList);
@@ -537,8 +559,11 @@ public class Mediator {
     public static void deleteJournal(int journalID) throws SQLException {
         JournalManager.deleteJournal(journalID);
     }
-    public static void addPicture(int recordID, Picture picture) throws SQLException, TextFormatException, JSONException {
-        RecordManager.addPicture(recordID, picture);
+    public static int addPicture(int recordID, HashMap<String,String> pictureMap) throws SQLException, TextFormatException, JSONException, IOException {
+        return RecordManager.addPicture(recordID, pictureMap);
+    }
+    public static void deletePicture(int pictureID) throws SQLException {
+        PictureManager.deletePicture(pictureID);
     }
     public static void endRecord(int recordID,Date date){
         RecordManager.endRecord(recordID, date);
@@ -791,6 +816,7 @@ public class Mediator {
         journal.setDate(Date.valueOf(journalMap.get("time")));
         return journal;
     }
+
     public static Vector<String> getSiteNameWithLocation(String location) throws SQLException {
         return SiteManager.selectSiteWithLocation(location);
     }

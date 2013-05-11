@@ -22,6 +22,7 @@ import java.sql.SQLException;
 @WebServlet(name = "register")
 public class Register extends HttpServlet {
     protected void doPost(HttpServletRequest request,HttpServletResponse response) throws IOException {
+        request.setCharacterEncoding("UTF-8");
         String userinfo=request.getParameter("userinfo");
         System.out.println(userinfo);
         try {

@@ -7,11 +7,13 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.JSONException;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.Vector;
 
 /**
@@ -193,17 +195,18 @@ public class RecordManager {
     /**
      * add picture
      * @param recordID
-     * @param picture
+     * @param pictureMap
      * @throws java.sql.SQLException
      * @throws TextFormatException
      * @throws JSONException
      */
-    public static void addPicture(int recordID, Picture picture) throws SQLException, TextFormatException, JSONException {
-        int pictureID=PictureManager.addPicture(picture);
+    public static int addPicture(int recordID, HashMap<String,String> pictureMap) throws SQLException, TextFormatException, JSONException, IOException {
+        int pictureID=PictureManager.addPicture(pictureMap);
         Record record=selectRecord(recordID);
         String pictures=JSONHelper.getJSONHelperInstance().addToArray(record.getPictures(),pictureID);
         String SQLCommand = "update " + tableName + " set pictures=" + pictures + " where recordID=" + recordID +";";
         DBUtil.getDBUtil().executeUpdate(SQLCommand);
+        return pictureID;
     }
 
     /**
