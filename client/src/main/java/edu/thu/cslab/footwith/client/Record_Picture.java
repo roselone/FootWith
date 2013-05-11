@@ -9,7 +9,11 @@ import android.widget.AdapterView;
 import android.widget.Gallery;
 import android.widget.ImageView;
 import edu.thu.cslab.footwith.client.helper.Menu_Functions;
+import edu.thu.cslab.footwith.client.helper.MyPictureNetwork;
 import edu.thu.cslab.footwith.client.helper.Record_Picture_Adapter;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created with IntelliJ IDEA.
@@ -22,6 +26,12 @@ public class Record_Picture extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.record_picture);
+        Bundle bundle = getIntent().getExtras();
+        String recordID = (String) bundle.get("recordID");
+        String pictures = (String) bundle.get("pictures");
+        MyPictureNetwork myPictureNetwork = new MyPictureNetwork();
+        myPictureNetwork.requestList(pictures, recordID);
+        ArrayList<HashMap<String, String>> pictureList = myPictureNetwork.getList();
         Gallery g = (Gallery) findViewById(R.id.record_picture_gallery);
         g.setAdapter(new Record_Picture_Adapter(this));
         g.setOnItemClickListener(new AdapterView.OnItemClickListener() {

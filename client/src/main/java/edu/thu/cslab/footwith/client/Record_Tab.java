@@ -56,6 +56,7 @@ public class Record_Tab extends ActivityGroup {
         spec = recordTabHost.newTabSpec("picture");
         intent = new Intent(this, Record_Picture.class);
         intent.putExtra("pictures", map.get("pictures"));
+        intent.putExtra("recordID", map.get("recordID"));
         spec.setContent(intent);
         spec.setIndicator("图片", getResources().getDrawable(R.drawable.picture));
         recordTabHost.addTab(spec);
