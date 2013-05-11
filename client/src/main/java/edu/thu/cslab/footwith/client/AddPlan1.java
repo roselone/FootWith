@@ -9,7 +9,9 @@ import android.view.View;
 import android.widget.*;
 import android.widget.AdapterView.OnItemClickListener;
 
+import java.io.IOException;
 import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Locale;
@@ -64,6 +66,8 @@ public class AddPlan1 extends Activity {
         Bundle bundle = getIntent().getExtras();
         String data=bundle.getString("myChoice");//读出数据
 
+        startTime = new Date(my_Year,my_Month,my_Day);
+        endTime = new Date(my_Year,my_Month,my_Day);
 
 
         setContentView(R.layout.addplan);
@@ -95,43 +99,53 @@ public class AddPlan1 extends Activity {
         bt_addPlan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //To change body of implemented methods use File | Settings | File Templates.
-                String SiteNames  = edit_favSite.getText().toString();
-
-                String describe = desEditText.getText().toString();
-                int groupNumMax = Integer.valueOf(numEditText.getText().toString());
-                String title =  edit_title.getText().toString();
-                if(SiteNames == null || title == null || (startTime.before(endTime))){
+              //  To change body of implemented methods use File | Settings | File Templates.
+                if(edit_favSite.getText().length() == 0 || edit_title.getText().length() == 0  || numEditText.getText().length() == 0){
                     new  AlertDialog.Builder(AddPlan1.this).setTitle("警告").setMessage("不能为空").setPositiveButton("确定",
                             null).show();
 
                 }
+
+                desEditText.setText("go in");
+
+                String SiteNames  = edit_favSite.getText().toString();
+
+                String describe = desEditText.getText().toString();
+
+                int groupNumMax = Integer.valueOf(numEditText.getText().length() == 0 ? "0" :numEditText.getText().toString() );
+                String title =  edit_title.getText().toString();
+
                 String userId = Login.userID;
 
                 HashMap<String,String>  addPlan = new HashMap<String, String>();
                 addPlan.put("title",title);
-                addPlan.put("startTime",startTime.toString());
-                addPlan.put("endTime",endTime.toString());
+                addPlan.put("startTime", new SimpleDateFormat("yyyy-MM-dd").format(startTime));
+                addPlan.put("endTime", new SimpleDateFormat("yyyy-MM-dd").format(endTime));
                 addPlan.put("describe",describe);
                 addPlan.put("userID",userId);
                 String[] chooseIds =  Favorite_Site.chooseIds.split(",");
                 Vector<String> siteIDs = new Vector<String>();
-                for(int i = 0;i<chooseIds.length;i++)
+                for(int i = 1;i<chooseIds.length;i++)
                       siteIDs.add(chooseIds[i]);
 
                 addPlan.put("siteIDs", JSONHelper.JSONHelperInstance.convertToString2(siteIDs));
 
                 String addPlanString = JSONHelper.getJSONHelperInstance().convertToString(addPlan);
-                ServerConnector connector=new ServerConnector("addPlan");
-                connector.setRequestParam("addPlan",addPlanString);
+                ServerConnector connector=new ServerConnector("planrecord");
+                System.out.println(addPlanString);
                 String result= null;
+                try {
+                    result = connector.setRequestParam("addPlan",addPlanString).doPost();
+                } catch (IOException e) {
+                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                }
+                System.out.println(result);
                 if (result!=null && result.equals("successful")){
                     Toast.makeText(AddPlan1.this, "添加成功", Toast.LENGTH_SHORT).show();
 
                 }else {
                     Toast.makeText(AddPlan1.this, "添加失败", Toast.LENGTH_SHORT).show();
                 }
-
             }
 
         });
