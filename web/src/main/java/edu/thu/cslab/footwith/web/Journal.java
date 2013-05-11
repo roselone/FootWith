@@ -25,7 +25,7 @@ import java.util.Vector;
  * Time: 3:02 PM
  * To change this template use File | Settings | File Templates.
  */
-@WebServlet(name = "Journal")
+@WebServlet(name = "journal")
 public class Journal extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("application/json;charset=UTF-8");

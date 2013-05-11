@@ -16,10 +16,7 @@ import edu.thu.cslab.footwith.utility.Util;
 import org.json.JSONException;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Vector;
+import java.util.*;
 
 public class MyselfAdapter extends BaseAdapter{
 
@@ -116,8 +113,12 @@ public class MyselfAdapter extends BaseAdapter{
 				@Override
 				public void onClick(View v) {
 					// TODO Auto-generated method stub
-                    mapString.put("itemState", "旅途中");
-					selfListString.set(pos, mapString);
+                    HashMap<String, String> planMap  = mapString;
+                    HashMap<String, String> recordMap = (HashMap<String, String>) planMap.clone();
+                    recordMap.put("itemType", "record");
+                    recordMap.put("startTime", String.valueOf(new Date()));
+                    selfListString.remove(planMap);
+                    selfListString.add(recordMap);
 					notifyDataSetChanged();
 				}
 			});

@@ -7,11 +7,14 @@ import edu.thu.cslab.footwith.site.Site;
 import edu.thu.cslab.footwith.site.SiteManager;
 import edu.thu.cslab.footwith.user.User;
 import edu.thu.cslab.footwith.user.UserManager;
+import edu.thu.cslab.footwith.utility.Constant;
 import edu.thu.cslab.footwith.utility.Util;
+import net.iharder.Base64;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.JSONException;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Date;
@@ -545,6 +548,11 @@ public class Mediator {
     public static int addSite(Site site) throws SQLException {
         return SiteManager.addSite(site);
     }
+    public static HashMap<String,String> getSite(int siteID) throws SQLException, IOException {
+        HashMap<String,String> siteMap = SiteManager.getSite(siteID);
+        siteMap.put("picture", Base64.encodeBytes(PictureManager.getPicture(Integer.valueOf(siteMap.get("pictureID")), Constant.IMAGE_PATH)));
+        return siteMap;
+    }
     /*
     public static Vector<Site> getAllSite() throws SQLException {
         return SiteManager.getAllSite();
@@ -729,8 +737,18 @@ public class Mediator {
         }
         return user_map;
     }
-    public static String selectUser(String userName) throws TextFormatException, SQLException, NoSuchAlgorithmException, UnsupportedEncodingException {
-        return JSONHelper.getJSONHelperInstance().convertToString(convertUserToMap(UserManager.selectUser(userName)));
+    public static String selectUser(String userName) throws TextFormatException, SQLException, NoSuchAlgorithmException, UnsupportedEncodingException, JSONException {
+        HashMap<String,String> userMap=convertUserToMap(UserManager.selectUser(userName));
+        String like=userMap.get("like");
+        if (!Util.isEmpty(like)){
+            Vector<Integer> likeV=JSONHelper.getJSONHelperInstance().convertToArray(like);
+            Vector<String> res=new Vector<String>();
+            for (int i=0;i<likeV.size();i++){
+                res.add(String.valueOf(likeV.get(i))+":"+SiteManager.getSiteName(likeV.get(i)));
+            }
+            userMap.put("like_name",JSONHelper.getJSONHelperInstance().convertToString2(res));
+        }
+        return JSONHelper.getJSONHelperInstance().convertToString(userMap);
     }
 
     public static User selectUser(int userID) throws TextFormatException, SQLException, NoSuchAlgorithmException, UnsupportedEncodingException {
@@ -772,5 +790,8 @@ public class Mediator {
         journal.setBody(journalMap.get("body"));
         journal.setDate(Date.valueOf(journalMap.get("time")));
         return journal;
+    }
+    public static Vector<String> getSiteNameWithLocation(String location) throws SQLException {
+        return SiteManager.selectSiteWithLocation(location);
     }
 }

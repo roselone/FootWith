@@ -16,10 +16,12 @@ import edu.thu.cslab.footwith.messenger.JSONHelper;
 import edu.thu.cslab.footwith.utility.Util;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONException;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Vector;
 
 //import edu.xdu.RL.FootWith.helper.ServerConnector;
 
@@ -34,7 +36,7 @@ public class Login extends Activity{
     static public String userSex;
     static public String userPlans;
     static public String userRecords;
-    static public String userLike;
+    static public HashMap<Integer,String> userLike=new HashMap<Integer, String>();
     static public String userMarks;
 	
     @Override
@@ -110,9 +112,21 @@ public class Login extends Activity{
                         userID = userinfo.get("userID");
                         userPlans= userinfo.get("plans");
                         userRecords = userinfo.get("records");
-                        userLike = userinfo.get("like");
                         userMarks = userinfo.get("marks");
                         userSex = userinfo.get("sex");
+
+                        String like=userinfo.get("like_name");
+                        if (!Util.isEmpty(like)){
+                            try {
+                                Vector<String> id_name=JSONHelper.getJSONHelperInstance().convertToArray2(like);
+                                for (int i=0;i<id_name.size();i++){
+                                    String[] tmp=id_name.get(i).split(":");
+                                    userLike.put(Integer.valueOf(tmp[0]),tmp[1]);
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                            }
+                        }
 
                         Intent intent=new Intent();
                         intent.setClass(Login.this, FootWithActivity.class);
