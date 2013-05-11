@@ -10,6 +10,7 @@ import android.widget.BaseAdapter;
 import android.widget.Gallery;
 import android.widget.ImageView;
 import edu.thu.cslab.footwith.client.R;
+import edu.thu.cslab.footwith.utility.Util;
 
 import java.io.InputStream;
 import java.net.URL;
@@ -68,7 +69,16 @@ public class Record_Picture_Adapter extends BaseAdapter {
         ImageView view = new ImageView(mContext);
         HashMap<String, String> picture = pictureList.get(position);
         String uri = picture.get("uri");
-        view.setImageURI(Uri.parse(uri));
+        String pic = picture.get("picture");
+        if(!Util.isEmpty(uri)){
+            view.setImageURI(Uri.parse(uri));
+
+
+        }else if(!Util.isEmpty(pic)){
+
+        }
+        view.setScaleType(ImageView.ScaleType.FIT_XY);
+        view.setLayoutParams(new Gallery.LayoutParams(160, 88*160/136));
         /*
         try {
             InputStream is = (InputStream) new URL(uri).getContent();
@@ -79,8 +89,6 @@ public class Record_Picture_Adapter extends BaseAdapter {
             return null;
         }
         */
-        view.setScaleType(ImageView.ScaleType.FIT_XY);
-        view.setLayoutParams(new Gallery.LayoutParams(160, 88*160/136));
         /*
         view.setImageResource(mImages.get(position));
         view.setScaleType(ImageView.ScaleType.FIT_XY);

@@ -1,5 +1,6 @@
 package edu.thu.cslab.footwith.client.helper;
 
+import android.graphics.drawable.Drawable;
 import edu.thu.cslab.footwith.messenger.JSONHelper;
 import edu.thu.cslab.footwith.utility.Util;
 
@@ -29,7 +30,8 @@ public class MyPictureNetwork {
         String result = null;
         HashMap<String, String> tmpMap = new HashMap<String, String>();
         tmpMap.put("recordID", recordID);
-        tmpMap.put("journal", JSONHelper.getJSONHelperInstance().convertToString(map));
+        map.put("picture", map.get("uri"));
+        tmpMap.put("picture", JSONHelper.getJSONHelperInstance().convertToString(map));
         try {
             result = sc.setRequestParam("add", JSONHelper.getJSONHelperInstance().convertToString(tmpMap)).doPost();
         } catch (IOException e) {
@@ -100,6 +102,7 @@ public class MyPictureNetwork {
                 HashMap<String, String> journal_item;
                 for(Object key:keys){
                     journal_item = JSONHelper.getJSONHelperInstance().convertToMap(journal.get(key));
+                    journal_item.put("uri", "null");
                     pictureList.add(journal_item);
                 }
                 System.out.println(keys.toString());
