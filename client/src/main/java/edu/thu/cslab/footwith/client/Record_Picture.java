@@ -10,6 +10,7 @@ import android.widget.*;
 import edu.thu.cslab.footwith.client.helper.Menu_Functions;
 import edu.thu.cslab.footwith.client.helper.MyPictureNetwork;
 import edu.thu.cslab.footwith.client.helper.Record_Picture_Adapter;
+import edu.thu.cslab.footwith.utility.Util;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -48,6 +49,9 @@ public class Record_Picture extends Activity {
                 TextView titleTextView = (TextView) findViewById(R.id.picture_title_textView);
                 TextView userTextView = (TextView) findViewById(R.id.picture_user_textView);
                 TextView dateTextView = (TextView) findViewById(R.id.picture_date_textView);
+                titleTextView.setText(pictureList.get(i).get("title"));
+                userTextView.setText(pictureList.get(i).get("userID"));
+                dateTextView.setText(pictureList.get(i).get("date"));
             }
         });
         g.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -106,8 +110,18 @@ public class Record_Picture extends Activity {
         if(requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE){
             if(resultCode==RESULT_OK){
                 Toast.makeText(this, "Image saved to:\n" +
-                        data.toURI(), Toast.LENGTH_LONG).show();
-                String uri = String.valueOf(data.getData());
+                        data.getDataString(), Toast.LENGTH_LONG).show();
+                String uri = data.getDataString();
+                if(!Util.isEmpty(uri)){
+                    HashMap<String, String> picture = new HashMap<String, String>();
+                    picture.put("userID", Login.userID);
+                    picture.put("time", String.valueOf(new SimpleDateFormat("yyyy-MM-dd").format(new Date())));
+                    picture.put("date", picture.get("time"));
+                    picture.put("title", picture.get("Untitle"));
+                    picture.put("uri", uri);
+                    pictureList.add(picture);
+                    record_picture_adapter.notifyDataSetChanged();
+                }
             }else if(requestCode==RESULT_CANCELED){
 
             }else{

@@ -28,6 +28,7 @@ import java.util.HashMap;
  */
 public class Record_Journal extends Activity {
     final MyJournalNetwork myJournalNetwork = new MyJournalNetwork();
+    Record_Journal_Adapter record_journal_adapter;
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.record_journal);
@@ -38,7 +39,8 @@ public class Record_Journal extends Activity {
         final ArrayList<HashMap<String, String>> journalList=myJournalNetwork.getList();
 
         ListView listView = (ListView) findViewById(R.id.record_journal_listView);
-        listView.setAdapter(new Record_Journal_Adapter(this, journalList));
+        record_journal_adapter = new Record_Journal_Adapter(this, journalList);
+        listView.setAdapter(record_journal_adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -80,6 +82,7 @@ public class Record_Journal extends Activity {
                         }else{
                             Toast.makeText(Record_Journal.this, "修改失败", Toast.LENGTH_SHORT);
                         }
+                        record_journal_adapter.notifyDataSetChanged();
 
                     }
                 });
@@ -140,7 +143,7 @@ public class Record_Journal extends Activity {
                     }else{
                         Toast.makeText(Record_Journal.this, "添加失败", Toast.LENGTH_SHORT);
                     }
-
+                    record_journal_adapter.notifyDataSetChanged();
                 }
             });
             builder.setNegativeButton("取 消", new DialogInterface.OnClickListener() {
