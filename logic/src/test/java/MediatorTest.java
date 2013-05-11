@@ -21,23 +21,23 @@ import java.util.HashMap;
  */
 public class MediatorTest {
     Logger logger= LogManager.getLogger(this.getClass().getName());
-    @Test
-    public void selectUserTest() throws TextFormatException, NoSuchAlgorithmException, SQLException, UnsupportedEncodingException {
-        String userinfo= Mediator.selectUser("121@test.com");
-        logger.debug(userinfo);
-    }
-    @Test
-    public void getUserPlanTest() throws SQLException, JSONException, TextFormatException {
-        String planIDs="[15,16]";
-        String result= Mediator.getUserPlans(planIDs).toString();
-        logger.debug(result);
-    }
-    @Test
-    public void getNamesTest() throws JSONException, SQLException {
-        String IDs="[1,2,3,6]";
-        String result=Mediator.getUserNames(IDs);
-        logger.debug(result);
-    }
+//    @Test
+//    public void selectUserTest() throws TextFormatException, NoSuchAlgorithmException, SQLException, UnsupportedEncodingException, JSONException {
+//        String userinfo= Mediator.selectUser("hel");
+//        logger.debug(userinfo);
+//    }
+//    @Test
+//    public void getUserPlanTest() throws SQLException, JSONException, TextFormatException {
+//        String planIDs="[15,16]";
+//        String result= Mediator.getUserPlans(planIDs).toString();
+//        logger.debug(result);
+//    }
+//    @Test
+//    public void getNamesTest() throws JSONException, SQLException {
+//        String IDs="[1,2,3,6]";
+//        String result=Mediator.getUserNames(IDs);
+//        logger.debug(result);
+//    }
 //    @Test
 //    public void addJournalTest() throws SQLException, JSONException, TextFormatException {
 //        int recordID=13;
@@ -56,13 +56,17 @@ public class MediatorTest {
 //        journalMap.put("body","houhouhou");
 //        Mediator.editJournal(journalID,journalMap);
 //    }
+//    @Test
+//    public void getSiteInfoTest() throws IOException, SQLException {
+//        int id=2;
+//        HashMap<String,String> siteMap=Mediator.getSite(id);
+//        System.out.println(siteMap.toString());
+//        String result=JSONHelper.getJSONHelperInstance().convertToString(siteMap);
+//        siteMap=JSONHelper.getJSONHelperInstance().convertToMap(result);
+//        System.out.println(siteMap.get("picture"));
+//    }
     @Test
-    public void getSiteInfoTest() throws IOException, SQLException {
-        int id=2;
-        HashMap<String,String> siteMap=Mediator.getSite(id);
-        System.out.println(siteMap.toString());
-        String result=JSONHelper.getJSONHelperInstance().convertToString(siteMap);
-        siteMap=JSONHelper.getJSONHelperInstance().convertToMap(result);
-        System.out.println(siteMap.get("picture"));
+    public void getSiteNameWithLocationTest() throws SQLException {
+        System.out.println(Mediator.getSiteNameWithLocation("北京").toString());
     }
 }

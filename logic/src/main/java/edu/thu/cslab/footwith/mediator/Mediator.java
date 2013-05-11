@@ -737,8 +737,18 @@ public class Mediator {
         }
         return user_map;
     }
-    public static String selectUser(String userName) throws TextFormatException, SQLException, NoSuchAlgorithmException, UnsupportedEncodingException {
-        return JSONHelper.getJSONHelperInstance().convertToString(convertUserToMap(UserManager.selectUser(userName)));
+    public static String selectUser(String userName) throws TextFormatException, SQLException, NoSuchAlgorithmException, UnsupportedEncodingException, JSONException {
+        HashMap<String,String> userMap=convertUserToMap(UserManager.selectUser(userName));
+        String like=userMap.get("like");
+        if (!Util.isEmpty(like)){
+            Vector<Integer> likeV=JSONHelper.getJSONHelperInstance().convertToArray(like);
+            Vector<String> res=new Vector<String>();
+            for (int i=0;i<likeV.size();i++){
+                res.add(String.valueOf(likeV.get(i))+":"+SiteManager.getSiteName(likeV.get(i)));
+            }
+            userMap.put("like_name",JSONHelper.getJSONHelperInstance().convertToString2(res));
+        }
+        return JSONHelper.getJSONHelperInstance().convertToString(userMap);
     }
 
     public static User selectUser(int userID) throws TextFormatException, SQLException, NoSuchAlgorithmException, UnsupportedEncodingException {
