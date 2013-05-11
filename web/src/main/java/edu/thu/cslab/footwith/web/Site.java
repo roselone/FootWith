@@ -41,7 +41,14 @@ public class Site extends HttpServlet {
         }
         context = request.getParameter("siteID");
         if (!Util.isEmpty(context)){
-
+            try {
+                HashMap<String,String> siteMap=Mediator.getSite(Integer.valueOf(context));
+                resp.put("site",JSONHelper.getJSONHelperInstance().convertToString(siteMap));
+            } catch (SQLException e) {
+                resp.put("state", e.getMessage());
+                out.print(JSONHelper.getJSONHelperInstance().convertToString(resp));
+                out.close();
+            }
         }
         if (!resp.containsKey("state")){
             resp.put("state","successful");

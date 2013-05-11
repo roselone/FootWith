@@ -1,3 +1,4 @@
+import edu.thu.cslab.footwith.exception.TextFormatException;
 import edu.thu.cslab.footwith.site.SiteManager;
 import org.junit.Test;
 
@@ -12,13 +13,18 @@ import java.sql.SQLException;
  */
 public class siteTest {
     @Test
-    public void getSiteNameTest() throws SQLException {
-        int id=12;
-        System.out.println(SiteManager.getSiteName(id));
+    public void getSiteNameTest() throws SQLException, TextFormatException {
+        int id=2;
+        System.out.println(SiteManager.seleteSite(2).getLocation());
     }
     @Test
     public void getSiteNameWithLocationTest() throws SQLException {
-        String location="beijing";
+        String location="北京";
         System.out.println(SiteManager.selectSiteWithLocation(location).toString());
+    }
+    @Test
+    public void getSiteTest() throws SQLException {
+        int id=2;
+        System.out.println(SiteManager.getSite(id).toString());
     }
 }

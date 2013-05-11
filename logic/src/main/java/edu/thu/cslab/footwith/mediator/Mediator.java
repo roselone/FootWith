@@ -7,11 +7,14 @@ import edu.thu.cslab.footwith.site.Site;
 import edu.thu.cslab.footwith.site.SiteManager;
 import edu.thu.cslab.footwith.user.User;
 import edu.thu.cslab.footwith.user.UserManager;
+import edu.thu.cslab.footwith.utility.Constant;
 import edu.thu.cslab.footwith.utility.Util;
+import net.iharder.Base64;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.JSONException;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Date;
@@ -544,6 +547,11 @@ public class Mediator {
     // Wrappers for SiteManager function
     public static int addSite(Site site) throws SQLException {
         return SiteManager.addSite(site);
+    }
+    public static HashMap<String,String> getSite(int siteID) throws SQLException, IOException {
+        HashMap<String,String> siteMap = SiteManager.getSite(siteID);
+        siteMap.put("picture", Base64.encodeBytes(PictureManager.getPicture(Integer.valueOf(siteMap.get("pictureID")), Constant.IMAGE_PATH)));
+        return siteMap;
     }
     /*
     public static Vector<Site> getAllSite() throws SQLException {

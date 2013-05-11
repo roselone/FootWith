@@ -99,6 +99,20 @@ public class SiteManager {
         return rs.getString(1);
     }
 
+    public static HashMap<String,String> getSite(int siteID) throws SQLException {
+        DBUtil du=DBUtil.getDBUtil();
+        String SQLCommand="select * from "+tableName+" where siteID=" +siteID;
+        ResultSet rs=du.executeQuery(SQLCommand);
+        HashMap<String,String> result=new HashMap<String, String>();
+        rs.next();
+        result.put("siteID",String.valueOf(rs.getInt("siteID")));
+        result.put("siteName",rs.getString("siteName"));
+        result.put("rate",String.valueOf(rs.getInt("rate")));
+        result.put("location",rs.getString("location"));
+        result.put("brief",rs.getString("brief"));
+        result.put("pictureID",String.valueOf(rs.getInt("picture")));
+        return result;
+    }
 
     public static Vector<Site> selectSite(Site site) throws TextFormatException, SQLException {
         DBUtil du = DBUtil.getDBUtil();

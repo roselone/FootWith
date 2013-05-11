@@ -1,4 +1,5 @@
 import edu.thu.cslab.footwith.messenger.JSONHelper;
+import net.iharder.Base64;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -11,6 +12,7 @@ import org.apache.http.util.EntityUtils;
 import org.json.JSONException;
 import org.junit.Test;
 
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -30,7 +32,7 @@ public class siteTest {
     public void doPost() throws IOException, JSONException {
         DefaultHttpClient client=new DefaultHttpClient();
         ArrayList<NameValuePair> param=new ArrayList<NameValuePair>();
-        param.add(new BasicNameValuePair("location", "beijing"));
+        param.add(new BasicNameValuePair("location", "北京"));
         post.setEntity(new UrlEncodedFormEntity(param, HTTP.UTF_8));
         HttpResponse response=client.execute(post);
         HttpEntity entity=response.getEntity();
@@ -38,8 +40,30 @@ public class siteTest {
         System.out.println(tmp);
         HashMap<String,String> res= JSONHelper.getJSONHelperInstance().convertToMap(tmp);
         System.out.println(res.get("state"));
-        Vector<String> journal=JSONHelper.getJSONHelperInstance().convertToArray2(res.get("id_names"));
-        System.out.println(journal.toString());
+        Vector<String> id_names=JSONHelper.getJSONHelperInstance().convertToArray2(res.get("id_names"));
+        System.out.println(id_names.toString());
 
+    }
+    @Test
+    public void getSiteTest() throws IOException, JSONException {
+        DefaultHttpClient client=new DefaultHttpClient();
+        ArrayList<NameValuePair> param=new ArrayList<NameValuePair>();
+        param.add(new BasicNameValuePair("siteID", "2"));
+        post.setEntity(new UrlEncodedFormEntity(param, HTTP.UTF_8));
+        HttpResponse response=client.execute(post);
+        HttpEntity entity=response.getEntity();
+        String tmp= EntityUtils.toString(entity);
+        System.out.println(tmp);
+        HashMap<String,String> res= JSONHelper.getJSONHelperInstance().convertToMap(tmp);
+        System.out.println(res.get("state"));
+        HashMap<String,String> siteMap=JSONHelper.getJSONHelperInstance().convertToMap(res.get("site"));
+        System.out.println(siteMap.toString());
+        String picture=siteMap.get("picture");
+        System.out.println(picture);
+        byte[] image= Base64.decode(siteMap.get("picture"));
+
+        FileOutputStream outputStream=new FileOutputStream("/home/roselone/test8.jpg");
+        outputStream.write(image);
+        outputStream.close();
     }
 }
