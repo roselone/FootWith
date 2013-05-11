@@ -1,21 +1,24 @@
 package edu.thu.cslab.footwith.client;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
-import android.widget.DatePicker;
-import android.widget.EditText;
+import android.widget.*;
 import android.widget.AdapterView.OnItemClickListener;
 
+import java.sql.Date;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Vector;
 import java.util.logging.Logger;
 import  android.util.Log;
-import android.widget.TimePicker;
 import edu.thu.cslab.footwith.client.helper.Favorite_Site_Adapter;
+import edu.thu.cslab.footwith.client.helper.ServerConnector;
+import edu.thu.cslab.footwith.messenger.JSONHelper;
 
 /**
  * Created with IntelliJ IDEA.
@@ -32,14 +35,15 @@ public class AddPlan1 extends Activity {
 
     private  Button bt_favSite;
     private  Button bt_addPlan;
-    private  String  startTime;
-    private  String  endTime;
+    private  Date startTime;
+    private  Date endTime;
     private  int     groupNumMax ;
     private DatePicker start_DP;
     private DatePicker end_DP;
     private EditText  desEditText;
     private EditText  numEditText;
     private EditText  edit_favSite;
+    private EditText  edit_title;
     int my_Year;
     int my_Month;
     int my_Day;
@@ -69,7 +73,7 @@ public class AddPlan1 extends Activity {
         end_DP = (DatePicker) findViewById(R.id.datePicker_end);
         numEditText = (EditText) findViewById(R.id.editText_num);
         desEditText = (EditText) findViewById(R.id.editText_description);
-
+        edit_title = (EditText) findViewById(R.id.edit_title);
         edit_favSite = (EditText)findViewById(R.id.edit_favSite);
         edit_favSite.setText(data);
 
@@ -92,7 +96,44 @@ public class AddPlan1 extends Activity {
             @Override
             public void onClick(View view) {
                 //To change body of implemented methods use File | Settings | File Templates.
+                String SiteNames  = edit_favSite.getText().toString();
+
+                String describe = desEditText.getText().toString();
+                int groupNumMax = Integer.valueOf(numEditText.getText().toString());
+                String title =  edit_title.getText().toString();
+                if(SiteNames == null || title == null || (startTime.before(endTime))){
+                    new  AlertDialog.Builder(AddPlan1.this).setTitle("警告").setMessage("不能为空").setPositiveButton("确定",
+                            null).show();
+
+                }
+                String userId = Login.userID;
+
+                HashMap<String,String>  addPlan = new HashMap<String, String>();
+                addPlan.put("title",title);
+                addPlan.put("startTime",startTime.toString());
+                addPlan.put("endTime",endTime.toString());
+                addPlan.put("describe",describe);
+                addPlan.put("userID",userId);
+                String[] chooseIds =  Favorite_Site.chooseIds.split(",");
+                Vector<String> siteIDs = new Vector<String>();
+                for(int i = 0;i<chooseIds.length;i++)
+                      siteIDs.add(chooseIds[i]);
+
+                addPlan.put("siteIDs", JSONHelper.JSONHelperInstance.convertToString2(siteIDs));
+
+                String addPlanString = JSONHelper.getJSONHelperInstance().convertToString(addPlan);
+                ServerConnector connector=new ServerConnector("addPlan");
+                connector.setRequestParam("addPlan",addPlanString);
+                String result= null;
+                if (result!=null && result.equals("successful")){
+                    Toast.makeText(AddPlan1.this, "添加成功", Toast.LENGTH_SHORT).show();
+
+                }else {
+                    Toast.makeText(AddPlan1.this, "添加失败", Toast.LENGTH_SHORT).show();
+                }
+
             }
+
         });
         start_DP.init(my_Year,my_Month,my_Day,new DatePicker.OnDateChangedListener() {
             @Override
@@ -101,6 +142,7 @@ public class AddPlan1 extends Activity {
                 my_Month = datePicker.getMonth();
                 my_Day = datePicker.getDayOfMonth();
                 desEditText.setText("日期:"+my_Year+my_Month+my_Day);
+                startTime = new Date(my_Year,my_Month,my_Day);
             }
         });
         end_DP.init(my_Year,my_Month,my_Day,new DatePicker.OnDateChangedListener() {
@@ -109,6 +151,8 @@ public class AddPlan1 extends Activity {
                 my_Year = datePicker.getYear();
                 my_Month = datePicker.getMonth();
                 my_Day = datePicker.getDayOfMonth();
+
+                endTime = new Date(my_Year,my_Month,my_Day);
                 desEditText.setText("日期:"+my_Year+my_Month+my_Day);
             }
         });

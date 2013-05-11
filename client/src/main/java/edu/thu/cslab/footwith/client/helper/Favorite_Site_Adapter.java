@@ -98,7 +98,7 @@ public class Favorite_Site_Adapter extends BaseAdapter{
                     // Login.userChooseLike.add((String) getItem(position));
                     System.out.println("go in");
                     Favorite_Site.myChoice = Favorite_Site.myChoice + "," + getItem(position);
-
+                    Favorite_Site.chooseIds = Favorite_Site.chooseIds + "," + position;
                 } else if (!b) {
                     Favorite_Site_Adapter.getIsSelected().put(position, false);
                     //System.out.println("remove checked=" + position);

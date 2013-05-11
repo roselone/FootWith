@@ -1,9 +1,6 @@
 package edu.thu.cslab.footwith.client;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -44,6 +41,9 @@ public class Favorite_Site extends Activity {
     private TextView tv_show;
     private Button bt_return;
     public static String myChoice;
+    public static HashMap<String,Integer> siteNametoId = new HashMap< String,Integer>();
+    public  static String chooseIds;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -131,6 +131,7 @@ public class Favorite_Site extends Activity {
 
     private void initDate() {
         for (int i = 0; i < 15; i++) {
+            siteNametoId.put("data"+i,i);
             list.add("data" + "   " + i);
         }
     }
