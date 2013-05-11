@@ -49,8 +49,11 @@ public class MyJournalNetwork {
 
         ServerConnector sc = new ServerConnector("journal");
         String result = null;
+        HashMap<String, String> tmpMap = new HashMap<String, String>();
+        tmpMap.put("journalID", map.get("journalID"));
+        tmpMap.put("journal", JSONHelper.getJSONHelperInstance().convertToString(map));
         try {
-            result = sc.setRequestParam("modify", JSONHelper.getJSONHelperInstance().convertToString(map)).doPost();
+            result = sc.setRequestParam("modify", JSONHelper.getJSONHelperInstance().convertToString(tmpMap)).doPost();
         } catch (IOException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }

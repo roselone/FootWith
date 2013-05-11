@@ -2,13 +2,22 @@ package edu.thu.cslab.footwith.client.helper;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Gallery;
 import android.widget.ImageView;
 import edu.thu.cslab.footwith.client.R;
+import edu.thu.cslab.footwith.utility.Util;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Vector;
@@ -22,18 +31,13 @@ import java.util.Vector;
  */
 public class Record_Picture_Adapter extends BaseAdapter {
     ArrayList<Integer> mImages = new ArrayList<Integer>();
-    Vector<Integer> pictureIDVector;
     private ArrayList<HashMap<String, String>> pictureList =new ArrayList<HashMap<String,String>>();
     Context mContext;
 
-    public Record_Picture_Adapter(Context mContext, Vector<Integer> pictureIDVector) {
-        this.mContext = mContext;
-        this.pictureIDVector = pictureIDVector;
-    }
 
-    public Record_Picture_Adapter(Context mcontext,ArrayList<Integer> mImages) {
-        this.mImages = mImages;
-        this.mContext = mcontext;
+    public Record_Picture_Adapter(Context mContext, ArrayList<HashMap<String, String>> pictureList) {
+        this.mContext = mContext;
+        this.pictureList = pictureList;
     }
 
     public Record_Picture_Adapter(Context mcontext) {
@@ -51,12 +55,12 @@ public class Record_Picture_Adapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return mImages.size();  //To change body of implemented methods use File | Settings | File Templates.
+        return pictureList.size();  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
     public Object getItem(int i) {
-        return mImages.get(i);  //To change body of implemented methods use File | Settings | File Templates.
+        return pictureList.get(i);  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
@@ -67,10 +71,39 @@ public class Record_Picture_Adapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertview, ViewGroup viewGroup) {
         ImageView view = new ImageView(mContext);
+        HashMap<String, String> picture = pictureList.get(position);
+        String uri = picture.get("uri");
+        String pic = picture.get("picture");
+        if(!Util.isEmpty(uri)){
+            view.setImageURI(Uri.parse(uri));
+        }else if(!Util.isEmpty(pic)){
+            try {
+                byte[] pic_byte = net.iharder.Base64.decode(pic.getBytes());
+                ByteArrayInputStream imageStream = new ByteArrayInputStream(pic_byte);
+                Bitmap bitmap = BitmapFactory.decodeStream(imageStream);
+                view.setImageBitmap(bitmap);
 
+            } catch (IOException e) {
+                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            }
+        }
+        view.setScaleType(ImageView.ScaleType.FIT_XY);
+        view.setLayoutParams(new Gallery.LayoutParams(160, 88*160/136));
+        /*
+        try {
+            InputStream is = (InputStream) new URL(uri).getContent();
+            Drawable d = Drawable.createFromStream(is, "src name");
+
+
+        } catch (Exception e) {
+            return null;
+        }
+        */
+        /*
         view.setImageResource(mImages.get(position));
         view.setScaleType(ImageView.ScaleType.FIT_XY);
         view.setLayoutParams(new Gallery.LayoutParams(160, 88*160/136));
+        */
 
         // The preferred Gallery item background
         view.setBackgroundResource(mContext.obtainStyledAttributes(R.styleable.Gallery1).getResourceId(R.styleable.Gallery1_android_galleryItemBackground, 0));
