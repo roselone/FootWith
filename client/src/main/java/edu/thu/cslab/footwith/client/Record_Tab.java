@@ -48,6 +48,7 @@ public class Record_Tab extends ActivityGroup {
         spec = recordTabHost.newTabSpec("journal");
         intent = new Intent(this, Record_Journal.class);
         intent.putExtra("journals", map.get("journals"));
+        intent.putExtra("recordID", map.get("recordID"));
         spec.setContent(intent);
         spec.setIndicator("日志", getResources().getDrawable(R.drawable.journal));
         recordTabHost.addTab(spec);

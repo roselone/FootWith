@@ -145,7 +145,7 @@ public class AboutMe extends Activity {
             		builder.show();
 				}
 				
-				if (type.equals("trip")){
+				if (type.equals("plan")){
 					
 				}
                 if (type.equals("record")){

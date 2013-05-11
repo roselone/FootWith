@@ -18,18 +18,57 @@ import java.util.HashMap;
 public class MyJournalNetwork {
     private ArrayList<HashMap<String, String>> journalList =new ArrayList<HashMap<String,String>>();
     private String journalIDs;
-    public void add(HashMap<String, String> map){
-        journalList.add(map);
-        return;
+    private String recordID;
+    public boolean add(HashMap<String, String> map){
+        ServerConnector sc = new ServerConnector("journal");
+        String result = null;
+        HashMap<String, String> tmpMap = new HashMap<String, String>();
+        tmpMap.put("recordID", recordID);
+        tmpMap.put("journal", JSONHelper.getJSONHelperInstance().convertToString(map));
+        try {
+            result = sc.setRequestParam("add", JSONHelper.getJSONHelperInstance().convertToString(tmpMap)).doPost();
+        } catch (IOException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
+        if(!Util.isEmpty(result)){
+            HashMap<String, String> result_map = JSONHelper.getJSONHelperInstance().convertToMap(result);
+            if(result_map.get("state").equals("successful")){
+                journalList.add(map);
+                return true;
+                //System.out.println(selfListString.toString());
+            }else{
+                return false;
+            }
+        }
+        return false;
     }
     public ArrayList<HashMap<String, String>> getList(){
         return journalList;
     }
-    public void modify(int position,HashMap<String, String> map){
-        journalList.set(position, map);
+    public boolean modify(int position,HashMap<String, String> map){
+
+        ServerConnector sc = new ServerConnector("journal");
+        String result = null;
+        try {
+            result = sc.setRequestParam("modify", JSONHelper.getJSONHelperInstance().convertToString(map)).doPost();
+        } catch (IOException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
+        if(!Util.isEmpty(result)){
+            HashMap<String, String> result_map = JSONHelper.getJSONHelperInstance().convertToMap(result);
+            if(result_map.get("state").equals("successful")){
+                journalList.set(position, map);
+                return true;
+                //System.out.println(selfListString.toString());
+            }else{
+                return false;
+            }
+        }
+        return false;
     }
-    public void requestList(String journalIDs){
+    public void requestList(String journalIDs, String recordID){
         this.journalIDs = journalIDs;
+        this.recordID = recordID;
         ServerConnector sc = new ServerConnector("journal");
         String result = null;
 
