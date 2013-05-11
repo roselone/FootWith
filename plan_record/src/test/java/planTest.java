@@ -2,8 +2,12 @@ import edu.thu.cslab.footwith.exception.TextFormatException;
 import edu.thu.cslab.footwith.messenger.JSONHelper;
 import edu.thu.cslab.footwith.plan_record.Plan;
 import edu.thu.cslab.footwith.plan_record.PlanManager;
+import org.json.JSONException;
 import org.junit.Test;
 
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
+import java.sql.Date;
 import java.sql.SQLException;
 
 /**
@@ -18,5 +22,20 @@ public class planTest {
     public void selectPlanTest() throws TextFormatException, SQLException {
         Plan plan= PlanManager.selectPlan(15);
         System.out.println(plan.getTimestamp());
+    }
+    @Test
+    public void addPlanTest() throws TextFormatException, SQLException, NoSuchAlgorithmException, JSONException, UnsupportedEncodingException {
+        Plan plan=new Plan();
+        plan.setDescribe("dsaf");
+        plan.setGroupNumMax(10);
+        plan.setGroupNum(0);
+        plan.setOrganizer(2);
+        plan.setSiteIDs("[1,2]");
+        plan.setStartTime(Date.valueOf("2012-04-04"));
+        plan.setEndTime(Date.valueOf("2012-04-06"));
+        plan.setTitle("baidu");
+        plan.setDescribe("fuck");
+        int id=PlanManager.addPlan(plan);
+        System.out.println(id);
     }
 }

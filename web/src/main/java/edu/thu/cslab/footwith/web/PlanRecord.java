@@ -27,6 +27,7 @@ import java.util.HashMap;
 @WebServlet(name = "planrecord")
 public class PlanRecord extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
         HashMap<String,String> resp=new HashMap<String, String>();
         response.setContentType("application/json;charset=UTF-8");
         PrintWriter out=response.getWriter();
@@ -62,7 +63,27 @@ public class PlanRecord extends HttpServlet {
         }
         context=request.getParameter("addPlan");
         if (!Util.isEmpty(context)){
-
+            HashMap<String,String> planMap=JSONHelper.getJSONHelperInstance().convertToMap(context);
+            try {
+                int id=Mediator.addPlan(planMap);
+                resp.put("planID",String.valueOf(id));
+            } catch (SQLException e) {
+                resp.put("state",e.getMessage());
+                out.print(JSONHelper.getJSONHelperInstance().convertToString(resp));
+                out.close();
+            } catch (TextFormatException e) {
+                resp.put("state",e.getMessage());
+                out.print(JSONHelper.getJSONHelperInstance().convertToString(resp));
+                out.close();
+            } catch (JSONException e) {
+                resp.put("state",e.getMessage());
+                out.print(JSONHelper.getJSONHelperInstance().convertToString(resp));
+                out.close();
+            } catch (NoSuchAlgorithmException e) {
+                resp.put("state",e.getMessage());
+                out.print(JSONHelper.getJSONHelperInstance().convertToString(resp));
+                out.close();
+            }
         }
         if (!resp.containsKey("state")){
             resp.put("state","successful");

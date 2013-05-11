@@ -28,7 +28,7 @@ public class planrecordTest {
     public void doPost() throws IOException {
         DefaultHttpClient client=new DefaultHttpClient();
         HashMap<String,String> userMap=new HashMap<String, String>();
-        userMap.put("planList","[15,16]");
+        userMap.put("planList","[15,16,25]");
         userMap.put("recordList","[13]");
         ArrayList<NameValuePair> param=new ArrayList<NameValuePair>();
         param.add(new BasicNameValuePair("getPlanRecord", JSONHelper.getJSONHelperInstance().convertToString(userMap)));

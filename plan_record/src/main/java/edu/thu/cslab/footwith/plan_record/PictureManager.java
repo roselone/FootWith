@@ -4,10 +4,7 @@ import edu.thu.cslab.footwith.dao.DBUtil;
 import edu.thu.cslab.footwith.utility.Util;
 import net.iharder.Base64;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.io.*;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -24,17 +21,22 @@ public class PictureManager {
 
     /**
      * add picture
-     * @param picture
+     * @param pictureMap
      * @return picture ID
      * @throws java.sql.SQLException
      */
-    public static int addPicture(Picture picture) throws SQLException {
-        String SQLCommand = "insert into " + tableName + " ( userID, title, picturePath, time ) values (" + picture.getUserID()
-                + " , '" + picture.getTitle() + "' , '" + picture.getDate() + "')" ;
+    public static int addPicture(HashMap<String,String> pictureMap) throws SQLException, IOException {
+        String SQLCommand = "insert into " + tableName + " ( userID, title, picturePath, time ) values (" + pictureMap.get("userID")
+                + " , '" + pictureMap.get("title") + "' , '" +pictureMap.get("pictureName") +"' , "+ pictureMap.get("time") + ")" ;
         DBUtil du= DBUtil.getDBUtil();
         ResultSet rs=du.executeUpdate(SQLCommand);
         rs.next();
-        return rs.getInt(1);
+        int pictureID=rs.getInt(1);
+        byte[] image=Base64.decode(pictureMap.get("picture"));
+        FileOutputStream outputStream=new FileOutputStream("/home/roselone/"+pictureMap.get("pictureName"));
+        outputStream.write(image);
+        outputStream.close();
+        return pictureID;
     }
 
     public static HashMap<String,String> getPictureInfo(int pictureID,String path) throws SQLException, IOException {
