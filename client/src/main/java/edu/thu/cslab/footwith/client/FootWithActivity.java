@@ -66,6 +66,9 @@ public class FootWithActivity extends ActivityGroup {
     public boolean onOptionsItemSelected(MenuItem item) {
         String title = (String) item.getTitle();
         if(title.equals("景点")){
+            Intent intent = new Intent();
+            intent=new Intent(FootWithActivity.this,provincelist.class);
+            FootWithActivity.this.startActivity(intent);
 
         }else if(title.equals("帮助")){
 
