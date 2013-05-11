@@ -25,9 +25,9 @@
         <activity android:name=".Record_Basic"/>
         <activity android:name=".Record_Journal"/>
         <activity android:name=".Record_Picture"/>
-        <activity android:name=".provincelist"/>
-        <activity android:name=".sitelist"/>
-        <activity android:name=".siteinfo"/>
+        <activity android:name=".ProvinceList"/>
+        <activity android:name=".SiteList"/>
+        <activity android:name=".SiteInfo"/>
 
     </application>
 </manifest> 

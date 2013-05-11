@@ -20,27 +20,12 @@ import java.util.Map;
  * Time: 下午10:30
  * To change this template use File | Settings | File Templates.
  */
-import android.app.Activity;
-import android.os.Bundle;
-import android.widget.*;
-import android.util.Log;
 import java.lang.String;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
-import android.app.Activity;
-import android.os.Bundle;
 import android.view.View;
-import android.view.ContextMenu.ContextMenuInfo;
-import android.view.View.OnCreateContextMenuListener;
-import android.widget.AdapterView.OnItemClickListener;
-import android.content.Intent;
-import edu.thu.cslab.footwith.client.R;
 
 
-public class provincelist extends Activity{
+public class ProvinceList extends Activity{
 
     /**
      * Called when the activity is first created.
@@ -105,14 +90,14 @@ public class provincelist extends Activity{
                 String province=(String) mData.get(arg2).get("ItemTitle");  //获得省份
 
                 Intent intent = new Intent();
-                intent=new Intent(provincelist.this,sitelist.class);
+                intent=new Intent(ProvinceList.this,SiteList.class);
 
                 Bundle bundle = new Bundle();
 
                 bundle.putString("province", province);
                 intent.putExtras(bundle);
 
-                provincelist.this.startActivity(intent);
+                ProvinceList.this.startActivity(intent);
 
      }
         });
