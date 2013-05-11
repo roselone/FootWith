@@ -7,6 +7,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.JSONException;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Date;
@@ -199,7 +200,7 @@ public class RecordManager {
      * @throws TextFormatException
      * @throws JSONException
      */
-    public static int addPicture(int recordID, HashMap<String,String> pictureMap) throws SQLException, TextFormatException, JSONException {
+    public static int addPicture(int recordID, HashMap<String,String> pictureMap) throws SQLException, TextFormatException, JSONException, IOException {
         int pictureID=PictureManager.addPicture(pictureMap);
         Record record=selectRecord(recordID);
         String pictures=JSONHelper.getJSONHelperInstance().addToArray(record.getPictures(),pictureID);
