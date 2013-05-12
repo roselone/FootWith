@@ -559,7 +559,7 @@ public class Mediator {
     public static void deleteJournal(int journalID) throws SQLException {
         JournalManager.deleteJournal(journalID);
     }
-    public static int addPicture(int recordID, HashMap<String,String> pictureMap) throws SQLException, TextFormatException, JSONException {
+    public static int addPicture(int recordID, HashMap<String,String> pictureMap) throws SQLException, TextFormatException, JSONException, IOException {
         return RecordManager.addPicture(recordID, pictureMap);
     }
     public static void deletePicture(int pictureID) throws SQLException {
