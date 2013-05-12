@@ -28,10 +28,12 @@ public class Site extends HttpServlet {
         response.setContentType("application/json;charset=UTF-8");
         HashMap<String,String> resp=new HashMap<String, String>();
         PrintWriter out=response.getWriter();
+        request.setCharacterEncoding("UTF-8");
         String context=request.getParameter("location");
         if (!Util.isEmpty(context)){
             try {
                 Vector<String> names= Mediator.getSiteNameWithLocation(context);
+                System.out.println(context);
                 resp.put("id_names",JSONHelper.getJSONHelperInstance().convertToString2(names));
             } catch (SQLException e) {
                 resp.put("state", e.getMessage());
