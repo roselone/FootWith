@@ -34,8 +34,8 @@ public class loginTest {
     public void doPost() throws IOException, JSONException {
         DefaultHttpClient client=new DefaultHttpClient();
         HashMap<String,String> userMap=new HashMap<String, String>();
-        userMap.put("userName","hel");
-        userMap.put("passwd","12345678");
+        userMap.put("userName","t");
+        userMap.put("passwd","123");
         ArrayList<NameValuePair> param=new ArrayList<NameValuePair>();
         param.add(new BasicNameValuePair("login", JSONHelper.getJSONHelperInstance().convertToString(userMap)));
         post.setEntity(new UrlEncodedFormEntity(param, HTTP.UTF_8));

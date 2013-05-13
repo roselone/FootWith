@@ -29,7 +29,6 @@
         <activity android:name=".Record_Picture"/>
         <activity android:name=".Favorite_Site"/>
         <activity android:name=".AddPlan"/>
-        <activity android:name=".AddPlan1"/>
         <activity android:name=".ProvinceList"/>
         <activity android:name=".SiteList"/>
         <activity android:name=".SiteInfo"/>

@@ -85,6 +85,29 @@ public class PlanRecord extends HttpServlet {
                 out.close();
             }
         }
+        context=request.getParameter("start");
+        if (!Util.isEmpty(context)){
+            try {
+                int recordID=Mediator.startPlan(Integer.valueOf(context));
+                resp.put("recordID",String.valueOf(recordID));
+            } catch (TextFormatException e) {
+                resp.put("state",e.getMessage());
+                out.print(JSONHelper.getJSONHelperInstance().convertToString(resp));
+                out.close();
+            } catch (NoSuchAlgorithmException e) {
+                resp.put("state",e.getMessage());
+                out.print(JSONHelper.getJSONHelperInstance().convertToString(resp));
+                out.close();
+            } catch (SQLException e) {
+                resp.put("state",e.getMessage());
+                out.print(JSONHelper.getJSONHelperInstance().convertToString(resp));
+                out.close();
+            } catch (JSONException e) {
+                resp.put("state",e.getMessage());
+                out.print(JSONHelper.getJSONHelperInstance().convertToString(resp));
+                out.close();
+            }
+        }
         if (!resp.containsKey("state")){
             resp.put("state","successful");
             out.print(JSONHelper.getJSONHelperInstance().convertToString(resp));

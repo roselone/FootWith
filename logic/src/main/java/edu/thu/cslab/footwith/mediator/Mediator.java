@@ -303,6 +303,7 @@ public class Mediator {
             HashMap<String,String> pictureMap=PictureManager.getPictureInfo(pictureIDs.get(i),Constant.IMAGE_PATH);
             String userID=pictureMap.get("userID");
             pictureMap.put("userName",UserManager.getUserName(Integer.valueOf(userID)));
+            pictures.put(Util.string2Json(pictureMap.get("timestamp")),JSONHelper.getJSONHelperInstance().convertToString(pictureMap));
         }
         return pictures;
     }
@@ -312,6 +313,7 @@ public class Mediator {
 
         for (int i=0;i<planIDs.size();i++){
             Plan plan=selectPlan(planIDs.get(i));
+            if (plan.getIsDone()) continue;
             String IDs=plan.getParticipants();
             if (!Util.isEmpty(IDs)){
                 plan.setParticipants(getUserNames(IDs));
@@ -819,5 +821,9 @@ public class Mediator {
 
     public static Vector<String> getSiteNameWithLocation(String location) throws SQLException {
         return SiteManager.selectSiteWithLocation(location);
+    }
+
+    public static int startPlan(int planID) throws TextFormatException, NoSuchAlgorithmException, SQLException, JSONException, UnsupportedEncodingException {
+        return PlanManager.planToRecord(planID);
     }
 }

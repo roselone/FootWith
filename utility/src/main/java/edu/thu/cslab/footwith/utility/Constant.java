@@ -15,6 +15,7 @@ public class Constant {
     private Properties properties = new Properties();
     private static final Constant constantInstantce=new Constant();
     public static final String IMAGE_PATH="/usr/share/tomcat7/webapps/web-1.0/WEB-INF/classes/images";
+    public static final String IMAGE_STORE="/home/roselone/Pictures/footwith";
     private Constant(){
         try {
             properties.load(new FileInputStream("target/classes/footwith.properties"));

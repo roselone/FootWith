@@ -23,19 +23,24 @@ public class planTest {
         Plan plan= PlanManager.selectPlan(15);
         System.out.println(plan.getTimestamp());
     }
-    @Test
-    public void addPlanTest() throws TextFormatException, SQLException, NoSuchAlgorithmException, JSONException, UnsupportedEncodingException {
-        Plan plan=new Plan();
-        plan.setDescribe("dsaf");
-        plan.setGroupNumMax(10);
-        plan.setGroupNum(0);
-        plan.setOrganizer(2);
-        plan.setSiteIDs("[1,2]");
-        plan.setStartTime(Date.valueOf("2012-04-04"));
-        plan.setEndTime(Date.valueOf("2012-04-06"));
-        plan.setTitle("baidu");
-        plan.setDescribe("fuck");
-        int id=PlanManager.addPlan(plan);
-        System.out.println(id);
-    }
+//    @Test
+//    public void addPlanTest() throws TextFormatException, SQLException, NoSuchAlgorithmException, JSONException, UnsupportedEncodingException {
+//        Plan plan=new Plan();
+//        plan.setDescribe("dsaf");
+//        plan.setGroupNumMax(10);
+//        plan.setGroupNum(1);
+//        plan.setOrganizer(2);
+//        plan.setSiteIDs("[1,2]");
+//        plan.setStartTime(Date.valueOf("2012-04-04"));
+//        plan.setEndTime(Date.valueOf("2012-04-06"));
+//        plan.setTitle("baidu");
+//        plan.setDescribe("fuck");
+//        int id=PlanManager.addPlan(plan);
+//        System.out.println(id);
+//    }
+//    @Test
+//    public void startPlanTest() throws TextFormatException, NoSuchAlgorithmException, SQLException, JSONException, UnsupportedEncodingException {
+//        int result=PlanManager.planToRecord(47);
+//        System.out.println(result);
+//    }
 }

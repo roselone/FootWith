@@ -204,7 +204,9 @@ public class RecordManager {
         int pictureID=PictureManager.addPicture(pictureMap);
         Record record=selectRecord(recordID);
         String pictures=JSONHelper.getJSONHelperInstance().addToArray(record.getPictures(),pictureID);
-        String SQLCommand = "update " + tableName + " set pictures=" + pictures + " where recordID=" + recordID +";";
+        //System.out.println("debug:"+pictures+":"+String.valueOf(recordID));
+        String SQLCommand = "update " + tableName + " set pictures = '" + pictures + "' where recordID=" + recordID +";";
+        //System.out.println(SQLCommand);
         DBUtil.getDBUtil().executeUpdate(SQLCommand);
         return pictureID;
     }

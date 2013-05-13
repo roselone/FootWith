@@ -1,21 +1,27 @@
 package edu.thu.cslab.footwith.client;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
-import android.widget.DatePicker;
-import android.widget.EditText;
+import android.widget.*;
 import android.widget.AdapterView.OnItemClickListener;
 
+import java.io.IOException;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Vector;
 import java.util.logging.Logger;
 import  android.util.Log;
-import android.widget.TimePicker;
 import edu.thu.cslab.footwith.client.helper.Favorite_Site_Adapter;
+import edu.thu.cslab.footwith.client.helper.ServerConnector;
+import edu.thu.cslab.footwith.messenger.JSONHelper;
+import edu.thu.cslab.footwith.utility.Util;
 
 /**
  * Created with IntelliJ IDEA.
@@ -32,14 +38,15 @@ public class AddPlan extends Activity {
 
     private  Button bt_favSite;
     private  Button bt_addPlan;
-    private  String  startTime;
-    private  String  endTime;
+    private  Date  startTime;
+    private  Date  endTime;
     private  int     groupNumMax ;
     private DatePicker start_DP;
     private DatePicker end_DP;
     private EditText  desEditText;
     private EditText  numEditText;
     private EditText  edit_favSite;
+    private EditText  edit_title;
     int my_Year;
     int my_Month;
     int my_Day;
@@ -54,11 +61,11 @@ public class AddPlan extends Activity {
         my_Year = my_Calendar.get(Calendar.YEAR);
         my_Month = my_Calendar.get(Calendar.MONTH);
         my_Day = my_Calendar.get(Calendar.DAY_OF_MONTH);
-       my_Hour = my_Calendar.get(Calendar.HOUR_OF_DAY);
+        my_Hour = my_Calendar.get(Calendar.HOUR_OF_DAY);
         my_Minute = my_Calendar.get(Calendar.MINUTE);
 
-
-
+        startTime = new Date(my_Year,my_Month,my_Day);
+        endTime = new Date(my_Year,my_Month,my_Day);
 
         setContentView(R.layout.addplan);
         bt_favSite = (Button) findViewById(R.id.bt_favSite);
@@ -67,9 +74,17 @@ public class AddPlan extends Activity {
         end_DP = (DatePicker) findViewById(R.id.datePicker_end);
         numEditText = (EditText) findViewById(R.id.editText_num);
         desEditText = (EditText) findViewById(R.id.editText_description);
-
+        edit_title = (EditText) findViewById(R.id.edit_title);
         edit_favSite = (EditText)findViewById(R.id.edit_favSite);
-       // edit_favSite.setText(data);
+
+        Bundle bundle = getIntent().getExtras();
+        if (!(bundle==null || bundle.isEmpty())){
+            String data=bundle.getString("myChoice");//读出数据
+            if (!Util.isEmpty(data)){
+                data = data.substring(data.indexOf(",")+1,data.length());
+                edit_favSite.setText(data);
+            }
+        }
 
         //edit_favSite.setText(Favorite_Site.myChoice);
         Log.e(TAG,"start");
@@ -83,9 +98,9 @@ public class AddPlan extends Activity {
 //                bundle.putString("myChoice","hello");
 //                intent.putExtras(bundle);
 //                startActivityForResult(intent,0);
-                 startActivity(intent);
+                startActivity(intent);
 //                //AddPlan.this.finish();
-                 finish();
+                finish();
 
             }
         });
@@ -93,8 +108,59 @@ public class AddPlan extends Activity {
         bt_addPlan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //To change body of implemented methods use File | Settings | File Templates.
+                //  To change body of implemented methods use File | Settings | File Templates.
+                if(edit_favSite.getText().length() == 0 || edit_title.getText().length() == 0  || numEditText.getText().length() == 0){
+                    new  AlertDialog.Builder(AddPlan.this).setTitle("警告").setMessage("不能为空").setPositiveButton("确定",
+                            null).show();
+
+                }
+
+                desEditText.setText("go in");
+
+                String SiteNames  = edit_favSite.getText().toString();
+
+                String describe = desEditText.getText().toString();
+
+                int groupNumMax = Integer.valueOf(numEditText.getText().length() == 0 ? "0" :numEditText.getText().toString() );
+                String title =  edit_title.getText().toString();
+
+                String userId = Login.userID;
+
+                HashMap<String,String> addPlan = new HashMap<String, String>();
+                addPlan.put("title",title);
+                addPlan.put("startTime", new SimpleDateFormat("yyyy-MM-dd").format(startTime));
+                addPlan.put("endTime", new SimpleDateFormat("yyyy-MM-dd").format(endTime));
+                addPlan.put("describe",describe);
+                addPlan.put("organizer",userId);
+                addPlan.put("groupNumMax",String.valueOf(groupNumMax));
+                String[] chooseIds =  Favorite_Site.chooseIds.split(",");
+                Vector<String> siteIDs = new Vector<String>();
+                for(int i = 1;i<chooseIds.length;i++)
+                    siteIDs.add(chooseIds[i]);
+
+                addPlan.put("siteIDs", JSONHelper.JSONHelperInstance.convertToString2(siteIDs));
+
+                String addPlanString = JSONHelper.getJSONHelperInstance().convertToString(addPlan);
+                ServerConnector connector=new ServerConnector("planrecord");
+                System.out.println(addPlanString);
+                String result= null;
+                try {
+                    result = connector.setRequestParam("addPlan",addPlanString).doPost();
+                } catch (IOException e) {
+                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                }
+                HashMap<String,String> resultInfo = new HashMap<String, String>();
+                resultInfo = JSONHelper.getJSONHelperInstance().convertToMap(result);
+
+                System.out.println(result);
+                if (result!=null &&  resultInfo.get("state").equals("successful")){
+                    Toast.makeText(AddPlan.this, "添加成功", Toast.LENGTH_SHORT).show();
+
+                }else {
+                    Toast.makeText(AddPlan.this, "添加失败", Toast.LENGTH_SHORT).show();
+                }
             }
+
         });
         start_DP.init(my_Year,my_Month,my_Day,new DatePicker.OnDateChangedListener() {
             @Override
@@ -103,6 +169,7 @@ public class AddPlan extends Activity {
                 my_Month = datePicker.getMonth();
                 my_Day = datePicker.getDayOfMonth();
                 desEditText.setText("日期:"+my_Year+my_Month+my_Day);
+                startTime = new Date(my_Year,my_Month,my_Day);
             }
         });
         end_DP.init(my_Year,my_Month,my_Day,new DatePicker.OnDateChangedListener() {
@@ -111,6 +178,8 @@ public class AddPlan extends Activity {
                 my_Year = datePicker.getYear();
                 my_Month = datePicker.getMonth();
                 my_Day = datePicker.getDayOfMonth();
+
+                endTime = new Date(my_Year,my_Month,my_Day);
                 desEditText.setText("日期:"+my_Year+my_Month+my_Day);
             }
         });
