@@ -51,6 +51,7 @@ public class PictureManager {
         pictureMap.put("time",String.valueOf(rs.getDate("time")));
         String imageUrl=path+"/"+rs.getString("picturePath");
         pictureMap.put("picture", Base64.encodeBytes(getPicture(imageUrl)));
+        pictureMap.put("timestamp",String.valueOf(rs.getTimestamp("timestamp")));
         return pictureMap;
     }
 

@@ -85,6 +85,10 @@ public class PlanRecord extends HttpServlet {
                 out.close();
             }
         }
+        context=request.getParameter("go");
+        if (!Util.isEmpty(context)){
+
+        }
         if (!resp.containsKey("state")){
             resp.put("state","successful");
             out.print(JSONHelper.getJSONHelperInstance().convertToString(resp));

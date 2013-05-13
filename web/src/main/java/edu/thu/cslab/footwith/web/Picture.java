@@ -96,13 +96,9 @@ public class Picture extends HttpServlet {
         context=request.getParameter("query");
         if (!Util.isEmpty(context)){
             try {
-                HashMap<String,String> journalMap=Mediator.getJournals(context);
-                resp.put("picture",JSONHelper.getJSONHelperInstance().convertToString(journalMap));
+                HashMap<String,String> pictureMap=Mediator.getPictures(context);
+                resp.put("picture",JSONHelper.getJSONHelperInstance().convertToString(pictureMap));
             } catch (JSONException e) {
-                resp.put("state",e.getMessage());
-                out.print(JSONHelper.getJSONHelperInstance().convertToString(resp));
-                out.close();
-            } catch (TextFormatException e) {
                 resp.put("state",e.getMessage());
                 out.print(JSONHelper.getJSONHelperInstance().convertToString(resp));
                 out.close();

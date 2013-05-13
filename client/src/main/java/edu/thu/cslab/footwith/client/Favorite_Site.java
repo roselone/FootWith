@@ -36,7 +36,7 @@ public class Favorite_Site extends Activity {
     private ListView lv;
 
     private  Favorite_Site_Adapter favorite_site_adapter;
-    private  ArrayList<String> list;
+    private  ArrayList<String> list=new ArrayList<String>();
     private int checkNum;
     private TextView tv_show;
     private Button bt_return;
@@ -47,17 +47,14 @@ public class Favorite_Site extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.favorate_site1);
-        System.out.println("go in");
+        setContentView(R.layout.favorate_site);
         lv = (ListView) findViewById(R.id.MyListView);
         bt_return = (Button)findViewById(R.id.bt_return);
 
-         myChoice = "";
-//        intent = this.getIntent();
-//        bunde = intent.getExtras();
-//         myChoice = bunde.getString("myChoice");
+//      intent = this.getIntent();
+//      bunde = intent.getExtras();
+//      myChoice = bunde.getString("myChoice");
 
-        list = new ArrayList<String>();
         initDate();
         // 配置适配器
         favorite_site_adapter = new Favorite_Site_Adapter(list,this); // 布局里的控件id
@@ -72,7 +69,7 @@ public class Favorite_Site extends Activity {
                 //To change body of implemented methods use File | Settings | File Templates.
                 final ViewHolder holder = (ViewHolder) view.getTag();
                 // 改变CheckBox的状态
-                System.out.println("go in");
+
                 holder.cb.toggle();
                 // 将CheckBox的选中状况记录下来
                 Favorite_Site_Adapter.getIsSelected().put(i, holder.cb.isChecked());
@@ -115,7 +112,7 @@ public class Favorite_Site extends Activity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent();
-                intent.setClass(Favorite_Site.this, AddPlan1.class);
+                intent.setClass(Favorite_Site.this, AddPlan.class);
                 Bundle mBundle = new Bundle();
                 mBundle.putString("myChoice",myChoice);
                 intent.putExtras(mBundle);
