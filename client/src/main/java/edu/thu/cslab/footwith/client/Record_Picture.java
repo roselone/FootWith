@@ -2,17 +2,19 @@ package edu.thu.cslab.footwith.client;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.*;
-import android.widget.AdapterView;
-import android.widget.Gallery;
-import android.widget.ImageView;
+import android.widget.*;
 import edu.thu.cslab.footwith.client.helper.Menu_Functions;
 import edu.thu.cslab.footwith.client.helper.MyPictureNetwork;
 import edu.thu.cslab.footwith.client.helper.Record_Picture_Adapter;
+import edu.thu.cslab.footwith.utility.Util;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 
 /**
@@ -23,6 +25,8 @@ import java.util.HashMap;
  * To change this template use File | Settings | File Templates.
  */
 public class Record_Picture extends Activity {
+    ArrayList<HashMap<String, String>> pictureList = new ArrayList<HashMap<String, String>>();
+    Record_Picture_Adapter record_picture_adapter;
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.record_picture);
@@ -31,15 +35,23 @@ public class Record_Picture extends Activity {
         String pictures = (String) bundle.get("pictures");
         MyPictureNetwork myPictureNetwork = new MyPictureNetwork();
         myPictureNetwork.requestList(pictures, recordID);
-        ArrayList<HashMap<String, String>> pictureList = myPictureNetwork.getList();
+        pictureList = myPictureNetwork.getList();
         Gallery g = (Gallery) findViewById(R.id.record_picture_gallery);
-        g.setAdapter(new Record_Picture_Adapter(this));
+        record_picture_adapter = new Record_Picture_Adapter(this, pictureList);
+        g.setAdapter(record_picture_adapter);
         g.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 //To change body of implemented methods use File | Settings | File Templates.
                 ImageView imageView = (ImageView)findViewById(R.id.record_picture_imageView);
-                imageView.setImageResource((Integer)adapterView.getAdapter().getItem(i));
+                //imageView.setImageResource((Integer)adapterView.getAdapter().getItem(i));
+                imageView.setImageURI(Uri.parse(pictureList.get(i).get("uri")));
+                TextView titleTextView = (TextView) findViewById(R.id.picture_title_textView);
+                TextView userTextView = (TextView) findViewById(R.id.picture_user_textView);
+                TextView dateTextView = (TextView) findViewById(R.id.picture_date_textView);
+                titleTextView.setText(pictureList.get(i).get("title"));
+                userTextView.setText(pictureList.get(i).get("userID"));
+                dateTextView.setText(pictureList.get(i).get("date"));
             }
         });
         g.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -47,7 +59,8 @@ public class Record_Picture extends Activity {
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 //To change body of implemented methods use File | Settings | File Templates.
                 ImageView imageView = (ImageView)findViewById(R.id.record_picture_imageView);
-                imageView.setImageResource((Integer)adapterView.getAdapter().getItem(i));
+                imageView.setImageURI(Uri.parse(pictureList.get(i).get("uri")));
+                //imageView.setImageResource((Integer)adapterView.getAdapter().getItem(i));
             }
 
             @Override
@@ -96,7 +109,19 @@ public class Record_Picture extends Activity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE){
             if(resultCode==RESULT_OK){
-
+                Toast.makeText(this, "Image saved to:\n" +
+                        data.getDataString(), Toast.LENGTH_LONG).show();
+                String uri = data.getDataString();
+                if(!Util.isEmpty(uri)){
+                    HashMap<String, String> picture = new HashMap<String, String>();
+                    picture.put("userID", Login.userID);
+                    picture.put("time", String.valueOf(new SimpleDateFormat("yyyy-MM-dd").format(new Date())));
+                    picture.put("date", picture.get("time"));
+                    picture.put("title", picture.get("Untitle"));
+                    picture.put("uri", uri);
+                    pictureList.add(picture);
+                    record_picture_adapter.notifyDataSetChanged();
+                }
             }else if(requestCode==RESULT_CANCELED){
 
             }else{
@@ -104,6 +129,17 @@ public class Record_Picture extends Activity {
             }
         } else if(requestCode == SELECT_IMAGE_ACTIVITY_REQUEST_CODE){
             if(resultCode==RESULT_OK){
+                Toast.makeText(this, "Select image from\n" +
+                        data.getDataString(), Toast.LENGTH_LONG).show();
+                String result = data.getDataString();
+                HashMap<String, String> picture = new HashMap<String, String>();
+                picture.put("userID", Login.userID);
+                picture.put("time", String.valueOf(new SimpleDateFormat("yyyy-MM-dd").format(new Date())));
+                picture.put("date", picture.get("time"));
+                picture.put("title", picture.get("Untitle"));
+                picture.put("uri", result);
+                pictureList.add(picture);
+                record_picture_adapter.notifyDataSetChanged();
 
             }else if(requestCode==RESULT_CANCELED){
 

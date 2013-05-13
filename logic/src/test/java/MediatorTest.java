@@ -85,4 +85,10 @@ public class MediatorTest {
 //        System.out.println(id);
 //
 //    }
+    @Test
+    public void getPictureTest() throws IOException, SQLException, JSONException {
+        String imageList="[1]";
+        HashMap<String,String> imageMap=Mediator.getPictures(imageList);
+        System.out.println(imageMap.toString());
+    }
 }

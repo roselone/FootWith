@@ -14,6 +14,7 @@ import edu.thu.cslab.footwith.client.helper.MyJournalNetwork;
 import edu.thu.cslab.footwith.client.helper.Record_Journal_Adapter;
 
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -27,6 +28,7 @@ import java.util.HashMap;
  */
 public class Record_Journal extends Activity {
     final MyJournalNetwork myJournalNetwork = new MyJournalNetwork();
+    Record_Journal_Adapter record_journal_adapter;
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.record_journal);
@@ -37,7 +39,8 @@ public class Record_Journal extends Activity {
         final ArrayList<HashMap<String, String>> journalList=myJournalNetwork.getList();
 
         ListView listView = (ListView) findViewById(R.id.record_journal_listView);
-        listView.setAdapter(new Record_Journal_Adapter(this, journalList));
+        record_journal_adapter = new Record_Journal_Adapter(this, journalList);
+        listView.setAdapter(record_journal_adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -70,15 +73,16 @@ public class Record_Journal extends Activity {
                     public void onClick(DialogInterface dialogInterface, int i) {
                         //To change body of implemented methods use File | Settings | File Templates.
                         modified_journal.put("title", String.valueOf(titleEditText.getText()));
-                        modified_journal.put("content", String.valueOf(contentEditText.getText()));
-                        String date = String.valueOf(new Date());
+                        modified_journal.put("body", String.valueOf(contentEditText.getText()));
+                        String date = String.valueOf(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
                         modified_journal.put("time", date);
-                        modified_journal.put("userName", Login.userName);
+                        modified_journal.put("userID", Login.userID);
                         if(myJournalNetwork.modify(position, modified_journal)){
                             Toast.makeText(Record_Journal.this, "修改成功", Toast.LENGTH_SHORT);
                         }else{
                             Toast.makeText(Record_Journal.this, "修改失败", Toast.LENGTH_SHORT);
                         }
+                        record_journal_adapter.notifyDataSetChanged();
 
                     }
                 });
@@ -130,16 +134,16 @@ public class Record_Journal extends Activity {
                 public void onClick(DialogInterface dialogInterface, int i) {
                     //To change body of implemented methods use File | Settings | File Templates.
                     add_journal.put("title", String.valueOf(titleEditText.getText()));
-                    add_journal.put("content", String.valueOf(contentEditText.getText()));
-                    String date = String.valueOf(new Date());
+                    add_journal.put("body", String.valueOf(contentEditText.getText()));
+                    String date = String.valueOf(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
                     add_journal.put("time", date);
-                    add_journal.put("userName", Login.userID);
+                    add_journal.put("userID", Login.userID);
                     if(myJournalNetwork.add(add_journal)){
                         Toast.makeText(Record_Journal.this, "添加成功", Toast.LENGTH_SHORT);
                     }else{
                         Toast.makeText(Record_Journal.this, "添加失败", Toast.LENGTH_SHORT);
                     }
-
+                    record_journal_adapter.notifyDataSetChanged();
                 }
             });
             builder.setNegativeButton("取 消", new DialogInterface.OnClickListener() {

@@ -67,7 +67,7 @@ public class FootWithActivity extends ActivityGroup {
         String title = (String) item.getTitle();
         if(title.equals("景点")){
             Intent intent = new Intent();
-            intent=new Intent(FootWithActivity.this,provincelist.class);
+            intent=new Intent(FootWithActivity.this,ProvinceList.class);
             FootWithActivity.this.startActivity(intent);
 
         }else if(title.equals("帮助")){

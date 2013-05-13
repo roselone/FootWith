@@ -1,5 +1,6 @@
 package edu.thu.cslab.footwith.client.helper;
 
+import android.graphics.drawable.Drawable;
 import edu.thu.cslab.footwith.messenger.JSONHelper;
 import edu.thu.cslab.footwith.utility.Util;
 
@@ -21,13 +22,16 @@ public class MyPictureNetwork {
     private String recordID;
     public boolean add(HashMap<String, String> map){
         ServerConnector sc = new ServerConnector("picture");
+        /*
         pictureList.add(map);
         return true;
-        /*
+        */
+
         String result = null;
         HashMap<String, String> tmpMap = new HashMap<String, String>();
         tmpMap.put("recordID", recordID);
-        tmpMap.put("journal", JSONHelper.getJSONHelperInstance().convertToString(map));
+        map.put("picture", map.get("uri"));
+        tmpMap.put("picture", JSONHelper.getJSONHelperInstance().convertToString(map));
         try {
             result = sc.setRequestParam("add", JSONHelper.getJSONHelperInstance().convertToString(tmpMap)).doPost();
         } catch (IOException e) {
@@ -44,7 +48,7 @@ public class MyPictureNetwork {
             }
         }
         return false;
-        */
+
     }
     public ArrayList<HashMap<String, String>> getList(){
         return pictureList;
@@ -53,9 +57,11 @@ public class MyPictureNetwork {
 
         ServerConnector sc = new ServerConnector("picture");
         String result = null;
+        /*
         pictureList.set(position, map);
         return true;
-        /*
+        */
+
         try {
             result = sc.setRequestParam("modify", JSONHelper.getJSONHelperInstance().convertToString(map)).doPost();
         } catch (IOException e) {
@@ -72,7 +78,7 @@ public class MyPictureNetwork {
             }
         }
         return false;
-        */
+
     }
     public void requestList(String pictures, String recordID){
         this.pictures = pictures;
@@ -88,7 +94,7 @@ public class MyPictureNetwork {
         if(!Util.isEmpty(result)){
             HashMap<String, String> result_map = JSONHelper.getJSONHelperInstance().convertToMap(result);
             if(result_map.get("state").equals("successful")){
-                HashMap<String, String> journal = JSONHelper.getJSONHelperInstance().convertToMap(result_map.get("journal"));
+                HashMap<String, String> journal = JSONHelper.getJSONHelperInstance().convertToMap(result_map.get("picture"));
                 //TODO
                 //need to sort
                 Object[] keys =  journal.keySet().toArray();
@@ -96,11 +102,13 @@ public class MyPictureNetwork {
                 HashMap<String, String> journal_item;
                 for(Object key:keys){
                     journal_item = JSONHelper.getJSONHelperInstance().convertToMap(journal.get(key));
+                    journal_item.put("uri", "null");
                     pictureList.add(journal_item);
                 }
                 System.out.println(keys.toString());
                 //System.out.println(selfListString.toString());
             }
         }
+
     }
 }
