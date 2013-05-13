@@ -39,6 +39,7 @@ public class Picture extends HttpServlet {
             HashMap<String,String> tmpMap= JSONHelper.getJSONHelperInstance().convertToMap(context);
             int recordID=Integer.valueOf(tmpMap.get("recordID"));
             HashMap<String,String> pictureMap=JSONHelper.getJSONHelperInstance().convertToMap(tmpMap.get("picture"));
+            System.out.println(pictureMap.toString());
             try {
                 int pictureID= Mediator.addPicture(recordID, pictureMap);
                 resp.put("pictureID",String.valueOf(pictureID));
@@ -47,11 +48,11 @@ public class Picture extends HttpServlet {
                 out.print(JSONHelper.getJSONHelperInstance().convertToString(resp));
                 out.close();
             } catch (TextFormatException e) {
-                resp.put("state",e.getMessage());
+                resp.put("state", e.getMessage());
                 out.print(JSONHelper.getJSONHelperInstance().convertToString(resp));
                 out.close();
             } catch (JSONException e) {
-                resp.put("state",e.getMessage());
+                resp.put("state", e.getMessage());
                 out.print(JSONHelper.getJSONHelperInstance().convertToString(resp));
                 out.close();
             }
@@ -99,11 +100,11 @@ public class Picture extends HttpServlet {
                 HashMap<String,String> pictureMap=Mediator.getPictures(context);
                 resp.put("picture",JSONHelper.getJSONHelperInstance().convertToString(pictureMap));
             } catch (JSONException e) {
-                resp.put("state",e.getMessage());
+                resp.put("state", e.getStackTrace().toString());
                 out.print(JSONHelper.getJSONHelperInstance().convertToString(resp));
                 out.close();
             } catch (SQLException e) {
-                resp.put("state",e.getMessage());
+                resp.put("state", e.getStackTrace().toString());
                 out.print(JSONHelper.getJSONHelperInstance().convertToString(resp));
                 out.close();
             }

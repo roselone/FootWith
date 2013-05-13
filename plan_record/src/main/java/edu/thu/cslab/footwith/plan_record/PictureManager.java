@@ -1,6 +1,7 @@
 package edu.thu.cslab.footwith.plan_record;
 
 import edu.thu.cslab.footwith.dao.DBUtil;
+import edu.thu.cslab.footwith.utility.Constant;
 import edu.thu.cslab.footwith.utility.Util;
 import net.iharder.Base64;
 
@@ -27,13 +28,13 @@ public class PictureManager {
      */
     public static int addPicture(HashMap<String,String> pictureMap) throws SQLException, IOException {
         String SQLCommand = "insert into " + tableName + " ( userID, title, picturePath, time ) values (" + pictureMap.get("userID")
-                + " , '" + pictureMap.get("title") + "' , '" +pictureMap.get("pictureName") +"' , "+ pictureMap.get("time") + ")" ;
+                + " , '" + pictureMap.get("title") + "' , '" +pictureMap.get("pictureName") +"' , '"+ pictureMap.get("time") + "')" ;
         DBUtil du= DBUtil.getDBUtil();
         ResultSet rs=du.executeUpdate(SQLCommand);
         rs.next();
         int pictureID=rs.getInt(1);
         byte[] image=Base64.decode(pictureMap.get("picture"));
-        FileOutputStream outputStream=new FileOutputStream("/home/roselone/"+pictureMap.get("pictureName"));
+        FileOutputStream outputStream=new FileOutputStream(Constant.IMAGE_PATH+"/"+pictureMap.get("pictureName"));
         outputStream.write(image);
         outputStream.close();
         return pictureID;

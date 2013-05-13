@@ -313,6 +313,7 @@ public class Mediator {
 
         for (int i=0;i<planIDs.size();i++){
             Plan plan=selectPlan(planIDs.get(i));
+            if (plan.getIsDone()) continue;
             String IDs=plan.getParticipants();
             if (!Util.isEmpty(IDs)){
                 plan.setParticipants(getUserNames(IDs));
@@ -820,5 +821,9 @@ public class Mediator {
 
     public static Vector<String> getSiteNameWithLocation(String location) throws SQLException {
         return SiteManager.selectSiteWithLocation(location);
+    }
+
+    public static int startPlan(int planID) throws TextFormatException, NoSuchAlgorithmException, SQLException, JSONException, UnsupportedEncodingException {
+        return PlanManager.planToRecord(planID);
     }
 }
