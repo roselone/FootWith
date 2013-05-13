@@ -2,6 +2,7 @@ package edu.thu.cslab.footwith.client;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -165,9 +166,14 @@ public class Record_Picture extends Activity {
                     picture.put("userName", Login.userName);
                     picture.put("time", String.valueOf(new SimpleDateFormat("yyyy-MM-dd").format(new Date())));
                     picture.put("date", picture.get("time"));
-                    picture.put("title", picture.get("Untitle"));
+                    picture.put("title", "Untitle");
                     picture.put("uri", uri);
-                    File picFile = new File(uri);
+                    String[] proj = { MediaStore.Images.Media.DATA };
+                    Cursor cursor = managedQuery(Uri.parse(uri), proj, null, null, null);
+                    int index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+                    cursor.moveToFirst();
+                    String filePath = cursor.getString(index);
+                    File picFile = new File(filePath);
                     picture.put("pictureName", picFile.getName());
                     try {
                         FileInputStream fileInputStream = new FileInputStream(picFile);
@@ -202,9 +208,14 @@ public class Record_Picture extends Activity {
                     picture.put("userName", Login.userName);
                     picture.put("time", String.valueOf(new SimpleDateFormat("yyyy-MM-dd").format(new Date())));
                     picture.put("date", picture.get("time"));
-                    picture.put("title", picture.get("Untitle"));
+                    picture.put("title", "Untitle");
                     picture.put("uri", uri);
-                    File picFile = new File(uri);
+                    String[] proj = { MediaStore.Images.Media.DATA };
+                    Cursor cursor = managedQuery(Uri.parse(uri), proj, null, null, null);
+                    int index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+                    cursor.moveToFirst();
+                    String filePath = cursor.getString(index);
+                    File picFile = new File(filePath);
                     picture.put("pictureName", picFile.getName());
                     try {
                         FileInputStream fileInputStream = new FileInputStream(picFile);
@@ -217,6 +228,8 @@ public class Record_Picture extends Activity {
                     } catch (IOException e) {
                         e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                     }
+
+
                     //pictureList.add(picture);
                     myPictureNetwork.add(picture);
                     record_picture_adapter.notifyDataSetChanged();
