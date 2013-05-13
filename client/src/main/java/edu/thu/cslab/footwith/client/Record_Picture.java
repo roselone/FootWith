@@ -7,7 +7,9 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.*;
 import android.widget.*;
 import edu.thu.cslab.footwith.client.helper.Menu_Functions;
@@ -137,11 +139,15 @@ public class Record_Picture extends Activity {
             Intent intent = new Intent();
             intent.setType("image/*");
             intent.setAction(Intent.ACTION_GET_CONTENT);
+
+
             startActivityForResult(Intent.createChooser(intent, "选择图片"), SELECT_IMAGE_ACTIVITY_REQUEST_CODE);
 
         }else if(title.equals("相机")){
 
             Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            picFileUri = getOutputMediaFileUri(MEDIA_TYPE_IMAGE); // create a file to save the image
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, picFileUri); // set the image file name
             startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
 
 
@@ -150,16 +156,61 @@ public class Record_Picture extends Activity {
         }else if(title.equals("联系")){
             Menu_Functions.contactMe(this);
         }
-        return super.onOptionsItemSelected(item);    //To change body of overridden methods use File | Settings | File Templates.
+        //return super.onOptionsItemSelected(item);    //To change body of overridden methods use File | Settings | File Templates.
+        return true;
     }
+
+    public static final int MEDIA_TYPE_IMAGE = 1;
+    public static final int MEDIA_TYPE_VIDEO = 2;
+
+    /** Create a file Uri for saving an image or video */
+    private static Uri getOutputMediaFileUri(int type){
+        return Uri.fromFile(getOutputMediaFile(type));
+    }
+
+    /** Create a File for saving an image or video */
+    private static File getOutputMediaFile(int type){
+        // To be safe, you should check that the SDCard is mounted
+        // using Environment.getExternalStorageState() before doing this.
+
+        File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_PICTURES), "FootWith");
+        // This location works best if you want the created images to be shared
+        // between applications and persist after your app has been uninstalled.
+
+        // Create the storage directory if it does not exist
+        if (! mediaStorageDir.exists()){
+            if (! mediaStorageDir.mkdirs()){
+                Log.d("FootWith", "failed to create directory");
+                return null;
+            }
+        }
+
+        // Create a media file name
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        File mediaFile;
+        if (type == MEDIA_TYPE_IMAGE){
+            mediaFile = new File(mediaStorageDir.getPath() + File.separator +
+                    "IMG_"+ timeStamp + ".jpg");
+        } else if(type == MEDIA_TYPE_VIDEO) {
+            mediaFile = new File(mediaStorageDir.getPath() + File.separator +
+                    "VID_"+ timeStamp + ".mp4");
+        } else {
+            return null;
+        }
+
+        return mediaFile;
+    }
+
+    private Uri picFileUri;
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE){
             if(resultCode==RESULT_OK){
                 Toast.makeText(this, "Image saved to:\n" +
-                        data.getDataString(), Toast.LENGTH_LONG).show();
-                String uri = data.getDataString();
+                        picFileUri, Toast.LENGTH_LONG).show();
+                String uri = picFileUri.toString();
                 if(!Util.isEmpty(uri)){
                     HashMap<String, String> picture = new HashMap<String, String>();
                     picture.put("userID", Login.userID);
@@ -168,12 +219,14 @@ public class Record_Picture extends Activity {
                     picture.put("date", picture.get("time"));
                     picture.put("title", "Untitle");
                     picture.put("uri", uri);
+                    /*
                     String[] proj = { MediaStore.Images.Media.DATA };
                     Cursor cursor = managedQuery(Uri.parse(uri), proj, null, null, null);
                     int index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
                     cursor.moveToFirst();
                     String filePath = cursor.getString(index);
-                    File picFile = new File(filePath);
+                    */
+                    File picFile = new File(uri);
                     picture.put("pictureName", picFile.getName());
                     try {
                         FileInputStream fileInputStream = new FileInputStream(picFile);
@@ -242,7 +295,8 @@ public class Record_Picture extends Activity {
             }
 
         }
-        super.onActivityResult(requestCode, resultCode, data);    //To change body of overridden methods use File | Settings | File Templates.
+        //super.onActivityResult(requestCode, resultCode, data);    //To change body of overridden methods use File | Settings | File Templates.
+        return;
     }
 
     private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
