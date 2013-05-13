@@ -2,6 +2,8 @@ package edu.thu.cslab.footwith.client;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -12,6 +14,7 @@ import edu.thu.cslab.footwith.client.helper.MyPictureNetwork;
 import edu.thu.cslab.footwith.client.helper.Record_Picture_Adapter;
 import edu.thu.cslab.footwith.utility.Util;
 
+import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -26,6 +29,7 @@ import java.util.HashMap;
  */
 public class Record_Picture extends Activity {
     ArrayList<HashMap<String, String>> pictureList = new ArrayList<HashMap<String, String>>();
+    MyPictureNetwork myPictureNetwork;
     Record_Picture_Adapter record_picture_adapter;
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,7 +37,7 @@ public class Record_Picture extends Activity {
         Bundle bundle = getIntent().getExtras();
         String recordID = (String) bundle.get("recordID");
         String pictures = (String) bundle.get("pictures");
-        MyPictureNetwork myPictureNetwork = new MyPictureNetwork();
+        myPictureNetwork = new MyPictureNetwork();
         myPictureNetwork.requestList(pictures, recordID);
         pictureList = myPictureNetwork.getList();
         Gallery g = (Gallery) findViewById(R.id.record_picture_gallery);
@@ -45,12 +49,27 @@ public class Record_Picture extends Activity {
                 //To change body of implemented methods use File | Settings | File Templates.
                 ImageView imageView = (ImageView)findViewById(R.id.record_picture_imageView);
                 //imageView.setImageResource((Integer)adapterView.getAdapter().getItem(i));
-                imageView.setImageURI(Uri.parse(pictureList.get(i).get("uri")));
+                HashMap<String, String> picture = pictureList.get(i);
+                String uri = picture.get("uri");
+                String pic = picture.get("picture");
+                if(!Util.isEmpty(uri)){
+                    imageView.setImageURI(Uri.parse(uri));
+                }else if(!Util.isEmpty(pic)){
+                    try {
+                        byte[] pic_byte = net.iharder.Base64.decode(pic.getBytes());
+                        ByteArrayInputStream imageStream = new ByteArrayInputStream(pic_byte);
+                        Bitmap bitmap = BitmapFactory.decodeStream(imageStream);
+                        imageView.setImageBitmap(bitmap);
+
+                    } catch (IOException e) {
+                        e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                    }
+                }
                 TextView titleTextView = (TextView) findViewById(R.id.picture_title_textView);
                 TextView userTextView = (TextView) findViewById(R.id.picture_user_textView);
                 TextView dateTextView = (TextView) findViewById(R.id.picture_date_textView);
                 titleTextView.setText(pictureList.get(i).get("title"));
-                userTextView.setText(pictureList.get(i).get("userID"));
+                userTextView.setText(pictureList.get(i).get("userName"));
                 dateTextView.setText(pictureList.get(i).get("date"));
             }
         });
@@ -59,7 +78,35 @@ public class Record_Picture extends Activity {
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 //To change body of implemented methods use File | Settings | File Templates.
                 ImageView imageView = (ImageView)findViewById(R.id.record_picture_imageView);
-                imageView.setImageURI(Uri.parse(pictureList.get(i).get("uri")));
+                HashMap<String, String> picture = pictureList.get(i);
+                String uri = picture.get("uri");
+                String pic = picture.get("picture");
+                if(!Util.isEmpty(uri)){
+                    imageView.setImageURI(Uri.parse(uri));
+                }else if(!Util.isEmpty(pic)){
+                    try {
+                        byte[] pic_byte = net.iharder.Base64.decode(pic.getBytes());
+                        ByteArrayInputStream imageStream = new ByteArrayInputStream(pic_byte);
+                        Bitmap bitmap = BitmapFactory.decodeStream(imageStream);
+                        imageView.setImageBitmap(bitmap);
+
+                    } catch (IOException e) {
+                        e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                    }
+                }
+                TextView titleTextView = (TextView) findViewById(R.id.picture_title_textView);
+                TextView userTextView = (TextView) findViewById(R.id.picture_user_textView);
+                TextView dateTextView = (TextView) findViewById(R.id.picture_date_textView);
+                titleTextView.setText(pictureList.get(i).get("title"));
+                userTextView.setText(pictureList.get(i).get("userName"));
+                dateTextView.setText(pictureList.get(i).get("date"));
+                /*
+                if(!Util.isEmpty(pictureList.get(i).get("uri"))){
+                    imageView.setImageURI(Uri.parse(pictureList.get(i).get("uri")));
+                }else{
+
+                }
+                */
                 //imageView.setImageResource((Integer)adapterView.getAdapter().getItem(i));
             }
 
@@ -115,11 +162,28 @@ public class Record_Picture extends Activity {
                 if(!Util.isEmpty(uri)){
                     HashMap<String, String> picture = new HashMap<String, String>();
                     picture.put("userID", Login.userID);
+                    picture.put("userName", Login.userName);
                     picture.put("time", String.valueOf(new SimpleDateFormat("yyyy-MM-dd").format(new Date())));
                     picture.put("date", picture.get("time"));
                     picture.put("title", picture.get("Untitle"));
                     picture.put("uri", uri);
-                    pictureList.add(picture);
+                    File picFile = new File(uri);
+                    picture.put("pictureName", picFile.getName());
+                    try {
+                        FileInputStream fileInputStream = new FileInputStream(picFile);
+                        byte []buf = new byte[(int) picFile.length()];
+                        fileInputStream.read(buf);
+                        String picCode  = net.iharder.Base64.encodeBytes(buf);
+                        picture.put("picture", picCode);
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                    } catch (IOException e) {
+                        e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                    }
+
+
+                    //pictureList.add(picture);
+                    myPictureNetwork.add(picture);
                     record_picture_adapter.notifyDataSetChanged();
                 }
             }else if(requestCode==RESULT_CANCELED){
@@ -131,15 +195,32 @@ public class Record_Picture extends Activity {
             if(resultCode==RESULT_OK){
                 Toast.makeText(this, "Select image from\n" +
                         data.getDataString(), Toast.LENGTH_LONG).show();
-                String result = data.getDataString();
-                HashMap<String, String> picture = new HashMap<String, String>();
-                picture.put("userID", Login.userID);
-                picture.put("time", String.valueOf(new SimpleDateFormat("yyyy-MM-dd").format(new Date())));
-                picture.put("date", picture.get("time"));
-                picture.put("title", picture.get("Untitle"));
-                picture.put("uri", result);
-                pictureList.add(picture);
-                record_picture_adapter.notifyDataSetChanged();
+                String uri = data.getDataString();
+                if(!Util.isEmpty(uri)){
+                    HashMap<String, String> picture = new HashMap<String, String>();
+                    picture.put("userID", Login.userID);
+                    picture.put("userName", Login.userName);
+                    picture.put("time", String.valueOf(new SimpleDateFormat("yyyy-MM-dd").format(new Date())));
+                    picture.put("date", picture.get("time"));
+                    picture.put("title", picture.get("Untitle"));
+                    picture.put("uri", uri);
+                    File picFile = new File(uri);
+                    picture.put("pictureName", picFile.getName());
+                    try {
+                        FileInputStream fileInputStream = new FileInputStream(picFile);
+                        byte []buf = new byte[(int) picFile.length()];
+                        fileInputStream.read(buf);
+                        String picCode  = net.iharder.Base64.encodeBytes(buf);
+                        picture.put("picture", picCode);
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                    } catch (IOException e) {
+                        e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                    }
+                    //pictureList.add(picture);
+                    myPictureNetwork.add(picture);
+                    record_picture_adapter.notifyDataSetChanged();
+                }
 
             }else if(requestCode==RESULT_CANCELED){
 
