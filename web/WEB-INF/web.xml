@@ -26,6 +26,10 @@
         <servlet-name>site</servlet-name>
         <servlet-class>edu.thu.cslab.footwith.web.Site</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>picture</servlet-name>
+        <servlet-class>edu.thu.cslab.footwith.web.Picture</servlet-class>
+    </servlet>
 
     <servlet-mapping>
         <servlet-name>test</servlet-name>
@@ -50,5 +54,9 @@
     <servlet-mapping>
         <servlet-name>site</servlet-name>
         <url-pattern>/site</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>picture</servlet-name>
+        <url-pattern>/picture</url-pattern>
     </servlet-mapping>
 </web-app>
