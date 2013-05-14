@@ -30,7 +30,7 @@ public class MyPictureNetwork {
         String result = null;
         HashMap<String, String> tmpMap = new HashMap<String, String>();
         tmpMap.put("recordID", recordID);
-        map.put("picture", map.get("uri"));
+        //map.put("picture", map.get("uri"));
         tmpMap.put("picture", JSONHelper.getJSONHelperInstance().convertToString(map));
         try {
             result = sc.setRequestParam("add", JSONHelper.getJSONHelperInstance().convertToString(tmpMap)).doPost();

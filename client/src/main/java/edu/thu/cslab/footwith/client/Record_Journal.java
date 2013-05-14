@@ -77,6 +77,7 @@ public class Record_Journal extends Activity {
                         String date = String.valueOf(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
                         modified_journal.put("time", date);
                         modified_journal.put("userID", Login.userID);
+                        modified_journal.put("userName", Login.userName);
                         if(myJournalNetwork.modify(position, modified_journal)){
                             Toast.makeText(Record_Journal.this, "修改成功", Toast.LENGTH_SHORT);
                         }else{
@@ -138,6 +139,7 @@ public class Record_Journal extends Activity {
                     String date = String.valueOf(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
                     add_journal.put("time", date);
                     add_journal.put("userID", Login.userID);
+                    add_journal.put("userName", Login.userName);
                     if(myJournalNetwork.add(add_journal)){
                         Toast.makeText(Record_Journal.this, "添加成功", Toast.LENGTH_SHORT);
                     }else{

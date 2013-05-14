@@ -39,7 +39,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/login_user_input"
             android:inputType="text"
-            android:singleLine="true" />
+            android:singleLine="true" android:hint="Email"/>
 
         <TextView
             android:id="@+id/login_password_input"
