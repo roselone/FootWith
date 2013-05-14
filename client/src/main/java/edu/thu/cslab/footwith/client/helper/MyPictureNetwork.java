@@ -1,8 +1,10 @@
 package edu.thu.cslab.footwith.client.helper;
 
 import android.graphics.drawable.Drawable;
+import edu.thu.cslab.footwith.client.AboutMe;
 import edu.thu.cslab.footwith.messenger.JSONHelper;
 import edu.thu.cslab.footwith.utility.Util;
+import org.json.JSONException;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -20,6 +22,7 @@ public class MyPictureNetwork {
     private ArrayList<HashMap<String, String>> pictureList =new ArrayList<HashMap<String,String>>();
     private String pictures;
     private String recordID;
+    private int position;
     public boolean add(HashMap<String, String> map){
         ServerConnector sc = new ServerConnector("picture");
         /*
@@ -41,6 +44,21 @@ public class MyPictureNetwork {
             HashMap<String, String> result_map = JSONHelper.getJSONHelperInstance().convertToMap(result);
             if(result_map.get("state").equals("successful")){
                 pictureList.add(map);
+                if(position!=-1){
+                    HashMap<String, String> rcdMap = AboutMe.listItem.get(position);
+                    try {
+                        rcdMap.put("pictures", JSONHelper.getJSONHelperInstance().addToArray(rcdMap.get("pictures"), Integer.valueOf(result_map.get("pictureID"))));
+                    } catch (JSONException e) {
+                        e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                    }
+                }
+                /*
+                AboutMe.self.requestList();
+                AboutMe.listItem=AboutMe.self.getList();
+                */
+                AboutMe.selfAdapter.notifyDataSetChanged();
+
+
                 return true;
                 //System.out.println(selfListString.toString());
             }else{
@@ -80,9 +98,13 @@ public class MyPictureNetwork {
         return false;
 
     }
-    public void requestList(String pictures, String recordID){
+    public void requestList(String pictures, String recordID, int position){
         this.pictures = pictures;
         this.recordID = recordID;
+        this.position = position;
+        if(Util.isEmpty(pictures)){
+            return;
+        }
         ServerConnector sc = new ServerConnector("picture");
         String result = null;
 
