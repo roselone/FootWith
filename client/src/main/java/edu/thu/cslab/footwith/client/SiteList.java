@@ -81,13 +81,8 @@ public class SiteList extends Activity{
             map3.put("ItemTitle", map2.get(keySet.get(i)));
             listItem.add(map3);
         }
-
-
-
-
         mData=listItem;
-
-        //生成适配器的Item和动态数组对应的元素
+         //生成适配器的Item和动态数组对应的元素
         SimpleAdapter listItemAdapter = new SimpleAdapter(this,listItem,R.layout.sitelist1,//ListItem的XML实现
                 new String[] {"ItemTitle"},
                 new int[] {R.id.ItemTitle}
@@ -110,6 +105,7 @@ public class SiteList extends Activity{
                 Bundle bundle = new Bundle();
                 bundle.putString("siteName", siteName);
                 bundle.putString("siteId", String.valueOf(siteToId.get(siteName)));
+
                 intent.putExtras(bundle);
                 SiteList.this.startActivity(intent);
             }
