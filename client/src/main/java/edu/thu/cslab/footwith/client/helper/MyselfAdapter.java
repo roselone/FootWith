@@ -5,10 +5,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.*;
+import edu.thu.cslab.footwith.client.AboutMe;
 import edu.thu.cslab.footwith.client.Login;
 import edu.thu.cslab.footwith.client.R;
 import edu.thu.cslab.footwith.messenger.JSONHelper;
@@ -119,9 +117,25 @@ public class MyselfAdapter extends BaseAdapter{
                     recordMap.put("itemType", "record");
                     recordMap.put("startTime", String.valueOf(new SimpleDateFormat("yyyy-MM-dd").format(new Date())));
                     recordMap.put("userIDs", planMap.get("participants"));
-                    selfListString.remove(planMap);
-                    selfListString.add(recordMap);
-					notifyDataSetChanged();
+                    ServerConnector sc = new ServerConnector("planrecord");
+                    String result = null;
+                    try {
+                        result = sc.setRequestParam("start", planMap.get("planID")).doPost();
+                    } catch (IOException e) {
+                        e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                    }
+                    if(!Util.isEmpty(result)){
+                        HashMap<String, String> result_map = JSONHelper.getJSONHelperInstance().convertToMap(result);
+                        if(result_map.get("state").equals("successful")){
+                            recordMap.put("recordID", result_map.get("recordID"));
+                            recordMap.put("pictures","[]");
+                            recordMap.put("journals","[]");
+                            selfListString.remove(planMap);
+                            selfListString.add(recordMap);
+                            notifyDataSetChanged();
+                        }
+                    }
+
 				}
 			});
 			

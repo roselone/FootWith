@@ -40,8 +40,10 @@ public class Record_Picture extends Activity {
         Bundle bundle = getIntent().getExtras();
         String recordID = (String) bundle.get("recordID");
         String pictures = (String) bundle.get("pictures");
+        int position = bundle.getInt("position");
         myPictureNetwork = new MyPictureNetwork();
-        myPictureNetwork.requestList(pictures, recordID);
+
+        myPictureNetwork.requestList(pictures, recordID, position);
         pictureList = myPictureNetwork.getList();
         Gallery g = (Gallery) findViewById(R.id.record_picture_gallery);
         record_picture_adapter = new Record_Picture_Adapter(this, pictureList);
@@ -145,9 +147,11 @@ public class Record_Picture extends Activity {
 
         }else if(title.equals("相机")){
 
-            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-            picFileUri = getOutputMediaFileUri(MEDIA_TYPE_IMAGE); // create a file to save the image
-            intent.putExtra(MediaStore.EXTRA_OUTPUT, picFileUri); // set the image file name
+            //Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
+            //picFileUri = getOutputMediaFileUri(MEDIA_TYPE_IMAGE); // create a file to save the image
+            //picFileUri = Uri.fromFile(new File("file:///sdcard/Pictures/FootWith/IMG_"+new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date())+".jpg"));
+            //intent.putExtra(MediaStore.EXTRA_OUTPUT, picFileUri); // set the image file name
             startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
 
 
@@ -207,40 +211,24 @@ public class Record_Picture extends Activity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE){
+            //Bundle
             if(resultCode==RESULT_OK){
-                Toast.makeText(this, "Image saved to:\n" +
-                        picFileUri, Toast.LENGTH_LONG).show();
-                String uri = picFileUri.toString();
-                if(!Util.isEmpty(uri)){
+                Toast.makeText(this, "Image saved\n", Toast.LENGTH_LONG).show();
+                Bitmap pictureBMP = (Bitmap) data.getExtras().get("data");
+                if(pictureBMP!=null){
                     HashMap<String, String> picture = new HashMap<String, String>();
                     picture.put("userID", Login.userID);
                     picture.put("userName", Login.userName);
                     picture.put("time", String.valueOf(new SimpleDateFormat("yyyy-MM-dd").format(new Date())));
                     picture.put("date", picture.get("time"));
                     picture.put("title", "Untitle");
-                    picture.put("uri", uri);
-                    /*
-                    String[] proj = { MediaStore.Images.Media.DATA };
-                    Cursor cursor = managedQuery(Uri.parse(uri), proj, null, null, null);
-                    int index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-                    cursor.moveToFirst();
-                    String filePath = cursor.getString(index);
-                    */
-                    File picFile = new File(uri);
-                    picture.put("pictureName", picFile.getName());
-                    try {
-                        FileInputStream fileInputStream = new FileInputStream(picFile);
-                        byte []buf = new byte[(int) picFile.length()];
-                        fileInputStream.read(buf);
-                        String picCode  = net.iharder.Base64.encodeBytes(buf);
-                        picture.put("picture", picCode);
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-                    } catch (IOException e) {
-                        e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-                    }
-
-
+                    picture.put("uri", "null");
+                    picture.put("pictureName", "IMG_"+new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date())+"*.jpg");
+                    ByteArrayOutputStream byteArrayBitmapStream = new ByteArrayOutputStream();
+                    pictureBMP.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayBitmapStream);
+                    byte[] buf = byteArrayBitmapStream.toByteArray();
+                    String picCode  = net.iharder.Base64.encodeBytes(buf);
+                    picture.put("picture", picCode);
                     //pictureList.add(picture);
                     myPictureNetwork.add(picture);
                     record_picture_adapter.notifyDataSetChanged();
