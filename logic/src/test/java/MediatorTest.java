@@ -27,9 +27,9 @@ public class MediatorTest {
 //        logger.debug(userinfo);
 //    }
 //    @Test
-//    public void getUserPlanTest() throws SQLException, JSONException, TextFormatException {
-//        String planIDs="[15,16]";
-//        String result= Mediator.getUserPlans(planIDs).toString();
+//    public void getUserRecordTest() throws SQLException, JSONException, TextFormatException {
+//        String planIDs="[13,14,15]";
+//        String result= Mediator.getUserRecords(planIDs).toString();
 //        logger.debug(result);
 //    }
 //    @Test
@@ -85,10 +85,20 @@ public class MediatorTest {
 //        System.out.println(id);
 //
 //    }
-    @Test
-    public void getPictureTest() throws IOException, SQLException, JSONException {
-        String imageList="[1]";
-        HashMap<String,String> imageMap=Mediator.getPictures(imageList);
-        System.out.println(imageMap.toString());
-    }
+//    @Test
+//    public void getPictureTest() throws IOException, SQLException, JSONException {
+//        String imageList="[1]";
+//        HashMap<String,String> imageMap=Mediator.getPictures(imageList);
+//        System.out.println(imageMap.toString());
+//    }
+//    @Test
+//    public void startPlanTest() throws TextFormatException, NoSuchAlgorithmException, SQLException, JSONException, UnsupportedEncodingException {
+//        int planID=46;
+//        System.out.println(Mediator.startPlan(planID));
+//    }
+//    @Test
+//    public void updateTest() throws SQLException {
+//        Mediator.updateUserLike(3,"[1,2]");
+//        return ;
+//    }
 }
