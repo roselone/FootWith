@@ -55,7 +55,7 @@ public class Favorite_Site extends Activity {
 //      bunde = intent.getExtras();
 //      myChoice = bunde.getString("myChoice");
 
-        initDate();
+        initData();
         // 配置适配器
         favorite_site_adapter = new Favorite_Site_Adapter(list,this); // 布局里的控件id
         // 添加并且显示
@@ -81,7 +81,6 @@ public class Favorite_Site extends Activity {
                             Favorite_Site_Adapter.getIsSelected().put(i, true);
                             //System.out.println("add checked=" + position);
                             // Login.userChooseLike.add((String) getItem(position));
-                            System.out.println("go in");
                           //  myChoice = myChoice+holder.tv.getText();
 
                         } else if (!b) {
@@ -126,7 +125,7 @@ public class Favorite_Site extends Activity {
 
     }
 
-    private void initDate() {
+    private void initData() {
         for (int i = 0; i < 15; i++) {
             siteNametoId.put("data"+i,i);
             list.add("data" + "   " + i);

@@ -3,8 +3,10 @@ package edu.thu.cslab.footwith.client;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.*;
 import android.widget.AdapterView.OnItemClickListener;
@@ -38,25 +40,37 @@ public class AddPlan extends Activity {
 
     private  Button bt_favSite;
     private  Button bt_addPlan;
+    private EditText  edit_favSite;
+    private EditText  edit_title;
+    private EditText  desEditText;
+    private EditText  numEditText;
+    private Button   bt_start;
+    private Button   bt_end;
+
+
     private  Date  startTime;
     private  Date  endTime;
+
     private  int     groupNumMax ;
     private DatePicker start_DP;
     private DatePicker end_DP;
-    private EditText  desEditText;
-    private EditText  numEditText;
-    private EditText  edit_favSite;
-    private EditText  edit_title;
+
+
+
     int my_Year;
     int my_Month;
     int my_Day;
     int my_Hour;
     int my_Minute;
 
+    int year ;
+    int month ;
+    int day;
 
     public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+
         my_Calendar = Calendar.getInstance(Locale.CHINA);
         my_Year = my_Calendar.get(Calendar.YEAR);
         my_Month = my_Calendar.get(Calendar.MONTH);
@@ -64,26 +78,54 @@ public class AddPlan extends Activity {
         my_Hour = my_Calendar.get(Calendar.HOUR_OF_DAY);
         my_Minute = my_Calendar.get(Calendar.MINUTE);
 
-        startTime = new Date(my_Year,my_Month,my_Day);
-        endTime = new Date(my_Year,my_Month,my_Day);
+//        startTime = new Date(my_Year,my_Month,my_Day);
+//        endTime = new Date(my_Year,my_Month,my_Day);
 
-        setContentView(R.layout.addplan);
+        setContentView(R.layout.addplan_new);
         bt_favSite = (Button) findViewById(R.id.bt_favSite);
         bt_addPlan = (Button) findViewById(R.id.bt_addPlan);
-        start_DP = (DatePicker) findViewById(R.id.datePicker_start);
-        end_DP = (DatePicker) findViewById(R.id.datePicker_end);
         numEditText = (EditText) findViewById(R.id.editText_num);
         desEditText = (EditText) findViewById(R.id.editText_description);
+        bt_start = (Button)findViewById(R.id.bt_start);
+        bt_end = (Button)findViewById(R.id.bt_end);
         edit_title = (EditText) findViewById(R.id.edit_title);
         edit_favSite = (EditText)findViewById(R.id.edit_favSite);
 
-        Bundle bundle = getIntent().getExtras();
-        if (!(bundle==null || bundle.isEmpty())){
-            String data=bundle.getString("myChoice");//读出数据
-            if (!Util.isEmpty(data)){
-                data = data.substring(data.indexOf(",")+1,data.length());
-                edit_favSite.setText(data);
+        bt_start.setText(my_Year+"年"+my_Month+"月"+my_Day+"日");
+        bt_end.setText(my_Year+"年"+my_Month+"月"+my_Day+"日");
+
+
+        bt_start.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //To change body of implemented methods use File | Settings | File Templates.
+                buildDialog(0);
+               // bt_start.setText(my_Year+"年"+my_Month+"月"+my_Day+"日");
+
             }
+        });
+
+
+        bt_end.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //To change body of implemented methods use File | Settings | File Templates.
+                buildDialog(1);
+             //   bt_end.setText(my_Year+"年"+my_Month+"月"+my_Day+"日");
+            }
+        });
+
+//        start_DP = (DatePicker) findViewById(R.id.datePicker_start);
+//        end_DP = (DatePicker) findViewById(R.id.datePicker_end);
+
+        Bundle bundle = getIntent().getExtras();
+
+        if (!(bundle==null || bundle.isEmpty())){
+                String data=bundle.getString("myChoice");//读出数据
+                if (!Util.isEmpty(data)){
+                    data = data.substring(data.indexOf(",")+1,data.length());
+                    edit_favSite.setText(data);
+                }
         }
 
         //edit_favSite.setText(Favorite_Site.myChoice);
@@ -92,6 +134,7 @@ public class AddPlan extends Activity {
             @Override
             public void onClick(View view) {
                 //To change body of implemented methods use File | Settings | File Templates.
+
                 Intent intent = new Intent();
                 intent.setClass(AddPlan.this,Favorite_Site.class);
 //                Bundle bundle = new Bundle();
@@ -128,17 +171,19 @@ public class AddPlan extends Activity {
 
                 HashMap<String,String> addPlan = new HashMap<String, String>();
                 addPlan.put("title",title);
-                addPlan.put("startTime", new SimpleDateFormat("yyyy-MM-dd").format(startTime));
-                addPlan.put("endTime", new SimpleDateFormat("yyyy-MM-dd").format(endTime));
+                addPlan.put("startTime", new SimpleDateFormat("yyyy-MM-dd").format(new Date(my_Year,my_Month,my_Day)));
+                addPlan.put("endTime", new SimpleDateFormat("yyyy-MM-dd").format(new Date(my_Year,my_Month,my_Day)));
                 addPlan.put("describe",describe);
                 addPlan.put("organizer",userId);
                 addPlan.put("groupNumMax",String.valueOf(groupNumMax));
-                String[] chooseIds =  Favorite_Site.chooseIds.split(",");
-                Vector<String> siteIDs = new Vector<String>();
-                for(int i = 1;i<chooseIds.length;i++)
-                    siteIDs.add(chooseIds[i]);
 
-                addPlan.put("siteIDs", JSONHelper.JSONHelperInstance.convertToString2(siteIDs));
+                String[] chooseIds =  Favorite_Site.chooseIds.split(",");
+                Vector<Integer> siteIDs = new Vector<Integer>();
+                for(int i = 1;i<chooseIds.length;i++)
+                    siteIDs.add(Integer.valueOf(chooseIds[i]));
+
+                addPlan.put("siteIDs", JSONHelper.JSONHelperInstance.convertToString(siteIDs));
+                System.out.println(JSONHelper.JSONHelperInstance.convertToString(siteIDs));
 
                 String addPlanString = JSONHelper.getJSONHelperInstance().convertToString(addPlan);
                 ServerConnector connector=new ServerConnector("planrecord");
@@ -162,27 +207,27 @@ public class AddPlan extends Activity {
             }
 
         });
-        start_DP.init(my_Year,my_Month,my_Day,new DatePicker.OnDateChangedListener() {
-            @Override
-            public void onDateChanged(DatePicker datePicker, int i, int i2, int i3) {
-                my_Year = datePicker.getYear();
-                my_Month = datePicker.getMonth();
-                my_Day = datePicker.getDayOfMonth();
-                desEditText.setText("日期:"+my_Year+my_Month+my_Day);
-                startTime = new Date(my_Year,my_Month,my_Day);
-            }
-        });
-        end_DP.init(my_Year,my_Month,my_Day,new DatePicker.OnDateChangedListener() {
-            @Override
-            public void onDateChanged(DatePicker datePicker, int i, int i2, int i3) {
-                my_Year = datePicker.getYear();
-                my_Month = datePicker.getMonth();
-                my_Day = datePicker.getDayOfMonth();
-
-                endTime = new Date(my_Year,my_Month,my_Day);
-                desEditText.setText("日期:"+my_Year+my_Month+my_Day);
-            }
-        });
+//        start_DP.init(my_Year,my_Month,my_Day,new DatePicker.OnDateChangedListener() {
+//            @Override
+//            public void onDateChanged(DatePicker datePicker, int i, int i2, int i3) {
+//                my_Year = datePicker.getYear();
+//                my_Month = datePicker.getMonth();
+//                my_Day = datePicker.getDayOfMonth();
+//                desEditText.setText("日期:"+my_Year+my_Month+my_Day);
+//                startTime = new Date(my_Year,my_Month,my_Day);
+//            }
+//        });
+//        end_DP.init(my_Year,my_Month,my_Day,new DatePicker.OnDateChangedListener() {
+//            @Override
+//            public void onDateChanged(DatePicker datePicker, int i, int i2, int i3) {
+//                my_Year = datePicker.getYear();
+//                my_Month = datePicker.getMonth();
+//                my_Day = datePicker.getDayOfMonth();
+//
+//                endTime = new Date(my_Year,my_Month,my_Day);
+//                desEditText.setText("日期:"+my_Year+my_Month+my_Day);
+//            }
+//        });
 
     }
 //    protected void onActivityResult(int requestCode,int resultCode,Intent data){
@@ -198,6 +243,65 @@ public class AddPlan extends Activity {
 //
 //        }
 //    }
+
+    public void buildDialog(final int type){
+        // 从资源创建视图
+        LayoutInflater factory = LayoutInflater.from(this);
+        View view = factory.inflate(R.layout.my_datepicker, null); //自定义视图
+        year = my_Year;
+        month = my_Month;
+        day = my_Day;
+        DatePicker date = (DatePicker) view.findViewById(R.id.datePicker);
+
+        date.init(year,month,day,new DatePicker.OnDateChangedListener() {
+            @Override
+            public void onDateChanged(DatePicker datePicker, int i, int i2, int i3) {
+                year = datePicker.getYear();
+                month = datePicker.getMonth();
+                day = datePicker.getDayOfMonth();
+            //    desEditText.setText("日期:"+my_Year+my_Month+my_Day);
+            //    startTime = new Date(my_Year,my_Month,my_Day);
+            }
+        });
+
+        // 创建对话框
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setView(view);
+        // OK按钮消息处理
+        DialogInterface.OnClickListener  okClickListener = new DialogInterface.OnClickListener(){
+            public void onClick(DialogInterface dialog, int which){
+                AlertDialog alertDialog = (AlertDialog)dialog;
+
+                //假设colorpeek.xml里面定义了文本框txtColor，现取出放到主界面txtInput里面
+                //   bt_start.setText(my_Year+"-");
+                //    txtInput.setText(((EditText)alertDialog.findViewById(R.id.txtColor)).getText().toString());
+                my_Day = day;
+                my_Month = month;
+                my_Year = year;
+               if(type == 0) {
+                   bt_start.setText(my_Year+"年"+my_Month+"月"+my_Day+"日");
+                   startTime = new Date(my_Year,my_Month,my_Day);
+               } else {
+
+                   bt_end.setText(my_Year+"年"+my_Month+"月"+my_Day+"日");
+                   endTime = new Date(my_Year,my_Month,my_Day);
+                   if(endTime.before(startTime)) {
+                       new  AlertDialog.Builder(AddPlan.this).setTitle("警告").setMessage("结束时间不能小于开始时间").setPositiveButton("确定",
+                               null).show();
+
+                   }
+               }
+            }
+        };
+
+        builder.setPositiveButton("确定", okClickListener);
+        builder.setTitle("请选择时间");
+        AlertDialog dialog = builder.create();
+        dialog.show();
+
+
+    }
+
 
 
 }
