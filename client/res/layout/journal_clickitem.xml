@@ -8,12 +8,13 @@
     <EditText
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/journal_title_editText" android:layout_marginTop="20dp"/>
+            android:id="@+id/journal_title_editText" android:layout_marginTop="20dp" android:hint="Title"/>
     <EditText
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:id="@+id/journal_content_editText" android:layout_gravity="left|center_vertical" android:height="200dp"
+            android:id="@+id/journal_content_editText" android:layout_gravity="center_vertical" android:height="200dp"
             android:editable="false"
             android:ellipsize="none" android:layout_marginTop="5dp" android:linksClickable="false"
-            android:longClickable="false" android:singleLine="false" android:inputType="text|textMultiLine"/>
+            android:longClickable="false" android:singleLine="false" android:inputType="text|textMultiLine"
+            android:gravity="left|top" android:hint="Content"/>
 </LinearLayout>

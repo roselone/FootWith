@@ -25,21 +25,23 @@ import java.util.HashMap;
 //import edu.xdu.RL.FootWith.helper.ServerConnector;
 
 public class AboutMe extends Activity {
-
+    public static ArrayList<HashMap<String, String>> listItem  = new ArrayList<HashMap<String,String>>();
+    public static MyselfNetwork self=new MyselfNetwork();
+    public static MyselfAdapter selfAdapter;
 	@Override
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
         setContentView(R.layout.aboutme);
-        
+
         ListView selfList=(ListView)findViewById(R.id.listView_AboutMe);
-        
-        ArrayList<HashMap<String, String>> listItem=new ArrayList<HashMap<String,String>>();
-        
-        final MyselfNetwork self=new MyselfNetwork();
+
+        listItem = new ArrayList<HashMap<String,String>>();
+        self=new MyselfNetwork();
+
         self.requestList();
         listItem=self.getList();
-        
-        final MyselfAdapter selfAdapter=new MyselfAdapter(AboutMe.this, listItem);
+
+        selfAdapter = new MyselfAdapter(AboutMe.this, listItem);
         //final MyselfAdapter selfAdapter=new MyselfAdapter(AboutMe.this);
         selfList.setAdapter(selfAdapter);
         
@@ -155,6 +157,7 @@ public class AboutMe extends Activity {
                     Intent intent = new Intent(arg1.getContext(), Record_Tab.class);
                     Bundle extras = new Bundle();
                     extras.putSerializable("map", map);
+                    extras.putInt("position", position);
                     intent.putExtras(extras);
                     /*
                     String []keys = (String[]) map.keySet().toArray();

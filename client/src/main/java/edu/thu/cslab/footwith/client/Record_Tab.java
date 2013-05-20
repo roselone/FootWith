@@ -27,8 +27,10 @@ public class Record_Tab extends ActivityGroup {
 
         Bundle extras = getIntent().getExtras();
         HashMap<String, String> map=null;
+        int position = -1;
         if(extras!=null){
             map = (HashMap<String, String>) extras.getSerializable("map");
+            position = extras.getInt("position");
         }
 
         Intent intent;
@@ -40,6 +42,7 @@ public class Record_Tab extends ActivityGroup {
         intent = new Intent(this, Record_Basic.class);
         intent.putExtra("sites", map.get("siteIDs"));
         intent.putExtra("users", map.get("userIDs"));
+        intent.putExtra("position", position);
         spec.setContent(intent);
         spec.setIndicator("基本", getResources().getDrawable(R.drawable.basic));
         recordTabHost.addTab(spec);
@@ -49,6 +52,7 @@ public class Record_Tab extends ActivityGroup {
         intent = new Intent(this, Record_Journal.class);
         intent.putExtra("journals", map.get("journals"));
         intent.putExtra("recordID", map.get("recordID"));
+        intent.putExtra("position", position);
         spec.setContent(intent);
         spec.setIndicator("日志", getResources().getDrawable(R.drawable.journal));
         recordTabHost.addTab(spec);
@@ -57,6 +61,7 @@ public class Record_Tab extends ActivityGroup {
         intent = new Intent(this, Record_Picture.class);
         intent.putExtra("pictures", map.get("pictures"));
         intent.putExtra("recordID", map.get("recordID"));
+        intent.putExtra("position", position);
         spec.setContent(intent);
         spec.setIndicator("图片", getResources().getDrawable(R.drawable.picture));
         recordTabHost.addTab(spec);

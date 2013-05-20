@@ -1,7 +1,9 @@
 package edu.thu.cslab.footwith.client.helper;
 
+import edu.thu.cslab.footwith.client.AboutMe;
 import edu.thu.cslab.footwith.messenger.JSONHelper;
 import edu.thu.cslab.footwith.utility.Util;
+import org.json.JSONException;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -19,6 +21,7 @@ public class MyJournalNetwork {
     private ArrayList<HashMap<String, String>> journalList =new ArrayList<HashMap<String,String>>();
     private String journalIDs;
     private String recordID;
+    private int position;
     public boolean add(HashMap<String, String> map){
         ServerConnector sc = new ServerConnector("journal");
         String result = null;
@@ -34,6 +37,20 @@ public class MyJournalNetwork {
             HashMap<String, String> result_map = JSONHelper.getJSONHelperInstance().convertToMap(result);
             if(result_map.get("state").equals("successful")){
                 journalList.add(map);
+                if(position!=-1){
+                    HashMap<String, String> rcdMap = AboutMe.listItem.get(position);
+                    try {
+                        rcdMap.put("journals", JSONHelper.getJSONHelperInstance().addToArray(rcdMap.get("journals"), Integer.valueOf(result_map.get("journalID"))));
+                    } catch (JSONException e) {
+                        e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                    }
+                }
+                /*
+                AboutMe.self.requestList();
+                AboutMe.listItem=AboutMe.self.getList();
+                */
+                AboutMe.selfAdapter.notifyDataSetChanged();
+
                 return true;
                 //System.out.println(selfListString.toString());
             }else{
@@ -69,9 +86,13 @@ public class MyJournalNetwork {
         }
         return false;
     }
-    public void requestList(String journalIDs, String recordID){
+    public void requestList(String journalIDs, String recordID, int position){
         this.journalIDs = journalIDs;
         this.recordID = recordID;
+        this.position = position;
+        if(Util.isEmpty(journalIDs)){
+            return;
+        }
         ServerConnector sc = new ServerConnector("journal");
         String result = null;
 
