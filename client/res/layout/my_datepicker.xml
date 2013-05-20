@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" xmlns:android="http://schemas.android.com/apk/res/android"
+        android:background="@drawable/background_main">
+    <DatePicker
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/datePicker"
+            android:layout_centerHorizontal="true" android:layout_below="@+id/tv_time"/>
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="当前时间"
+            android:id="@+id/tv_time" android:layout_alignParentLeft="false"
+            android:layout_alignTop="@+id/textView" android:layout_centerHorizontal="true"/>
+</RelativeLayout>
