@@ -2,14 +2,12 @@ package edu.thu.cslab.footwith.client;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.*;
-import android.widget.AdapterView.OnItemClickListener;
 
 import java.io.IOException;
 import java.sql.Date;
@@ -18,9 +16,8 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Vector;
-import java.util.logging.Logger;
+
 import  android.util.Log;
-import edu.thu.cslab.footwith.client.helper.Favorite_Site_Adapter;
 import edu.thu.cslab.footwith.client.helper.ServerConnector;
 import edu.thu.cslab.footwith.messenger.JSONHelper;
 import edu.thu.cslab.footwith.utility.Util;
@@ -81,7 +78,7 @@ public class AddPlan extends Activity {
 //        startTime = new Date(my_Year,my_Month,my_Day);
 //        endTime = new Date(my_Year,my_Month,my_Day);
 
-        setContentView(R.layout.addplan_new);
+        setContentView(R.layout.addplan);
         bt_favSite = (Button) findViewById(R.id.bt_favSite);
         bt_addPlan = (Button) findViewById(R.id.bt_addPlan);
         numEditText = (EditText) findViewById(R.id.editText_num);
