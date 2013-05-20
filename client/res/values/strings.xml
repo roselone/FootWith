@@ -17,6 +17,6 @@
     <string name="tab2_text">叮叮</string>
     <string name="tab3_text">我</string>
     <string name="register_label_nickname">nickname</string>
-    <string name="register_label_email">Mail Address</string>
+    <string name="register_label_email">Mail Address</string><string name="addplan_button">添加计划</string>
 
 </resources>
