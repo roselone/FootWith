@@ -18,11 +18,11 @@ import java.sql.SQLException;
  * To change this template use File | Settings | File Templates.
  */
 public class planTest {
-    @Test
-    public void selectPlanTest() throws TextFormatException, SQLException {
-        Plan plan= PlanManager.selectPlan(15);
-        System.out.println(plan.getTimestamp());
-    }
+//    @Test
+//    public void selectPlanTest() throws TextFormatException, SQLException {
+//        Plan plan= PlanManager.selectPlan(25);
+//        System.out.println(plan.getTimestamp());
+//    }
 //    @Test
 //    public void addPlanTest() throws TextFormatException, SQLException, NoSuchAlgorithmException, JSONException, UnsupportedEncodingException {
 //        Plan plan=new Plan();

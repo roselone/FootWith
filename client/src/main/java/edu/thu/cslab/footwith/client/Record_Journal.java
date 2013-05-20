@@ -35,7 +35,8 @@ public class Record_Journal extends Activity {
         Bundle bundle = getIntent().getExtras();
         String journalIDs = (String) bundle.get("journals");
         String recordID = (String) bundle.get("recordID");
-        myJournalNetwork.requestList(journalIDs, recordID);
+        int position = bundle.getInt("position");
+        myJournalNetwork.requestList(journalIDs, recordID, position);
         final ArrayList<HashMap<String, String>> journalList=myJournalNetwork.getList();
 
         ListView listView = (ListView) findViewById(R.id.record_journal_listView);
@@ -77,10 +78,11 @@ public class Record_Journal extends Activity {
                         String date = String.valueOf(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
                         modified_journal.put("time", date);
                         modified_journal.put("userID", Login.userID);
+                        modified_journal.put("userName", Login.userName);
                         if(myJournalNetwork.modify(position, modified_journal)){
-                            Toast.makeText(Record_Journal.this, "修改成功", Toast.LENGTH_SHORT);
+                            Toast.makeText(Record_Journal.this, "修改成功", Toast.LENGTH_SHORT).show();
                         }else{
-                            Toast.makeText(Record_Journal.this, "修改失败", Toast.LENGTH_SHORT);
+                            Toast.makeText(Record_Journal.this, "修改失败", Toast.LENGTH_SHORT).show();
                         }
                         record_journal_adapter.notifyDataSetChanged();
 
@@ -138,10 +140,11 @@ public class Record_Journal extends Activity {
                     String date = String.valueOf(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
                     add_journal.put("time", date);
                     add_journal.put("userID", Login.userID);
+                    add_journal.put("userName", Login.userName);
                     if(myJournalNetwork.add(add_journal)){
-                        Toast.makeText(Record_Journal.this, "添加成功", Toast.LENGTH_SHORT);
+                        Toast.makeText(Record_Journal.this, "添加成功", Toast.LENGTH_SHORT).show();
                     }else{
-                        Toast.makeText(Record_Journal.this, "添加失败", Toast.LENGTH_SHORT);
+                        Toast.makeText(Record_Journal.this, "添加失败", Toast.LENGTH_SHORT).show();
                     }
                     record_journal_adapter.notifyDataSetChanged();
                 }

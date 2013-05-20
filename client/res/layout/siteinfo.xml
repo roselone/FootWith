@@ -51,13 +51,13 @@
                 android:layout_height="140dp"
                 android:id="@+id/imageView"
                 android:layout_alignWithParentIfMissing="false"
-                android:layout_alignParentLeft="true" android:layout_marginLeft="148dp" android:layout_alignParentTop="true"
-                android:layout_marginTop="18dp" android:background="@drawable/shouxihu" android:scaleType="centerInside"
+                android:layout_alignParentLeft="true" android:layout_marginLeft="148dp"
+                android:scaleType="centerInside"
                 android:baselineAlignBottom="false" android:clickable="false" android:focusable="true"
                 android:cropToPadding="true"
                 android:padding="3dp"
                 android:src="@drawable/shouxihu" android:layout_alignRight="@+id/textView1"
-                android:layout_alignParentBottom="false"/>
+                android:layout_alignParentBottom="false" android:layout_alignTop="@+id/textView"/>
         <TextView
                 android:layout_width="456dp"
                 android:layout_height="302dp"
@@ -74,8 +74,8 @@
                 android:clickable="true" android:paddingLeft="10dp"
 
                 android:focusable="true" android:cropToPadding="true"
-                android:layout_alignParentLeft="true" android:layout_marginLeft="20dp"
-                android:layout_alignBottom="@+id/imageView"/>
+                android:layout_alignLeft="@+id/imageView1" android:layout_alignParentTop="true"
+                android:layout_marginTop="135dp"/>
 
         <TextView
                 android:layout_width="wrap_content"
@@ -94,8 +94,8 @@
                 android:textColor="#861fff"
                 android:textSize="11dp"
                 android:singleLine="true"
-                android:layout_alignParentLeft="false" android:layout_marginLeft="44dp"
-                android:layout_alignBottom="@+id/imageView" android:layout_alignParentTop="false"/>
+                android:layout_alignRight="@+id/ratingBar" android:layout_alignTop="@+id/imageButton"
+                android:layout_marginTop="4dp"/>
         <TextView
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
@@ -103,7 +103,7 @@
                 android:id="@+id/textView4"
                 android:layout_alignLeft="@+id/textView" android:layout_alignParentTop="true"
                 android:layout_marginTop="109dp" android:textColor="#010101" android:textSize="12dp"
-                android:layout_marginLeft="2dp" android:textStyle="normal"/>
+                android:layout_marginLeft="2.5dp" android:textStyle="normal"/>
         <ImageView
                 android:layout_width="12dp"
                 android:layout_height="12dp"
