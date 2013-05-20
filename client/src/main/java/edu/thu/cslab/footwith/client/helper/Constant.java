@@ -12,7 +12,7 @@ import java.util.Properties;
  * To change this template use File | Settings | File Templates.
  */
 public class Constant {
-    public static String URL="http://166.111.70.170:12580/web-1.0/";
+    public static String URL="http://166.111.70.115:12580/web-1.0/";
     private Properties properties = new Properties();
          private static final Constant constantInstantce=new Constant();
          private Constant(){
