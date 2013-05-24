@@ -32,6 +32,10 @@ public class ServerConnector {
         this.dest=dest;
         post=new HttpPost(Constant.URL+dest);
     }
+    public ServerConnector(String weibo, String dest){
+        this.dest=dest;
+        post=new HttpPost(weibo+dest);
+    }
     public ServerConnector setRequestParam(String key,String value){
         param.add(new BasicNameValuePair(key,value));
         return this;

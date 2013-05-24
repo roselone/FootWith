@@ -41,6 +41,15 @@
     <LinearLayout
             android:orientation="vertical"
             android:layout_width="fill_parent"
+            android:layout_height="wrap_content" android:paddingRight="10dp">
+        <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:id="@+id/weibo_imageView" android:layout_gravity="right" android:src="@drawable/share"/>
+    </LinearLayout>
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
             android:layout_height="fill_parent">
         <ImageView
                 android:layout_width="fill_parent"
