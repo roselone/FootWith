@@ -217,7 +217,7 @@ public class Record_Picture extends Activity {
             //Bundle
             if(resultCode==RESULT_OK){
                 Toast.makeText(this, "Image saved\n", Toast.LENGTH_LONG).show();
-                Bitmap pictureBMP = (Bitmap) data.getExtras().get("data");
+                final Bitmap pictureBMP = (Bitmap) data.getExtras().get("data");
                 if(pictureBMP!=null){
                     HashMap<String, String> picture = new HashMap<String, String>();
                     picture.put("userID", Login.userID);
@@ -226,12 +226,48 @@ public class Record_Picture extends Activity {
                     picture.put("date", picture.get("time"));
                     picture.put("title", "Untitle");
                     picture.put("uri", "null");
-                    picture.put("pictureName", "IMG_"+new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date())+"*.jpg");
+                    picture.put("pictureName", "IMG_"+new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date())+".jpg");
                     ByteArrayOutputStream byteArrayBitmapStream = new ByteArrayOutputStream();
                     pictureBMP.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayBitmapStream);
                     byte[] buf = byteArrayBitmapStream.toByteArray();
                     String picCode  = net.iharder.Base64.encodeBytes(buf);
                     picture.put("picture", picCode);
+
+                    AlertDialog.Builder builder_weibo = new AlertDialog.Builder(Record_Picture.this);
+                    final String weiboContent = String.valueOf(picture.get("title")) +"。##来自我的Footwith";
+                    builder_weibo.setMessage(weiboContent);
+                    builder_weibo.setTitle("同步到新浪微博？");
+                    builder_weibo.setPositiveButton("发布", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            //WeiboFunction weiboFunction = WeiboFunction.getInstance();
+                            WeiboFunction.authorize(Record_Picture.this);
+                            picFileUri = getOutputMediaFileUri(MEDIA_TYPE_IMAGE);
+                            String filePath = picFileUri.getPath();
+                            try {
+                                FileOutputStream fileOutputStream = new FileOutputStream(filePath);
+                                pictureBMP.compress(Bitmap.CompressFormat.JPEG, 100, fileOutputStream);
+                                String weiboUpdateResult = WeiboFunction.WeiboStatusUpload(Record_Picture.this, weiboContent, filePath, null);
+                                if(weiboUpdateResult.equals("success")){
+                                    Toast.makeText(Record_Picture.this, "微博发布成功", Toast.LENGTH_LONG).show();
+                                }else{
+                                    Toast.makeText(Record_Picture.this, "微博发布失败", Toast.LENGTH_LONG).show();
+                                }
+                            } catch (FileNotFoundException e) {
+                                e.printStackTrace();
+                            }
+
+
+                        }
+                    });
+                    builder_weibo.setNegativeButton("算了", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+
+                        }
+                    });
+                    builder_weibo.show();
+
                     //pictureList.add(picture);
                     myPictureNetwork.add(picture);
                     record_picture_adapter.notifyDataSetChanged();
@@ -243,9 +279,6 @@ public class Record_Picture extends Activity {
             }
         } else if(requestCode == SELECT_IMAGE_ACTIVITY_REQUEST_CODE){
             if(resultCode==RESULT_OK){
-
-
-
                 Toast.makeText(this, "Select image from\n" +
                         data.getDataString(), Toast.LENGTH_LONG).show();
                 String uri = data.getDataString();
@@ -278,8 +311,9 @@ public class Record_Picture extends Activity {
                         builder_weibo.setPositiveButton("发布", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-                                WeiboFunction weiboFunction = new WeiboFunction(Record_Picture.this);
-                                String weiboUpdateResult = weiboFunction.WeiboStatusUpload(weiboContent, filePath, null);
+                                //WeiboFunction weiboFunction = WeiboFunction.getInstance(Record_Picture.this);
+                                WeiboFunction.authorize(Record_Picture.this);
+                                String weiboUpdateResult = WeiboFunction.WeiboStatusUpload(Record_Picture.this, weiboContent, filePath, null);
                                 if(weiboUpdateResult.equals("success")){
                                     Toast.makeText(Record_Picture.this, "微博发布成功", Toast.LENGTH_LONG).show();
                                 }else{

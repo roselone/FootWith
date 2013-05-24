@@ -107,8 +107,9 @@ public class Record_Journal_Adapter extends BaseAdapter {
                 builder_weibo.setPositiveButton("发布", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        WeiboFunction weiboFunction = new WeiboFunction(mContext);
-                        String weiboUpdateResult = weiboFunction.WeiboStatusUpdate(weiboContent, null);
+                        //WeiboFunction weiboFunction = WeiboFunction.getInstance(mContext);
+                        WeiboFunction.authorize(mContext);
+                        String weiboUpdateResult = WeiboFunction.WeiboStatusUpdate(mContext, weiboContent, null);
                         if(weiboUpdateResult.equals("success")){
                             Toast.makeText(mContext, "微博发布成功", Toast.LENGTH_LONG).show();
                         }else{

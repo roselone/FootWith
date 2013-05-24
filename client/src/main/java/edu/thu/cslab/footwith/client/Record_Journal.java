@@ -93,8 +93,9 @@ public class Record_Journal extends Activity {
                             builder_weibo.setPositiveButton("发布", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
-                                    WeiboFunction weiboFunction = new WeiboFunction(Record_Journal.this);
-                                    String weiboUpdateResult = weiboFunction.WeiboStatusUpdate(weiboContent, null);
+                                    //WeiboFunction weiboFunction = WeiboFunction.getInstance(Record_Journal.this);
+                                    WeiboFunction.authorize(Record_Journal.this);
+                                    String weiboUpdateResult = WeiboFunction.WeiboStatusUpdate(Record_Journal.this, weiboContent, null);
                                     if(weiboUpdateResult.equals("success")){
                                         Toast.makeText(Record_Journal.this, "微博发布成功", Toast.LENGTH_LONG).show();
                                     }else{
@@ -199,8 +200,9 @@ public class Record_Journal extends Activity {
                         builder_weibo.setPositiveButton("发布", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-                                WeiboFunction weiboFunction = new WeiboFunction(Record_Journal.this);
-                                String weiboUpdateResult = weiboFunction.WeiboStatusUpdate(weiboContent, null);
+                                //WeiboFunction weiboFunction = WeiboFunction.getInstance(Record_Journal.this);
+                                WeiboFunction.authorize(Record_Journal.this);
+                                String weiboUpdateResult = WeiboFunction.WeiboStatusUpdate(Record_Journal.this, weiboContent, null);
                                 if(weiboUpdateResult.equals("success")){
                                     Toast.makeText(Record_Journal.this, "微博发布成功", Toast.LENGTH_LONG).show();
                                 }else{

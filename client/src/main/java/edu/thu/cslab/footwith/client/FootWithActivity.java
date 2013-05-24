@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TabHost;
 import android.widget.TabWidget;
 import android.widget.TextView;
+import edu.thu.cslab.footwith.client.helper.WeiboFunction;
 
 public class FootWithActivity extends ActivityGroup {
     /** Called when the activity is first created. */
@@ -53,13 +54,29 @@ public class FootWithActivity extends ActivityGroup {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.main_menu, menu);
-        menu.add("景点").setIcon(R.drawable.menu_sites);
-        menu.add("帮助").setIcon(R.drawable.menu_help);
+        menu.add( "景点").setIcon(R.drawable.menu_sites);
+        if(!WeiboFunction.isBound()){
+            menu.add(Menu.NONE,Menu.FIRST ,Menu.NONE,"绑定").setIcon(R.drawable.menu_help);
+        }else{
+            menu.add(Menu.NONE,Menu.FIRST ,Menu.NONE,"解绑").setIcon(R.drawable.menu_help);
+        }
         menu.add("联系").setIcon(R.drawable.menu_contact);
+
         //menu.add("hello");
         return super.onCreateOptionsMenu(menu);    //To change body of overridden methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        if(!WeiboFunction.isBound()){
+            menu.getItem(Menu.FIRST).setTitle("绑定");
+        }else{
+            menu.getItem(Menu.FIRST).setTitle("解绑");
+        }
+        return super.onPrepareOptionsMenu(menu);
     }
 
     @Override
@@ -70,8 +87,14 @@ public class FootWithActivity extends ActivityGroup {
             intent=new Intent(FootWithActivity.this,ProvinceList.class);
             FootWithActivity.this.startActivity(intent);
 
-        }else if(title.equals("帮助")){
-
+        }else if(title.equals("绑定")){
+            //WeiboFunction weiboFunction = WeiboFunction.getInstance(this);
+            WeiboFunction.authorize(this);
+            //while(!WeiboFunction.isBound()){}
+            //item.setTitle("解绑");
+        }else if(title.equals("解绑")){
+            WeiboFunction.unBound();
+            //item.setTitle("绑定");
         }else if(title.equals("联系")){
 
 

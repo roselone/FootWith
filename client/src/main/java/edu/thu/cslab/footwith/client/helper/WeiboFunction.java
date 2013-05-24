@@ -3,11 +3,14 @@ package edu.thu.cslab.footwith.client.helper;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 import com.weibo.sdk.android.*;
+import com.weibo.sdk.android.api.AccountAPI;
 import com.weibo.sdk.android.api.StatusesAPI;
 import com.weibo.sdk.android.net.AsyncWeiboRunner;
 import com.weibo.sdk.android.net.RequestListener;
+import com.weibo.sdk.android.util.*;
 import org.apache.http.HttpHost;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpVersion;
@@ -39,58 +42,204 @@ import java.util.ArrayList;
  * Created by bxl on 5/23/13.
  */
 public class WeiboFunction {
-    private Context context;
-    private Oauth2AccessToken accessToken;
-    private String access_token, expires_in;
-    static String weiboUpdateResult;
-    static String weiboUpLoadResult;
-    public WeiboFunction(Context context) {
-        this.context = context;
-
-
+    static private Oauth2AccessToken accessToken=null;
+    static private String access_token=null, expires_in=null;
+    static private String weiboUpdateResult;
+    static private String weiboUpLoadResult;
+    static private Weibo weibo = Weibo.getInstance(Constant.WeiboAppKey, Constant.WeiboRedirectURL);;
+    //static private WeiboFunction weiboFunction = null;
+    /*
+    static public WeiboFunction getInstance(){
+        if(weiboFunction==null){
+            weiboFunction = new WeiboFunction();
+        }
+        return weiboFunction;
     }
-    public String WeiboStatusUpdate(final String content, final RequestListener requestListener) {
+    */
+    static public boolean isBound(){
+        return accessToken!=null;
+    }
+    static public boolean unBound(){
 
-        weiboUpdateResult = "success";
+        if(isBound()){
 
-        Weibo weibo = Weibo.getInstance(Constant.WeiboAppKey, Constant.WeiboRedirectURL);
+            ServerConnector sc = new ServerConnector("https://api.weibo.com/oauth2", "/revokeoauth2");
+            sc.setRequestParam("access_token", access_token);
+            try {
+                String result = sc.doPost();
+                Log.d("revoke", "result");
+            } catch (IOException e) {
+                //accessToken = null;
+                Log.d("revoke exception", e.getMessage());
+                e.printStackTrace();
+            }
 
-        weibo.authorize(context, new WeiboAuthListener() {
+            AccountAPI accountAPI =  new AccountAPI(accessToken);
+            accountAPI.endSession(new RequestListener() {
+                @Override
+                public void onComplete(String s) {
+                    accessToken = null;
+                }
+
+                @Override
+                public void onIOException(IOException e) {
+                    accessToken = null;
+                }
+
+                @Override
+                public void onError(WeiboException e) {
+                    accessToken = null;
+                }
+            });
+            accessToken = null;
+        }
+
+        accessToken = null;
+        return true;
+    }
+    static public void authorize(Context context){
+        if(accessToken!=null)
+            return;
+
+        WeiboParameters parameters = new WeiboParameters();
+        parameters.add("forcelogin", "true");
+        com.weibo.sdk.android.util.Utility.isWifi(context);
+        weibo.startDialog(context, parameters, new WeiboAuthListener() {
+
+        //weibo.authorize(context, new WeiboAuthListener() {
             @Override
             public void onComplete(Bundle bundle) {
                 access_token = bundle.getString("access_token");
                 expires_in = bundle.getString("expires_in");
                 accessToken = new Oauth2AccessToken(access_token, expires_in);
+            }
 
-                StatusesAPI statusesAPI = new StatusesAPI(accessToken);
-                if(requestListener!=null){
-                    statusesAPI.update(content,null,null,requestListener);
+            @Override
+            public void onWeiboException(WeiboException e) {
+                accessToken = null;
+            }
+
+            @Override
+            public void onError(WeiboDialogError weiboDialogError) {
+                accessToken = null;
+            }
+
+            @Override
+            public void onCancel() {
+                accessToken = null;
+            }
+        });
+    }
+
+    private WeiboFunction() {
+        weibo = Weibo.getInstance(Constant.WeiboAppKey, Constant.WeiboRedirectURL);
+
+    }
+    static public String WeiboStatusUpdate(Context context, final String content, final RequestListener requestListener) {
+
+        weiboUpdateResult = "success";
+        if(accessToken==null){
+            WeiboParameters parameters = new WeiboParameters();
+            parameters.add("forcelogin", "true");
+            com.weibo.sdk.android.util.Utility.isWifi(context);
+            weibo.startDialog(context, parameters, new WeiboAuthListener() {
+            //weibo.authorize(context, new WeiboAuthListener() {
+                @Override
+                public void onComplete(Bundle bundle) {
+                    access_token = bundle.getString("access_token");
+                    expires_in = bundle.getString("expires_in");
+                    accessToken = new Oauth2AccessToken(access_token, expires_in);
+
+                    StatusesAPI statusesAPI = new StatusesAPI(accessToken);
+                    if (requestListener != null) {
+                        statusesAPI.update(content, null, null, requestListener);
+                    } else {
+                        statusesAPI.update(content, null, null, new RequestListener() {
+                            @Override
+                            public void onComplete(String s) {
+                                weiboUpdateResult = s;
+                                weiboUpdateResult = "success";
+                                //Toast.makeText(Record_Journal.this, "微博发布成功", Toast.LENGTH_SHORT).show();
+                            }
+
+                            @Override
+                            public void onIOException(IOException e) {
+                                weiboUpdateResult = e.getMessage();
+                                weiboUpdateResult = "fail";
+                                //Toast.makeText(Record_Journal.this, "微博发布失败："+e.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+
+                            @Override
+                            public void onError(WeiboException e) {
+                                weiboUpdateResult = e.getMessage();
+                                weiboUpdateResult = "fail";
+                                //Toast.makeText(Record_Journal.this, "微博发布失败："+e.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+
+
+                    }
+
                 }
-                else{
-                    statusesAPI.update(content,null,null,new RequestListener() {
-                        @Override
-                        public void onComplete(String s) {
-                            weiboUpdateResult = s;
-                            weiboUpdateResult = "success";
-                            //Toast.makeText(Record_Journal.this, "微博发布成功", Toast.LENGTH_SHORT).show();
-                        }
 
-                        @Override
-                        public void onIOException(IOException e) {
-                            weiboUpdateResult = e.getMessage();
-                            weiboUpdateResult = "fail";
-                            //Toast.makeText(Record_Journal.this, "微博发布失败："+e.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
+                @Override
+                public void onWeiboException(WeiboException e) {
+                    weiboUpdateResult = e.getMessage();
+                    weiboUpdateResult = "fail";
 
-                        @Override
-                        public void onError(WeiboException e) {
-                            weiboUpdateResult = e.getMessage();
-                            weiboUpdateResult = "fail";
-                            //Toast.makeText(Record_Journal.this, "微博发布失败："+e.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    });
+                    accessToken = null;
+                }
 
-                /*
+                @Override
+                public void onError(WeiboDialogError weiboDialogError) {
+                    weiboUpdateResult = weiboDialogError.getMessage();
+                    weiboUpdateResult = "fail";
+
+                    accessToken = null;
+                }
+
+                @Override
+                public void onCancel() {
+                    accessToken = null;
+
+                }
+            });
+        }else{
+            StatusesAPI statusesAPI = new StatusesAPI(accessToken);
+            if(requestListener!=null){
+                statusesAPI.update(content,null,null,requestListener);
+            }
+            else{
+                statusesAPI.update(content,null,null,new RequestListener() {
+                    @Override
+                    public void onComplete(String s) {
+                        weiboUpdateResult = s;
+                        weiboUpdateResult = "success";
+                        //Toast.makeText(Record_Journal.this, "微博发布成功", Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onIOException(IOException e) {
+                        weiboUpdateResult = e.getMessage();
+                        weiboUpdateResult = "fail";
+                        //Toast.makeText(Record_Journal.this, "微博发布失败："+e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onError(WeiboException e) {
+                        weiboUpdateResult = e.getMessage();
+                        weiboUpdateResult = "fail";
+                        //Toast.makeText(Record_Journal.this, "微博发布失败："+e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+
+            }
+        }
+
+        return weiboUpdateResult;
+    }
+                    /*
                 WeiboParameters weiboParameters = new WeiboParameters();
                 weiboParameters.add("access_token", access_token);
                 weiboParameters.add("status", content);
@@ -152,95 +301,108 @@ public class WeiboFunction {
                     e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                 }
                 */
-                }
 
-            }
-
-
-            @Override
-            public void onWeiboException(WeiboException e) {
-                weiboUpdateResult = e.getMessage();
-                weiboUpdateResult = "fail";
-            }
-
-            @Override
-            public void onError(WeiboDialogError weiboDialogError) {
-                weiboUpdateResult = weiboDialogError.getMessage();
-                weiboUpdateResult = "fail";
-            }
-
-            @Override
-            public void onCancel() {
-
-            }
-        });
-
-        return weiboUpdateResult;
-    }
-    public String WeiboStatusUpload(final String content, final String pic, final RequestListener requestListener) {
+    static public String WeiboStatusUpload(Context context, final String content, final String pic, final RequestListener requestListener) {
 
         weiboUpLoadResult = "success";
+        if(accessToken==null){
+            WeiboParameters parameters = new WeiboParameters();
+            parameters.add("forcelogin", "true");
+            com.weibo.sdk.android.util.Utility.isWifi(context);
+            weibo.startDialog(context, parameters, new WeiboAuthListener() {
+            //weibo.authorize(context, new WeiboAuthListener() {
+                @Override
+                public void onComplete(Bundle bundle) {
+                    access_token = bundle.getString("access_token");
+                    expires_in = bundle.getString("expires_in");
+                    accessToken = new Oauth2AccessToken(access_token, expires_in);
 
-        Weibo weibo = Weibo.getInstance(Constant.WeiboAppKey, Constant.WeiboRedirectURL);
+                    StatusesAPI statusesAPI = new StatusesAPI(accessToken);
+                    if (requestListener != null) {
+                        statusesAPI.upload(content, pic, null, null, requestListener);
+                    } else {
+                        statusesAPI.upload(content, pic, null, null, new RequestListener() {
+                            @Override
+                            public void onComplete(String s) {
+                                weiboUpLoadResult = s;
+                                weiboUpLoadResult = "success";
+                                //Toast.makeText(Record_Journal.this, "微博发布成功", Toast.LENGTH_SHORT).show();
+                            }
 
-        weibo.authorize(context, new WeiboAuthListener() {
-            @Override
-            public void onComplete(Bundle bundle) {
-                access_token = bundle.getString("access_token");
-                expires_in = bundle.getString("expires_in");
-                accessToken = new Oauth2AccessToken(access_token, expires_in);
+                            @Override
+                            public void onIOException(IOException e) {
+                                weiboUpLoadResult = e.getMessage();
+                                weiboUpLoadResult = "fail";
+                                e.printStackTrace();
+                                //Toast.makeText(Record_Journal.this, "微博发布失败："+e.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
 
-                StatusesAPI statusesAPI = new StatusesAPI(accessToken);
-                if(requestListener!=null){
-                    statusesAPI.upload(content,pic,null,null,requestListener);
+                            @Override
+                            public void onError(WeiboException e) {
+                                weiboUpLoadResult = e.getMessage();
+                                weiboUpLoadResult = "fail";
+                                e.printStackTrace();
+                                //Toast.makeText(Record_Journal.this, "微博发布失败："+e.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
                 }
-                else{
-                    statusesAPI.upload(content,pic,null,null,new RequestListener() {
-                        @Override
-                        public void onComplete(String s) {
-                            weiboUpLoadResult = s;
-                            weiboUpLoadResult = "success";
-                            //Toast.makeText(Record_Journal.this, "微博发布成功", Toast.LENGTH_SHORT).show();
-                        }
 
-                        @Override
-                        public void onIOException(IOException e) {
-                            weiboUpLoadResult = e.getMessage();
-                            weiboUpLoadResult = "fail";
-                            e.printStackTrace();
-                            //Toast.makeText(Record_Journal.this, "微博发布失败："+e.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-
-                        @Override
-                        public void onError(WeiboException e) {
-                            weiboUpLoadResult = e.getMessage();
-                            weiboUpLoadResult = "fail";
-                            e.printStackTrace();
-                            //Toast.makeText(Record_Journal.this, "微博发布失败："+e.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    });
+                @Override
+                public void onWeiboException(WeiboException e) {
+                    weiboUpLoadResult = e.getMessage();
+                    weiboUpLoadResult = "fail";
+                    e.printStackTrace();
+                    accessToken = null;
                 }
-            }
-            @Override
-            public void onWeiboException(WeiboException e) {
-                weiboUpLoadResult = e.getMessage();
-                weiboUpLoadResult = "fail";
-                e.printStackTrace();
-            }
 
-            @Override
-            public void onError(WeiboDialogError weiboDialogError) {
-                weiboUpLoadResult = weiboDialogError.getMessage();
-                weiboUpLoadResult = "fail";
-                weiboDialogError.printStackTrace();
+                @Override
+                public void onError(WeiboDialogError weiboDialogError) {
+                    weiboUpLoadResult = weiboDialogError.getMessage();
+                    weiboUpLoadResult = "fail";
+                    weiboDialogError.printStackTrace();
+                    accessToken = null;
 
+                }
+
+                @Override
+                public void onCancel() {
+                    accessToken = null;
+
+                }
+            });
+        }else{
+            StatusesAPI statusesAPI = new StatusesAPI(accessToken);
+            if(requestListener!=null){
+                statusesAPI.upload(content,pic,null,null,requestListener);
             }
+            else{
+                statusesAPI.upload(content,pic,null,null,new RequestListener() {
+                    @Override
+                    public void onComplete(String s) {
+                        weiboUpLoadResult = s;
+                        weiboUpLoadResult = "success";
+                        //Toast.makeText(Record_Journal.this, "微博发布成功", Toast.LENGTH_SHORT).show();
+                    }
 
-            @Override
-            public void onCancel() {
+                    @Override
+                    public void onIOException(IOException e) {
+                        weiboUpLoadResult = e.getMessage();
+                        weiboUpLoadResult = "fail";
+                        e.printStackTrace();
+                        //Toast.makeText(Record_Journal.this, "微博发布失败："+e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
 
+                    @Override
+                    public void onError(WeiboException e) {
+                        weiboUpLoadResult = e.getMessage();
+                        weiboUpLoadResult = "fail";
+                        e.printStackTrace();
+                        //Toast.makeText(Record_Journal.this, "微博发布失败："+e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
-        });
+        }
 
         return weiboUpLoadResult;
     }
