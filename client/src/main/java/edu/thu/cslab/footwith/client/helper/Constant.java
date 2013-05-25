@@ -12,8 +12,8 @@ import java.util.Properties;
  * To change this template use File | Settings | File Templates.
  */
 public class Constant {
-<<<<<<< HEAD
-    public static String URL="http://166.111.70.115:12580/web-1.0/";
+
+    public static String URL="http://166.111.70.70:12580/web-1.0/";
     public static final String WeiboAppKey = "3761414352";
     public static final String WeiboAppSecret = "31ef7ea1da6f1f06c455e0273a27f344";
     public static final String WeiboRedirectURL = "https://api.weibo.com/oauth2/default.html";
@@ -35,9 +35,6 @@ public class Constant {
 
     public static final String KEY_HASH = "key_hash";
 
-=======
-    public static String URL="http://166.111.70.115:12580/web-1.0/";
->>>>>>> fdfcf733014b1193cb9f42ca9c697d477de7e5ee
     private Properties properties = new Properties();
          private static final Constant constantInstantce=new Constant();
          private Constant(){
