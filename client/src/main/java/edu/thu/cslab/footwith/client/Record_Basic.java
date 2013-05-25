@@ -2,6 +2,8 @@ package edu.thu.cslab.footwith.client;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import edu.thu.cslab.footwith.client.helper.Record_Basic_Sites_Adapter;
 import edu.thu.cslab.footwith.client.helper.Record_Basic_Users_Adapter;
@@ -36,5 +38,13 @@ public class Record_Basic extends Activity {
         ListView users_lv = (ListView) findViewById(R.id.basic_users_listView);
         sites_lv.setAdapter(new Record_Basic_Sites_Adapter(this, sites_vector));
         users_lv.setAdapter(new Record_Basic_Users_Adapter(this, users_vector));
+
+        sites_lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+            }
+        });
+
     }
 }

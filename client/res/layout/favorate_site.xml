@@ -22,7 +22,7 @@
             <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="我选择的景点"
+                    android:text="我喜欢的景点"
                     android:id="@+id/tv_mychoice" android:layout_gravity="center" style="@style/logoText"/>
             <Button
                     android:layout_width="100dp"

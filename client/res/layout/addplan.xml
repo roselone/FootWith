@@ -4,17 +4,27 @@
               android:layout_height="match_parent"
               android:orientation="vertical"
               android:background="@drawable/background_login" >
+    <RelativeLayout
+            android:id="@+id/register_logo_div"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            >
+
+        <include layout="@layout/logo"/>
+
+    </RelativeLayout>
     <ScrollView
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:layout_height="wrap_content"
             android:id="@+id/scrollView" android:visibility="visible">
     <RelativeLayout android:id="@+id/relativeLayout" android:layout_width="fill_parent"
-                    android:layout_height="fill_parent" android:layout_margin="15dp"
-                    android:background="@drawable/background_login_div0" android:padding="15dp"
-                    android:layout_gravity="center" android:focusableInTouchMode="true">
+                    android:layout_height="wrap_content" android:layout_margin="5dp"
+                    android:background="@drawable/background_login_div0" android:padding="5dp"
+                    android:layout_gravity="center" android:focusableInTouchMode="true" android:longClickable="true">
         <TextView style="@style/whiteSmallText" android:id="@+id/tv_title" android:layout_width="wrap_content"
                   android:layout_height="wrap_content" android:layout_alignParentTop="true"
-                  android:layout_marginTop="5dp" android:text="旅行主题"/>
+                  android:layout_marginTop="20dp" android:text="旅行主题"/>
         <EditText android:id="@+id/edit_title" android:layout_width="fill_parent"
                   android:layout_height="wrap_content" android:layout_below="@+id/tv_title"
                   android:inputType="text|textMultiLine" android:singleLine="false"/>

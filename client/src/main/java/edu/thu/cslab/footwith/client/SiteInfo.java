@@ -39,22 +39,30 @@ public class SiteInfo extends Activity{
         ImageView pic1=(ImageView) findViewById(R.id.imageView);
 
         Bundle bundle = this.getIntent().getExtras();    //获得前一个界面选择的景点名称景点ID
-        final String mingcheng = bundle.getString("siteName");
+        final String siteName = bundle.getString("siteName");
         final String siteID = bundle.getString("siteId");
-        System.out.println(mingcheng);
-
+        System.out.println(siteName);
 
         //查看景点是否已经被在userlike中
-        Iterator it = Login.userLike.keySet().iterator();
-        while (it.hasNext())
+
+        if(Login.userLike.keySet().contains(Integer.valueOf(siteID)))
         {
-            Integer key;
-            key=(Integer)it.next();
-            if( key==Integer.valueOf(siteID))
-            {
-                flag = true;
-            }
+            flag = true;
+        }  else {
+            flag = false;
         }
+//        //查看景点是否已经被在userlike中
+//         Iterator it = Login.userLike.keySet().iterator();
+//
+//         while (it.hasNext())
+//         {
+//            Integer key;
+//            key=(Integer)it.next();
+//             if( key==Integer.valueOf(siteID))
+//             {
+//                 flag = true;
+//             }
+//         }
 
         if(flag)
         {
@@ -116,14 +124,27 @@ public class SiteInfo extends Activity{
                 {
 
                     btn1.setBackgroundResource(R.drawable.heart);
-                    Login.userLike.put( Integer.valueOf(siteID),mingcheng);
-                    flag =true;
+
+                    if(!Login.userLike.keySet().contains(Integer.valueOf(siteID))){
+                        Login.userLike.put( Integer.valueOf(siteID),siteName);
+                        try {
+                            String result = sendLike();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    flag = true;
                 }
                 else
                 {
 
                     btn1.setBackgroundResource(R.drawable.heart1);
                     Login.userLike.remove(Integer.valueOf(siteID));
+                    try {
+                        String result = sendLike();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                     flag = false;
 
                 }
@@ -155,12 +176,28 @@ public class SiteInfo extends Activity{
 
     public static Bitmap getPicFromBytes(byte[] bytes, BitmapFactory.Options opts)
     {
+
         if (bytes != null)
             if (opts != null)
                 return BitmapFactory.decodeByteArray(bytes, 0, bytes.length,opts);
             else
                 return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
         return null;
+    }
+    private String sendLike() throws IOException {
+        ServerConnector sc = new ServerConnector("user");
+        sc.setRequestParam("userID", Login.userID);
+        //HashMap<String, String> userLikeStringMap = new HashMap<String, String>();
+        //Integer[] keys = (Integer[]) Login.userLike.keySet().toArray();
+        Vector<Integer> siteIDKeys = new Vector<Integer>(Login.userLike.keySet());
+        /*
+        for(Integer siteIDKey: Login.userLike.keySet()){
+            userLikeStringMap.put(String.valueOf(siteIDKey), Login.userLike.get(siteIDKey));
+        }
+        */
+        sc.setRequestParam("like", JSONHelper.getJSONHelperInstance().convertToString(siteIDKeys));
+        String result = sc.doPost();
+        return result;
     }
 
 }
