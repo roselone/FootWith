@@ -91,8 +91,12 @@ public class AddPlan extends Activity {
         edit_title = (EditText) findViewById(R.id.edit_title);
         edit_favSite = (EditText)findViewById(R.id.edit_favSite);
 
-        bt_start.setText(my_Year+"年"+my_Month+"月"+my_Day+"日");
-        bt_end.setText(my_Year+"年"+my_Month+"月"+my_Day+"日");
+
+
+        bt_start.setText(my_Year+"-"+my_Month+"-"+my_Day);
+        bt_end.setText(my_Year+"-"+my_Month+"-"+my_Day);
+
+
 
        // System.out.println(my_Year+"年"+my_Month+"月"+my_Day+"日") ;
        // System.out.println(my_Year+"年"+my_Month+"月"+my_Day+"日");
@@ -247,10 +251,14 @@ public class AddPlan extends Activity {
 
 
 //                String[] chooseIds =  Favorite_Site.chooseIds.split(",");
-                Vector<String> chooseIds = Favorite_Site.chooseIds;
+              //  Vector<String> chooseIds = Favorite_Site.chooseIds;            // can't derived from the vector<string>
+                System.out.println(Favorite_Site.chooseIds.get(0));
                 Vector<Integer> siteIDs = new Vector<Integer>();
-                for(int i = 1;i<chooseIds.size();i++)
-                    siteIDs.add(Integer.valueOf(chooseIds.get(i)));
+                for(int i = 0;i< Favorite_Site.chooseIds.size();i++)   {
+                    siteIDs.add(Integer.valueOf(Favorite_Site.chooseIds.get(i)));
+                    System.out.println(siteIDs.get(i));
+                }
+
 
                 addPlan.put("siteIDs", JSONHelper.JSONHelperInstance.convertToString(siteIDs));
                 System.out.println(JSONHelper.JSONHelperInstance.convertToString(siteIDs));

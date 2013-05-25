@@ -98,6 +98,11 @@ public class Favorite_Site_Adapter extends BaseAdapter{
                     Favorite_Site.myChoice.add((String) getItem(position));
                     Favorite_Site.chooseIds.add(String.valueOf(Favorite_Site.nameIds.get(position)));
 
+//                    System.out.println("dddddddd"+position);
+//                    if(Favorite_Site.nameIds.size() == 0) {
+//                        Favorite_Site.nameIds.set(0,1111);
+//                    }
+//                   System.out.println(Favorite_Site.nameIds.get(position));
                 } else if (!b) {
                     Favorite_Site_Adapter.getIsSelected().put(position, false);
                 }
