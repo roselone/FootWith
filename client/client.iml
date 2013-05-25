@@ -27,6 +27,7 @@
     <orderEntry type="library" scope="TEST" name="Maven: junit:junit:4.8.1" level="project" />
     <orderEntry type="library" name="weibo.sdk.android.sso" level="project" />
     <orderEntry type="library" name="android-support-v4" level="project" />
+    <orderEntry type="library" name="baidumapapi_v2_1_1" level="project" />
   </component>
 </module>
 
