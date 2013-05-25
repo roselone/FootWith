@@ -74,6 +74,8 @@ public class Favorite_Site_Adapter extends BaseAdapter{
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
 
+
+
         ViewHolder holder = null;
         if (convertView == null) {
             holder = new ViewHolder();
@@ -92,16 +94,29 @@ public class Favorite_Site_Adapter extends BaseAdapter{
         holder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+
+                Favorite_Site.myChoice.clear();
+                Favorite_Site.chooseIds.clear();
                 if (b) {
                     Favorite_Site_Adapter.getIsSelected().put(position, true);
                   //  System.out.println("go in");
-                    Favorite_Site.myChoice.add((String) getItem(position));
-                    Favorite_Site.chooseIds.add(String.valueOf(Favorite_Site.nameIds.get(position)));
+//                    Favorite_Site.myChoice.add((String) getItem(position));
+//                    Favorite_Site.chooseIds.add(String.valueOf(Favorite_Site.nameIds.get(position)));
 
+//                    System.out.println("dddddddd"+position);
+//                    if(Favorite_Site.nameIds.size() == 0) {
+//                        Favorite_Site.nameIds.set(0,1111);
+//                    }
+//                   System.out.println(Favorite_Site.nameIds.get(position));
                 } else if (!b) {
                     Favorite_Site_Adapter.getIsSelected().put(position, false);
                 }
-
+                for(int i=0;i<list.size();i++) {
+                    if(Favorite_Site_Adapter.getIsSelected().get(i)){
+                        Favorite_Site.myChoice.add((String) getItem(i));
+                        Favorite_Site.chooseIds.add(String.valueOf(Favorite_Site.nameIds.get(i)));
+                    }
+                }
             }
         });
         holder.siteName.setText(list.get(position));
@@ -109,6 +124,7 @@ public class Favorite_Site_Adapter extends BaseAdapter{
         holder.checkBox.setChecked(isSelected.get(position));
 
         holder.siteId = Favorite_Site.nameIds.get(position);
+
 
         return convertView;
     }

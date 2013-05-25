@@ -104,21 +104,44 @@ public class Favorite_Site extends Activity {
 
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent();
+                final Intent intent = new Intent();
                 intent.setClass(Favorite_Site.this, AddPlan.class);
-                Bundle mBundle = new Bundle();
+                final Bundle mBundle = new Bundle();
+
+
+
                 if(myChoice.size() == 0) {
-                    myChoice.set(0,"");
+                    final AlertDialog.Builder builder = new AlertDialog.Builder(Favorite_Site.this);
+                    builder.setCancelable(false);
+                    builder.setTitle("警告");
+                    builder.setMessage("请选择景点");
+                    builder.setPositiveButton("确认",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int whichButton) {
+//                                    mBundle.putString("myChoice", JSONHelper.getJSONHelperInstance().convertToString2(myChoice));
+//
+//                                    mBundle.putString("title",title);
+//                                    mBundle.putString("groupNumMax",number);
+//                                    mBundle.putString("description", description);
+//
+//                                    intent.putExtras(mBundle);
+//                                    startActivity(intent);
+//                                    finish();
+                                }
+                            });
+                    builder.create().show();
+                }    else {
+                    mBundle.putString("myChoice", JSONHelper.getJSONHelperInstance().convertToString2(myChoice));
+
+                    mBundle.putString("title",title);
+                    mBundle.putString("groupNumMax",number);
+                    mBundle.putString("description", description);
+
+                    intent.putExtras(mBundle);
+                    startActivity(intent);
+                    finish();
                 }
-                mBundle.putString("myChoice", JSONHelper.getJSONHelperInstance().convertToString2(myChoice));
 
-                mBundle.putString("title",title);
-                mBundle.putString("groupNumMax",number);
-                mBundle.putString("description", description);
-
-                intent.putExtras(mBundle);
-                startActivity(intent);
-               finish();
             }
         });
 
