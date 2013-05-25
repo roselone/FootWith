@@ -11,6 +11,9 @@ import com.weibo.sdk.android.api.StatusesAPI;
 import com.weibo.sdk.android.net.AsyncWeiboRunner;
 import com.weibo.sdk.android.net.RequestListener;
 import com.weibo.sdk.android.util.*;
+import edu.thu.cslab.footwith.client.Login;
+import edu.thu.cslab.footwith.messenger.JSONHelper;
+import edu.thu.cslab.footwith.utility.Util;
 import org.apache.http.HttpHost;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpVersion;
@@ -37,6 +40,7 @@ import java.io.UnsupportedEncodingException;
 import java.security.KeyStore;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by bxl on 5/23/13.
@@ -57,6 +61,14 @@ public class WeiboFunction {
     }
     */
     static public boolean isBound(){
+        if(!Util.isEmpty(Login.sinaWeiboToken) && !Util.isEmpty(Login.sinaExpiresIN)){
+            access_token = Login.sinaWeiboToken;
+            expires_in = Login.sinaExpiresIN;
+            accessToken = new Oauth2AccessToken(access_token, expires_in);
+            if(!accessToken.isSessionValid()){
+                accessToken = null;
+            }
+        }
         return accessToken!=null;
     }
     static public boolean unBound(){
@@ -100,6 +112,14 @@ public class WeiboFunction {
     static public void authorize(Context context){
         if(accessToken!=null)
             return;
+        if(!Util.isEmpty(Login.sinaWeiboToken) && !Util.isEmpty(Login.sinaExpiresIN)){
+            access_token = Login.sinaWeiboToken;
+            expires_in = Login.sinaExpiresIN;
+            accessToken = new Oauth2AccessToken(access_token, expires_in);
+            if(!accessToken.isSessionValid()){
+                accessToken = null;
+            }
+        }
 
         WeiboParameters parameters = new WeiboParameters();
         parameters.add("forcelogin", "true");
@@ -112,6 +132,11 @@ public class WeiboFunction {
                 access_token = bundle.getString("access_token");
                 expires_in = bundle.getString("expires_in");
                 accessToken = new Oauth2AccessToken(access_token, expires_in);
+                try {
+                    SendToken();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
 
             @Override
@@ -129,6 +154,16 @@ public class WeiboFunction {
                 accessToken = null;
             }
         });
+    }
+
+    private static void SendToken() throws IOException {
+        ServerConnector sc = new ServerConnector("user");
+        HashMap<String,String> tokenMap= new HashMap<String, String>();
+        tokenMap.put("access_token", access_token);
+        tokenMap.put("expires_in", expires_in);
+        sc.setRequestParam("userID", Login.userID);
+        sc.setRequestParam("sinaToken", JSONHelper.getJSONHelperInstance().convertToString(tokenMap));
+        sc.doPost();
     }
 
     private WeiboFunction() {
@@ -149,6 +184,12 @@ public class WeiboFunction {
                     access_token = bundle.getString("access_token");
                     expires_in = bundle.getString("expires_in");
                     accessToken = new Oauth2AccessToken(access_token, expires_in);
+                    try {
+                        SendToken();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
 
                     StatusesAPI statusesAPI = new StatusesAPI(accessToken);
                     if (requestListener != null) {
@@ -316,6 +357,12 @@ public class WeiboFunction {
                     access_token = bundle.getString("access_token");
                     expires_in = bundle.getString("expires_in");
                     accessToken = new Oauth2AccessToken(access_token, expires_in);
+                    try {
+                        SendToken();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
 
                     StatusesAPI statusesAPI = new StatusesAPI(accessToken);
                     if (requestListener != null) {
