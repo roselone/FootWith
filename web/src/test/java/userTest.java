@@ -27,19 +27,23 @@ import java.util.Vector;
 public class userTest {
     private String URL="http://127.0.0.1:12580/web-1.0/user";
     private HttpPost post=new HttpPost(URL);
-    @Test
-    public void doPost() throws IOException, JSONException {
-        DefaultHttpClient client=new DefaultHttpClient();
-        ArrayList<NameValuePair> param=new ArrayList<NameValuePair>();
-        param.add(new BasicNameValuePair("userID", "4"));
-        param.add(new BasicNameValuePair("like", "[1,2]"));
-        post.setEntity(new UrlEncodedFormEntity(param, HTTP.UTF_8));
-        HttpResponse response=client.execute(post);
-        HttpEntity entity=response.getEntity();
-        String tmp= EntityUtils.toString(entity);
-        System.out.println(tmp);
-        HashMap<String,String> res=JSONHelper.getJSONHelperInstance().convertToMap(tmp);
-        System.out.println(res.get("state"));
-    }
+//    @Test
+//    public void doPost() throws IOException, JSONException {
+//        DefaultHttpClient client=new DefaultHttpClient();
+//        ArrayList<NameValuePair> param=new ArrayList<NameValuePair>();
+//        param.add(new BasicNameValuePair("userID", "4"));
+//        //param.add(new BasicNameValuePair("like", "[1,2]"));
+//        HashMap<String,String> tokenMap=new HashMap<String, String>();
+//        tokenMap.put("access_token","12345678901234567890123456789012");
+//        tokenMap.put("expires_in","jsdafj");
+//        param.add(new BasicNameValuePair("sinaToken",JSONHelper.getJSONHelperInstance().convertToString(tokenMap)));
+//        post.setEntity(new UrlEncodedFormEntity(param, HTTP.UTF_8));
+//        HttpResponse response=client.execute(post);
+//        HttpEntity entity=response.getEntity();
+//        String tmp= EntityUtils.toString(entity);
+//        System.out.println(tmp);
+//        HashMap<String,String> res=JSONHelper.getJSONHelperInstance().convertToMap(tmp);
+//        System.out.println(res.get("state"));
+//    }
 
 }

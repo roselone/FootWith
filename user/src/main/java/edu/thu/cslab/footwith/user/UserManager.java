@@ -175,12 +175,12 @@ public class UserManager {
         if (!Util.isEmpty(new_user.getSinaWeiboToken())){
             if(isComma)
                 SQLCommand+=" , ";
-            SQLCommand +=" sinaWeiboToken = "+new_user.getSinaWeiboToken() +"'";
+            SQLCommand +=" sinaWeiboToken = '"+new_user.getSinaWeiboToken() +"'";
         }
         if (!Util.isEmpty(new_user.getSinaExpiresIN())){
             if(isComma)
                 SQLCommand+=" , ";
-            SQLCommand +=" sinaExpiresIN = "+new_user.getSinaExpiresIN() +"'";
+            SQLCommand +=" sinaExpiresIN = '"+new_user.getSinaExpiresIN() +"'";
         }
         SQLCommand += " where userName = '" + userName + "'";
         du.executeUpdate(SQLCommand);
@@ -240,12 +240,12 @@ public class UserManager {
         if (!Util.isEmpty(new_user.getSinaWeiboToken())){
             if(isComma)
                 SQLCommand+=" , ";
-            SQLCommand +=" sinaWeiboToken = "+new_user.getSinaWeiboToken() +"'";
+            SQLCommand +=" sinaWeiboToken = '"+new_user.getSinaWeiboToken() +"'";
         }
         if (!Util.isEmpty(new_user.getSinaExpiresIN())){
             if(isComma)
                 SQLCommand+=" , ";
-            SQLCommand +=" sinaExpiresIN = "+new_user.getSinaExpiresIN() +"'";
+            SQLCommand +=" sinaExpiresIN = '"+new_user.getSinaExpiresIN() +"'";
         }
         SQLCommand += " where userID = " + userID;
         du.executeUpdate(SQLCommand);
@@ -253,7 +253,7 @@ public class UserManager {
     }
 
     public static void updateSinaToken(int userID,String token,String time) throws SQLException {
-        String SQLCommand="update user set sinaWeiboToken = "+token+" sinaExpiresIN = "+time+" where userID = "+userID;
+        String SQLCommand="update user set sinaWeiboToken = '"+token+"', sinaExpiresIN = '"+time+"' where userID = "+userID;
         DBUtil.getDBUtil().executeUpdate(SQLCommand);
         return ;
     }

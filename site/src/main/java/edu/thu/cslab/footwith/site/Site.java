@@ -97,6 +97,22 @@ public class Site {
         return picture;
     }
 
+    public int getLatitude(){
+        return latitude;
+    }
+
+    public int getLongitude(){
+        return longitude;
+    }
+
+    public void setLatitude(int v){
+        this.latitude=v;
+    }
+
+    public void setLongitude(int v){
+        this.longitude=v;
+    }
+
     public void setSiteID(int ID){
         this.siteID=ID;
     }
@@ -132,4 +148,6 @@ public class Site {
     private String location;
     private String brief;   // type text in sql database
     private int picture;
+    private int latitude;
+    private int longitude;
 }

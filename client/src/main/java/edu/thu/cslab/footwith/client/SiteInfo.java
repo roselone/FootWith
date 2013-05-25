@@ -1,6 +1,7 @@
 package edu.thu.cslab.footwith.client;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -31,7 +32,7 @@ public class SiteInfo extends Activity{
         setContentView(R.layout.siteinfo);
 
         final ImageButton btn1 = (ImageButton)findViewById(R.id.imageButton);
-        final TextView   text1 = (TextView) findViewById(R.id.textView3);
+        ImageButton mapButton=(ImageButton)findViewById(R.id.mapButton);
         TextView   text2=(TextView) findViewById(R.id.textView);
         TextView  text3=(TextView) findViewById(R.id.textView1);
         RatingBar rate1=(RatingBar) findViewById(R.id.ratingBar);
@@ -44,27 +45,26 @@ public class SiteInfo extends Activity{
 
 
         //查看景点是否已经被在userlike中
-         Iterator it = Login.userLike.keySet().iterator();
-         while (it.hasNext())
-         {
+        Iterator it = Login.userLike.keySet().iterator();
+        while (it.hasNext())
+        {
             Integer key;
             key=(Integer)it.next();
-             if( key==Integer.valueOf(siteID))
-             {
-                 flag = true;
-             }
-         }
+            if( key==Integer.valueOf(siteID))
+            {
+                flag = true;
+            }
+        }
 
-       if(flag)
+        if(flag)
         {
 
             btn1.setBackgroundResource(R.drawable.heart);
-            text1.setText("  已添加" );
+
         }
         else
         {
             btn1.setBackgroundResource(R.drawable.heart1);
-            text1.setText(" 快添加到 [我的喜欢]");
         }
 
 
@@ -74,7 +74,7 @@ public class SiteInfo extends Activity{
         String result= null;
         ServerConnector conn= new ServerConnector("site");
 
-   try {
+        try {
             result = conn.setRequestParam("siteID",siteID ).doPost();
         } catch (IOException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
@@ -106,9 +106,9 @@ public class SiteInfo extends Activity{
         text2.setText( map2.get("siteName"));
         text3.setText( map2.get("brief"));
         rate1.setRating( Integer.valueOf(map2.get("rate")));  //显示获取的图片
-         pic1.setImageBitmap(img2);
+        pic1.setImageBitmap(img2);
 
-   btn1.setOnClickListener(new OnClickListener() {
+        btn1.setOnClickListener(new OnClickListener() {
 
             public void onClick(View v)
             {
@@ -116,7 +116,6 @@ public class SiteInfo extends Activity{
                 {
 
                     btn1.setBackgroundResource(R.drawable.heart);
-                    text1.setText("  已添加" );
                     Login.userLike.put( Integer.valueOf(siteID),mingcheng);
                     flag =true;
                 }
@@ -124,14 +123,26 @@ public class SiteInfo extends Activity{
                 {
 
                     btn1.setBackgroundResource(R.drawable.heart1);
-                    text1.setText(" 快添加到 [我的喜欢]");
                     Login.userLike.remove(Integer.valueOf(siteID));
                     flag = false;
 
                 }
             }
         });
+        mapButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent();
+                intent.setClass(SiteInfo.this, SiteMap.class);
+                Bundle bundle = new Bundle();
+                bundle.putInt("latitude", 39915000);
+                bundle.putInt("longitude", 116404000);
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
+        });
     }
+
 
 
     public boolean onKeyDown(int keyCode,KeyEvent event) {// 如果是返回键
@@ -144,12 +155,12 @@ public class SiteInfo extends Activity{
 
     public static Bitmap getPicFromBytes(byte[] bytes, BitmapFactory.Options opts)
     {
-                if (bytes != null)
-                    if (opts != null)
-                        return BitmapFactory.decodeByteArray(bytes, 0, bytes.length,opts);
-                    else
-                        return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                     return null;
-}
+        if (bytes != null)
+            if (opts != null)
+                return BitmapFactory.decodeByteArray(bytes, 0, bytes.length,opts);
+            else
+                return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+        return null;
+    }
 
 }
