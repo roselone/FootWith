@@ -287,8 +287,21 @@ public class AddPlan extends Activity {
                     addPlan.put("participants", "");
                     addPlan.put("isDone", "false");
 
+                    try {
+                        Vector<Integer> oldSiteIDs = JSONHelper.getJSONHelperInstance().convertToArray(addPlan.get("siteIDs"));
+                        Vector<String> newSiteIDsVector = new Vector<String>();
+                        for(int i=0; i<oldSiteIDs.size(); i++){
+                            newSiteIDsVector.add(Login.userLike.get(oldSiteIDs.get(i)));
+                        }
+                        addPlan.put("siteIDs", JSONHelper.getJSONHelperInstance().convertToString2(newSiteIDsVector));
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
                     AboutMe.self.add(addPlan);
                     AboutMe.selfAdapter.notifyDataSetChanged();
+                    finish();
 
                 }else {
                     Toast.makeText(AddPlan.this, "添加失败", Toast.LENGTH_SHORT).show();
