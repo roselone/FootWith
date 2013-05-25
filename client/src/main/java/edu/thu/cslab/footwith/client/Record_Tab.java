@@ -42,6 +42,7 @@ public class Record_Tab extends ActivityGroup {
         intent = new Intent(this, Record_Basic.class);
         intent.putExtra("sites", map.get("siteIDs"));
         intent.putExtra("users", map.get("userIDs"));
+        intent.putExtra("siteGPS", map.get("siteGPS"));
         intent.putExtra("position", position);
         spec.setContent(intent);
         spec.setIndicator("基本", getResources().getDrawable(R.drawable.basic));
