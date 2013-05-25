@@ -2,18 +2,19 @@ package edu.thu.cslab.footwith.client;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.*;
 import android.widget.*;
-import edu.thu.cslab.footwith.client.helper.Menu_Functions;
-import edu.thu.cslab.footwith.client.helper.MyJournalNetwork;
-import edu.thu.cslab.footwith.client.helper.Record_Journal_Adapter;
+import com.weibo.sdk.android.*;
+import com.weibo.sdk.android.net.RequestListener;
+import com.weibo.sdk.android.sso.SsoHandler;
+import edu.thu.cslab.footwith.client.helper.*;
 
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -29,8 +30,11 @@ import java.util.HashMap;
 public class Record_Journal extends Activity {
     final MyJournalNetwork myJournalNetwork = new MyJournalNetwork();
     Record_Journal_Adapter record_journal_adapter;
+
+
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.record_journal);
         Bundle bundle = getIntent().getExtras();
         String journalIDs = (String) bundle.get("journals");
@@ -80,7 +84,52 @@ public class Record_Journal extends Activity {
                         modified_journal.put("userID", Login.userID);
                         modified_journal.put("userName", Login.userName);
                         if(myJournalNetwork.modify(position, modified_journal)){
-                            Toast.makeText(Record_Journal.this, "修改成功", Toast.LENGTH_SHORT).show();
+                            AlertDialog.Builder builder_weibo = new AlertDialog.Builder(Record_Journal.this);
+                            final String weiboContent = String.valueOf(titleEditText.getText())+"!"
+                                    +String.valueOf(contentEditText.getText())
+                                    +"。##来自我的Footwith";
+                            builder_weibo.setMessage(weiboContent);
+                            builder_weibo.setTitle("同步到新浪微博？");
+                            builder_weibo.setPositiveButton("发布", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    //WeiboFunction weiboFunction = WeiboFunction.getInstance(Record_Journal.this);
+                                    WeiboFunction.authorize(Record_Journal.this);
+                                    String weiboUpdateResult = WeiboFunction.WeiboStatusUpdate(Record_Journal.this, weiboContent, null);
+                                    if(weiboUpdateResult.equals("success")){
+                                        Toast.makeText(Record_Journal.this, "微博发布成功", Toast.LENGTH_LONG).show();
+                                    }else{
+                                        Toast.makeText(Record_Journal.this, "微博发布失败", Toast.LENGTH_LONG).show();
+                                    }
+                                    Toast.makeText(Record_Journal.this, "修改成功", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                            builder_weibo.setNegativeButton("算了", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    Toast.makeText(Record_Journal.this, "修改成功", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                            builder_weibo.show();
+
+
+
+
+                            /*
+                            ServerConnector sc = new ServerConnector("https://api.weibo.com/oauth2", "/authorize");
+                            sc.setRequestParam("client_id", Constant.WeiboAppKey);
+                            sc.setRequestParam("redirect_uri", Constant.WeiboRedirectURL);
+                            try {
+                                String result = sc.doPost();
+                                Toast.makeText(Record_Journal.this, result, Toast.LENGTH_LONG).show();
+
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                            */
+
+
+
                         }else{
                             Toast.makeText(Record_Journal.this, "修改失败", Toast.LENGTH_SHORT).show();
                         }
@@ -142,7 +191,34 @@ public class Record_Journal extends Activity {
                     add_journal.put("userID", Login.userID);
                     add_journal.put("userName", Login.userName);
                     if(myJournalNetwork.add(add_journal)){
-                        Toast.makeText(Record_Journal.this, "添加成功", Toast.LENGTH_SHORT).show();
+                        AlertDialog.Builder builder_weibo = new AlertDialog.Builder(Record_Journal.this);
+                        final String weiboContent = String.valueOf(titleEditText.getText())+"!"
+                                +String.valueOf(contentEditText.getText())
+                                +"。##来自我的Footwith";
+                        builder_weibo.setMessage(weiboContent);
+                        builder_weibo.setTitle("同步到新浪微博？");
+                        builder_weibo.setPositiveButton("发布", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                //WeiboFunction weiboFunction = WeiboFunction.getInstance(Record_Journal.this);
+                                WeiboFunction.authorize(Record_Journal.this);
+                                String weiboUpdateResult = WeiboFunction.WeiboStatusUpdate(Record_Journal.this, weiboContent, null);
+                                if(weiboUpdateResult.equals("success")){
+                                    Toast.makeText(Record_Journal.this, "微博发布成功", Toast.LENGTH_LONG).show();
+                                }else{
+                                    Toast.makeText(Record_Journal.this, "微博发布失败", Toast.LENGTH_LONG).show();
+                                }
+                                Toast.makeText(Record_Journal.this, "添加成功", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                        builder_weibo.setNegativeButton("算了", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                Toast.makeText(Record_Journal.this, "添加成功", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                        builder_weibo.show();
+
                     }else{
                         Toast.makeText(Record_Journal.this, "添加失败", Toast.LENGTH_SHORT).show();
                     }
@@ -165,5 +241,8 @@ public class Record_Journal extends Activity {
             Menu_Functions.contactMe(this);
         }
         return super.onOptionsItemSelected(item);    //To change body of overridden methods use File | Settings | File Templates.
+
     }
+
+
 }

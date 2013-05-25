@@ -34,13 +34,13 @@
     <orderEntry type="library" name="Maven: mysql:mysql-connector-java:5.1.6" level="project" />
     <orderEntry type="library" name="Maven: edu.thu.cslab.footwith:utility:1.0" level="project" />
     <orderEntry type="library" name="Maven: edu.thu.cslab.footwith:exception:1.0" level="project" />
+    <orderEntry type="library" name="Maven: edu.thu.cslab.footwith:messenger:1.0" level="project" />
     <orderEntry type="library" name="Maven: edu.thu.cslab.footwith:log:1.0" level="project" />
     <orderEntry type="library" name="Maven: org.apache.logging.log4j:log4j-api:2.0-beta4" level="project" />
     <orderEntry type="library" name="Maven: org.apache.logging.log4j:log4j-core:2.0-beta4" level="project" />
+    <orderEntry type="library" name="Maven: org.json:json:20090211" level="project" />
     <orderEntry type="library" name="Maven: edu.thu.cslab.footwith:site:1.0" level="project" />
     <orderEntry type="library" name="Maven: edu.thu.cslab.footwith:plan_record:1.0" level="project" />
-    <orderEntry type="library" name="Maven: edu.thu.cslab.footwith:messenger:1.0" level="project" />
-    <orderEntry type="library" name="Maven: org.json:json:20090211" level="project" />
     <orderEntry type="library" name="Maven: net.iharder:base64:2.3.8" level="project" />
     <orderEntry type="library" name="Maven: org.apache.httpcomponents:httpclient:4.2.4" level="project" />
     <orderEntry type="library" name="Maven: org.apache.httpcomponents:httpcore:4.2.4" level="project" />

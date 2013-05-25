@@ -1,12 +1,17 @@
 package edu.thu.cslab.footwith.client.helper;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 import edu.thu.cslab.footwith.client.R;
+import edu.thu.cslab.footwith.client.Record_Journal;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -77,10 +82,10 @@ public class Record_Journal_Adapter extends BaseAdapter {
         //if(type.equals("journal")){
         view = mLayoutInflater.inflate(R.layout.journal_listitem, null);
 
-        TextView titleTextView = (TextView) view.findViewById(R.id.journal_title_textView);
+        final TextView titleTextView = (TextView) view.findViewById(R.id.journal_title_textView);
         titleTextView.setText((String) map.get("title"));
 
-        TextView contentTextView = (TextView) view.findViewById(R.id.journal_content_textView);
+        final TextView contentTextView = (TextView) view.findViewById(R.id.journal_content_textView);
         contentTextView.setText((String) map.get("body"));
 
         TextView dateTextView = (TextView) view.findViewById(R.id.journal_date_textView);
@@ -89,7 +94,37 @@ public class Record_Journal_Adapter extends BaseAdapter {
         TextView userTextView = (TextView) view.findViewById(R.id.journal_user_textView);
         userTextView.setText((String) map.get("userName"));
         //}
-
+        ImageView weiboImageView = (ImageView) view.findViewById(R.id.weibo_imageView);
+        weiboImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder builder_weibo = new AlertDialog.Builder(mContext);
+                final String weiboContent = String.valueOf(titleTextView.getText())+"!"
+                        +String.valueOf(contentTextView.getText())
+                        +"。##来自我的Footwith";
+                builder_weibo.setMessage(weiboContent);
+                builder_weibo.setTitle("同步到新浪微博？");
+                builder_weibo.setPositiveButton("发布", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        //WeiboFunction weiboFunction = WeiboFunction.getInstance(mContext);
+                        WeiboFunction.authorize(mContext);
+                        String weiboUpdateResult = WeiboFunction.WeiboStatusUpdate(mContext, weiboContent, null);
+                        if(weiboUpdateResult.equals("success")){
+                            Toast.makeText(mContext, "微博发布成功", Toast.LENGTH_LONG).show();
+                        }else{
+                            Toast.makeText(mContext, "微博发布失败", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
+                builder_weibo.setNegativeButton("算了", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                    }
+                });
+                builder_weibo.show();
+            }
+        });
 
 
         return view;  //To change body of implemented methods use File | Settings | File Templates.

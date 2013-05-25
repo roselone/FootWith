@@ -1,97 +1,106 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-            android:id="@+id/ScrollView" android:layout_width="fill_parent"
-            android:layout_height="wrap_content" android:scrollbars="vertical">
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
               android:layout_width="match_parent"
-              android:layout_height="match_parent" android:background="@drawable/background_tab">
-    <LinearLayout
-            android:orientation="horizontal"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
+              android:background="@drawable/background_login" >
+    <ScrollView
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content">
-        <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="fill_parent"
-                android:text="旅行主题"
-                android:id="@+id/tv_title" style="@style/logoText" android:layout_marginTop="5dp"/>
-        <EditText
-                android:layout_width="351dp"
-                android:layout_height="wrap_content"
-                android:text="New EditText"
-                android:id="@+id/edit_title" android:layout_gravity="center"/>
-    </LinearLayout>
-    <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="fill_parent"
+            android:id="@+id/scrollView" android:visibility="visible">
+    <RelativeLayout android:id="@+id/relativeLayout" android:layout_width="fill_parent"
+                    android:layout_height="fill_parent" android:layout_margin="15dp"
+                    android:background="@drawable/background_login_div0" android:padding="15dp"
+                    android:layout_gravity="center" android:focusableInTouchMode="true">
+        <TextView style="@style/whiteSmallText" android:id="@+id/tv_title" android:layout_width="wrap_content"
+                  android:layout_height="wrap_content" android:layout_alignParentTop="true"
+                  android:layout_marginTop="5dp" android:text="旅行主题"/>
+        <EditText android:id="@+id/edit_title" android:layout_width="fill_parent"
+                  android:layout_height="wrap_content" android:layout_below="@+id/tv_title"
+                  android:inputType="text|textMultiLine" android:singleLine="false"/>
+        <View
+                android:layout_width="fill_parent"
+                android:layout_height="1px"
+                android:background="#c7ffe3"
+                android:layout_alignLeft="@+id/tv_title" android:layout_below="@+id/edit_title" android:id="@+id/view"/>
         <Button
-                android:layout_width="122dp"
-                android:layout_height="fill_parent"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
                 android:text="选择目的地"
-                android:id="@+id/bt_favSite" android:paddingLeft="20dp"/>
+                android:id="@+id/bt_favSite" android:layout_alignLeft="@+id/tv_title"
+                android:layout_below="@+id/edit_title" android:layout_marginTop="5dp"/>
         <EditText
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/edit_favSite" android:layout_gravity="center" android:paddingLeft="40dp"
-                />
-    </LinearLayout>
-    <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="开始时间"
-            android:id="@+id/tv_starttime" android:layout_gravity="left|center_vertical" style="@style/logoText"
-            android:layout_marginTop="10dp"/>
-    <DatePicker
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/datePicker_start" android:layout_gravity="center"/>
-    <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="结束时间"
-            android:id="@+id/tv_endtime" android:layout_gravity="left|center_vertical" style="@style/logoText"
-            android:paddingTop="10dp"/>
-    <DatePicker
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/datePicker_end" android:layout_gravity="center|top"/>
-    <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content" android:layout_marginTop="10dp">
-        <TextView style="@style/logoText" android:layout_width="wrap_content" android:layout_height="wrap_content"
-                  android:text="参与人数" android:id="@+id/textView" android:layout_gravity="center"
-                />
-        <EditText android:layout_width="100dp" android:layout_height="wrap_content" android:id="@+id/editText_num"
-                  android:layout_gravity="center"
-                  android:gravity="center_horizontal"
-                  android:singleLine="true" android:inputType="number"/>
-    </LinearLayout>
-    <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="描述"
-            android:id="@+id/tv_describe" android:layout_gravity="left|center_vertical" style="@style/logoText"
-            android:layout_marginTop="10dp"/>
-    <EditText
-            android:layout_width="fill_parent"
-            android:layout_height="200dp"
-            android:text="描述"
-            android:id="@+id/editText_description" android:layout_gravity="center_vertical"/>
-    <RelativeLayout
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent" android:layout_gravity="left|center_vertical">
+                android:id="@+id/edit_favSite" android:layout_alignLeft="@+id/tv_title"
+                android:layout_below="@+id/bt_favSite"  android:editable="false" android:enabled="false"
+                android:inputType="textMultiLine"/>
+        <View
+                android:layout_width="fill_parent"
+                android:layout_height="1px"
+                android:background="#c7ffe3"
+                android:id="@+id/view1" android:layout_alignLeft="@+id/tv_title" android:layout_below="@+id/edit_favSite"/>
+        <TextView style="@style/whiteSmallText" android:id="@+id/textView" android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:text="开始时间" android:layout_alignLeft="@+id/tv_title" android:layout_below="@+id/view1"
+                  android:layout_marginTop="5dp"/>
         <Button
-                android:layout_width="200dp"
+                android:layout_width="fill_parent"
+                android:layout_height="40dp"
+                android:id="@+id/bt_start" android:layout_alignLeft="@+id/tv_title" android:layout_below="@+id/textView"
+                android:layout_marginTop="2dp"/>
+        <View
+                android:layout_width="fill_parent"
+                android:layout_height="1px"
+                android:background="#c7ffe3"
+                android:id="@+id/view2" android:layout_alignLeft="@+id/tv_title" android:layout_below="@+id/bt_start"/>
+        <TextView style="@style/whiteSmallText" android:id="@+id/textView1" android:layout_width="wrap_content"
+                  android:layout_height="wrap_content" android:text="结束时间"
+                  android:layout_alignLeft="@+id/tv_title" android:layout_below="@+id/view2"
+                  android:layout_marginTop="5dp"/>
+        <Button
+                android:layout_width="fill_parent"
+                android:layout_height="40dp"
+                android:id="@+id/bt_end" android:layout_alignLeft="@+id/tv_title"
+                android:layout_below="@+id/textView1"/>
+        <View
+                android:layout_width="fill_parent"
+                android:layout_height="1px"
+                android:background="#c7ffe3"
+                android:id="@+id/view3" android:layout_alignLeft="@+id/tv_title" android:layout_below="@+id/bt_end"/>
+        <TextView style="@style/whiteSmallText" android:id="@+id/textView2" android:layout_width="wrap_content"
+                  android:layout_height="wrap_content" android:text="参与人数"
+                  android:layout_alignLeft="@+id/tv_title" android:layout_below="@+id/view3"
+                  android:layout_marginTop="5dp"/>
+        <EditText
+                android:layout_width="fill_parent"
+                android:layout_height="40dp"
+                android:id="@+id/editText_num" android:layout_alignLeft="@+id/tv_title"
+                android:layout_below="@+id/textView2" android:numeric="integer" android:singleLine="true"
+                android:inputType="number"/>
+        <View
+                android:layout_width="fill_parent"
+                android:layout_height="1px"
+                android:background="#c7ffe3"
+                android:id="@+id/view4" android:layout_alignLeft="@+id/tv_title"
+                android:layout_alignBottom="@+id/editText_num"/>
+        <TextView style="@style/whiteSmallText" android:id="@+id/textView3" android:layout_width="wrap_content"
+                  android:layout_height="wrap_content" android:text="描述"
+                  android:layout_alignLeft="@+id/tv_title" android:layout_below="@+id/editText_num"/>
+        <EditText
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="提交"
-                android:id="@+id/bt_addPlan"
-                android:layout_alignParentLeft="false"
-                android:layout_centerInParent="true" android:clickable="false"
-                android:layout_alignWithParentIfMissing="false"/>
+                android:id="@+id/editText_description" android:layout_alignLeft="@+id/tv_title"
+                android:layout_below="@+id/textView3" android:inputType="textMultiLine" android:gravity="top"/>
+        <Button
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:text="@string/addplan_button"
+                android:id="@+id/bt_addPlan" android:layout_alignRight="@+id/edit_title"
+                android:layout_below="@+id/editText_description"
+                android:background="@drawable/button" style="@style/whiteSmallText" android:singleLine="true"
+                />
     </RelativeLayout>
 
-</LinearLayout>
     </ScrollView>
+</LinearLayout>
