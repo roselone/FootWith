@@ -702,6 +702,8 @@ public class Mediator {
         boolean sex=true;
         String like="";
         String marks="";
+        String sinaWeiboToken="";
+        String sinaExpiresIN="";
 
         userID = user_map.get("userID");
         if(userID == null || Util.isEmpty(userID)){
@@ -739,11 +741,18 @@ public class Mediator {
         if (Util.isEmpty(marks)){
             marks="";
         }
+        if (!Util.isEmpty(user_map.get("sinaWeiboToken"))){
+            sinaWeiboToken=user_map.get("sinaWeiboTOken");
+        }
+        if (!Util.isEmpty(user_map.get("sinaExpiresIN"))){
+            sinaExpiresIN=user_map.get("sinaExpiresIN");
+        }
         String tmp=user_map.get("sex");
         if (!Util.isEmpty(tmp) && tmp.equals("female")){
             sex=false;
         }
-        return new User(Integer.valueOf(userID), userName, nickName, passwd, Integer.valueOf(otherInfo), plans, records,sex,like,marks);
+        return new User(Integer.valueOf(userID), userName, nickName, passwd,
+                Integer.valueOf(otherInfo), plans, records,sex,like,marks,sinaWeiboToken,sinaExpiresIN);
 
     }
     private static HashMap<String,String>  convertUserToMap(User user){
@@ -757,6 +766,8 @@ public class Mediator {
         if (!Util.isEmpty(user.getRecords())) user_map.put("records", user.getRecords());
         if (!Util.isEmpty(user.getLike())) user_map.put("like",user.getLike());
         if (!Util.isEmpty(user.getMarks())) user_map.put("marks",user.getMarks());
+        if (!Util.isEmpty(user.getSinaWeiboToken())) user_map.put("sinaWeiboToken",user.getSinaWeiboToken());
+        if (!Util.isEmpty(user.getSinaExpiresIN())) user_map.put("sinaExpiresIN",user.getSinaExpiresIN());
         if (user.getSex()){
             user_map.put("sex","male");
         }else{
@@ -837,5 +848,8 @@ public class Mediator {
     }
     public static void updateUserLike(int userID,String likes) throws SQLException {
         UserManager.updateUserLike(userID,likes);
+    }
+    public static void updateUserSinaToken(int userID,String token,String time) throws SQLException {
+        UserManager.updateSinaToken(userID,token,time);
     }
 }

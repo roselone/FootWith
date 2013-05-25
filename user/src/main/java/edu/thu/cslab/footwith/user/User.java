@@ -51,7 +51,8 @@ public class User {
         this.records = records;
     }
 
-    public User(int userID, String userName, String nickName, String passwd, int otherInfo, String plans, String records,boolean sex,String like,String marks) throws NoSuchAlgorithmException, UnsupportedEncodingException {
+    public User(int userID, String userName, String nickName, String passwd, int otherInfo, String plans, String records,
+                boolean sex,String like,String marks,String sinaWeiboToken,String sinaExpiresIN) throws NoSuchAlgorithmException, UnsupportedEncodingException {
         this.userID = userID;
         this.userName = userName;
         this.nickName = nickName;
@@ -62,7 +63,8 @@ public class User {
         this.sex=sex;
         this.like=like;
         this.marks=marks;
-
+        this.sinaWeiboToken=sinaWeiboToken;
+        this.sinaExpiresIN=sinaExpiresIN;
     }
 
     public int getState(){
@@ -105,6 +107,23 @@ public class User {
 
     public String getMarks(){
         return marks;
+    }
+
+    public String getSinaWeiboToken(){
+        return sinaWeiboToken;
+    }
+
+    public String getSinaExpiresIN(){
+        return sinaExpiresIN;
+    }
+
+    public void setSinaExpiresIN(String in){
+        this.sinaExpiresIN=in;
+    }
+
+
+    public void setSinaWeiboToken(String token){
+        this.sinaWeiboToken=token;
     }
 
     public void setState(int state) throws TextFormatException {
@@ -196,6 +215,8 @@ public class User {
     private String like;
     private String marks;
     private boolean sex;
+    private String sinaWeiboToken;
+    private String sinaExpiresIN;
 
     private int state;
 

@@ -38,6 +38,8 @@ public class Login extends Activity{
     static public String userRecords;
     static public HashMap<Integer,String> userLike=new HashMap<Integer, String>();
     static public String userMarks;
+    static public String sinaWeiboToken;
+    static public String sinaExpiresIN;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -114,6 +116,8 @@ public class Login extends Activity{
                         userRecords = userinfo.get("records");
                         userMarks = userinfo.get("marks");
                         userSex = userinfo.get("sex");
+                        sinaWeiboToken=userinfo.get("sinaWeiboToken");
+                        sinaExpiresIN=userinfo.get("sinaExpiresIN");
 
                         String like=userinfo.get("like_name");
                         if (!Util.isEmpty(like)){
