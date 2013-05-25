@@ -58,6 +58,8 @@ public class UserManager {
         user.setSex(rs.getBoolean("sex"));
         user.setLike(rs.getString("like"));
         user.setMarks(rs.getString("marks"));
+        user.setSinaWeiboToken(rs.getString("sinaWeiboToken"));
+        user.setSinaExpiresIN(rs.getString("sinaExpiresIN"));
         // }
 
         return user;
@@ -93,6 +95,8 @@ public class UserManager {
         user.setSex(rs.getBoolean("sex"));
         user.setLike(rs.getString("like"));
         user.setMarks(rs.getString("marks"));
+        user.setSinaWeiboToken(rs.getString("sinaWeiboToken"));
+        user.setSinaExpiresIN(rs.getString("sinaExpiresIN"));
         //}
 
         return user;
@@ -168,6 +172,16 @@ public class UserManager {
             SQLCommand += " marks = '" + new_user.getMarks() + "'";
             isComma = true;
         }
+        if (!Util.isEmpty(new_user.getSinaWeiboToken())){
+            if(isComma)
+                SQLCommand+=" , ";
+            SQLCommand +=" sinaWeiboToken = "+new_user.getSinaWeiboToken() +"'";
+        }
+        if (!Util.isEmpty(new_user.getSinaExpiresIN())){
+            if(isComma)
+                SQLCommand+=" , ";
+            SQLCommand +=" sinaExpiresIN = "+new_user.getSinaExpiresIN() +"'";
+        }
         SQLCommand += " where userName = '" + userName + "'";
         du.executeUpdate(SQLCommand);
 
@@ -223,9 +237,25 @@ public class UserManager {
             SQLCommand += " marks = '" + new_user.getMarks() + "'";
             isComma = true;
         }
+        if (!Util.isEmpty(new_user.getSinaWeiboToken())){
+            if(isComma)
+                SQLCommand+=" , ";
+            SQLCommand +=" sinaWeiboToken = "+new_user.getSinaWeiboToken() +"'";
+        }
+        if (!Util.isEmpty(new_user.getSinaExpiresIN())){
+            if(isComma)
+                SQLCommand+=" , ";
+            SQLCommand +=" sinaExpiresIN = "+new_user.getSinaExpiresIN() +"'";
+        }
         SQLCommand += " where userID = " + userID;
         du.executeUpdate(SQLCommand);
 
+    }
+
+    public static void updateSinaToken(int userID,String token,String time) throws SQLException {
+        String SQLCommand="update user set sinaWeiboToken = "+token+" sinaExpiresIN = "+time+" where userID = "+userID;
+        DBUtil.getDBUtil().executeUpdate(SQLCommand);
+        return ;
     }
 
     public static void updateUserLike(int userID,String likes) throws SQLException {
