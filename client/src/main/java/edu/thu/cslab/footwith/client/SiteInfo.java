@@ -43,7 +43,7 @@ public class SiteInfo extends Activity{
         System.out.println(siteName);
 
         //查看景点是否已经被在userlike中
-        if(Login.userLike.keySet().contains(siteID))
+        if(Login.userLike.keySet().contains(Integer.valueOf(siteID)))
         {
             flag = true;
         }  else {
@@ -71,7 +71,7 @@ public class SiteInfo extends Activity{
         else
         {
             btn1.setBackgroundResource(R.drawable.heart1);
-            text1.setText(" 快添加到 [我的喜欢]");
+            text1.setText(" 添加到 [我的喜欢]");
         }
 
 
@@ -124,15 +124,27 @@ public class SiteInfo extends Activity{
 
                     btn1.setBackgroundResource(R.drawable.heart);
                     text1.setText("  已添加" );
-                    Login.userLike.put( Integer.valueOf(siteID),siteName);
-                    flag =true;
+                    if(!Login.userLike.keySet().contains(Integer.valueOf(siteID))){
+                        Login.userLike.put( Integer.valueOf(siteID),siteName);
+                        try {
+                            String result = sendLike();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    flag = true;
                 }
                 else
                 {
 
                     btn1.setBackgroundResource(R.drawable.heart1);
-                    text1.setText(" 快添加到 [我的喜欢]");
+                    text1.setText(" 添加到 [我的喜欢]");
                     Login.userLike.remove(Integer.valueOf(siteID));
+                    try {
+                        String result = sendLike();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                     flag = false;
 
                 }
@@ -158,5 +170,20 @@ public class SiteInfo extends Activity{
                         return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
                      return null;
 }
+    private String sendLike() throws IOException {
+        ServerConnector sc = new ServerConnector("user");
+        sc.setRequestParam("userID", Login.userID);
+        //HashMap<String, String> userLikeStringMap = new HashMap<String, String>();
+        //Integer[] keys = (Integer[]) Login.userLike.keySet().toArray();
+        Vector<Integer> siteIDKeys = new Vector<Integer>(Login.userLike.keySet());
+        /*
+        for(Integer siteIDKey: Login.userLike.keySet()){
+            userLikeStringMap.put(String.valueOf(siteIDKey), Login.userLike.get(siteIDKey));
+        }
+        */
+        sc.setRequestParam("like", JSONHelper.getJSONHelperInstance().convertToString(siteIDKeys));
+        String result = sc.doPost();
+        return result;
+    }
 
 }

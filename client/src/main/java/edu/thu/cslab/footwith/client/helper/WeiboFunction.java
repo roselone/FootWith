@@ -90,24 +90,36 @@ public class WeiboFunction {
             accountAPI.endSession(new RequestListener() {
                 @Override
                 public void onComplete(String s) {
-                    accessToken = null;
+                    clearToken();
                 }
 
                 @Override
                 public void onIOException(IOException e) {
-                    accessToken = null;
+                    clearToken();
                 }
 
                 @Override
                 public void onError(WeiboException e) {
-                    accessToken = null;
+                    clearToken();
                 }
             });
-            accessToken = null;
+            clearToken();
         }
 
-        accessToken = null;
+        clearToken();
         return true;
+    }
+    static private void clearToken(){
+        access_token = null;
+        expires_in = null;
+        accessToken = null;
+        try {
+            SendToken();
+            Login.sinaWeiboToken = null;
+            Login.sinaExpiresIN = null;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
     static public void authorize(Context context){
         if(accessToken!=null)
@@ -141,29 +153,30 @@ public class WeiboFunction {
 
             @Override
             public void onWeiboException(WeiboException e) {
-                accessToken = null;
+                clearToken();
             }
 
             @Override
             public void onError(WeiboDialogError weiboDialogError) {
-                accessToken = null;
+                clearToken();
             }
 
             @Override
             public void onCancel() {
-                accessToken = null;
+                clearToken();
             }
         });
     }
 
-    private static void SendToken() throws IOException {
+    private static String SendToken() throws IOException {
         ServerConnector sc = new ServerConnector("user");
         HashMap<String,String> tokenMap= new HashMap<String, String>();
         tokenMap.put("access_token", access_token);
         tokenMap.put("expires_in", expires_in);
         sc.setRequestParam("userID", Login.userID);
         sc.setRequestParam("sinaToken", JSONHelper.getJSONHelperInstance().convertToString(tokenMap));
-        sc.doPost();
+        String result = sc.doPost();
+        return result;
     }
 
     private WeiboFunction() {
@@ -228,7 +241,7 @@ public class WeiboFunction {
                     weiboUpdateResult = e.getMessage();
                     weiboUpdateResult = "fail";
 
-                    accessToken = null;
+                    clearToken();
                 }
 
                 @Override
@@ -236,12 +249,12 @@ public class WeiboFunction {
                     weiboUpdateResult = weiboDialogError.getMessage();
                     weiboUpdateResult = "fail";
 
-                    accessToken = null;
+                    clearToken();
                 }
 
                 @Override
                 public void onCancel() {
-                    accessToken = null;
+                    clearToken();
 
                 }
             });
@@ -400,7 +413,7 @@ public class WeiboFunction {
                     weiboUpLoadResult = e.getMessage();
                     weiboUpLoadResult = "fail";
                     e.printStackTrace();
-                    accessToken = null;
+                    clearToken();
                 }
 
                 @Override
@@ -408,13 +421,13 @@ public class WeiboFunction {
                     weiboUpLoadResult = weiboDialogError.getMessage();
                     weiboUpLoadResult = "fail";
                     weiboDialogError.printStackTrace();
-                    accessToken = null;
+                    clearToken();
 
                 }
 
                 @Override
                 public void onCancel() {
-                    accessToken = null;
+                    clearToken();
 
                 }
             });

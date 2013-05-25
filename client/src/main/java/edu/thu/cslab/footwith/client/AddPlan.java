@@ -91,8 +91,8 @@ public class AddPlan extends Activity {
         edit_title = (EditText) findViewById(R.id.edit_title);
         edit_favSite = (EditText)findViewById(R.id.edit_favSite);
 
-        bt_start.setText(my_Year+"年"+my_Month+"月"+my_Day+"日");
-        bt_end.setText(my_Year+"年"+my_Month+"月"+my_Day+"日");
+        bt_start.setText(my_Year+"-"+my_Month+"-"+my_Day);
+        bt_end.setText(my_Year+"-"+my_Month+"-"+my_Day);
 
        // System.out.println(my_Year+"年"+my_Month+"月"+my_Day+"日") ;
        // System.out.println(my_Year+"年"+my_Month+"月"+my_Day+"日");
@@ -272,6 +272,9 @@ public class AddPlan extends Activity {
                     Toast.makeText(AddPlan.this, "添加成功", Toast.LENGTH_SHORT).show();
                     addPlan.put("planID",resultInfo.get("planID"));
                     addPlan.put("itemType", "plan");
+                    addPlan.put("participants", "");
+                    addPlan.put("isDone", "false");
+
                     AboutMe.self.add(addPlan);
                     AboutMe.selfAdapter.notifyDataSetChanged();
 
