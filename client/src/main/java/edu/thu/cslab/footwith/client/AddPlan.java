@@ -2,9 +2,11 @@ package edu.thu.cslab.footwith.client;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.*;
@@ -21,6 +23,7 @@ import  android.util.Log;
 import edu.thu.cslab.footwith.client.helper.ServerConnector;
 import edu.thu.cslab.footwith.messenger.JSONHelper;
 import edu.thu.cslab.footwith.utility.Util;
+import org.json.JSONException;
 
 /**
  * Created with IntelliJ IDEA.
@@ -70,7 +73,7 @@ public class AddPlan extends Activity {
 
         my_Calendar = Calendar.getInstance(Locale.CHINA);
         my_Year = my_Calendar.get(Calendar.YEAR);
-        my_Month = my_Calendar.get(Calendar.MONTH);
+        my_Month = my_Calendar.get(Calendar.MONTH)+1;
         my_Day = my_Calendar.get(Calendar.DAY_OF_MONTH);
         my_Hour = my_Calendar.get(Calendar.HOUR_OF_DAY);
         my_Minute = my_Calendar.get(Calendar.MINUTE);
@@ -91,6 +94,8 @@ public class AddPlan extends Activity {
         bt_start.setText(my_Year+"年"+my_Month+"月"+my_Day+"日");
         bt_end.setText(my_Year+"年"+my_Month+"月"+my_Day+"日");
 
+       // System.out.println(my_Year+"年"+my_Month+"月"+my_Day+"日") ;
+       // System.out.println(my_Year+"年"+my_Month+"月"+my_Day+"日");
 
         bt_start.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -119,11 +124,33 @@ public class AddPlan extends Activity {
 
         if (!(bundle==null || bundle.isEmpty())){
                 String data=bundle.getString("myChoice");//读出数据
+                String title = bundle.getString("title");
+                String number = bundle.getString("groupNumMax");
+                String description = bundle.getString("description");
+
+                edit_title.setText(title);
+                desEditText.setText(description);
+                numEditText.setText(number);
+
+
                 if (!Util.isEmpty(data)){
-                    data = data.substring(data.indexOf(",")+1,data.length());
-                    edit_favSite.setText(data);
+//                    data = data.substring(data.indexOf(",")+1,data.length());
+                    Vector<String> myChoice = new Vector<String>();
+
+                    try {
+                         myChoice = JSONHelper.getJSONHelperInstance().convertToArray2(data);
+                    } catch (JSONException e) {
+                        e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                    }
+                    String dest = myChoice.get(0);
+                    for(int i=1;i< myChoice.size();i++)  {
+                             dest = dest +","+ myChoice.get(i);
+                        }
+                   edit_favSite.setText(dest);
                 }
         }
+
+      //  edit_favSite.setText();
 
         //edit_favSite.setText(Favorite_Site.myChoice);
         Log.e(TAG,"start");
@@ -134,13 +161,23 @@ public class AddPlan extends Activity {
 
                 Intent intent = new Intent();
                 intent.setClass(AddPlan.this,Favorite_Site.class);
-//                Bundle bundle = new Bundle();
-//                bundle.putString("myChoice","hello");
-//                intent.putExtras(bundle);
+                Bundle bundle = new Bundle();
+
+                if(edit_title.getText().length() == 0 )
+                    edit_title.setText("");
+                if(numEditText.getText().length() == 0)
+                    numEditText.setText("");
+                if(desEditText.getText().length() == 0)
+                    desEditText.setText("");
+                bundle.putString("title",edit_title.getText().toString());
+                bundle.putString("groupNumMax",numEditText.getText().toString());
+                bundle.putString("description",desEditText.getText().toString());
+                intent.putExtras(bundle);
 //                startActivityForResult(intent,0);
                 startActivity(intent);
 //                //AddPlan.this.finish();
                 finish();
+
 
             }
         });
@@ -148,14 +185,45 @@ public class AddPlan extends Activity {
         bt_addPlan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //  To change body of implemented methods use File | Settings | File Templates.
-                if(edit_favSite.getText().length() == 0 || edit_title.getText().length() == 0  || numEditText.getText().length() == 0){
-                    new  AlertDialog.Builder(AddPlan.this).setTitle("警告").setMessage("不能为空").setPositiveButton("确定",
-                            null).show();
 
-                }
 
-                desEditText.setText("go in");
+//                AlertDialog.Builder builder = new AlertDialog.Builder(AddPlan.this);
+//                builder.setMessage("确认增加计划吗？");
+//
+//                builder.setTitle("提示");
+//                Dialog dialog = builder.create();
+//                dialog.show();
+//                builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
+//
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        dialog.dismiss();
+//
+//
+//
+//
+//                    }
+//                });
+//
+//                builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+//
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        dialog.dismiss();
+//
+//                    }
+//                });
+////                builder.create().show();
+//
+//
+//                //  To change body of implemented methods use File | Settings | File Templates.
+//                if(edit_favSite.getText().length() == 0 || edit_title.getText().length() == 0  || numEditText.getText().length() == 0){
+//                    new  AlertDialog.Builder(AddPlan.this).setTitle("警告").setMessage("不能为空").setPositiveButton("确定",
+//                            null).show();
+//
+//                }
+
+                //  desEditText.setText("go in");
 
                 String SiteNames  = edit_favSite.getText().toString();
 
@@ -168,16 +236,21 @@ public class AddPlan extends Activity {
 
                 HashMap<String,String> addPlan = new HashMap<String, String>();
                 addPlan.put("title",title);
-                addPlan.put("startTime", new SimpleDateFormat("yyyy-MM-dd").format(new Date(my_Year,my_Month,my_Day)));
-                addPlan.put("endTime", new SimpleDateFormat("yyyy-MM-dd").format(new Date(my_Year,my_Month,my_Day)));
+
+             //   addPlan.put("startTime", new SimpleDateFormat("yyyy年MM月dd日").format(startTime);
+                //  addPlan.put("endTime", new SimpleDateFormat("yyyy年MM月dd日").format(endTime);
+                   addPlan.put("startTime", bt_start.getText().toString());
+                  addPlan.put("endTime", bt_end.getText().toString());
                 addPlan.put("describe",describe);
                 addPlan.put("organizer",userId);
                 addPlan.put("groupNumMax",String.valueOf(groupNumMax));
 
-                String[] chooseIds =  Favorite_Site.chooseIds.split(",");
+
+//                String[] chooseIds =  Favorite_Site.chooseIds.split(",");
+                Vector<String> chooseIds = Favorite_Site.chooseIds;
                 Vector<Integer> siteIDs = new Vector<Integer>();
-                for(int i = 1;i<chooseIds.length;i++)
-                    siteIDs.add(Integer.valueOf(chooseIds[i]));
+                for(int i = 1;i<chooseIds.size();i++)
+                    siteIDs.add(Integer.valueOf(chooseIds.get(i)));
 
                 addPlan.put("siteIDs", JSONHelper.JSONHelperInstance.convertToString(siteIDs));
                 System.out.println(JSONHelper.JSONHelperInstance.convertToString(siteIDs));
@@ -197,10 +270,16 @@ public class AddPlan extends Activity {
                 System.out.println(result);
                 if (result!=null &&  resultInfo.get("state").equals("successful")){
                     Toast.makeText(AddPlan.this, "添加成功", Toast.LENGTH_SHORT).show();
+                    addPlan.put("planID",resultInfo.get("planID"));
+                    addPlan.put("itemType", "plan");
+                    AboutMe.self.add(addPlan);
+                    AboutMe.selfAdapter.notifyDataSetChanged();
 
                 }else {
                     Toast.makeText(AddPlan.this, "添加失败", Toast.LENGTH_SHORT).show();
                 }
+
+
             }
 
         });
@@ -250,11 +329,13 @@ public class AddPlan extends Activity {
         day = my_Day;
         DatePicker date = (DatePicker) view.findViewById(R.id.datePicker);
 
-        date.init(year,month,day,new DatePicker.OnDateChangedListener() {
+
+
+        date.init(year,month-1,day,new DatePicker.OnDateChangedListener() {
             @Override
             public void onDateChanged(DatePicker datePicker, int i, int i2, int i3) {
                 year = datePicker.getYear();
-                month = datePicker.getMonth();
+                month = datePicker.getMonth()+1;
                 day = datePicker.getDayOfMonth();
             //    desEditText.setText("日期:"+my_Year+my_Month+my_Day);
             //    startTime = new Date(my_Year,my_Month,my_Day);
@@ -276,16 +357,18 @@ public class AddPlan extends Activity {
                 my_Month = month;
                 my_Year = year;
                if(type == 0) {
-                   bt_start.setText(my_Year+"年"+my_Month+"月"+my_Day+"日");
+                   bt_start.setText(my_Year+"-"+my_Month+"-"+my_Day);
                    startTime = new Date(my_Year,my_Month,my_Day);
                } else {
 
-                   bt_end.setText(my_Year+"年"+my_Month+"月"+my_Day+"日");
+                   bt_end.setText(my_Year+"-"+my_Month+"-"+my_Day);
                    endTime = new Date(my_Year,my_Month,my_Day);
                    if(endTime.before(startTime)) {
                        new  AlertDialog.Builder(AddPlan.this).setTitle("警告").setMessage("结束时间不能小于开始时间").setPositiveButton("确定",
                                null).show();
 
+                    bt_end.setText("9999-12-30");
+                       endTime = new Date(9999,12,30);
                    }
                }
             }
