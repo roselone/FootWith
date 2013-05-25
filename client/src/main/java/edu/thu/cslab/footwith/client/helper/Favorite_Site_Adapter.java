@@ -40,17 +40,17 @@ public class Favorite_Site_Adapter extends BaseAdapter{
 
         public TextView siteName;
         public CheckBox checkBox;
+        public  Integer  siteId;
     }
 
     public Favorite_Site_Adapter(ArrayList<String> list,Context context) {
         this.mInflater = LayoutInflater.from(context);
         this.list= list;
         isSelected = new HashMap<Integer, Boolean>();
-        initDate();
+        initData();
     }
 
-    private void initDate() {
-        //To change body of created methods use File | Settings | File Templates.
+    private void initData() {
         for(int i = 0; i<list.size();i++) {
             getIsSelected().put(i,false);
         }
@@ -88,37 +88,28 @@ public class Favorite_Site_Adapter extends BaseAdapter{
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        System.out.println("go in");
+       // System.out.println("go in");
         holder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if (b) {
                     Favorite_Site_Adapter.getIsSelected().put(position, true);
-                    //System.out.println("add checked=" + position);
-                    // Login.userChooseLike.add((String) getItem(position));
-                    System.out.println("go in");
-                    Favorite_Site.myChoice = Favorite_Site.myChoice + "," + getItem(position);
-                    Favorite_Site.chooseIds = Favorite_Site.chooseIds + "," + position;
+                  //  System.out.println("go in");
+                    Favorite_Site.myChoice.add((String) getItem(position));
+                    Favorite_Site.chooseIds.add(String.valueOf(Favorite_Site.nameIds.get(position)));
+
                 } else if (!b) {
                     Favorite_Site_Adapter.getIsSelected().put(position, false);
-                    //System.out.println("remove checked=" + position);
-                    //   Login.userChooseLike.remove(Login.userChooseLike.indexOf((String)getItem(position)));
                 }
 
             }
         });
         holder.siteName.setText(list.get(position));
 
-//        if (list.get(position) != null) {
-//            holder.checkBox.setChecked(false);
-//        } else {
-//            holder.checkBox.setChecked(true);
-//        }
-
         holder.checkBox.setChecked(isSelected.get(position));
-        for(int i=0;i<list.size();i++) {
-            System.out.println(list.get(i));
-        }
+
+        holder.siteId = Favorite_Site.nameIds.get(position);
+
         return convertView;
     }
 

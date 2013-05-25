@@ -3,13 +3,14 @@
 <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content" android:background="@drawable/background_main">
+        android:layout_height="wrap_content" android:clickable="true">
     <TextView
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="fill_parent"
             android:layout_weight="1"
             android:id="@+id/itemTitle"
-            />
+            android:textColor="#ffffff" android:textStyle="normal" android:layout_gravity="center"
+            android:autoText="false"/>
 
     <CheckBox
             android:layout_width="wrap_content"

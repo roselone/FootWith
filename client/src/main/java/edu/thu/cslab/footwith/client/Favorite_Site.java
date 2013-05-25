@@ -19,7 +19,7 @@ import edu.thu.cslab.footwith.client.helper.Favorite_Site_Adapter;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-
+import edu.thu.cslab.footwith.messenger.JSONHelper;
 
 
 /**
@@ -40,9 +40,14 @@ public class Favorite_Site extends Activity {
     private int checkNum;
     private TextView tv_show;
     private Button bt_return;
-    public static String myChoice;
-    public static HashMap<String,Integer> siteNametoId = new HashMap< String,Integer>();
-    public  static String chooseIds;
+    public static Vector<String> myChoice = new Vector<String>();
+
+    public  static Vector<String> chooseIds = new Vector<String>();
+
+    public  static ArrayList<Integer> nameIds = new ArrayList<Integer>();
+
+  // public  static HashMap<Integer,Boolean> isSelected = new HashMap<Integer, Boolean>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,60 +56,49 @@ public class Favorite_Site extends Activity {
         lv = (ListView) findViewById(R.id.MyListView);
         bt_return = (Button)findViewById(R.id.bt_return);
 
-//      intent = this.getIntent();
-//      bunde = intent.getExtras();
-//      myChoice = bunde.getString("myChoice");
+        Bundle bundle = getIntent().getExtras();          // not intent.getExtras()
+
+        final String title = bundle.getString("title");
+        final String number = bundle.getString("groupNumMax");
+        final String description = bundle.getString("description");
 
         initData();
         // 配置适配器
         favorite_site_adapter = new Favorite_Site_Adapter(list,this); // 布局里的控件id
         // 添加并且显示
         lv.setAdapter(favorite_site_adapter);
-        // 全选按钮的回调接口
-       // myChoice = "nihao";
-
-        lv.setOnItemClickListener(new OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, final int i, long l) {
-                //To change body of implemented methods use File | Settings | File Templates.
-                final ViewHolder holder = (ViewHolder) view.getTag();
-                // 改变CheckBox的状态
-
-                holder.cb.toggle();
-                // 将CheckBox的选中状况记录下来
-                Favorite_Site_Adapter.getIsSelected().put(i, holder.cb.isChecked());
-
-                holder.cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                    @Override
-                    public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                        if (b) {
-                            Favorite_Site_Adapter.getIsSelected().put(i, true);
-                            //System.out.println("add checked=" + position);
-                            // Login.userChooseLike.add((String) getItem(position));
-                          //  myChoice = myChoice+holder.tv.getText();
-
-                        } else if (!b) {
-                            Favorite_Site_Adapter.getIsSelected().put(i, false);
-                            //System.out.println("remove checked=" + position);
-                            //   Login.userChooseLike.remove(Login.userChooseLike.indexOf((String)getItem(position)));
-                        }
-
-                    }
-                });
-                // 调整选定条目
-                if (holder.cb.isChecked() == true) {
-                    checkNum++;
-                  //  myChoice = myChoice+holder.tv.getText();
-                } else {
-                    checkNum--;
-                }
-            }
-
-            class ViewHolder {
-                TextView tv;
-                CheckBox cb;
-            }
-        });
+//        lv.setOnItemClickListener(new OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> adapterView, View view, final int i, long l) {
+//                final ViewHolder holder = (ViewHolder) view.getTag();
+//                // 改变CheckBox的状态
+//                holder.cb.toggle();
+//                // 将CheckBox的选中状况记录下来
+//                Favorite_Site_Adapter.getIsSelected().put(i, holder.cb.isChecked());
+//
+//                holder.cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//                    @Override
+//                    public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+//                        if (b) {
+//                            Favorite_Site_Adapter.getIsSelected().put(i, true);
+//                        } else if (!b) {
+//                            Favorite_Site_Adapter.getIsSelected().put(i, false);
+//                        }
+//
+//                    }
+//                });
+//                if (holder.cb.isChecked() == true) {
+//                    checkNum++;
+//                } else {
+//                    checkNum--;
+//                }
+//            }
+//
+//            class ViewHolder {
+//                TextView tv;
+//                CheckBox cb;
+//            }
+//        });
 
         bt_return.setOnClickListener(new OnClickListener(){
 
@@ -113,12 +107,17 @@ public class Favorite_Site extends Activity {
                 Intent intent = new Intent();
                 intent.setClass(Favorite_Site.this, AddPlan.class);
                 Bundle mBundle = new Bundle();
-                mBundle.putString("myChoice",myChoice);
+                if(myChoice.size() == 0) {
+                    myChoice.set(0,"");
+                }
+                mBundle.putString("myChoice", JSONHelper.getJSONHelperInstance().convertToString2(myChoice));
+
+                mBundle.putString("title",title);
+                mBundle.putString("groupNumMax",number);
+                mBundle.putString("description", description);
+
                 intent.putExtras(mBundle);
                 startActivity(intent);
-               // Favorite_Site.this.setResult(RESULT_OK,intent);
-
-
                finish();
             }
         });
@@ -126,21 +125,30 @@ public class Favorite_Site extends Activity {
     }
 
     private void initData() {
-        for (int i = 0; i < 15; i++) {
-            siteNametoId.put("data"+i,i);
-            list.add("data" + "   " + i);
+
+        myChoice.clear();
+        nameIds.clear();
+        chooseIds.clear();
+
+//        for (int i = 0; i < 15; i++) {
+//
+//          //  siteNametoId.put("data"+i,i);
+//            list.add("data" + "   " + i);
+//            nameIds.add(i);
+//        }
+        //get the data   from the Login.userLike
+        Map<Integer,String> userLike = Login.userLike;
+        Iterator iterator = userLike.entrySet().iterator();
+
+        while (iterator.hasNext()) {
+            Map.Entry entry = (Map.Entry) iterator.next();
+            Integer key =(Integer) entry.getKey();
+            String val = (String) entry.getValue();
+            list.add(val);
+            nameIds.add(key);
+
         }
     }
-
-    // 刷新listview和TextView的显示
-    private void dataChanged() {
-        // 通知listView刷新
-        favorite_site_adapter.notifyDataSetChanged();
-        // TextView显示最新的选中数目
-       // tv_show.setText("已选中" + checkNum + "项");
-    }
-
-
 
 
 }

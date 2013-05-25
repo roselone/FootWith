@@ -38,22 +38,29 @@ public class SiteInfo extends Activity{
         ImageView pic1=(ImageView) findViewById(R.id.imageView);
 
         Bundle bundle = this.getIntent().getExtras();    //获得前一个界面选择的景点名称景点ID
-        final String mingcheng = bundle.getString("siteName");
+        final String siteName = bundle.getString("siteName");
         final String siteID = bundle.getString("siteId");
-        System.out.println(mingcheng);
-
+        System.out.println(siteName);
 
         //查看景点是否已经被在userlike中
-         Iterator it = Login.userLike.keySet().iterator();
-         while (it.hasNext())
-         {
-            Integer key;
-            key=(Integer)it.next();
-             if( key==Integer.valueOf(siteID))
-             {
-                 flag = true;
-             }
-         }
+        if(Login.userLike.keySet().contains(siteID))
+        {
+            flag = true;
+        }  else {
+            flag = false;
+        }
+//        //查看景点是否已经被在userlike中
+//         Iterator it = Login.userLike.keySet().iterator();
+//        
+//         while (it.hasNext())
+//         {
+//            Integer key;
+//            key=(Integer)it.next();
+//             if( key==Integer.valueOf(siteID))
+//             {
+//                 flag = true;
+//             }
+//         }
 
        if(flag)
         {
@@ -117,7 +124,7 @@ public class SiteInfo extends Activity{
 
                     btn1.setBackgroundResource(R.drawable.heart);
                     text1.setText("  已添加" );
-                    Login.userLike.put( Integer.valueOf(siteID),mingcheng);
+                    Login.userLike.put( Integer.valueOf(siteID),siteName);
                     flag =true;
                 }
                 else
