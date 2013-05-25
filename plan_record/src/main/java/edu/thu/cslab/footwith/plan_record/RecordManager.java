@@ -3,6 +3,7 @@ package edu.thu.cslab.footwith.plan_record;
 import edu.thu.cslab.footwith.dao.DBUtil;
 import edu.thu.cslab.footwith.exception.TextFormatException;
 import edu.thu.cslab.footwith.messenger.JSONHelper;
+import edu.thu.cslab.footwith.utility.Util;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.JSONException;
@@ -71,7 +72,7 @@ public class RecordManager {
         rs.next();
         int recordID = rs.getInt(1); // maybe wrong
 
-        if (endTime!=null){
+        if (endTime!=null && !Util.isEmpty(String.valueOf(endTime))){
             SQLCommand="update "+tableName+" set endTime = '"+endTime+"' where recordID = " +recordID+";";
             du.executeUpdate(SQLCommand);
         }
@@ -80,7 +81,7 @@ public class RecordManager {
         Vector<Integer> userIDVector =new JSONHelper().convertToArray(userIDs);
         for(int i=0;i<userIDVector.size(); i++){
             for(int j=0;j<siteIDVector.size();j++){
-                if (endTime!=null){
+                if (endTime!=null && !Util.isEmpty(String.valueOf(endTime))){
                     SQLCommand = " insert into " + relationTableName +" ( userID, siteID, startTime, endTime, recordID )" +
                             " values ( " + userIDVector.get(i) + " , " + siteIDVector.get(j) + " , '" + startTime + "' , '" + endTime + "' , " + recordID + ")";
                 }else{
@@ -90,18 +91,7 @@ public class RecordManager {
                 du.executeUpdate(SQLCommand);
             }
         }
-        /*
-        UserManager um = new UserManager();
-        User user;
-        JSONHelper jh = new JSONHelper();
-        String orig_records;
-        for(int i=0;i<userIDVector.size(); i++){
-            user = um.selectUser(userIDVector.get(i));
-            orig_records = user.getRecords();
-            user.setRecords(jh.addToArray(orig_records, recordID));
-            um.editUser(userIDVector.get(i), user);
-        }
-        */
+
         return recordID;
     }
 

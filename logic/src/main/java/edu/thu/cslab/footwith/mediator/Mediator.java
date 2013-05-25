@@ -518,11 +518,11 @@ public class Mediator {
         record_map.put("title", Util.string2Json(record.getTitle()));
         record_map.put("siteIDs", record.getSiteIDs());
         record_map.put("startTime", record.getStartTime().toString());
-        record_map.put("endTime", Util.string2Json(record.getEndTime().toString()));
+        if (record.getEndTime()!=null && !Util.isEmpty(String.valueOf(record.getEndTime()))) record_map.put("endTime", Util.string2Json(record.getEndTime().toString()));
         record_map.put("userIDs", record.getUserIDs());
         record_map.put("groupNum", String.valueOf(record.getGroupNum()));
-        record_map.put("journals", Util.string2Json(record.getJournals()));
-        record_map.put("pictures", Util.string2Json(record.getPictures()));
+        if (record.getJournals()!=null && !Util.isEmpty(record.getJournals())) record_map.put("journals", Util.string2Json(record.getJournals()));
+        if (record.getPictures()!=null && !Util.isEmpty(record.getPictures())) record_map.put("pictures", Util.string2Json(record.getPictures()));
         record_map.put("talkStreamID", String.valueOf(record.getTalkStreamID()));
         record_map.put("isDone", String.valueOf(record.isDone()));
         record_map.put("timestamp",Util.string2Json(String.valueOf(record.getTimestamp())));
@@ -824,6 +824,18 @@ public class Mediator {
     }
 
     public static int startPlan(int planID) throws TextFormatException, NoSuchAlgorithmException, SQLException, JSONException, UnsupportedEncodingException {
-        return PlanManager.planToRecord(planID);
+        int recordID = PlanManager.planToRecord(planID);
+        Record record=RecordManager.selectRecord(recordID);
+        Vector<Integer> userIDs=JSONHelper.getJSONHelperInstance().convertToArray(record.getUserIDs());
+        for (int i=0;i<userIDs.size();i++){
+            User user = UserManager.selectUser(userIDs.get(i));
+            String records=JSONHelper.getJSONHelperInstance().addToArray(user.getRecords(),recordID);
+            user.setRecords(records);
+            UserManager.editUser(userIDs.get(i),user);
+        }
+        return recordID;
+    }
+    public static void updateUserLike(int userID,String likes) throws SQLException {
+        UserManager.updateUserLike(userID,likes);
     }
 }

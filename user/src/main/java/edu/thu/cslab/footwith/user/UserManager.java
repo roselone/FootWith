@@ -159,7 +159,7 @@ public class UserManager {
         if(!Util.isEmpty(new_user.getLike())){
             if(isComma)
                 SQLCommand += " , ";
-            SQLCommand += " like = '" + new_user.getLike() + "'";
+            SQLCommand += " `like` = '" + new_user.getLike() + "'";
             isComma = true;
         }
         if(!Util.isEmpty(new_user.getMarks())){
@@ -214,7 +214,7 @@ public class UserManager {
         if(!Util.isEmpty(new_user.getLike())){
             if(isComma)
                 SQLCommand += " , ";
-            SQLCommand += " like = '" + new_user.getLike() + "'";
+            SQLCommand += " `like` = '" + new_user.getLike() + "'";
             isComma = true;
         }
         if(!Util.isEmpty(new_user.getMarks())){
@@ -227,6 +227,13 @@ public class UserManager {
         du.executeUpdate(SQLCommand);
 
     }
+
+    public static void updateUserLike(int userID,String likes) throws SQLException {
+        String SQLCommand = "update user set `like` = '"+likes+"' where userID = "+userID;
+        DBUtil.getDBUtil().executeUpdate(SQLCommand);
+        return ;
+    }
+
     private static final String tableName ="user";
 
 
