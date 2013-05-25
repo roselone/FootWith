@@ -32,4 +32,10 @@
             android:text="Date"
             android:id="@+id/journal_date_textView" android:layout_alignRight="@id/journal_content_textView"
             android:layout_below="@id/journal_content_textView" style="@style/homeItemBeginTrip"/>
+    <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:id="@+id/weibo_imageView" android:layout_alignBottom="@+id/journal_title_textView"
+            android:layout_alignRight="@+id/journal_date_textView" android:src="@drawable/weibo"
+            android:longClickable="false" android:clickable="true"/>
 </RelativeLayout>
