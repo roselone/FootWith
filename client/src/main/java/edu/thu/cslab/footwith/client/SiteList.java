@@ -43,7 +43,7 @@ public class SiteList extends Activity{
         String temp2 =null;
         String result= null;
         ServerConnector conn= new ServerConnector("site");
-     try {
+        try {
             result = conn.setRequestParam("location", province).doPost();
         } catch (IOException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
@@ -51,7 +51,7 @@ public class SiteList extends Activity{
         System.out.println(result.toString());
         map1= JSONHelper.getJSONHelperInstance().convertToMap(result);
 
-       // String[] 北京 ={"故宫博物院","颐和园","八达岭-慕田峪长城","明十三陵","圆明园","北京香山公园","清华大学","天坛","地坛","奥体中心","恭王府","香山公园","景山公园"};
+        // String[] 北京 ={"故宫博物院","颐和园","八达岭-慕田峪长城","明十三陵","圆明园","北京香山公园","清华大学","天坛","地坛","奥体中心","恭王府","香山公园","景山公园"};
 
         Vector<String> vector2 = new Vector<String>();
 
@@ -82,7 +82,7 @@ public class SiteList extends Activity{
             listItem.add(map3);
         }
         mData=listItem;
-         //生成适配器的Item和动态数组对应的元素
+        //生成适配器的Item和动态数组对应的元素
         SimpleAdapter listItemAdapter = new SimpleAdapter(this,listItem,R.layout.sitelist1,//ListItem的XML实现
                 new String[] {"ItemTitle"},
                 new int[] {R.id.ItemTitle}

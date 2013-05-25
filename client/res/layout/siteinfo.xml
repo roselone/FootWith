@@ -3,7 +3,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:orientation="vertical" android:background="@drawable/background_provincelist">
+              android:orientation="vertical" android:background="@drawable/background_main">
 
 
     <RelativeLayout
@@ -74,8 +74,8 @@
                 android:clickable="true" android:paddingLeft="10dp"
 
                 android:focusable="true" android:cropToPadding="true"
-                android:layout_alignLeft="@+id/imageView1" android:layout_alignParentTop="true"
-                android:layout_marginTop="135dp"/>
+                android:baselineAlignBottom="false"
+                android:layout_alignLeft="@+id/imageView2" android:layout_below="@+id/textView4"/>
 
         <TextView
                 android:layout_width="wrap_content"
@@ -86,24 +86,13 @@
                 style="10" android:textSize="12dp" android:paddingLeft="12dp" android:phoneNumber="true"
                 android:layout_marginTop="85dp"/>
         <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="添加到 [我的喜欢]"
-                android:id="@+id/textView3"
-                android:typeface="sans"
-                android:textColor="#861fff"
-                android:textSize="11dp"
-                android:singleLine="true"
-                android:layout_alignRight="@+id/ratingBar" android:layout_alignTop="@+id/imageButton"
-                android:layout_marginTop="4dp"/>
-        <TextView
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:text="门票价格：  90元"
                 android:id="@+id/textView4"
                 android:layout_alignLeft="@+id/textView" android:layout_alignParentTop="true"
                 android:layout_marginTop="109dp" android:textColor="#010101" android:textSize="12dp"
-                android:layout_marginLeft="2.5dp" android:textStyle="normal"/>
+                android:layout_marginLeft="2.5dp" android:textStyle="normal" android:layout_marginBottom="8dp"/>
         <ImageView
                 android:layout_width="12dp"
                 android:layout_height="12dp"
@@ -186,6 +175,14 @@
                    android:layout_alignParentLeft="true" android:layout_marginLeft="290dp"
                    android:layout_alignTop="@+id/textView" android:layout_marginTop="160dp"
                    android:background="@drawable/shengdan16x16_45"/>
+        <ImageButton
+                android:layout_width="22dp"
+                android:layout_height="match_parent"
+                android:id="@+id/mapButton"
+                android:background="@drawable/map_marker"
+                android:focusable="true" android:clickable="true"
+                android:layout_alignLeft="@+id/textView" android:layout_alignTop="@+id/imageButton"
+                android:layout_alignBottom="@+id/imageButton"/>
 
     </RelativeLayout>
 

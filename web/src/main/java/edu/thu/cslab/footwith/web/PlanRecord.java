@@ -38,10 +38,10 @@ public class PlanRecord extends HttpServlet {
                 String planList=map.get("planList");
                 String recordList=map.get("recordList");
                 HashMap<String,String> result=new HashMap<String, String>();
-                if (!Util.isEmpty(planList)){
+                if (planList!=null && !Util.isEmpty(planList)){
                     result.putAll(Mediator.getUserPlans(planList));
                 }
-                if (!Util.isEmpty(recordList)){
+                if (recordList!=null && !Util.isEmpty(recordList)){
                     result.putAll(Mediator.getUserRecords(recordList));
                 }
 
