@@ -245,6 +245,7 @@ public class AddPlan extends Activity {
                 addPlan.put("organizer",userId);
                 addPlan.put("groupNumMax",String.valueOf(groupNumMax));
 
+
 //                String[] chooseIds =  Favorite_Site.chooseIds.split(",");
                 Vector<String> chooseIds = Favorite_Site.chooseIds;
                 Vector<Integer> siteIDs = new Vector<Integer>();
@@ -269,6 +270,10 @@ public class AddPlan extends Activity {
                 System.out.println(result);
                 if (result!=null &&  resultInfo.get("state").equals("successful")){
                     Toast.makeText(AddPlan.this, "添加成功", Toast.LENGTH_SHORT).show();
+                    addPlan.put("planID",resultInfo.get("planID"));
+                    addPlan.put("itemType", "plan");
+                    AboutMe.self.add(addPlan);
+                    AboutMe.selfAdapter.notifyDataSetChanged();
 
                 }else {
                     Toast.makeText(AddPlan.this, "添加失败", Toast.LENGTH_SHORT).show();
