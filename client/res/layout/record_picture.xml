@@ -45,7 +45,7 @@
         <ImageView
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:id="@+id/weibo_imageView" android:layout_gravity="right" android:src="@drawable/share"/>
+                android:id="@+id/weibo_imageView" android:layout_gravity="right" android:src="@drawable/weibo"/>
     </LinearLayout>
     <LinearLayout
             android:orientation="vertical"
