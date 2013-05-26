@@ -64,13 +64,15 @@ public class Site {
      * @param brief
      * @param picture
      */
-    public Site(int siteID, String siteName, int rate, String location, String brief, int picture) {
+    public Site(int siteID, String siteName, int rate, String location, String brief, int picture,int latitude,int longitude) {
         this.siteID = siteID;
         this.siteName = siteName;
         this.rate = rate;
         this.location = location;
         this.brief = brief;
         this.picture = picture;
+        this.latitude=latitude;
+        this.longitude=longitude;
     }
 
     public int getSiteID() {

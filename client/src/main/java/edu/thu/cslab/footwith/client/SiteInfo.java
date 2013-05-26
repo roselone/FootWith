@@ -26,6 +26,8 @@ public class SiteInfo extends Activity{
      */
     boolean flag=false;
     private List<Map<String, Object>> mData;
+    private int latitude;
+    private int longitude;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -113,6 +115,8 @@ public class SiteInfo extends Activity{
 
         text2.setText( map2.get("siteName"));
         text3.setText( map2.get("brief"));
+        latitude=Integer.valueOf(map2.get("latitude"));
+        longitude=Integer.valueOf(map2.get("longitude"));
         rate1.setRating( Integer.valueOf(map2.get("rate")));  //显示获取的图片
         pic1.setImageBitmap(img2);
 
@@ -156,8 +160,8 @@ public class SiteInfo extends Activity{
                 Intent intent=new Intent();
                 intent.setClass(SiteInfo.this, SiteMap.class);
                 Bundle bundle = new Bundle();
-                bundle.putInt("latitude", 39915000);
-                bundle.putInt("longitude", 116404000);
+                bundle.putInt("latitude", latitude);
+                bundle.putInt("longitude", longitude);
                 intent.putExtras(bundle);
                 startActivity(intent);
             }

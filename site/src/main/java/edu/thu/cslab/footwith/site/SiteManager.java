@@ -44,7 +44,8 @@ public class SiteManager {
         String SQLCommand="select * from "+tableName+";";
         ResultSet rs=DBUtil.getDBUtil().executeQuery(SQLCommand);
         while(rs.next()){
-            sites.add(new Site(rs.getInt("siteID"), rs.getString("siteName"), rs.getInt("rate"),rs.getString("location"), rs.getString("brief"), rs.getInt("picture")));
+            sites.add(new Site(rs.getInt("siteID"), rs.getString("siteName"), rs.getInt("rate"),rs.getString("location"), rs.getString("brief"), rs.getInt("picture"),
+                    rs.getInt("latitude"),rs.getInt("longitude")));
         }
         return sites;
     }
@@ -62,7 +63,8 @@ public class SiteManager {
         rs=du.executeQuery(SQLCommand);
         //while(rs.next()){
         rs.next();
-        site = new Site(rs.getInt("siteID"),rs.getString("siteName"), rs.getInt("rate"),rs.getString("location"), rs.getString("brief"),rs.getInt("picture")) ;
+        site = new Site(rs.getInt("siteID"),rs.getString("siteName"), rs.getInt("rate"),rs.getString("location"), rs.getString("brief"),rs.getInt("picture"),
+                rs.getInt("latitude"),rs.getInt("longitude")) ;
         /*
         site = new Site();
         site.setSiteID(rs.getInt("siteID"));
@@ -86,7 +88,7 @@ public class SiteManager {
         rs=du.executeQuery(SQLCommand);
         //while(rs.next()){
         rs.next();
-        site = new Site(rs.getInt("siteID"),rs.getString("siteName"), rs.getInt("rate"),rs.getString("location"), rs.getString("brief"),rs.getInt("picture")) ;
+        site = new Site(rs.getInt("siteID"),rs.getString("siteName"), rs.getInt("rate"),rs.getString("location"), rs.getString("brief"),rs.getInt("picture"), rs.getInt("latitude"),rs.getInt("longitude")) ;
         //}
         return site;
     }
@@ -97,6 +99,18 @@ public class SiteManager {
         ResultSet rs=du.executeQuery(SQLCommand);
         rs.next();
         return rs.getString(1);
+    }
+
+    public static HashMap<String,String> getSitePos(int siteID) throws SQLException {
+        DBUtil du=DBUtil.getDBUtil();
+        String SQLCommand="select siteName,latitude,longitude from "+ tableName+" where siteID = "+siteID;
+        ResultSet rs=du.executeQuery(SQLCommand);
+        rs.next();
+        HashMap<String,String> map=new HashMap<String, String>();
+        map.put("siteName",rs.getString("siteName"));
+        map.put("latitude",String.valueOf(rs.getInt("latitude")));
+        map.put("longitude",String.valueOf(rs.getInt("longitude")));
+        return map;
     }
 
     public static HashMap<String,String> getSite(int siteID) throws SQLException {
@@ -111,6 +125,8 @@ public class SiteManager {
         result.put("location",rs.getString("location"));
         result.put("brief",rs.getString("brief"));
         result.put("pictureID",String.valueOf(rs.getInt("picture")));
+        result.put("latitude",String.valueOf(rs.getInt("latitude")));
+        result.put("longitude",String.valueOf(rs.getInt("longitude")));
         return result;
     }
 
@@ -147,7 +163,7 @@ public class SiteManager {
         System.out.println(SQLCommand);
         rs=du.executeQuery(SQLCommand);
         while (rs.next()){
-             sites.add(new Site(rs.getInt("siteID"), rs.getString("siteName"), rs.getInt("rate"),rs.getString("location"), rs.getString("brief"), rs.getInt("picture")));
+             sites.add(new Site(rs.getInt("siteID"), rs.getString("siteName"), rs.getInt("rate"),rs.getString("location"), rs.getString("brief"), rs.getInt("picture"), rs.getInt("latitude"),rs.getInt("longitude")));
         }
         return sites;
     }

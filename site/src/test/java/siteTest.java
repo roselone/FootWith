@@ -42,4 +42,24 @@ public class siteTest {
 //        }
 //        out.close();
 //    }
+//    @Test
+//    public void importData() throws IOException, SQLException {
+//        String fileName="data";
+//        FileReader f=new FileReader(fileName);
+//        BufferedReader bufferedReader=new BufferedReader(f);
+//        String id;
+//        String latitude;
+//        String longitude;
+//        String tmp;
+//        DBUtil du=DBUtil.getDBUtil();
+//        while ((tmp=bufferedReader.readLine())!=null){
+//            String [] siteInfo=tmp.split(" ");
+//            id=siteInfo[0];
+//            latitude=siteInfo[1];
+//            longitude=siteInfo[2];
+//            String SQL="update set latitude = '"+latitude+"', longitude ='"+longitude+"' where siteID="+id;
+//            du.executeUpdate(SQL);
+//        }
+//
+//    }
 }

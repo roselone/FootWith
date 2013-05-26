@@ -58,12 +58,12 @@ public class siteTest {
         System.out.println(res.get("state"));
         HashMap<String,String> siteMap=JSONHelper.getJSONHelperInstance().convertToMap(res.get("site"));
         System.out.println(siteMap.toString());
-        String picture=siteMap.get("picture");
-        System.out.println(picture);
-        byte[] image= Base64.decode(siteMap.get("picture"));
+//        String picture=siteMap.get("picture");
+//        System.out.println(picture);
+//        byte[] image= Base64.decode(siteMap.get("picture"));
 
-        FileOutputStream outputStream=new FileOutputStream("/home/roselone/test8.jpg");
-        outputStream.write(image);
-        outputStream.close();
+//        FileOutputStream outputStream=new FileOutputStream("/home/roselone/test8.jpg");
+//        outputStream.write(image);
+//        outputStream.close();
     }
 }

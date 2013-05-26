@@ -13,7 +13,7 @@ import java.util.Properties;
  */
 public class Constant {
 
-    public static String URL="http://166.111.70.70:12580/web-1.0/";
+    public static String URL="http://footwith.tk:12580/web-1.0/";
     public static final String WeiboAppKey = "3761414352";
     public static final String WeiboAppSecret = "31ef7ea1da6f1f06c455e0273a27f344";
     public static final String WeiboRedirectURL = "https://api.weibo.com/oauth2/default.html";
