@@ -21,29 +21,31 @@ import java.util.ArrayList;
  * To change this template use File | Settings | File Templates.
  */
 public class weiboTest {
-    @Test
-    public void weibo()  {
-        DefaultHttpClient client = new DefaultHttpClient();
-        HttpPost post = new HttpPost("https://api.weibo.com/2/statuses/update.json");
-        ArrayList<NameValuePair> param=new ArrayList<NameValuePair>();
-        param.add(new BasicNameValuePair("access_token", "2.00sQ5khD7hVYGE1d5ad3bdfea1EAkC"));
-        param.add(new BasicNameValuePair("status", "HelloTest"));
-        try {
-            UrlEncodedFormEntity urlEncodedFormEntity = new UrlEncodedFormEntity(param, HTTP.UTF_8);
-            post.setEntity(urlEncodedFormEntity);
-            HttpResponse response = client.execute(post);
-
-
-            String result = EntityUtils.toString(response.getEntity());
-            System.out.println(result);
-
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        } catch (ClientProtocolException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        } catch (IOException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        }
-
-    }
+/*
+ *    @Test
+ *    public void weibo()  {
+ *        DefaultHttpClient client = new DefaultHttpClient();
+ *        HttpPost post = new HttpPost("https://api.weibo.com/2/statuses/update.json");
+ *        ArrayList<NameValuePair> param=new ArrayList<NameValuePair>();
+ *        param.add(new BasicNameValuePair("access_token", "2.00sQ5khD7hVYGE1d5ad3bdfea1EAkC"));
+ *        param.add(new BasicNameValuePair("status", "HelloTest"));
+ *        try {
+ *            UrlEncodedFormEntity urlEncodedFormEntity = new UrlEncodedFormEntity(param, HTTP.UTF_8);
+ *            post.setEntity(urlEncodedFormEntity);
+ *            HttpResponse response = client.execute(post);
+ *
+ *
+ *            String result = EntityUtils.toString(response.getEntity());
+ *            System.out.println(result);
+ *
+ *        } catch (UnsupportedEncodingException e) {
+ *            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+ *        } catch (ClientProtocolException e) {
+ *            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+ *        } catch (IOException e) {
+ *            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+ *        }
+ *
+ *    }
+ */
 }

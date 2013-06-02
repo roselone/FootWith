@@ -16,12 +16,14 @@ import com.baidu.platform.comapi.basestruct.GeoPoint;
  * To change this template use File | Settings | File Templates.
  */
 public class SiteMap extends Activity {
-    BMapManager mBMapMan=Login.mBMapMan;
+    BMapManager mBMapMan=null;
     MapView mMapView = null;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
+        mBMapMan=new BMapManager(getApplication());
+        mBMapMan.init("7A2F70AEFE7E6E892DF49C152182CC60BF1F2FF7", null);
 
 //注意：请在试用setContentView前初始化BMapManager对象，否则会报错
         setContentView(R.layout.site_map);

@@ -133,8 +133,7 @@ public class Login extends Activity{
                                 e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                             }
                         }
-                        mBMapMan=new BMapManager(getApplication());
-                        mBMapMan.init("7A2F70AEFE7E6E892DF49C152182CC60BF1F2FF7", null);
+
 
                         Intent intent=new Intent();
                         intent.setClass(Login.this, FootWithActivity.class);
