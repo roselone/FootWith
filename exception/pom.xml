@@ -12,24 +12,5 @@
 
 
     <artifactId>exception</artifactId>
-
-
-    <dependencies>
-        <dependency>
-            <groupId>edu.thu.cslab.footwith</groupId>
-            <artifactId>dao</artifactId>
-            <version>1.0</version>
-        </dependency>
-        <dependency>
-            <groupId>edu.thu.cslab.footwith</groupId>
-            <artifactId>utility</artifactId>
-            <version>1.0</version>
-        </dependency>
-        <dependency>
-            <groupId>edu.thu.cslab.footwith</groupId>
-            <artifactId>messenger</artifactId>
-            <version>1.0</version>
-        </dependency>
-    </dependencies>
     
 </project>
